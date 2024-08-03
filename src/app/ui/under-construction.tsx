@@ -10,5 +10,5 @@ export default function UnderConstruction() {
             Estamos trabajando arduamente para traerte algo increíble. ¡Vuelve pronto!
             </p>
         </div>
-);
+    );
 }
