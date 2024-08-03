@@ -8,8 +8,8 @@ export default function YouTube() {
             fill="none"  
             stroke="currentColor"  
             strokeWidth="2"  
-            stroke-linecap="round"  
-            stroke-linejoin="round"  
+            strokeLinecap="round"  
+            strokeLinejoin="round"  
             className="icon icon-tabler icons-tabler-outline icon-tabler-brand-youtube">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                 <path d="M2 8a4 4 0 0 1 4 -4h12a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-12a4 4 0 0 1 -4 -4v-8z" />
