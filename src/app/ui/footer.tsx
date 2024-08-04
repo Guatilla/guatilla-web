@@ -16,37 +16,21 @@ export default function Footer() {
                             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Guatilla</span>
                         </a>
                     </div>
-                    <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+                    <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-1">
                         <div>
-                            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Resources</h2>
+                            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Pages</h2>
                             <ul className="text-gray-500 dark:text-gray-400 font-medium">
-                                <li className="mb-4">
-                                    <a href="#" className="hover:underline">Guatilla</a>
+                                <li className="mb-2">
+                                    <a href="#" className="hover:underline">Home</a>
+                                </li>
+                                <li className="mb-2">
+                                    <a href="#" className="hover:underline">About</a>
+                                </li>
+                                <li className="mb-2">
+                                    <a href="#" className="hover:underline">Contact</a>
                                 </li>
                                 <li>
-                                    <a href="#" className="hover:underline">Tailwind CSS</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Follow us</h2>
-                            <ul className="text-gray-500 dark:text-gray-400 font-medium">
-                                <li className="mb-4">
-                                    <a href="#" className="hover:underline ">Github</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="hover:underline">Discord</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h2>
-                            <ul className="text-gray-500 dark:text-gray-400 font-medium">
-                                <li className="mb-4">
-                                    <a href="#" className="hover:underline">Privacy Policy</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="hover:underline">Terms &amp; Conditions</a>
+                                    <a href="#" className="hover:underline">Blog</a>
                                 </li>
                             </ul>
                         </div>
