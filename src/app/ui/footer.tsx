@@ -41,23 +41,23 @@ export default function Footer() {
                     <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="#" className="hover:underline">Guatilla</a>. All Rights Reserved.
                     </span>
                     <div className="flex mt-4 sm:justify-center sm:mt-0">
-                        <a href="https://www.facebook.com/WilkinsRuGo?locale=es_LA" className="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+                        <a href="https://www.facebook.com/WilkinsRuGo?locale=es_LA" className="text-gray-500 hover:text-gray-900 dark:hover:text-white" target="_blank">
                             <Facebook />
                             <span className="sr-only">Facebook page</span>
                         </a>
-                        <a href="https://x.com/Wilkins_Ruiz" className="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5">
+                        <a href="https://x.com/Wilkins_Ruiz" className="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5" target="_blank">
                             <X />
                             <span className="sr-only">Twitter page</span>
                         </a>
-                        <a href="https://www.instagram.com/wilkinsruizgomez/" className="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5">
+                        <a href="https://www.instagram.com/wilkinsruizgomez/" className="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5" target="_blank">
                             <Instagram />
                             <span className="sr-only">Instagram page</span>
                         </a>
-                        <a href="https://www.linkedin.com/in/wilkins-ruiz-gomez-a18208234/" className="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5">
+                        <a href="https://www.linkedin.com/in/wilkins-ruiz-gomez-a18208234/" className="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5" target="_blank">
                             <Linkedin />
                             <span className="sr-only">Linkedin page</span>
                         </a>
-                        <a href="https://www.youtube.com/@wilkinsruizgomez7851" className="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5">
+                        <a href="https://www.youtube.com/@wilkinsruizgomez7851" className="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5" target="_blank">
                             <YouTube />
                             <span className="sr-only">YouTube page</span>
                         </a>
