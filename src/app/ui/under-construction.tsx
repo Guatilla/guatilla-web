@@ -9,10 +9,10 @@ import YouTube from "./icons/youtube-icon";
 export default function UnderConstruction() {
     return (
         <div className="bg-white p-10 rounded-lg shadow-lg text-center">
-            <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-blue-700">Page under construction 👷🏼</h1>
-            <p className="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-blue-700">We're working hard to bring you something amazing. Check back soon!</p>
+            <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-blue-700">Side under konstruksjon 👷🏼</h1>
+            <p className="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-blue-700">Vi jobber hardt for å gi deg noe fantastisk. Kom tilbake snart!</p>
             <div className="flex flex-col items-center sm:items-center">
-                <span className="md:text-2xl text-lg text-gray-600 font-semibold dark:text-blue-700">FOLLOW ME</span>
+                <span className="md:text-2xl text-lg text-gray-600 font-semibold dark:text-blue-700">FØLG MEG</span>
                 <div className="flex flex-wrap justify-center sm:justify-start gap-4 mt-4 sm:mt-0 pt-4">
                     <a href="https://www.facebook.com/WilkinsRuGo?locale=es_LA" className="flex justify-center items-center gap-2 dark:text-white py-2 px-2 rounded bg-[#1877f2] hover:opacity-75" target="_blank">
                         <Facebook />
