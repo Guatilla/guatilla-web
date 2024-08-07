@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 const links = [
-    {name: 'Home', url: '#', title: 'Home'},
-    {name: 'About', url: '#', title: 'About'},
-    {name: 'Contact', url: '#', title: 'Contact'},
-    {name: 'Blog', url: '#', title: 'Blog'},
+    {name: 'Hjem', url: '#', title: 'Hjem'},
+    {name: 'Om', url: '#', title: 'Om'},
+    {name: 'Kontakt', url: '#', title: 'Kontakt'},
+    {name: 'Blogg', url: '#', title: 'Blogg'},
 ];
 
 export default function NavLinks(){
