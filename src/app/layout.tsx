@@ -5,8 +5,14 @@ import Footer from "./ui/footer";
 import Navbar from "./ui/nav-bar";
 
 export const metadata: Metadata = {
-  title: "Wilkins og Guatilla.no",
+  title: "Guatilla.no",
   description: "Wilkins og Guatilla.no",
+  keywords: ["wilkins", "guatilla", "guatilla.no"],
+  openGraph: {
+    title: "Wilkins og Guatilla.no",
+    description: "Wilkins og Guatilla.no",
+    url: "https://guatilla.no/",
+  }
 };
 
 export default function RootLayout({
