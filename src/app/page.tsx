@@ -1,4 +1,3 @@
-import Image from "next/image";
 import UnderConstruction from './ui/under-construction';
 
 export default function Home() {

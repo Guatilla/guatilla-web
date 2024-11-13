@@ -1,5 +1,3 @@
-// components/UnderConstruction.js
-
 import Facebook from "./icons/facebook-icon";
 import Instagram from "./icons/instagram-icon";
 import Linkedin from "./icons/linkedin-icon";
