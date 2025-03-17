@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { poppins } from "./ui/fonts";
+import { poppins } from "../components/ui/fonts";
 import "./globals.css";
-import Footer from "./ui/footer";
-import Navbar from "./ui/nav-bar";
+import { Navbar } from "../components/navbar/Navbar";
 
 export const metadata: Metadata = {
   title: "Guatilla.no",
@@ -24,8 +23,9 @@ export default function RootLayout({
     <html lang="nb">
       <body className={`${poppins.className} antialiased`}>
         <Navbar />
+        {/* <Navbar /> */}
         {children}
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </html>
   );

@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    @apply bg-[#F3E5D8] text-gray-300;
+}
+
+@layer utilities {
+    .flex-center {
+        @apply flex items-center;
+    }
+
+    .flex-center-between {
+        @apply flex items-center justify-between;
+    }
+}
