@@ -213,7 +213,7 @@ export default function Home() {
                 alt="Estructura que inspira el logo Guatilla"
                 fill
                 sizes="(max-width: 900px) 100vw, 420px"
-                style={{ objectFit: "cover", transform: "scale(1.03)" }}
+                style={{ objectFit: "contain" }}
               />
             </div>
 
