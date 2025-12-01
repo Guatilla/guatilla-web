@@ -1,11 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import type { CSSProperties } from "react";
 
 const pageStyle: CSSProperties = {
   minHeight: "100vh",
-  fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-  color: "#111827",
+  fontFamily:
+    "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+  color: "#f9fafb",
   backgroundColor: "#0b1120",
 };
 
@@ -15,724 +17,629 @@ const maxWidthStyle: CSSProperties = {
   padding: "1.5rem",
 };
 
-/**
- * Página principal Kaffe Guatilla
- */
 export default function Home() {
   return (
     <main style={pageStyle}>
       <div style={maxWidthStyle}>
-        {/* ------------------------------------------------------------------
-           CABECERA CON LOGO + NOMBRE
-        ------------------------------------------------------------------- */}
+        {/* ---------------------------------------------------------------- */}
+        {/* CABECERA CON LOGO + NOMBRE                                        */}
+        {/* ---------------------------------------------------------------- */}
         <header
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             gap: "1.5rem",
-            padding: "1rem 1.5rem",
-            marginBottom: "2rem",
-            borderRadius: "9999px",
+            padding: "1rem 1.25rem",
+            borderRadius: "999px",
             background:
-              "linear-gradient(135deg, rgba(15,118,110,0.8), rgba(180,83,9,0.8))",
-            boxShadow: "0 20px 45px rgba(0,0,0,0.45)",
+              "linear-gradient(90deg, rgba(56,189,248,0.12), rgba(250,204,21,0.08))",
+            border: "1px solid rgba(148,163,184,0.25)",
+            boxShadow: "0 18px 60px rgba(15,23,42,0.65)",
+            marginBottom: "2rem",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            {/* LOGO DISEÑADO */}
-            <img
-              src="/imagenes/logo.jpg"
-              alt="Logo Kaffe Guatilla"
+          {/* Logo + nombre */}
+          <div style={{ display: "flex", alignItems: "center", gap: "0.9rem" }}>
+            <div
               style={{
-                width: "72px",
-                height: "72px",
-                borderRadius: "9999px",
-                objectFit: "cover",
-                border: "2px solid rgba(255,255,255,0.7)",
-                backgroundColor: "#020617",
+                width: "56px",
+                height: "56px",
+                borderRadius: "999px",
+                overflow: "hidden",
+                background:
+                  "radial-gradient(circle at 30% 20%, #f97316, #facc15 35%, #22c55e 75%, #16a34a 100%)",
+                border: "2px solid rgba(15,23,42,0.8)",
+                boxShadow: "0 10px 40px rgba(15,23,42,0.85)",
+                position: "relative",
               }}
-            />
+            >
+              {/* LOGO DISEÑO */}
+              <Image
+                src="/imagenes/logo.jpg"
+                alt="Logo Kaffe Guatilla"
+                fill
+                style={{ objectFit: "cover" }}
+                sizes="56px"
+              />
+            </div>
             <div>
-              <h1
+              <div
                 style={{
-                  fontSize: "1.6rem",
-                  fontWeight: 800,
-                  letterSpacing: "0.08em",
+                  fontSize: "1.25rem",
+                  fontWeight: 700,
+                  letterSpacing: "0.14em",
                   textTransform: "uppercase",
-                  color: "#f9fafb",
                 }}
               >
-                Kaffe Guatilla
-              </h1>
-              <p
+                KAFFE GUATILLA
+              </div>
+              <div
                 style={{
-                  fontSize: "0.9rem",
-                  color: "rgba(226,232,240,0.9)",
+                  fontSize: "0.78rem",
+                  opacity: 0.85,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
                 }}
               >
                 Café especial del Perijá · Ruiz Gomez Import
-              </p>
+              </div>
             </div>
           </div>
 
-          <div style={{ textAlign: "right", fontSize: "0.85rem", color: "#e5e7eb" }}>
-            <div>Stavanger · Noruega</div>
-            <div style={{ opacity: 0.8 }}>
+          {/* Localización y tagline */}
+          <div
+            style={{
+              textAlign: "right",
+              fontSize: "0.8rem",
+              lineHeight: 1.5,
+            }}
+          >
+            <div
+              style={{
+                fontWeight: 600,
+                color: "#fbbf24",
+                marginBottom: "0.1rem",
+              }}
+            >
+              Stavanger · Noruega
+            </div>
+            <div style={{ opacity: 0.85 }}>
               Importación directa desde la Serranía del Perijá
             </div>
           </div>
         </header>
 
-        {/* ------------------------------------------------------------------
-           HERO PRINCIPAL
-        ------------------------------------------------------------------- */}
+        {/* ---------------------------------------------------------------- */}
+        {/* HERO PRINCIPAL                                                    */}
+        {/* ---------------------------------------------------------------- */}
         <section
           style={{
             display: "grid",
-            gridTemplateColumns: "minmax(0, 1.4fr) minmax(0, 1fr)",
-            gap: "1.5rem",
-            alignItems: "center",
+            gridTemplateColumns: "minmax(0,1.2fr) minmax(0,1fr)",
+            gap: "2rem",
             marginBottom: "3rem",
           }}
         >
           {/* Texto principal */}
           <div>
-            <h2
+            <h1
               style={{
-                fontSize: "2.4rem",
+                fontSize: "2.6rem",
                 lineHeight: 1.1,
-                fontWeight: 800,
-                color: "#f9fafb",
-                marginBottom: "1rem",
+                marginBottom: "1.1rem",
               }}
             >
               Café de montaña, historias reales.
-            </h2>
+            </h1>
             <p
               style={{
-                fontSize: "1rem",
+                fontSize: "0.98rem",
                 lineHeight: 1.6,
                 color: "#e5e7eb",
-                marginBottom: "1.5rem",
+                maxWidth: "36rem",
+                marginBottom: "1.75rem",
               }}
             >
               Estamos construyendo una plataforma para conectar{" "}
               <strong>fincas de la Serranía del Perijá</strong> con
-              compradores conscientes en Noruega.
-              El primer lote se importará con{" "}
-              <strong>Ruiz Gomez Import</strong> como comprador ancla, y a partir
-              de esa experiencia abriremos la puerta a más productores y
+              compradores conscientes en Noruega. El primer lote se importará
+              con <strong>Ruiz Gomez Import</strong> como comprador ancla, y a
+              partir de esa experiencia abriremos la puerta a más productores y
               amantes del café.
             </p>
 
-            {/* CTA principal: Facebook + info proyecto */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem" }}>
+            {/* Botones */}
+            <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
               <a
                 href="https://www.facebook.com/profile.php?id=100090938266173"
                 target="_blank"
                 rel="noreferrer"
                 style={{
-                  padding: "0.7rem 1.2rem",
-                  borderRadius: "9999px",
+                  padding: "0.85rem 1.6rem",
+                  borderRadius: "999px",
                   background:
-                    "linear-gradient(135deg, #22c55e, #16a34a)",
-                  color: "#0b1120",
-                  fontWeight: 700,
-                  fontSize: "0.95rem",
+                    "radial-gradient(circle at 0% 0%, #22c55e, #16a34a)",
+                  color: "#0f172a",
+                  fontWeight: 600,
+                  fontSize: "0.92rem",
                   textDecoration: "none",
-                  boxShadow: "0 15px 30px rgba(34,197,94,0.35)",
+                  boxShadow: "0 18px 50px rgba(34,197,94,0.35)",
                 }}
               >
                 Seguir el proyecto en Facebook
               </a>
-
-              <a
-                href="#contacto"
+              <button
+                type="button"
                 style={{
-                  padding: "0.7rem 1.1rem",
-                  borderRadius: "9999px",
-                  border: "1px solid rgba(148,163,184,0.7)",
+                  padding: "0.85rem 1.6rem",
+                  borderRadius: "999px",
+                  border: "1px solid rgba(148,163,184,0.55)",
+                  backgroundColor: "transparent",
                   color: "#e5e7eb",
                   fontSize: "0.9rem",
-                  textDecoration: "none",
-                  backgroundColor: "rgba(15,23,42,0.8)",
+                  cursor: "default",
                 }}
               >
                 Quiero saber cuándo esté listo para comprar
-              </a>
+              </button>
             </div>
           </div>
 
-          {/* Imagen hero: círculo / logo realista */}
-          <div
+          {/* Card: historia del logo */}
+          <article
             style={{
-              position: "relative",
-              height: "260px",
               borderRadius: "1.5rem",
-              overflow: "hidden",
-              boxShadow: "0 30px 60px rgba(0,0,0,0.75)",
+              padding: "1.5rem 1.6rem",
+              background:
+                "radial-gradient(circle at 0% 0%, rgba(248,250,252,0.05), rgba(30,64,175,0.55))",
+              border: "1px solid rgba(129,140,248,0.32)",
+              boxShadow: "0 20px 60px rgba(15,23,42,0.95)",
+              display: "flex",
+              flexDirection: "column",
+              gap: "1.1rem",
             }}
           >
-            <img
-              src="/imagenes/logo-realista1.jpg"
-              alt="Instalación que inspira el logo Guatilla"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                filter: "saturate(1.2)",
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                background:
-                  "linear-gradient(to top, rgba(15,23,42,0.85), transparent 45%)",
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                bottom: "1rem",
-                left: "1rem",
-                right: "1rem",
-                color: "#f9fafb",
-                fontSize: "0.85rem",
-              }}
-            >
-              <div style={{ fontWeight: 700 }}>De turismo a café de origen</div>
-              <div style={{ opacity: 0.9 }}>
-                El símbolo de Guatilla nace en un mirador de montaña en la Serranía del Perijá.
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ------------------------------------------------------------------
-           SECCIÓN: PAISAJE & ORIGEN
-        ------------------------------------------------------------------- */}
-        <section
-          style={{
-            marginBottom: "3rem",
-            padding: "1.5rem",
-            borderRadius: "1.5rem",
-            background:
-              "radial-gradient(circle at top, rgba(15,118,110,0.25), rgba(15,23,42,0.95))",
-            border: "1px solid rgba(148,163,184,0.4)",
-          }}
-        >
-          <div style={{ marginBottom: "1.2rem" }}>
-            <h3
-              style={{
-                fontSize: "1.4rem",
-                color: "#f9fafb",
-                marginBottom: "0.4rem",
-              }}
-            >
-              Serranía del Perijá · Origen del café
-            </h3>
-            <p style={{ fontSize: "0.95rem", color: "#e5e7eb" }}>
-              La serranía se eleva hasta los <strong>3600 m s. n. m.</strong> y
-              marca la frontera natural entre Colombia y Venezuela. Nuestra
-              red de fincas piloto está en esta montaña, en la zona de
-              <strong> Agustín Codazzi (Cesar)</strong>.
-            </p>
-          </div>
-
-          {/* Galería sencilla de paisajes */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-              gap: "0.75rem",
-            }}
-          >
-            {[
-              "/imagenes/atardecer1.JPG",
-              "/imagenes/atardecer2.JPG",
-              "/imagenes/atardecer3.JPG",
-              "/imagenes/tres-tetas1.jpg",
-            ].map((src) => (
-              <div
-                key={src}
-                style={{
-                  position: "relative",
-                  height: "120px",
-                  borderRadius: "0.9rem",
-                  overflow: "hidden",
-                  boxShadow: "0 15px 35px rgba(0,0,0,0.65)",
-                }}
-              >
-                <img
-                  src={src}
-                  alt="Paisaje de la Serranía del Perijá"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ------------------------------------------------------------------
-           SECCIÓN: PROCESO DEL CAFÉ (LAVADO, FERMENTACIÓN, VIDEO)
-        ------------------------------------------------------------------- */}
-        <section
-          style={{
-            marginBottom: "3rem",
-            display: "grid",
-            gridTemplateColumns: "minmax(0, 1.1fr) minmax(0, 1fr)",
-            gap: "1.5rem",
-            alignItems: "flex-start",
-          }}
-        >
-          {/* Texto y puntos clave */}
-          <div
-            style={{
-              padding: "1.5rem",
-              borderRadius: "1.5rem",
-              backgroundColor: "rgba(15,23,42,0.95)",
-              border: "1px solid rgba(75,85,99,0.9)",
-            }}
-          >
-            <h3
-              style={{
-                fontSize: "1.4rem",
-                color: "#f9fafb",
-                marginBottom: "0.5rem",
-              }}
-            >
-              Cómo se procesa el café
-            </h3>
-            <p
-              style={{
-                fontSize: "0.95rem",
-                color: "#e5e7eb",
-                marginBottom: "0.9rem",
-              }}
-            >
-              Empezamos con pequeños lotes lavados, trazables finca por finca.
-              Esta primera fase servirá para documentar:
-            </p>
-            <ul
-              style={{
-                fontSize: "0.9rem",
-                color: "#e5e7eb",
-                lineHeight: 1.7,
-                paddingLeft: "1.1rem",
-              }}
-            >
-              <li>Variedades y altitud de cada finca piloto.</li>
-              <li>Fermentación y lavado con registros simples pero claros.</li>
-              <li>Costos reales de producción, beneficio y transporte.</li>
-              <li>Cata en Noruega con retroalimentación directa al productor.</li>
-            </ul>
-            <p
-              style={{
-                fontSize: "0.9rem",
-                color: "#9ca3af",
-                marginTop: "0.9rem",
-              }}
-            >
-              La meta de los próximos 12 meses es completar un ciclo: compra
-              desde la web, importación con Ruiz Gomez Import y entrega a los
-              primeros clientes en Noruega.
-            </p>
-          </div>
-
-          {/* Imágenes de proceso + video corto */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateRows: "repeat(2, minmax(0, 1fr))",
-              gap: "0.75rem",
-            }}
-          >
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
-                gap: "0.75rem",
-              }}
-            >
-              {[
-                "/imagenes/fermentacion-cafe1.jpg",
-                "/imagenes/lavado-cafe2.jpg",
-              ].map((src) => (
-                <div
-                  key={src}
-                  style={{
-                    borderRadius: "1rem",
-                    overflow: "hidden",
-                    height: "140px",
-                    boxShadow: "0 15px 35px rgba(0,0,0,0.7)",
-                  }}
-                >
-                  <img
-                    src={src}
-                    alt="Proceso del café en finca"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
-
-            {/* Video de despulpado */}
             <div
               style={{
                 borderRadius: "1rem",
                 overflow: "hidden",
-                border: "1px solid rgba(75,85,99,0.8)",
-                boxShadow: "0 20px 45px rgba(0,0,0,0.8)",
+                height: "170px",
+                position: "relative",
               }}
             >
-              <video
-                src="/imagenes/video-espulpando1.mp4"
-                style={{ width: "100%", display: "block" }}
-                controls
-                muted
-                loop
-              >
-                Tu navegador no soporta el video de proceso del café.
-              </video>
+              <Image
+                src="/imagenes/logo-realista1.jpg"
+                alt="Estructura que inspira el logo Guatilla"
+                fill
+                sizes="(max-width: 900px) 100vw, 420px"
+                style={{ objectFit: "cover", transform: "scale(1.03)" }}
+              />
             </div>
-          </div>
-        </section>
 
-        {/* ------------------------------------------------------------------
-           SECCIÓN: FINCAS PILOTO Y COMPRADOR ANCLA
-        ------------------------------------------------------------------- */}
-        <section
-          style={{
-            marginBottom: "3rem",
-            padding: "1.5rem",
-            borderRadius: "1.5rem",
-            background:
-              "linear-gradient(135deg, rgba(30,64,175,0.35), rgba(15,23,42,0.95))",
-            border: "1px solid rgba(96,165,250,0.5)",
-          }}
-        >
-          <h3
-            style={{
-              fontSize: "1.4rem",
-              color: "#f9fafb",
-              marginBottom: "0.6rem",
-            }}
-          >
-            Tres fincas piloto · Un comprador ancla en Noruega
-          </h3>
-          <p
-            style={{
-              fontSize: "0.95rem",
-              color: "#e5e7eb",
-              marginBottom: "1rem",
-            }}
-          >
-            Empezamos con tres fincas de la Serranía del Perijá. Cada finca
-            tendrá su propio lote identificado, pero todos serán comprados en la
-            primera fase por <strong>Ruiz Gomez Import</strong> para simplificar
-            la logística y documentar bien todo el proceso.
-          </p>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-              gap: "0.9rem",
-              marginBottom: "1rem",
-            }}
-          >
-            {[
-              {
-                title: "Finca 1",
-                text: "Zona alta, enfoque en lavado tradicional y sombra natural.",
-              },
-              {
-                title: "Finca 2",
-                text: "Café con vista al valle, ideal para micro-lotes experimentales.",
-              },
-              {
-                title: "Finca 3",
-                text: "Productores con interés en visitas y turismo de café.",
-              },
-            ].map((card) => (
-              <div
-                key={card.title}
+            <div>
+              <h2
                 style={{
-                  padding: "0.9rem",
-                  borderRadius: "1rem",
-                  backgroundColor: "rgba(15,23,42,0.95)",
-                  border: "1px solid rgba(55,65,81,0.9)",
-                  fontSize: "0.85rem",
+                  fontSize: "1rem",
+                  marginBottom: "0.45rem",
+                  fontWeight: 600,
+                }}
+              >
+                De turismo a café de origen
+              </h2>
+              <p
+                style={{
+                  fontSize: "0.9rem",
+                  lineHeight: 1.6,
                   color: "#e5e7eb",
                 }}
               >
-                <div
-                  style={{
-                    fontWeight: 700,
-                    color: "#f9fafb",
-                    marginBottom: "0.25rem",
-                  }}
-                >
-                  {card.title}
-                </div>
-                <div>{card.text}</div>
-              </div>
-            ))}
-          </div>
+                El símbolo de Guatilla nace en un mirador de montaña en la
+                Serranía del Perijá. Hoy se transforma en una puerta para
+                acercar el paisaje, las comunidades y el café de altura directamente a Stavanger.
+              </p>
+            </div>
+          </article>
+        </section>
 
-          {/* Imagen de productores / pueblos indígenas */}
+        {/* ---------------------------------------------------------------- */}
+        {/* SERRANÍA DEL PERIJÁ - ORIGEN DEL CAFÉ                             */}
+        {/* ---------------------------------------------------------------- */}
+        <section
+          style={{
+            borderRadius: "1.6rem",
+            padding: "1.6rem 1.8rem",
+            background:
+              "radial-gradient(circle at 0% 0%, rgba(59,130,246,0.15), rgba(15,23,42,0.85))",
+            border: "1px solid rgba(96,165,250,0.35)",
+            boxShadow: "0 18px 55px rgba(15,23,42,0.85)",
+            marginBottom: "2.75rem",
+          }}
+        >
+          <h2 style={{ fontSize: "1.35rem", marginBottom: "0.25rem" }}>
+            Serranía del Perijá · Origen del café
+          </h2>
+          <p
+            style={{
+              fontSize: "0.92rem",
+              lineHeight: 1.65,
+              color: "#e5e7eb",
+              marginBottom: "1.2rem",
+            }}
+          >
+            La serranía se eleva hasta los <strong>3600 m s. n. m.</strong> y
+            marca la frontera natural entre Colombia y Venezuela. Nuestra red de
+            fincas piloto está en esta montaña, en la zona de{" "}
+            <strong>Agustín Codazzi (Cesar)</strong>.
+          </p>
+
           <div
             style={{
-              position: "relative",
-              height: "180px",
+              display: "grid",
+              gridTemplateColumns: "repeat(4,minmax(0,1fr))",
+              gap: "1rem",
+            }}
+          >
+            <figure
+              style={{
+                borderRadius: "1rem",
+                overflow: "hidden",
+                position: "relative",
+                height: "160px",
+              }}
+            >
+              <Image
+                src="/imagenes/atardecer1.JPG"
+                alt="Atardecer en la Serranía del Perijá"
+                fill
+                sizes="(max-width: 900px) 50vw, 260px"
+                style={{ objectFit: "cover" }}
+              />
+            </figure>
+
+            <figure
+              style={{
+                borderRadius: "1rem",
+                overflow: "hidden",
+                position: "relative",
+                height: "160px",
+              }}
+            >
+              <Image
+                src="/imagenes/atardecer2.JPG"
+                alt="Montañas y nubes sobre el Perijá"
+                fill
+                sizes="(max-width: 900px) 50vw, 260px"
+                style={{ objectFit: "cover" }}
+              />
+            </figure>
+
+            <figure
+              style={{
+                borderRadius: "1rem",
+                overflow: "hidden",
+                position: "relative",
+                height: "160px",
+              }}
+            >
+              <Image
+                src="/imagenes/tres-tetas1.jpg"
+                alt="Cumbres de la Serranía del Perijá"
+                fill
+                sizes="(max-width: 900px) 50vw, 260px"
+                style={{ objectFit: "cover" }}
+              />
+            </figure>
+
+            <figure
+              style={{
+                borderRadius: "1rem",
+                overflow: "hidden",
+                position: "relative",
+                height: "160px",
+              }}
+            >
+              <Image
+                src="/imagenes/plata-parque.jpg"
+                alt="Vegetación y cafetales en el Perijá"
+                fill
+                sizes="(max-width: 900px) 50vw, 260px"
+                style={{ objectFit: "cover" }}
+              />
+            </figure>
+          </div>
+        </section>
+
+        {/* ---------------------------------------------------------------- */}
+        {/* CÓMO SE PROCESA EL CAFÉ                                           */}
+        {/* ---------------------------------------------------------------- */}
+        <section
+          style={{
+            display: "grid",
+            gridTemplateColumns: "minmax(0,1.1fr) minmax(0,1fr)",
+            gap: "1.75rem",
+            marginBottom: "2.75rem",
+          }}
+        >
+          <div>
+            <h2 style={{ fontSize: "1.3rem", marginBottom: "0.4rem" }}>
+              Cómo se procesa el café
+            </h2>
+            <p
+              style={{
+                fontSize: "0.93rem",
+                lineHeight: 1.65,
+                color: "#e5e7eb",
+                marginBottom: "1.1rem",
+              }}
+            >
+              Empezamos con pequeños lotes lavados, trazables finca por finca.
+              Esta fase piloto nos permite documentar cada paso: cosecha
+              selectiva, despulpado, fermentación y secado en patios de altura.
+            </p>
+            <p
+              style={{
+                fontSize: "0.9rem",
+                lineHeight: 1.65,
+                color: "#cbd5f5",
+              }}
+            >
+              El objetivo es construir una base técnica sólida para, en los
+              próximos 12 meses, realizar la primera importación a Noruega y
+              validar todo el recorrido logístico desde la serranía hasta
+              Stavanger.
+            </p>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "minmax(0,1.3fr) minmax(0,1fr)",
+              gap: "0.9rem",
+            }}
+          >
+            <figure
+              style={{
+                borderRadius: "1rem",
+                overflow: "hidden",
+                position: "relative",
+                height: "150px",
+              }}
+            >
+              <Image
+                src="/imagenes/fermentacion-cafe1.jpg"
+                alt="Fermentación del café"
+                fill
+                sizes="(max-width: 900px) 60vw, 320px"
+                style={{ objectFit: "cover" }}
+              />
+            </figure>
+
+            <figure
+              style={{
+                borderRadius: "1rem",
+                overflow: "hidden",
+                position: "relative",
+                height: "150px",
+              }}
+            >
+              <Image
+                src="/imagenes/lavado-cafe1.jpg"
+                alt="Lavado del café en canales"
+                fill
+                sizes="(max-width: 900px) 40vw, 220px"
+                style={{ objectFit: "cover" }}
+              />
+            </figure>
+
+            <figure
+              style={{
+                borderRadius: "1rem",
+                overflow: "hidden",
+                position: "relative",
+                height: "150px",
+                gridColumn: "span 2",
+              }}
+            >
+              <Image
+                src="/imagenes/lavado-cafe2.jpg"
+                alt="Sistema de lavado de café en la serranía"
+                fill
+                sizes="(max-width: 900px) 100vw, 540px"
+                style={{ objectFit: "cover" }}
+              />
+            </figure>
+          </div>
+        </section>
+
+        {/* ---------------------------------------------------------------- */}
+        {/* COMUNIDADES Y PAISAJE                                             */}
+        {/* ---------------------------------------------------------------- */}
+        <section
+          style={{
+            display: "grid",
+            gridTemplateColumns: "minmax(0,1.1fr) minmax(0,1fr)",
+            gap: "1.75rem",
+            marginBottom: "2.75rem",
+          }}
+        >
+          <article
+            style={{
+              borderRadius: "1.5rem",
+              padding: "1.5rem 1.6rem",
+              background:
+                "radial-gradient(circle at 0% 0%, rgba(16,185,129,0.18), rgba(15,23,42,0.95))",
+              border: "1px solid rgba(52,211,153,0.4)",
+              boxShadow: "0 18px 60px rgba(6,95,70,0.85)",
+            }}
+          >
+            <h2 style={{ fontSize: "1.25rem", marginBottom: "0.5rem" }}>
+              Comunidades y territorio
+            </h2>
+            <p
+              style={{
+                fontSize: "0.93rem",
+                lineHeight: 1.7,
+                color: "#e5e7eb",
+                marginBottom: "0.9rem",
+              }}
+            >
+              Guatilla nace en un territorio habitado por comunidades campesinas
+              y pueblos indígenas. La idea es que cada taza de café lleve
+              consigo información clara sobre el origen y la historia de quienes
+              lo producen.
+            </p>
+            <p
+              style={{
+                fontSize: "0.9rem",
+                lineHeight: 1.7,
+                color: "#cbd5f5",
+              }}
+            >
+              Este proyecto no es solo un producto: es una documentación
+              técnica, social y logística que permita, más adelante, que otras
+              fincas del Perijá puedan exportar siguiendo un modelo ya probado.
+            </p>
+          </article>
+
+          <div
+            style={{
+              borderRadius: "1.5rem",
+              padding: "1.2rem 1.3rem",
+              background:
+                "radial-gradient(circle at 0% 0%, rgba(59,130,246,0.22), rgba(15,23,42,0.98))",
+              border: "1px solid rgba(59,130,246,0.45)",
+              boxShadow: "0 18px 60px rgba(15,23,42,0.9)",
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.9rem",
+            }}
+          >
+            <div
+              style={{
+                position: "relative",
+                borderRadius: "1rem",
+                overflow: "hidden",
+                height: "150px",
+              }}
+            >
+              <Image
+                src="/imagenes/pueblos-indigenas.jpg"
+                alt="Pueblo indígena en la serranía del Perijá"
+                fill
+                sizes="(max-width: 900px) 100vw, 320px"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
+
+            <div
+              style={{
+                position: "relative",
+                borderRadius: "1rem",
+                overflow: "hidden",
+                height: "150px",
+              }}
+            >
+              <Image
+                src="/imagenes/fotografiando-realidades.JPG"
+                alt="Documentando la realidad de las comunidades"
+                fill
+                sizes="(max-width: 900px) 100vw, 320px"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* ---------------------------------------------------------------- */}
+        {/* VIDEO DE DESPULPADO                                               */}
+        {/* ---------------------------------------------------------------- */}
+        <section
+          style={{
+            marginBottom: "2.75rem",
+            borderRadius: "1.6rem",
+            padding: "1.6rem 1.8rem",
+            background:
+              "radial-gradient(circle at 0% 0%, rgba(248,250,252,0.05), rgba(15,23,42,0.95))",
+            border: "1px solid rgba(148,163,184,0.45)",
+            boxShadow: "0 18px 55px rgba(15,23,42,0.9)",
+          }}
+        >
+          <h2 style={{ fontSize: "1.25rem", marginBottom: "0.6rem" }}>
+            Un primer vistazo al proceso en finca
+          </h2>
+          <p
+            style={{
+              fontSize: "0.9rem",
+              lineHeight: 1.7,
+              color: "#e5e7eb",
+              marginBottom: "1rem",
+              maxWidth: "40rem",
+            }}
+          >
+            Este es un registro simple del despulpado del café en una de las
+            fincas piloto. Más adelante convertiremos este tipo de material en
+            contenido educativo para compradores y productores.
+          </p>
+
+          <div
+            style={{
               borderRadius: "1.2rem",
               overflow: "hidden",
-              boxShadow: "0 25px 50px rgba(0,0,0,0.75)",
+              maxWidth: "640px",
             }}
           >
-            <img
-              src="/imagenes/pueblos-indigenas.jpg"
-              alt="Encuentro con comunidades de la Serranía del Perijá"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-              }}
+            <video
+              src="/imagenes/video-espulpando1.mp4"
+              controls
+              style={{ width: "100%", display: "block" }}
             />
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                background:
-                  "linear-gradient(to top, rgba(15,23,42,0.95), transparent 55%)",
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                bottom: "0.75rem",
-                left: "0.9rem",
-                right: "0.9rem",
-                color: "#f9fafb",
-                fontSize: "0.9rem",
-              }}
-            >
-              Esta iniciativa parte de una historia real de retorno a la montaña
-              y de diálogo con familias productoras que quieren vender su café
-              con identidad clara, precio justo y trazabilidad.
-            </div>
           </div>
         </section>
 
-        {/* ------------------------------------------------------------------
-           SECCIÓN: GALERÍA RÁPIDA DE CASCADAS Y RÍOS
-        ------------------------------------------------------------------- */}
-        <section
-          style={{
-            marginBottom: "3rem",
-            padding: "1.5rem",
-            borderRadius: "1.5rem",
-            backgroundColor: "rgba(15,23,42,0.95)",
-            border: "1px solid rgba(55,65,81,0.9)",
-          }}
-        >
-          <h3
-            style={{
-              fontSize: "1.3rem",
-              color: "#f9fafb",
-              marginBottom: "0.6rem",
-            }}
-          >
-            Agua, montaña y cafetales
-          </h3>
-          <p
-            style={{
-              fontSize: "0.95rem",
-              color: "#e5e7eb",
-              marginBottom: "0.9rem",
-            }}
-          >
-            Parte de la identidad de Guatilla viene de sus cascadas y ríos.
-            Son también la base del beneficio húmedo del café en la zona.
-          </p>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-              gap: "0.75rem",
-            }}
-          >
-            {[
-              "/imagenes/cascada1.JPG",
-              "/imagenes/cascada2.JPG",
-              "/imagenes/cascada3.jpg",
-              "/imagenes/cascada4.JPG",
-            ].map((src) => (
-              <div
-                key={src}
-                style={{
-                  height: "120px",
-                  borderRadius: "0.9rem",
-                  overflow: "hidden",
-                  boxShadow: "0 15px 35px rgba(0,0,0,0.7)",
-                }}
-              >
-                <img
-                  src={src}
-                  alt="Cascada de la Serranía del Perijá"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ------------------------------------------------------------------
-           SECCIÓN DE CONTACTO (ANCLA #contacto)
-        ------------------------------------------------------------------- */}
-        <section
-          id="contacto"
-          style={{
-            marginBottom: "2.5rem",
-            padding: "1.5rem",
-            borderRadius: "1.5rem",
-            background:
-              "linear-gradient(135deg, rgba(22,163,74,0.3), rgba(15,23,42,0.95))",
-            border: "1px solid rgba(52,211,153,0.6)",
-          }}
-        >
-          <h3
-            style={{
-              fontSize: "1.3rem",
-              color: "#f9fafb",
-              marginBottom: "0.5rem",
-            }}
-          >
-            Mantente al tanto
-          </h3>
-          <p
-            style={{
-              fontSize: "0.95rem",
-              color: "#e5e7eb",
-              marginBottom: "0.9rem",
-            }}
-          >
-            Si quieres seguir el avance del proyecto, recibir noticias cuando
-            llegue el primer lote a Noruega o explorar cómo participar, puedes
-            escribirnos o seguir la página en Facebook.
-          </p>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "minmax(0, 1.3fr) minmax(0, 1fr)",
-              gap: "1rem",
-              alignItems: "center",
-            }}
-          >
-            {/* Datos de contacto */}
-            <div
-              style={{
-                fontSize: "0.95rem",
-                color: "#f9fafb",
-              }}
-            >
-              <div style={{ marginBottom: "0.4rem" }}>
-                <strong>Correo:</strong>{" "}
-                <a
-                  href="mailto:norgesdirektor@guatilla.no"
-                  style={{
-                    color: "#bbf7d0",
-                    textDecoration: "underline",
-                  }}
-                >
-                  norgesdirektor@guatilla.no
-                </a>
-              </div>
-              <div style={{ marginBottom: "0.4rem" }}>
-                <strong>Teléfono (Noruega):</strong>{" "}
-                <a
-                  href="tel:+4793694817"
-                  style={{
-                    color: "#bbf7d0",
-                    textDecoration: "underline",
-                  }}
-                >
-                  +47 936&nbsp;94&nbsp;817
-                </a>
-              </div>
-              <div>
-                <strong>Facebook:</strong>{" "}
-                <a
-                  href="https://www.facebook.com/profile.php?id=100090938266173"
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{
-                    color: "#bbf7d0",
-                    textDecoration: "underline",
-                  }}
-                >
-                  Proyecto Guatilla en Facebook
-                </a>
-              </div>
-            </div>
-
-            {/* Botón destacado a Facebook */}
-            <div style={{ textAlign: "right" }}>
-              <a
-                href="https://www.facebook.com/profile.php?id=100090938266173"
-                target="_blank"
-                rel="noreferrer"
-                style={{
-                  display: "inline-block",
-                  padding: "0.8rem 1.3rem",
-                  borderRadius: "9999px",
-                  backgroundColor: "#22c55e",
-                  color: "#022c22",
-                  fontWeight: 700,
-                  fontSize: "0.95rem",
-                  textDecoration: "none",
-                  boxShadow: "0 18px 40px rgba(34,197,94,0.45)",
-                }}
-              >
-                Ver avances en Facebook
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* ------------------------------------------------------------------
-           PIE DE PÁGINA SIMPLE
-        ------------------------------------------------------------------- */}
+        {/* ---------------------------------------------------------------- */}
+        {/* CONTACTO Y DATOS DE RUIZ GOMEZ IMPORT                             */}
+        {/* ---------------------------------------------------------------- */}
         <footer
           style={{
-            fontSize: "0.8rem",
-            color: "#9ca3af",
-            paddingBottom: "0.5rem",
-            textAlign: "center",
+            borderTop: "1px solid rgba(30,64,175,0.65)",
+            paddingTop: "1.7rem",
+            paddingBottom: "1rem",
+            fontSize: "0.86rem",
+            color: "#e5e7eb",
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "1.5rem",
+            justifyContent: "space-between",
           }}
         >
-          © {new Date().getFullYear()} Kaffe Guatilla · Ruiz Gomez Import.
-          Primera fase de validación logística y de mercado.
+          <div>
+            <div style={{ fontWeight: 600, marginBottom: "0.25rem" }}>
+              Ruiz Gomez Import · Stavanger
+            </div>
+            <div>Correo: norgesdirektor@guatilla.no</div>
+            <div>Teléfono: +47 936 94 817</div>
+          </div>
+
+          <div style={{ textAlign: "right" }}>
+            <div style={{ marginBottom: "0.25rem" }}>
+              Página piloto de Kaffe Guatilla · 2025
+            </div>
+            <a
+              href="https://www.facebook.com/profile.php?id=100090938266173"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                color: "#38bdf8",
+                textDecoration: "none",
+              }}
+            >
+              Ver avances del proyecto en Facebook
+            </a>
+          </div>
         </footer>
       </div>
     </main>
   );
 }
-
 
