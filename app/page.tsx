@@ -56,7 +56,7 @@ export default function Home() {
             >
               {/* LOGO DISEÑO */}
               <Image
-                src="/imagenes/logo.jpg"
+                src="/images/logo.jpg"
                 alt="Logo Kaffe Guatilla"
                 fill
                 style={{ objectFit: "cover" }}
@@ -209,7 +209,7 @@ export default function Home() {
               }}
             >
               <Image
-                src="/imagenes/logo-realista1.jpg"
+                src="/images/logo-realista1.jpg"
                 alt="Estructura que inspira el logo Guatilla"
                 fill
                 sizes="(max-width: 900px) 100vw, 420px"
