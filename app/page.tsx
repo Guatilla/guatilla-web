@@ -28,7 +28,7 @@ export default function Home() {
           }}
         >
           <img
-            src="/logo-guatilla.png"
+            src="/logo-guatilla.png.jpg"
             alt="Logo Kaffe Guatilla"
             style={{
               display: "block",
