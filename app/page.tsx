@@ -590,7 +590,7 @@ export default function Home() {
             }}
           >
             <video
-              src="/imagenes/video-espulpando1.mp4"
+              src="/images/video-espulpando1.mp4"
               controls
               style={{ width: "100%", display: "block" }}
             />
