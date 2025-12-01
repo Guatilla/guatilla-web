@@ -49,7 +49,7 @@ export default function Home() {
               letterSpacing: "0.04em",
             }}
           >
-            LA VALERITA
+            KAFFE GUATILLA
           </h1>
           <p
             style={{
