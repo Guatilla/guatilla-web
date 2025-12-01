@@ -1,22 +1,22 @@
 "use client";
 
-import Image from "next/image";
+import type { CSSProperties } from "react";
 
-const pageStyle: React.CSSProperties = {
+const pageStyle: CSSProperties = {
   minHeight: "100vh",
   fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
   color: "#111827",
   backgroundColor: "#0b1120",
 };
 
-const maxWidthStyle: React.CSSProperties = {
+const maxWidthStyle: CSSProperties = {
   maxWidth: "1120px",
   margin: "0 auto",
   padding: "1.5rem",
 };
 
 /**
- * Componente principal de la página
+ * Página principal Kaffe Guatilla
  */
 export default function Home() {
   return (
@@ -41,12 +41,12 @@ export default function Home() {
         >
           <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
             {/* LOGO DISEÑADO */}
-            <Image
+            <img
               src="/imagenes/logo.jpg"
               alt="Logo Kaffe Guatilla"
-              width={72}
-              height={72}
               style={{
+                width: "72px",
+                height: "72px",
                 borderRadius: "9999px",
                 objectFit: "cover",
                 border: "2px solid rgba(255,255,255,0.7)",
@@ -78,7 +78,9 @@ export default function Home() {
 
           <div style={{ textAlign: "right", fontSize: "0.85rem", color: "#e5e7eb" }}>
             <div>Stavanger · Noruega</div>
-            <div style={{ opacity: 0.8 }}>Importación directa desde la Serranía del Perijá</div>
+            <div style={{ opacity: 0.8 }}>
+              Importación directa desde la Serranía del Perijá
+            </div>
           </div>
         </header>
 
@@ -172,11 +174,12 @@ export default function Home() {
               boxShadow: "0 30px 60px rgba(0,0,0,0.75)",
             }}
           >
-            <Image
+            <img
               src="/imagenes/logo-realista1.jpg"
               alt="Instalación que inspira el logo Guatilla"
-              fill
               style={{
+                width: "100%",
+                height: "100%",
                 objectFit: "cover",
                 filter: "saturate(1.2)",
               }}
@@ -262,11 +265,14 @@ export default function Home() {
                   boxShadow: "0 15px 35px rgba(0,0,0,0.65)",
                 }}
               >
-                <Image
+                <img
                   src={src}
                   alt="Paisaje de la Serranía del Perijá"
-                  fill
-                  style={{ objectFit: "cover" }}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
                 />
               </div>
             ))}
@@ -361,18 +367,20 @@ export default function Home() {
                 <div
                   key={src}
                   style={{
-                    position: "relative",
                     borderRadius: "1rem",
                     overflow: "hidden",
                     height: "140px",
                     boxShadow: "0 15px 35px rgba(0,0,0,0.7)",
                   }}
                 >
-                  <Image
+                  <img
                     src={src}
                     alt="Proceso del café en finca"
-                    fill
-                    style={{ objectFit: "cover" }}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
                   />
                 </div>
               ))}
@@ -492,11 +500,14 @@ export default function Home() {
               boxShadow: "0 25px 50px rgba(0,0,0,0.75)",
             }}
           >
-            <Image
+            <img
               src="/imagenes/pueblos-indigenas.jpg"
               alt="Encuentro con comunidades de la Serranía del Perijá"
-              fill
-              style={{ objectFit: "cover" }}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
             />
             <div
               style={{
@@ -571,18 +582,20 @@ export default function Home() {
               <div
                 key={src}
                 style={{
-                  position: "relative",
                   height: "120px",
                   borderRadius: "0.9rem",
                   overflow: "hidden",
                   boxShadow: "0 15px 35px rgba(0,0,0,0.7)",
                 }}
               >
-                <Image
+                <img
                   src={src}
                   alt="Cascada de la Serranía del Perijá"
-                  fill
-                  style={{ objectFit: "cover" }}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
                 />
               </div>
             ))}
@@ -721,4 +734,5 @@ export default function Home() {
     </main>
   );
 }
+
 
