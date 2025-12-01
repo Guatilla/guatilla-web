@@ -289,7 +289,7 @@ export default function Home() {
               }}
             >
               <Image
-                src="/imagenes/atardecer1.JPG"
+                src="/images/atardecer1.JPG"
                 alt="Atardecer en la Serranía del Perijá"
                 fill
                 sizes="(max-width: 900px) 50vw, 260px"
@@ -306,7 +306,7 @@ export default function Home() {
               }}
             >
               <Image
-                src="/imagenes/atardecer2.JPG"
+                src="/images/atardecer2.JPG"
                 alt="Montañas y nubes sobre el Perijá"
                 fill
                 sizes="(max-width: 900px) 50vw, 260px"
@@ -323,7 +323,7 @@ export default function Home() {
               }}
             >
               <Image
-                src="/imagenes/tres-tetas1.jpg"
+                src="/images/tres-tetas1.jpg"
                 alt="Cumbres de la Serranía del Perijá"
                 fill
                 sizes="(max-width: 900px) 50vw, 260px"
@@ -340,7 +340,7 @@ export default function Home() {
               }}
             >
               <Image
-                src="/imagenes/plata-parque.jpg"
+                src="/images/plata-parque.jpg"
                 alt="Vegetación y cafetales en el Perijá"
                 fill
                 sizes="(max-width: 900px) 50vw, 260px"
@@ -407,7 +407,7 @@ export default function Home() {
               }}
             >
               <Image
-                src="/imagenes/fermentacion-cafe1.jpg"
+                src="/images/fermentacion-cafe1.jpg"
                 alt="Fermentación del café"
                 fill
                 sizes="(max-width: 900px) 60vw, 320px"
@@ -424,7 +424,7 @@ export default function Home() {
               }}
             >
               <Image
-                src="/imagenes/lavado-cafe1.jpg"
+                src="/images/lavado-cafe1.jpg"
                 alt="Lavado del café en canales"
                 fill
                 sizes="(max-width: 900px) 40vw, 220px"
@@ -442,7 +442,7 @@ export default function Home() {
               }}
             >
               <Image
-                src="/imagenes/lavado-cafe2.jpg"
+                src="/images/lavado-cafe2.jpg"
                 alt="Sistema de lavado de café en la serranía"
                 fill
                 sizes="(max-width: 900px) 100vw, 540px"
@@ -524,7 +524,7 @@ export default function Home() {
               }}
             >
               <Image
-                src="/imagenes/pueblos-indigenas.jpg"
+                src="/images/pueblos-indigenas.jpg"
                 alt="Pueblo indígena en la serranía del Perijá"
                 fill
                 sizes="(max-width: 900px) 100vw, 320px"
@@ -541,7 +541,7 @@ export default function Home() {
               }}
             >
               <Image
-                src="/imagenes/fotografiando-realidades.JPG"
+                src="/images/fotografiando-realidades.JPG"
                 alt="Documentando la realidad de las comunidades"
                 fill
                 sizes="(max-width: 900px) 100vw, 320px"
