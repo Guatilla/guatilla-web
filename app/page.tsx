@@ -15,6 +15,16 @@ export default function Home() {
           margin: "4rem 0 3rem",
         }}
       >
+        <img
+          src="/logo-guatilla.png"
+          alt="Logo Kaffe Guatilla"
+          style={{
+            width: "140px",
+            height: "auto",
+            marginBottom: "1.5rem",
+          }}
+        />
+
         <h1
           style={{
             fontSize: "2.8rem",
@@ -53,10 +63,10 @@ export default function Home() {
         <p style={{ lineHeight: 1.6 }}>
           Guatilla nace en la Serranía del Perijá, en el municipio de Agustín
           Codazzi (Cesar, Colombia). Trabajamos con cafés de montaña,
-          cultivados por pequeños productores que conocen cada lote. La
-          idea del proyecto es traer esos cafés de origen controlado a
-          Noruega, sin mezclarlos con otros países, para que el consumidor
-          sepa exactamente qué está tomando.
+          cultivados por pequeños productores que conocen cada lote. La idea
+          del proyecto es traer esos cafés de origen controlado a Noruega, sin
+          mezclarlos con otros países, para que el consumidor sepa exactamente
+          qué está tomando.
         </p>
       </section>
 
@@ -73,11 +83,10 @@ export default function Home() {
         </h2>
         <p style={{ lineHeight: 1.6 }}>
           En Stavanger tostamos pequeños volúmenes de café verde importado
-          directamente desde Colombia. Usamos tuestes controlados y
-          registramos tanto los costos logísticos como la respuesta de los
-          clientes en Noruega. Esta información forma parte de un proyecto
-          de innovación orientado a transparencia en origen y trazabilidad
-          del producto.
+          directamente desde Colombia. Usamos tuestes controlados y registramos
+          tanto los costos logísticos como la respuesta de los clientes en
+          Noruega. Esta información forma parte de un proyecto de innovación
+          orientado a transparencia en origen y trazabilidad del producto.
         </p>
       </section>
 
@@ -93,8 +102,8 @@ export default function Home() {
           Contacto
         </h2>
         <p style={{ lineHeight: 1.6, marginBottom: "0.5rem" }}>
-          Puedes contactar al proyecto Guatilla por correo electrónico,
-          teléfono o seguir nuestras publicaciones en Facebook.
+          Puedes contactar al proyecto Guatilla por correo electrónico, teléfono
+          o seguir nuestras publicaciones en Facebook.
         </p>
 
         <p style={{ lineHeight: 1.6, marginBottom: "0.5rem" }}>
