@@ -49,7 +49,7 @@ export default function Home() {
               letterSpacing: "0.04em",
             }}
           >
-            VALERIA Y SANTIAGO
+            LA VALERITA
           </h1>
           <p
             style={{
