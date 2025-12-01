@@ -49,7 +49,7 @@ export default function Home() {
               letterSpacing: "0.04em",
             }}
           >
-            KAFFE GUATILLA
+            VALERIA Y SANTIAGO
           </h1>
           <p
             style={{
@@ -60,8 +60,8 @@ export default function Home() {
             }}
           >
             Café especial de la Serranía del Perijá (Colombia), tostado y
-            entregado en Noruega. Un puente directo entre productores como mi
-            hermano Stivenson y compradores conscientes en Noruega.
+            entregado en Noruega. Un puente directo entre tres fincas de
+            montaña en el Perijá y compradores conscientes en Noruega.
           </p>
 
           <div
@@ -140,10 +140,10 @@ export default function Home() {
               culturas, el trabajo en la montaña y el respeto por la tierra.
             </p>
             <p style={{ lineHeight: 1.7 }}>
-              Kaffe Guatilla nace de esa historia familiar y territorial: café
-              de montaña, lotes pequeños y trazables, sin mezclas anónimas, con
-              la intención de que el consumidor en Noruega sepa exactamente qué
-              está tomando y a quién está apoyando.
+              Kaffe Guatilla nace de esa historia de territorio y caficultores:
+              café de montaña, lotes pequeños y trazables, sin mezclas anónimas,
+              con la intención de que el consumidor en Noruega sepa exactamente
+              qué está tomando y a quién está apoyando.
             </p>
           </article>
 
@@ -167,10 +167,10 @@ export default function Home() {
             </h3>
             <p style={{ lineHeight: 1.7 }}>
               El café Guatilla se cultiva en la Serranía del Perijá, cerca de
-              Agustín Codazzi (Cesar, Colombia). Empezamos con la finca de mi
-              hermano Stivenson, que cosecha y procesa cafés de montaña con
-              cuidado, manteniendo la humedad y la calidad que se necesitan para
-              exportar café especial.
+              Agustín Codazzi (Cesar, Colombia). Hoy contamos con el interés de
+              tres fincas de montaña que están ajustando sus procesos para
+              separar lotes de café especial con la humedad y calidad necesarias
+              para exportación directa.
             </p>
           </article>
         </section>
@@ -194,25 +194,27 @@ export default function Home() {
               marginBottom: "0.75rem",
             }}
           >
-            Primer lote: de hermano a hermano
+            Primer lote: tres fincas aliadas
           </h2>
           <p style={{ lineHeight: 1.7, marginBottom: "0.85rem" }}>
             El primer café Guatilla que se venderá a través de esta página será
-            muy sencillo: mi hermano Stivenson cosecha y empaca en Colombia, y
-            yo seré el primer comprador en Noruega.
+            sencillo pero muy claro: un lote seleccionado a partir del trabajo
+            de tres fincas aliadas en la Serranía del Perijá, y el primer
+            comprador en Noruega seré yo mismo.
           </p>
           <p style={{ lineHeight: 1.7, marginBottom: "0.85rem" }}>
             En los próximos meses esperamos tener listo el primer lote
             empacado. Este envío será la prueba completa de todo el recorrido:
             cosecha, beneficio, secado, trilla, exportación desde Colombia,
             importación y tostión en Noruega, entrega final en Stavanger y pago
-            transparente al productor.
+            transparente a los caficultores de esas fincas.
           </p>
           <p style={{ lineHeight: 1.7 }}>
             La meta para los próximos 12 meses es que esta misma página permita
             hacer la compra del lote usando Vipps y que el sistema pida toda la
             autenticación necesaria. Primero lo validaré yo como cliente, y
-            luego abriremos la plataforma a más compradores y más productores.
+            luego abriremos la plataforma a más compradores y a más productores
+            que se sumen al modelo Guatilla.
           </p>
         </section>
 
@@ -246,18 +248,19 @@ export default function Home() {
           >
             <li>
               Recibir el primer lote de café Guatilla en Noruega y documentar
-              todo el proceso.
+              todo el proceso desde las fincas del Perijá hasta la taza.
             </li>
             <li>
-              Ajustar la tostión, el empaque y la logística de entrega local.
+              Ajustar la tostión, el empaque y la logística de entrega local en
+              Noruega.
             </li>
             <li>
               Preparar la integración con Vipps para que las compras puedan
               hacerse directamente desde esta página.
             </li>
             <li>
-              Diseñar la estructura para que nuevos productores en Colombia
-              puedan registrarse y proponer sus propios lotes.
+              Definir el modelo de registro para que nuevas fincas en Colombia
+              puedan postular sus lotes y sumarse al proyecto Guatilla.
             </li>
           </ul>
         </section>
@@ -281,8 +284,8 @@ export default function Home() {
           </h2>
           <p style={{ lineHeight: 1.7, marginBottom: "0.75rem" }}>
             Si te interesa probar los primeros lotes en Noruega o eres productor
-            de café en Colombia y quieres saber más sobre el proyecto Guatilla,
-            puedes contactarme directamente:
+            de café en Colombia y quieres saber más sobre cómo participar en el
+            proyecto Guatilla, puedes contactarme directamente:
           </p>
 
           <p style={{ lineHeight: 1.7, marginBottom: "0.75rem" }}>
