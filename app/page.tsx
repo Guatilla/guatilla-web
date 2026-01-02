@@ -72,7 +72,7 @@ export default function Home() {
                   textTransform: "uppercase",
                 }}
               >
-                KAFFE GUATILLA
+                KAFFE GUATILLA 1
               </div>
               <div
                 style={{
