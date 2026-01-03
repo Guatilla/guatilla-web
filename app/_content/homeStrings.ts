@@ -60,7 +60,7 @@ export const homeStrings: Record<HomeLocale, HomeStrings> = {
     locationLine: "Stavanger · Noruega",
     taglineLine: "Importación directa desde la Serranía del Perijá",
     switchToLabel: "Norsk",
-    switchToHref: "/no",
+    switchToHref: "/",
 
     heroTitle: "Café de montaña, historias reales.",
     heroBodyBefore: "Estamos construyendo una plataforma para conectar ",
@@ -121,7 +121,7 @@ export const homeStrings: Record<HomeLocale, HomeStrings> = {
     locationLine: "Stavanger · Norge",
     taglineLine: "Direkte import fra Serranía del Perijá",
     switchToLabel: "Español",
-    switchToHref: "/",
+    switchToHref: "/es",
 
     heroTitle: "Fjellkaffe, ekte historier.",
     heroBodyBefore: "Vi bygger en plattform for å koble ",

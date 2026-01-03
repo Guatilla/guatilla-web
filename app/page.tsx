@@ -1,6 +1,5 @@
 import { HomePage } from "./_components/HomePage";
 
 export default function Home() {
-  return <HomePage locale="es" />;
+  return <HomePage locale="no" />;
 }
-
