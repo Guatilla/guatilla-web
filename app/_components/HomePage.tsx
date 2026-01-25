@@ -772,90 +772,78 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               {/* ---------------------------------------------------------------- */}
         {/* CONTACTO Y DATOS DE RUIZ GOMEZ IMPORT                             */}
         {/* ---------------------------------------------------------------- */}
+               {/* ---------------------------------------------------------------- */}
+        {/* LINKS A REDES SOCIALES                                           */}
+        {/* ---------------------------------------------------------------- */}
         <footer
           style={{
             borderTop: "1px solid rgba(30,64,175,0.65)",
             paddingTop: "1.7rem",
             paddingBottom: "1rem",
-            fontSize: "0.86rem",
             color: "#e5e7eb",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "1.5rem",
-            justifyContent: "space-between",
-            alignItems: "center",
           }}
         >
-          {/* Columna: datos de contacto */}
-          <div>
-            <div style={{ fontWeight: 600, marginBottom: "0.25rem" }}>
-              {t.footerCompany}
-            </div>
-            <div>{t.footerEmailLabel}: norgesdirektor@guatilla.no</div>
-            <div>{t.footerPhoneLabel}: +47 936 94 817</div>
-          </div>
-
-          {/* Columna: texto legal / enlace Facebook */}
-          <div style={{ textAlign: "right" }}>
-            <div style={{ marginBottom: "0.25rem" }}>{t.footerRightLine}</div>
-            <a
-              href="https://www.facebook.com/profile.php?id=100090938266173"
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                color: "#38bdf8",
-                textDecoration: "none",
-              }}
-            >
-              {t.footerFacebookLink}
-            </a>
-          </div>
-
-          {/* Columna: iconos de redes sociales */}
           <div
             style={{
               display: "flex",
-              gap: "0.75rem",
+              justifyContent: "flex-end",
+              gap: "1.2rem",
               alignItems: "center",
             }}
           >
+            {/* Web Guatilla */}
             <a
-              href="https://www.instagram.com/tu_cuenta_aqui" // cambia a la URL real
+              href="https://guatilla.no"
               target="_blank"
               rel="noreferrer"
-              aria-label="Instagram"
             >
               <Image
-                src="/images/instagram-icon.png"
-                alt="Instagram Guatilla"
-                width={28}
-                height={28}
+                src="/icons/guatilla-web.png"
+                alt="Guatilla.no"
+                width={32}
+                height={32}
               />
             </a>
+
+            {/* Instagram */}
+            <a
+              href="https://www.instagram.com/…"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Image
+                src="/icons/guatilla-instagram.png"
+                alt="Instagram Guatilla"
+                width={32}
+                height={32}
+              />
+            </a>
+
+            {/* LinkedIn */}
             <a
               href="https://www.linkedin.com/in/kaffe-guatilla-a18208234"
               target="_blank"
               rel="noreferrer"
-              aria-label="LinkedIn"
             >
               <Image
-                src="/images/linkedin-icon.png"
+                src="/icons/guatilla-linkedin.png"
                 alt="LinkedIn Guatilla"
-                width={28}
-                height={28}
+                width={32}
+                height={32}
               />
             </a>
+
+            {/* Finn.no */}
             <a
-              href="https://www.finn.no/profile/ads?userid=1063000714"
+              href="https://www.finn.no/profile/ads?userId=1063000714"
               target="_blank"
               rel="noreferrer"
-              aria-label="Finn.no"
             >
               <Image
-                src="/images/finn-icon.png"
+                src="/icons/guatilla-finn.png"
                 alt="Finn.no Guatilla"
-                width={28}
-                height={28}
+                width={32}
+                height={32}
               />
             </a>
           </div>
@@ -864,4 +852,4 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
     </main>
   );
 }
-
+  
