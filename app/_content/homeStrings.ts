@@ -125,14 +125,14 @@ export const homeStrings: Record<HomeLocale, HomeStrings> = {
     footerFacebookLink: "Ver avances del proyecto en Facebook",
   },
   no: {
-    brandLine: "Spesialkaffe fra Perijá · Ruiz Gomez Import",
+    brandLine: "Spesialkaffe fra Colombia · Ruiz Gomez Import",
     locationLine: "Stavanger · Norge",
     taglineLine: "Direkte import fra Serranía del Perijá",
     switchToLabel: "Español",
     switchToHref: "/es",
 
     heroTitle: "Fjellkaffe, ekte historier.",
-    heroBodyBefore: "Vi bygger en plattform for å koble ",
+    heroBodyBefore: "Vi kobler sammen ",
     heroBodyStrong1: "gårder i Serranía del Perijá",
     heroBodyMiddle:
       " med bevisste kjøpere i Norge. Det første partiet importeres med ",
