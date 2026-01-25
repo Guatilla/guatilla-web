@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import type { CSSProperties } from "react";
+import type { CSSProperties, FormEvent } from "react";
 import { getHomeStrings, type HomeLocale } from "../_content/homeStrings";
 
 const pageStyle: CSSProperties = {
@@ -24,9 +24,55 @@ type InterestType = "sell" | "buy" | null;
 
 export function HomePage({ locale }: { locale: HomeLocale }) {
   const t = getHomeStrings(locale);
+
+  const handleInterestSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+
+    const name = (formData.get("name") ?? "").toString().trim();
+    const email = (formData.get("email") ?? "").toString().trim();
+    const location = (formData.get("location") ?? "").toString().trim();
+    const message = (formData.get("message") ?? "").toString().trim();
+    const interestType = (formData.get("interestType") ?? "").toString();
+
+    const interestLabel =
+      interestType === "sell"
+        ? locale === "no"
+          ? "Selge kaffe"
+          : "Quiero vender café"
+        : locale === "no"
+        ? "Kjøpe kaffe"
+        : "Quiero comprar café";
+
+    const subject =
+      locale === "no"
+        ? `Interesse for kaffe – ${interestLabel} – Guatilla`
+        : `Interés en café – ${interestLabel} – Guatilla`;
+
+    const bodyLines = [
+      `Nombre / Navn: ${name}`,
+      `Email: ${email}`,
+      `País / ciudad (Land / by): ${location}`,
+      `Interés / interesse: ${interestLabel}`,
+      "",
+      "Comentarios / Kommentar:",
+      message || "(vacío / tomt)",
+    ];
+
+    const mailto = `mailto:norgesdirektor@guatilla.no?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
+
+    if (typeof window !== "undefined") {
+      window.location.href = mailto;
+    }
+  };
+
   const [selectedInterest, setSelectedInterest] = useState<InterestType>(null);
 
   const isNorwegian = locale === "no";
+
 
   return (
     <main style={pageStyle} lang={isNorwegian ? "no" : "es"}>
