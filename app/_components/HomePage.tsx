@@ -169,42 +169,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
 
             {/* Botones */}
             <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-              {/* Seguir proyecto en Facebook */}
-              <a
-                href="https://www.facebook.com/profile.php?id=100090938266173"
-                target="_blank"
-                rel="noreferrer"
-                style={{
-                  padding: "0.85rem 1.6rem",
-                  borderRadius: "999px",
-                  background:
-                    "radial-gradient(circle at 0% 0%, #22c55e, #16a34a)",
-                  color: "#0f172a",
-                  fontWeight: 600,
-                  fontSize: "0.92rem",
-                  textDecoration: "none",
-                  boxShadow: "0 18px 50px rgba(34,197,94,0.35)",
-                }}
-              >
-                {t.ctaFacebook}
-              </a>
-
-              {/* Avisarme cuando esté listo para comprar */}
-              <button
-                type="button"
-                style={{
-                  padding: "0.85rem 1.6rem",
-                  borderRadius: "999px",
-                  border: "1px solid rgba(148,163,184,0.55)",
-                  backgroundColor: "transparent",
-                  color: "#e5e7eb",
-                  fontSize: "0.9rem",
-                  cursor: "default",
-                }}
-              >
-                {t.ctaNotify}
-              </button>
-
+            
               {/* NUEVO: Quiero vender café */}
               <button
                 type="button"
