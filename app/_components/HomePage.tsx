@@ -159,8 +159,9 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               {t.heroBodyAfter}
             </p>
 
-            {/* Botones */}
+                       {/* Botones */}
             <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+              {/* Seguir proyecto en Facebook */}
               <a
                 href="https://www.facebook.com/profile.php?id=100090938266173"
                 target="_blank"
@@ -179,6 +180,8 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               >
                 {t.ctaFacebook}
               </a>
+
+              {/* Avisarme cuando esté listo para comprar */}
               <button
                 type="button"
                 style={{
@@ -193,8 +196,40 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               >
                 {t.ctaNotify}
               </button>
+
+              {/* NUEVO: Quiero vender café */}
+              <button
+                type="button"
+                style={{
+                  padding: "0.85rem 1.6rem",
+                  borderRadius: "999px",
+                  border: "1px solid rgba(148,163,184,0.55)",
+                  backgroundColor: "transparent",
+                  color: "#e5e7eb",
+                  fontSize: "0.9rem",
+                  cursor: "pointer",
+                }}
+              >
+                {t.interestOptionSell}
+              </button>
+
+              {/* NUEVO: Quiero comprar café */}
+              <button
+                type="button"
+                style={{
+                  padding: "0.85rem 1.6rem",
+                  borderRadius: "999px",
+                  border: "1px solid rgba(148,163,184,0.55)",
+                  backgroundColor: "transparent",
+                  color: "#e5e7eb",
+                  fontSize: "0.9rem",
+                  cursor: "pointer",
+                }}
+              >
+                {t.interestOptionBuy}
+              </button>
             </div>
-          </div>
+
 
           {/* Card: historia del logo */}
           <article
