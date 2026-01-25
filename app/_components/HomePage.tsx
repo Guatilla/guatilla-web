@@ -769,102 +769,100 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
         </section>
 
             {/* ---------------------------------------------------------------- */}
-{/* CONTACTO Y DATOS DE RUIZ GOMEZ IMPORT                             */}
-{/* ---------------------------------------------------------------- */}
-<footer
-  style={{
-    borderTop: "1px solid rgba(30,64,175,0.65)",
-    paddingTop: "1.7rem",
-    paddingBottom: "1rem",
-    fontSize: "0.86rem",
-    color: "#e5e7eb",
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "1.5rem",
-    justifyContent: "space-between",
-    alignItems: "center",
-  }}
->
-  {/* Datos de contacto: NO TOCAMOS NADA */}
-  <div>
-    <div style={{ fontWeight: 600, marginBottom: "0.25rem" }}>
-      {t.footerCompany}
-    </div>
-    <div>{t.footerEmailLabel}: norgesdirektor@guatilla.no</div>
-    <div>{t.footerPhoneLabel}: +47 936 94 817</div>
-  </div>
+        {/* CONTACTO Y DATOS DE RUIZ GOMEZ IMPORT                             */}
+        {/* ---------------------------------------------------------------- */}
+        <footer
+          style={{
+            borderTop: "1px solid rgba(30,64,175,0.65)",
+            paddingTop: "1.7rem",
+            paddingBottom: "1rem",
+            fontSize: "0.86rem",
+            color: "#e5e7eb",
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "1.5rem",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          {/* Datos de contacto */}
+          <div>
+            <div style={{ fontWeight: 600, marginBottom: "0.25rem" }}>
+              {t.footerCompany}
+            </div>
+            <div>{t.footerEmailLabel}: norgesdirektor@guatilla.no</div>
+            <div>{t.footerPhoneLabel}: +47 936 94 817</div>
+          </div>
 
-  {/* Solo iconos de redes (sin texto de “página piloto” ni “ver avances…”) */}
-  <div
-    style={{
-      display: "flex",
-      gap: "0.75rem",
-      alignItems: "center",
-    }}
-  >
+          {/* Iconos de redes */}
+          <div
+            style={{
+              display: "flex",
+              gap: "0.75rem",
+              alignItems: "center",
+            }}
+          >
+            {/* 1. Finn.no */}
+            <a
+              href="https://www.finn.no/profile/ads?userid=1063000714"
+              target="_blank"
+              rel="noreferrer"
+              style={{ display: "inline-flex" }}
+            >
+              <Image
+                src="/icons/finn.jpeg"
+                alt="Guatilla en Finn.no"
+                width={32}
+                height={32}
+              />
+            </a>
 
-    </a>
+            {/* 2. Facebook */}
+            <a
+              href="https://www.facebook.com/profile.php?id=100090938266173"
+              target="_blank"
+              rel="noreferrer"
+              style={{ display: "inline-flex" }}
+            >
+              <Image
+                src="/icons/facebook.jpeg"
+                alt="Facebook Guatilla"
+                width={32}
+                height={32}
+              />
+            </a>
 
-    {/* 1. Finn.no */}
-    <a
-      href="https://www.finn.no/profile/ads?userid=1063000714"
-      target="_blank"
-      rel="noreferrer"
-      style={{ display: "inline-flex" }}
-    >
-      <Image
-        src="/icons/finn.jpeg"
-        alt="Guatilla en Finn.no"
-        width={32}
-        height={32}
-            />
-    {/* 2. Facebook (antes estaba guatilla.no) */}
-    <a
-      href="https://www.facebook.com/profile.php?id=100090938266173"
-      target="_blank"
-      rel="noreferrer"
-      style={{ display: "inline-flex" }}
-    >
-      <Image
-        src="/icons/facebook.jpeg"
-        alt="Facebook Guatilla"
-        width={32}
-        height={32}
-      />
-    </a>
+            {/* 3. Instagram */}
+            <a
+              href="https://www.instagram.com/kaffeguatilla/"
+              target="_blank"
+              rel="noreferrer"
+              style={{ display: "inline-flex" }}
+            >
+              <Image
+                src="/icons/instagram.jpeg"
+                alt="Instagram Guatilla"
+                width={32}
+                height={32}
+              />
+            </a>
 
-    {/* 3. Instagram */}
-    <a
-      href="https://www.instagram.com/kaffeguatilla/"
-      target="_blank"
-      rel="noreferrer"
-      style={{ display: "inline-flex" }}
-    >
-      <Image
-        src="/icons/instagram.jpeg"
-        alt="Instagram Guatilla"
-        width={32}
-        height={32}
-      />
-    </a>
-
-    {/* 4. LinkedIn */}
-    <a
-      href="https://www.linkedin.com/in/kaffe-guatilla-a18208234"
-      target="_blank"
-      rel="noreferrer"
-      style={{ display: "inline-flex" }}
-    >
-      <Image
-        src="/icons/linkedin.jpeg"
-        alt="LinkedIn Guatilla"
-        width={32}
-        height={32}
-      />
-    
-          </a>
-        </div>
-      </footer>
+            {/* 4. LinkedIn */}
+            <a
+              href="https://www.linkedin.com/in/kaffe-guatilla-a18208234"
+              target="_blank"
+              rel="noreferrer"
+              style={{ display: "inline-flex" }}
+            >
+              <Image
+                src="/icons/linkedin.jpeg"
+                alt="LinkedIn Guatilla"
+                width={32}
+                height={32}
+              />
+            </a>
+          </div>
+        </footer>
       </div>
     </main>
   );
