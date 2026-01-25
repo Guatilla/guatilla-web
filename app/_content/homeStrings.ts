@@ -60,14 +60,14 @@ export type HomeStrings = {
 
 export const homeStrings: Record<HomeLocale, HomeStrings> = {
   es: {
-    brandLine: "Café especial del Perijá · Ruiz Gomez Import",
+    brandLine: "Café especial de Colombia · Ruiz Gomez Import",
     locationLine: "Stavanger · Noruega",
     taglineLine: "Importación directa desde la Serranía del Perijá",
     switchToLabel: "Norsk",
     switchToHref: "/",
 
     heroTitle: "Café de montaña, historias reales.",
-    heroBodyBefore: "Estamos construyendo una plataforma para conectar ",
+    heroBodyBefore: "Estamos Conectando ",
     heroBodyStrong1: "fincas de la Serranía del Perijá",
     heroBodyMiddle: " con compradores conscientes en Noruega. El primer lote se importará con ",
     heroBodyStrong2: "Ruiz Gomez Import",
