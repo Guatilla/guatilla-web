@@ -1,12 +1,15 @@
 "use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, type CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import { getHomeStrings, type HomeLocale } from "../_content/homeStrings";
 
 const pageStyle: CSSProperties = {
   minHeight: "100vh",
-  fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+  fontFamily:
+    "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
   color: "#f9fafb",
   backgroundColor: "#0b1120",
 };
@@ -17,12 +20,16 @@ const maxWidthStyle: CSSProperties = {
   padding: "1.5rem",
 };
 
+type InterestType = "sell" | "buy" | null;
+
 export function HomePage({ locale }: { locale: HomeLocale }) {
   const t = getHomeStrings(locale);
-const [selectedInterest, setSelectedInterest] = useState<"sell" | "buy" | null>(null);
+  const [selectedInterest, setSelectedInterest] = useState<InterestType>(null);
+
+  const isNorwegian = locale === "no";
 
   return (
-    <main style={pageStyle} lang={locale === "no" ? "no" : "es"}>
+    <main style={pageStyle} lang={isNorwegian ? "no" : "es"}>
       <div style={maxWidthStyle}>
         {/* ---------------------------------------------------------------- */}
         {/* CABECERA CON LOGO + NOMBRE                                        */}
@@ -57,7 +64,6 @@ const [selectedInterest, setSelectedInterest] = useState<"sell" | "buy" | null>(
                 position: "relative",
               }}
             >
-              {/* LOGO DISEÑO */}
               <Image
                 src="/images/logo.jpg"
                 alt="Logo Kaffe Guatilla"
@@ -161,7 +167,7 @@ const [selectedInterest, setSelectedInterest] = useState<"sell" | "buy" | null>(
               {t.heroBodyAfter}
             </p>
 
-                       {/* Botones */}
+            {/* Botones */}
             <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
               {/* Seguir proyecto en Facebook */}
               <a
@@ -206,9 +212,12 @@ const [selectedInterest, setSelectedInterest] = useState<"sell" | "buy" | null>(
                 style={{
                   padding: "0.85rem 1.6rem",
                   borderRadius: "999px",
-                  border: "1px solid rgba(148,163,184,0.55)",
-                  backgroundColor: "transparent",
-                  color: "#e5e7eb",
+                  border: "1px solid rgba(34,197,94,0.7)",
+                  backgroundColor:
+                    selectedInterest === "sell"
+                      ? "rgba(34,197,94,0.15)"
+                      : "transparent",
+                  color: "#bbf7d0",
                   fontSize: "0.9rem",
                   cursor: "pointer",
                 }}
@@ -223,9 +232,12 @@ const [selectedInterest, setSelectedInterest] = useState<"sell" | "buy" | null>(
                 style={{
                   padding: "0.85rem 1.6rem",
                   borderRadius: "999px",
-                  border: "1px solid rgba(148,163,184,0.55)",
-                  backgroundColor: "transparent",
-                  color: "#e5e7eb",
+                  border: "1px solid rgba(56,189,248,0.7)",
+                  backgroundColor:
+                    selectedInterest === "buy"
+                      ? "rgba(56,189,248,0.15)"
+                      : "transparent",
+                  color: "#bae6fd",
                   fontSize: "0.9rem",
                   cursor: "pointer",
                 }}
@@ -233,7 +245,7 @@ const [selectedInterest, setSelectedInterest] = useState<"sell" | "buy" | null>(
                 {t.interestOptionBuy}
               </button>
             </div>
-
+          </div>
 
           {/* Card: historia del logo */}
           <article
@@ -288,163 +300,129 @@ const [selectedInterest, setSelectedInterest] = useState<"sell" | "buy" | null>(
             </div>
           </article>
         </section>
+
         {/* ---------------------------------------------------------------- */}
-        {/* FORMULARIO DE INTERÉS (VENDER / COMPRAR)                         */}
+        {/* FORMULARIO DE INTERÉS (VENDER / COMPRAR)                          */}
         {/* ---------------------------------------------------------------- */}
         {selectedInterest && (
           <section
             style={{
-              borderRadius: "1.5rem",
+              marginBottom: "2.5rem",
+              borderRadius: "1.6rem",
               padding: "1.6rem 1.8rem",
-              marginBottom: "2.75rem",
               background:
-                "radial-gradient(circle at 0% 0%, rgba(34,197,94,0.18), rgba(15,23,42,0.98))",
-              border: "1px solid rgba(52,211,153,0.45)",
-              boxShadow: "0 18px 60px rgba(6,95,70,0.85)",
+                "radial-gradient(circle at 0% 0%, rgba(45,212,191,0.15), rgba(15,23,42,0.95))",
+              border: "1px solid rgba(45,212,191,0.4)",
+              boxShadow: "0 18px 55px rgba(15,23,42,0.9)",
             }}
           >
-            <h2
-              style={{
-                fontSize: "1.25rem",
-                marginBottom: "0.6rem",
-              }}
-            >
+            <h2 style={{ fontSize: "1.2rem", marginBottom: "0.4rem" }}>
               {selectedInterest === "sell"
-                ? locale === "es"
-                  ? "Quiero vender café"
-                  : "Jeg vil selge kaffe"
-                : locale === "es"
-                  ? "Quiero comprar café"
-                  : "Jeg vil kjøpe kaffe"}
+                ? isNorwegian
+                  ? "Jeg vil selge kaffe"
+                  : "Quiero vender café"
+                : isNorwegian
+                ? "Jeg vil kjøpe kaffe"
+                : "Quiero comprar café"}
             </h2>
-
             <p
               style={{
                 fontSize: "0.9rem",
                 lineHeight: 1.6,
                 color: "#e5e7eb",
-                marginBottom: "1.2rem",
+                marginBottom: "1rem",
                 maxWidth: "40rem",
               }}
             >
-              {selectedInterest === "sell"
-                ? locale === "es"
-                  ? "Déjanos algunos datos básicos sobre tu finca o cooperativa. Usaremos esta información solo para contactarte y entender mejor tu café."
-                  : "Fortell oss litt om gården eller kooperativet ditt. Vi bruker informasjonen kun for å kontakte deg og forstå kaffen bedre."
-                : locale === "es"
-                  ? "Déjanos algunos datos sobre tu tostaduría o negocio para saber qué tipo de café estás buscando."
-                  : "Fortell oss litt om brenneriet eller bedriften din slik at vi vet hva slags kaffe du ser etter."}
+              {isNorwegian
+                ? "Legg igjen kontaktinformasjon, så tar vi kontakt når vi har mer detaljer om volum, kvalitet og neste import."
+                : "Déjanos tus datos de contacto y te escribimos cuando tengamos más detalles sobre volúmenes, calidad y próxima importación."}
             </p>
 
             <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                alert(
-                  locale === "es"
-                    ? "Takk! Datos registrados lokalt. Más adelante conectamos este formulario a un sistema de almacenamiento."
-                    : "Takk! Informasjonen er registrert lokalt. Senere kobler vi skjemaet til et lagringssystem."
-                );
-              }}
               style={{
                 display: "grid",
                 gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)",
                 gap: "1rem",
               }}
             >
-              {/* Nombre */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
-                <label style={{ fontSize: "0.85rem", color: "#e5e7eb" }}>
-                  {locale === "es" ? "Nombre completo" : "Fullt navn"}
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                <label style={{ fontSize: "0.8rem", opacity: 0.9 }}>
+                  {isNorwegian ? "Navn" : "Nombre"}
                 </label>
                 <input
                   type="text"
+                  name="name"
                   required
                   style={{
-                    borderRadius: "999px",
-                    padding: "0.6rem 0.9rem",
-                    border: "1px solid rgba(148,163,184,0.7)",
+                    borderRadius: "0.75rem",
+                    border: "1px solid rgba(148,163,184,0.6)",
                     backgroundColor: "rgba(15,23,42,0.9)",
+                    padding: "0.55rem 0.75rem",
                     color: "#f9fafb",
                     fontSize: "0.9rem",
                   }}
                 />
               </div>
 
-              {/* Email */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
-                <label style={{ fontSize: "0.85rem", color: "#e5e7eb" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                <label style={{ fontSize: "0.8rem", opacity: 0.9 }}>
                   E-mail
                 </label>
                 <input
                   type="email"
+                  name="email"
                   required
                   style={{
-                    borderRadius: "999px",
-                    padding: "0.6rem 0.9rem",
-                    border: "1px solid rgba(148,163,184,0.7)",
+                    borderRadius: "0.75rem",
+                    border: "1px solid rgba(148,163,184,0.6)",
                     backgroundColor: "rgba(15,23,42,0.9)",
+                    padding: "0.55rem 0.75rem",
                     color: "#f9fafb",
                     fontSize: "0.9rem",
                   }}
                 />
               </div>
 
-              {/* País / región */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
-                <label style={{ fontSize: "0.85rem", color: "#e5e7eb" }}>
-                  {locale === "es" ? "País / región" : "Land / region"}
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                <label style={{ fontSize: "0.8rem", opacity: 0.9 }}>
+                  {isNorwegian ? "Land / by" : "País / ciudad"}
                 </label>
                 <input
                   type="text"
+                  name="location"
                   style={{
-                    borderRadius: "999px",
-                    padding: "0.6rem 0.9rem",
-                    border: "1px solid rgba(148,163,184,0.7)",
+                    borderRadius: "0.75rem",
+                    border: "1px solid rgba(148,163,184,0.6)",
                     backgroundColor: "rgba(15,23,42,0.9)",
+                    padding: "0.55rem 0.75rem",
                     color: "#f9fafb",
                     fontSize: "0.9rem",
                   }}
                 />
               </div>
 
-              {/* Volumen o interés */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
-                <label style={{ fontSize: "0.85rem", color: "#e5e7eb" }}>
-                  {selectedInterest === "sell"
-                    ? locale === "es"
-                      ? "Producción aproximada (kg/año)"
-                      : "Omtrentlig produksjon (kg/år)"
-                    : locale === "es"
-                      ? "Volumen o consumo mensual aproximado"
-                      : "Omtrentlig volum / måned"}
-                </label>
-                <input
-                  type="text"
-                  style={{
-                    borderRadius: "999px",
-                    padding: "0.6rem 0.9rem",
-                    border: "1px solid rgba(148,163,184,0.7)",
-                    backgroundColor: "rgba(15,23,42,0.9)",
-                    color: "#f9fafb",
-                    fontSize: "0.9rem",
-                  }}
-                />
-              </div>
-
-              {/* Mensaje libre */}
-              <div style={{ gridColumn: "span 2", display: "flex", flexDirection: "column", gap: "0.25rem" }}>
-                <label style={{ fontSize: "0.85rem", color: "#e5e7eb" }}>
-                  {locale === "es"
-                    ? "Cuéntanos algo más sobre tu café o lo que buscas"
-                    : "Fortell oss litt mer om kaffen din eller hva du ser etter"}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 4,
+                  gridColumn: "span 2",
+                }}
+              >
+                <label style={{ fontSize: "0.8rem", opacity: 0.9 }}>
+                  {isNorwegian
+                    ? "Kommentar (volum, type kaffe, osv.)"
+                    : "Comentario (volumen, tipo de café, etc.)"}
                 </label>
                 <textarea
-                  rows={4}
+                  name="message"
+                  rows={3}
                   style={{
-                    borderRadius: "1rem",
-                    padding: "0.8rem 0.9rem",
-                    border: "1px solid rgba(148,163,184,0.7)",
+                    borderRadius: "0.75rem",
+                    border: "1px solid rgba(148,163,184,0.6)",
                     backgroundColor: "rgba(15,23,42,0.9)",
+                    padding: "0.55rem 0.75rem",
                     color: "#f9fafb",
                     fontSize: "0.9rem",
                     resize: "vertical",
@@ -452,38 +430,29 @@ const [selectedInterest, setSelectedInterest] = useState<"sell" | "buy" | null>(
                 />
               </div>
 
-              {/* Botones del formulario */}
-              <div style={{ gridColumn: "span 2", display: "flex", gap: "0.8rem" }}>
+              {/* Campo oculto con el tipo de interés */}
+              <input
+                type="hidden"
+                name="interestType"
+                value={selectedInterest}
+              />
+
+              <div style={{ gridColumn: "span 2", marginTop: "0.5rem" }}>
                 <button
                   type="submit"
                   style={{
-                    padding: "0.7rem 1.5rem",
+                    padding: "0.7rem 1.8rem",
                     borderRadius: "999px",
                     border: "none",
                     background:
-                      "radial-gradient(circle at 0% 0%, #22c55e, #16a34a)",
+                      "linear-gradient(90deg, #22c55e, #22d3ee, #38bdf8)",
                     color: "#0f172a",
                     fontWeight: 600,
                     fontSize: "0.9rem",
                     cursor: "pointer",
                   }}
                 >
-                  {locale === "es" ? "Enviar información" : "Send informasjon"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSelectedInterest(null)}
-                  style={{
-                    padding: "0.7rem 1.4rem",
-                    borderRadius: "999px",
-                    border: "1px solid rgba(148,163,184,0.7)",
-                    backgroundColor: "transparent",
-                    color: "#e5e7eb",
-                    fontSize: "0.9rem",
-                    cursor: "pointer",
-                  }}
-                >
-                  {locale === "es" ? "Cerrar formulario" : "Lukk skjema"}
+                  {isNorwegian ? "Send interesse" : "Enviar interés"}
                 </button>
               </div>
             </form>
@@ -854,12 +823,8 @@ const [selectedInterest, setSelectedInterest] = useState<"sell" | "buy" | null>(
             <div style={{ fontWeight: 600, marginBottom: "0.25rem" }}>
               {t.footerCompany}
             </div>
-            <div>
-              {t.footerEmailLabel}: norgesdirektor@guatilla.no
-            </div>
-            <div>
-              {t.footerPhoneLabel}: +47 936 94 817
-            </div>
+            <div>{t.footerEmailLabel}: norgesdirektor@guatilla.no</div>
+            <div>{t.footerPhoneLabel}: +47 936 94 817</div>
           </div>
 
           <div style={{ textAlign: "right" }}>
