@@ -1,6 +1,7 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
-import type { CSSProperties } from "react";
+import { useState, type CSSProperties } from "react";
 import { getHomeStrings, type HomeLocale } from "../_content/homeStrings";
 
 const pageStyle: CSSProperties = {
@@ -18,6 +19,7 @@ const maxWidthStyle: CSSProperties = {
 
 export function HomePage({ locale }: { locale: HomeLocale }) {
   const t = getHomeStrings(locale);
+const [selectedInterest, setSelectedInterest] = useState<"sell" | "buy" | null>(null);
 
   return (
     <main style={pageStyle} lang={locale === "no" ? "no" : "es"}>
@@ -200,6 +202,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               {/* NUEVO: Quiero vender café */}
               <button
                 type="button"
+                onClick={() => setSelectedInterest("sell")}
                 style={{
                   padding: "0.85rem 1.6rem",
                   borderRadius: "999px",
@@ -216,6 +219,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               {/* NUEVO: Quiero comprar café */}
               <button
                 type="button"
+                onClick={() => setSelectedInterest("buy")}
                 style={{
                   padding: "0.85rem 1.6rem",
                   borderRadius: "999px",
@@ -284,6 +288,207 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
             </div>
           </article>
         </section>
+        {/* ---------------------------------------------------------------- */}
+        {/* FORMULARIO DE INTERÉS (VENDER / COMPRAR)                         */}
+        {/* ---------------------------------------------------------------- */}
+        {selectedInterest && (
+          <section
+            style={{
+              borderRadius: "1.5rem",
+              padding: "1.6rem 1.8rem",
+              marginBottom: "2.75rem",
+              background:
+                "radial-gradient(circle at 0% 0%, rgba(34,197,94,0.18), rgba(15,23,42,0.98))",
+              border: "1px solid rgba(52,211,153,0.45)",
+              boxShadow: "0 18px 60px rgba(6,95,70,0.85)",
+            }}
+          >
+            <h2
+              style={{
+                fontSize: "1.25rem",
+                marginBottom: "0.6rem",
+              }}
+            >
+              {selectedInterest === "sell"
+                ? locale === "es"
+                  ? "Quiero vender café"
+                  : "Jeg vil selge kaffe"
+                : locale === "es"
+                  ? "Quiero comprar café"
+                  : "Jeg vil kjøpe kaffe"}
+            </h2>
+
+            <p
+              style={{
+                fontSize: "0.9rem",
+                lineHeight: 1.6,
+                color: "#e5e7eb",
+                marginBottom: "1.2rem",
+                maxWidth: "40rem",
+              }}
+            >
+              {selectedInterest === "sell"
+                ? locale === "es"
+                  ? "Déjanos algunos datos básicos sobre tu finca o cooperativa. Usaremos esta información solo para contactarte y entender mejor tu café."
+                  : "Fortell oss litt om gården eller kooperativet ditt. Vi bruker informasjonen kun for å kontakte deg og forstå kaffen bedre."
+                : locale === "es"
+                  ? "Déjanos algunos datos sobre tu tostaduría o negocio para saber qué tipo de café estás buscando."
+                  : "Fortell oss litt om brenneriet eller bedriften din slik at vi vet hva slags kaffe du ser etter."}
+            </p>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                alert(
+                  locale === "es"
+                    ? "Takk! Datos registrados lokalt. Más adelante conectamos este formulario a un sistema de almacenamiento."
+                    : "Takk! Informasjonen er registrert lokalt. Senere kobler vi skjemaet til et lagringssystem."
+                );
+              }}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)",
+                gap: "1rem",
+              }}
+            >
+              {/* Nombre */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                <label style={{ fontSize: "0.85rem", color: "#e5e7eb" }}>
+                  {locale === "es" ? "Nombre completo" : "Fullt navn"}
+                </label>
+                <input
+                  type="text"
+                  required
+                  style={{
+                    borderRadius: "999px",
+                    padding: "0.6rem 0.9rem",
+                    border: "1px solid rgba(148,163,184,0.7)",
+                    backgroundColor: "rgba(15,23,42,0.9)",
+                    color: "#f9fafb",
+                    fontSize: "0.9rem",
+                  }}
+                />
+              </div>
+
+              {/* Email */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                <label style={{ fontSize: "0.85rem", color: "#e5e7eb" }}>
+                  E-mail
+                </label>
+                <input
+                  type="email"
+                  required
+                  style={{
+                    borderRadius: "999px",
+                    padding: "0.6rem 0.9rem",
+                    border: "1px solid rgba(148,163,184,0.7)",
+                    backgroundColor: "rgba(15,23,42,0.9)",
+                    color: "#f9fafb",
+                    fontSize: "0.9rem",
+                  }}
+                />
+              </div>
+
+              {/* País / región */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                <label style={{ fontSize: "0.85rem", color: "#e5e7eb" }}>
+                  {locale === "es" ? "País / región" : "Land / region"}
+                </label>
+                <input
+                  type="text"
+                  style={{
+                    borderRadius: "999px",
+                    padding: "0.6rem 0.9rem",
+                    border: "1px solid rgba(148,163,184,0.7)",
+                    backgroundColor: "rgba(15,23,42,0.9)",
+                    color: "#f9fafb",
+                    fontSize: "0.9rem",
+                  }}
+                />
+              </div>
+
+              {/* Volumen o interés */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                <label style={{ fontSize: "0.85rem", color: "#e5e7eb" }}>
+                  {selectedInterest === "sell"
+                    ? locale === "es"
+                      ? "Producción aproximada (kg/año)"
+                      : "Omtrentlig produksjon (kg/år)"
+                    : locale === "es"
+                      ? "Volumen o consumo mensual aproximado"
+                      : "Omtrentlig volum / måned"}
+                </label>
+                <input
+                  type="text"
+                  style={{
+                    borderRadius: "999px",
+                    padding: "0.6rem 0.9rem",
+                    border: "1px solid rgba(148,163,184,0.7)",
+                    backgroundColor: "rgba(15,23,42,0.9)",
+                    color: "#f9fafb",
+                    fontSize: "0.9rem",
+                  }}
+                />
+              </div>
+
+              {/* Mensaje libre */}
+              <div style={{ gridColumn: "span 2", display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                <label style={{ fontSize: "0.85rem", color: "#e5e7eb" }}>
+                  {locale === "es"
+                    ? "Cuéntanos algo más sobre tu café o lo que buscas"
+                    : "Fortell oss litt mer om kaffen din eller hva du ser etter"}
+                </label>
+                <textarea
+                  rows={4}
+                  style={{
+                    borderRadius: "1rem",
+                    padding: "0.8rem 0.9rem",
+                    border: "1px solid rgba(148,163,184,0.7)",
+                    backgroundColor: "rgba(15,23,42,0.9)",
+                    color: "#f9fafb",
+                    fontSize: "0.9rem",
+                    resize: "vertical",
+                  }}
+                />
+              </div>
+
+              {/* Botones del formulario */}
+              <div style={{ gridColumn: "span 2", display: "flex", gap: "0.8rem" }}>
+                <button
+                  type="submit"
+                  style={{
+                    padding: "0.7rem 1.5rem",
+                    borderRadius: "999px",
+                    border: "none",
+                    background:
+                      "radial-gradient(circle at 0% 0%, #22c55e, #16a34a)",
+                    color: "#0f172a",
+                    fontWeight: 600,
+                    fontSize: "0.9rem",
+                    cursor: "pointer",
+                  }}
+                >
+                  {locale === "es" ? "Enviar información" : "Send informasjon"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedInterest(null)}
+                  style={{
+                    padding: "0.7rem 1.4rem",
+                    borderRadius: "999px",
+                    border: "1px solid rgba(148,163,184,0.7)",
+                    backgroundColor: "transparent",
+                    color: "#e5e7eb",
+                    fontSize: "0.9rem",
+                    cursor: "pointer",
+                  }}
+                >
+                  {locale === "es" ? "Cerrar formulario" : "Lukk skjema"}
+                </button>
+              </div>
+            </form>
+          </section>
+        )}
 
         {/* ---------------------------------------------------------------- */}
         {/* SERRANÍA DEL PERIJÁ - ORIGEN DEL CAFÉ                             */}
