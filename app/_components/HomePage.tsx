@@ -810,7 +810,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
       style={{ display: "inline-flex" }}
     >
       <Image
-        src="/icons/guatilla-facebook.png"
+        src="/icons/facebook.jpeg"
         alt="Facebook Guatilla"
         width={32}
         height={32}
@@ -825,7 +825,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
       style={{ display: "inline-flex" }}
     >
       <Image
-        src="/icons/guatilla-instagram.png"
+        src="/icons/instagram.jpeg"
         alt="Instagram Guatilla"
         width={32}
         height={32}
@@ -840,7 +840,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
       style={{ display: "inline-flex" }}
     >
       <Image
-        src="/icons/guatilla-linkedin.png"
+        src="/icons/linkedin.jpeg"
         alt="LinkedIn Guatilla"
         width={32}
         height={32}
@@ -855,7 +855,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
       style={{ display: "inline-flex" }}
     >
       <Image
-        src="/icons/guatilla-finn.png"
+        src="/icons/finn.jpeg"
         alt="Guatilla en Finn.no"
         width={32}
         height={32}
