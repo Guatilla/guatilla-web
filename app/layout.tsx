@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kaffe Guatilla",
-  description: "Café especial del Perijá · importación directa a Stavanger",
+  title: "Guatilla",
+  description: "Café especial de Colombia · importación directa a Noruega",
 };
 
 export default function RootLayout({
