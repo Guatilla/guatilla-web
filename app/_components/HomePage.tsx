@@ -802,7 +802,23 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
       alignItems: "center",
     }}
   >
-    {/* 1. Facebook (antes estaba guatilla.no) */}
+
+    </a>
+
+    {/* 1. Finn.no */}
+    <a
+      href="https://www.finn.no/profile/ads?userid=1063000714"
+      target="_blank"
+      rel="noreferrer"
+      style={{ display: "inline-flex" }}
+    >
+      <Image
+        src="/icons/finn.jpeg"
+        alt="Guatilla en Finn.no"
+        width={32}
+        height={32}
+            />
+    {/* 2. Facebook (antes estaba guatilla.no) */}
     <a
       href="https://www.facebook.com/profile.php?id=100090938266173"
       target="_blank"
@@ -817,7 +833,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
       />
     </a>
 
-    {/* 2. Instagram */}
+    {/* 3. Instagram */}
     <a
       href="https://www.instagram.com/kaffeguatilla/"
       target="_blank"
@@ -832,7 +848,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
       />
     </a>
 
-    {/* 3. LinkedIn */}
+    {/* 4. LinkedIn */}
     <a
       href="https://www.linkedin.com/in/kaffe-guatilla-a18208234"
       target="_blank"
@@ -845,21 +861,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
         width={32}
         height={32}
       />
-    </a>
-
-    {/* 4. Finn.no */}
-    <a
-      href="https://www.finn.no/profile/ads?userid=1063000714"
-      target="_blank"
-      rel="noreferrer"
-      style={{ display: "inline-flex" }}
-    >
-      <Image
-        src="/icons/finn.jpeg"
-        alt="Guatilla en Finn.no"
-        width={32}
-        height={32}
-            />
+    
           </a>
         </div>
       </footer>
