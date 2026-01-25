@@ -769,7 +769,8 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
         </section>
 
                {/* ---------------------------------------------------------------- */}
-        {/* CONTACTO Y DATOS DE RUIZ GOMEZ IMPORT + REDES SOCIALES           */}
+              {/* ---------------------------------------------------------------- */}
+        {/* CONTACTO Y DATOS DE RUIZ GOMEZ IMPORT                             */}
         {/* ---------------------------------------------------------------- */}
         <footer
           style={{
@@ -782,9 +783,10 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
             flexWrap: "wrap",
             gap: "1.5rem",
             justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          {/* Datos de contacto */}
+          {/* Columna: datos de contacto */}
           <div>
             <div style={{ fontWeight: 600, marginBottom: "0.25rem" }}>
               {t.footerCompany}
@@ -793,7 +795,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
             <div>{t.footerPhoneLabel}: +47 936 94 817</div>
           </div>
 
-          {/* Derechos + enlaces sociales */}
+          {/* Columna: texto legal / enlace Facebook */}
           <div style={{ textAlign: "right" }}>
             <div style={{ marginBottom: "0.25rem" }}>{t.footerRightLine}</div>
             <a
@@ -807,109 +809,59 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
             >
               {t.footerFacebookLink}
             </a>
+          </div>
 
-            {/* Redes sociales */}
-            <div
-              style={{
-                marginTop: "0.75rem",
-                display: "flex",
-                justifyContent: "flex-end",
-                gap: "0.5rem",
-              }}
+          {/* Columna: iconos de redes sociales */}
+          <div
+            style={{
+              display: "flex",
+              gap: "0.75rem",
+              alignItems: "center",
+            }}
+          >
+            <a
+              href="https://www.instagram.com/tu_cuenta_aqui" // cambia a la URL real
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Instagram"
             >
-              {/* Web principal */}
-              <a
-                href="https://guatilla.no"
-                aria-label="Sitio web guatilla.no"
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "999px",
-                  border: "1px solid rgba(148,163,184,0.6)",
-                  backgroundColor: "rgba(15,23,42,0.9)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "0.7rem",
-                  textDecoration: "none",
-                  color: "#e5e7eb",
-                }}
-              >
-                G
-              </a>
-
-              {/* Instagram – ajusta la URL si es distinta */}
-              <a
-                href="https://www.instagram.com/tu-cuenta-guatilla"
-                aria-label="Instagram Kaffe Guatilla"
-                target="_blank"
-                rel="noreferrer"
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "999px",
-                  border: "1px solid rgba(248,113,113,0.7)",
-                  background:
-                    "radial-gradient(circle at 30% 30%, #f97316, #ec4899)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "0.7rem",
-                  fontWeight: 600,
-                  textDecoration: "none",
-                  color: "#0f172a",
-                }}
-              >
-                IG
-              </a>
-
-              {/* LinkedIn */}
-              <a
-                href="https://www.linkedin.com/in/kaffe-guatilla-a18208234"
-                aria-label="LinkedIn Kaffe Guatilla"
-                target="_blank"
-                rel="noreferrer"
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "999px",
-                  border: "1px solid rgba(56,189,248,0.8)",
-                  backgroundColor: "#0ea5e9",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "0.75rem",
-                  fontWeight: 700,
-                  textDecoration: "none",
-                  color: "#0f172a",
-                }}
-              >
-                in
-              </a>
-
-              {/* Finn.no */}
-              <a
-                href="https://www.finn.no/profile/ads?userId=1063000714"
-                aria-label="Perfil de anuncios en Finn.no"
-                target="_blank"
-                rel="noreferrer"
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "999px",
-                  border: "1px solid rgba(59,130,246,0.8)",
-                  backgroundColor: "#1d4ed8",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "0.7rem",
-                  fontWeight: 600,
-                  textDecoration: "none",
-                  color: "#e5e7eb",
-                }}
-              >
-                fi
-              </a>
-            </div>
+              <Image
+                src="/images/instagram-icon.png"
+                alt="Instagram Guatilla"
+                width={28}
+                height={28}
+              />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/kaffe-guatilla-a18208234"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn"
+            >
+              <Image
+                src="/images/linkedin-icon.png"
+                alt="LinkedIn Guatilla"
+                width={28}
+                height={28}
+              />
+            </a>
+            <a
+              href="https://www.finn.no/profile/ads?userid=1063000714"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Finn.no"
+            >
+              <Image
+                src="/images/finn-icon.png"
+                alt="Finn.no Guatilla"
+                width={28}
+                height={28}
+              />
+            </a>
           </div>
         </footer>
+      </div>
+    </main>
+  );
+}
+
