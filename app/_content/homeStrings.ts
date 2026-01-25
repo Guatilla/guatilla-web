@@ -15,7 +15,11 @@ export type HomeStrings = {
   heroBodyAfter: string;
   ctaFacebook: string;
   ctaNotify: string;
-
+  
+// NUEVO: opciones del formulario de interés
+  interestOptionSell: string;
+  interestOptionBuy: string;
+  
   cardTitle: string;
   cardBody: string;
   cardImageAlt: string;
@@ -72,6 +76,10 @@ export const homeStrings: Record<HomeLocale, HomeStrings> = {
     ctaFacebook: "Seguir el proyecto en Facebook",
     ctaNotify: "Quiero saber cuándo esté listo para comprar",
 
+// NUEVO
+    interestOptionSell: "Quiero vender café",
+    interestOptionBuy: "Quiero comprar café",
+    
     cardTitle: "De turismo a café de origen",
     cardBody:
       "El símbolo de Guatilla nace en un mirador de montaña en la Serranía del Perijá. Hoy se transforma en una puerta para acercar el paisaje, las comunidades y el café de altura directamente a Stavanger.",
@@ -134,6 +142,10 @@ export const homeStrings: Record<HomeLocale, HomeStrings> = {
     ctaFacebook: "Følg prosjektet på Facebook",
     ctaNotify: "Jeg vil vite når det er klart for kjøp",
 
+// NUEVO
+    interestOptionSell: "Jeg vil selge kaffe",
+    interestOptionBuy: "Jeg vil kjøpe kaffe",
+    
     cardTitle: "Fra reise til opprinnelseskaffe",
     cardBody:
       "Symbolet til Guatilla ble født på et fjellutsiktspunkt i Serranía del Perijá. I dag blir det en inngang som bringer landskapet, lokalsamfunnene og høydens kaffe direkte til Stavanger.",
