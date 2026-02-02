@@ -1,9 +1,7 @@
-// import UnderConstruction from './ui/under-construction';
+
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center p-24">
-      {/* <span className="text-5xl">Hola Mundo 👋</span> */}
-    </main>
+    <h1>Hello World</h1>
   );
 }
