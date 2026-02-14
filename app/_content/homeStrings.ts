@@ -190,6 +190,62 @@ export const homeStrings: Record<HomeLocale, HomeStrings> = {
     footerRightLine: "Pilotnettside for Kaffe Guatilla · 2025",
     footerFacebookLink: "Se oppdateringer om prosjektet på Facebook",
   },
+  en: {
+    brandLine: "Specialty Coffee from Colombia · Ruiz Gomez Import",
+    locationLine: "Stavanger · Norway",
+    taglineLine: "Direct import from Serranía del Perijá",
+    switchToLabel: "English",
+    switchToHref: "/en",
+
+    heroTitle: "Mountain coffee, real stories.",
+    heroBodyBefore: "We are connecting ",
+    heroBodyStrong1: "farms in Serranía del Perijá",
+    heroBodyMiddle: " with conscious buyers in Norway. The first batch will be imported with ",
+    heroBodyStrong2: "Ruiz Gomez Import",
+    heroBodyAfter: " as anchor buyer, and from that experience we will open the door to more producers and coffee lovers.",
+    ctaFacebook: "Follow the project on Facebook",
+    ctaNotify: "I want to know when it's ready to buy",
+
+    interestOptionSell: "I want to sell coffee",
+    interestOptionBuy: "I want to buy coffee",
+
+    cardTitle: "From tourism to single-origin coffee",
+    cardBody: "The Guatilla symbol was born at a mountain viewpoint in Serranía del Perijá. Today it becomes a gateway to bring the landscape, communities, and high-altitude coffee directly to Stavanger.",
+    cardImageAlt: "Structure that inspires the Guatilla logo",
+
+    perijaTitle: "Serranía del Perijá · Coffee Origin",
+    perijaBodyBefore: "The mountain range rises to ",
+    perijaBodyStrong1: "3600 m above sea level",
+    perijaBodyMiddle: " and marks the natural border between Colombia and Venezuela. Our network of pilot farms is in this mountain, in the area of ",
+    perijaBodyStrong2: "Agustín Codazzi (Cesar)",
+    perijaBodyAfter: ".",
+    perijaImgAlt1: "Sunset in Serranía del Perijá",
+    perijaImgAlt2: "Mountains and clouds over Perijá",
+    perijaImgAlt3: "Peaks of Serranía del Perijá",
+    perijaImgAlt4: "Vegetation and coffee plantations in Perijá",
+
+    processTitle: "How coffee is processed",
+    processBody1: "We start with small, washed lots with full traceability farm by farm. This pilot phase allows us to document each step: selective harvesting, pulping, fermentation, and sun-drying on high-altitude patios.",
+    processBody2: "The goal is to build a solid technical foundation so that within the next 12 months we can carry out the first import to Norway and verify the entire logistics journey from the mountains to Stavanger.",
+    processImgAlt1: "Coffee fermentation",
+    processImgAlt2: "Coffee washing in channels",
+    processImgAlt3: "Coffee washing system in the mountains",
+
+    communitiesTitle: "Communities and Territory",
+    communitiesBody1: "Guatilla arises in a territory inhabited by farming and indigenous communities. The idea is that each cup of coffee carries clear information about the origin and history of those who produce it.",
+    communitiesBody2: "This project is not just a product: it is technical, social, and logistical documentation that will later enable other farms in Perijá to export following an already-tested model.",
+    communitiesImgAlt1: "Indigenous people in the mountains of Perijá",
+    communitiesImgAlt2: "Documenting the reality of communities",
+
+    videoTitle: "A first look at the process on the farm",
+    videoBody: "This is a simple recording of coffee pulping at one of the pilot farms. Later we will turn this type of material into educational content for buyers and producers.",
+
+    footerCompany: "Ruiz Gomez Import · Stavanger",
+    footerEmailLabel: "Email",
+    footerPhoneLabel: "Phone",
+    footerRightLine: "Pilot website for Kaffe Guatilla · 2025",
+    footerFacebookLink: "See project updates on Facebook",
+  },
 };
 
 export function getHomeStrings(locale: HomeLocale): HomeStrings {
