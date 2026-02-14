@@ -7,6 +7,7 @@ import type { CSSProperties, FormEvent } from "react";
 import { getHomeStrings, type HomeLocale } from "../_content/homeStrings";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
+import "../responsive.css";
 
 const pageStyle: CSSProperties = {
   minHeight: "100vh",
@@ -233,6 +234,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
         {/* HERO PRINCIPAL                                                    */}
         {/* ---------------------------------------------------------------- */}
         <section
+          className="grid-hero"
           style={{
             display: "grid",
             gridTemplateColumns: "minmax(0,1.2fr) minmax(0,1fr)",
@@ -537,6 +539,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
         {/* SERRANÍA DEL PERIJÁ - ORIGEN DEL CAFÉ                             */}
         {/* ---------------------------------------------------------------- */}
         <section
+          className="grid-serran"
           style={{
             padding: "2.5rem 0",
             borderBottom: "1px solid rgba(148,163,184,0.15)",
@@ -562,6 +565,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
           </p>
 
           <div
+            className="grid-serran"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(4,minmax(0,1fr))",
@@ -753,6 +757,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
         {/* COMUNIDADES Y PAISAJE                                             */}
         {/* ---------------------------------------------------------------- */}
         <section
+          className="grid-comm"
           style={{
             display: "grid",
             gridTemplateColumns: "minmax(0,1.1fr) minmax(0,1fr)",
