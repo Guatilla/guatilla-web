@@ -576,73 +576,81 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               gap: "1rem",
             }}
           >
-            <figure
-              style={{
-                borderRadius: "1rem",
-                overflow: "hidden",
-                position: "relative",
-                height: "160px",
-              }}
-            >
-              <Image
-                src="/images/atardecer1.JPG"
-                alt={t.perijaImgAlt1}
-                fill
-                sizes="(max-width: 900px) 50vw, 260px"
-                style={{ objectFit: "cover" }}
-              />
-            </figure>
+            <Zoom>
+              <figure
+                style={{
+                  borderRadius: "1rem",
+                  overflow: "hidden",
+                  position: "relative",
+                  height: "160px",
+                }}
+              >
+                <Image
+                  src="/images/atardecer1.JPG"
+                  alt={t.perijaImgAlt1}
+                  fill
+                  sizes="(max-width: 900px) 50vw, 260px"
+                  style={{ objectFit: "cover" }}
+                />
+              </figure>
+            </Zoom>
 
-            <figure
-              style={{
-                borderRadius: "1rem",
-                overflow: "hidden",
-                position: "relative",
-                height: "160px",
-              }}
-            >
-              <Image
-                src="/images/atardecer2.JPG"
-                alt={t.perijaImgAlt2}
-                fill
-                sizes="(max-width: 900px) 50vw, 260px"
-                style={{ objectFit: "cover" }}
-              />
-            </figure>
+            <Zoom>
+              <figure
+                style={{
+                  borderRadius: "1rem",
+                  overflow: "hidden",
+                  position: "relative",
+                  height: "160px",
+                }}
+              >
+                <Image
+                  src="/images/atardecer2.JPG"
+                  alt={t.perijaImgAlt2}
+                  fill
+                  sizes="(max-width: 900px) 50vw, 260px"
+                  style={{ objectFit: "cover" }}
+                />
+              </figure>
+            </Zoom>
 
-            <figure
-              style={{
-                borderRadius: "1rem",
-                overflow: "hidden",
-                position: "relative",
-                height: "160px",
-              }}
-            >
-              <Image
-                src="/images/tres-tetas1.jpg"
-                alt={t.perijaImgAlt3}
-                fill
-                sizes="(max-width: 900px) 50vw, 260px"
-                style={{ objectFit: "cover" }}
-              />
-            </figure>
+            <Zoom>
+              <figure
+                style={{
+                  borderRadius: "1rem",
+                  overflow: "hidden",
+                  position: "relative",
+                  height: "160px",
+                }}
+              >
+                <Image
+                  src="/images/tres-tetas1.jpg"
+                  alt={t.perijaImgAlt3}
+                  fill
+                  sizes="(max-width: 900px) 50vw, 260px"
+                  style={{ objectFit: "cover" }}
+                />
+              </figure>
+            </Zoom>
 
-            <figure
-              style={{
-                borderRadius: "1rem",
-                overflow: "hidden",
-                position: "relative",
-                height: "160px",
-              }}
-            >
-              <Image
-                src="/images/plata-parque.jpg"
-                alt={t.perijaImgAlt4}
-                fill
-                sizes="(max-width: 900px) 50vw, 260px"
-                style={{ objectFit: "cover" }}
-              />
-            </figure>
+            <Zoom>
+              <figure
+                style={{
+                  borderRadius: "1rem",
+                  overflow: "hidden",
+                  position: "relative",
+                  height: "160px",
+                }}
+              >
+                <Image
+                  src="/images/plata-parque.jpg"
+                  alt={t.perijaImgAlt4}
+                  fill
+                  sizes="(max-width: 900px) 50vw, 260px"
+                  style={{ objectFit: "cover" }}
+                />
+              </figure>
+            </Zoom>
           </div>
         </section>
 
