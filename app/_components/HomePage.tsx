@@ -40,14 +40,20 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
       interestType === "sell"
         ? locale === "no"
           ? "Selge kaffe"
+          : locale === "en"
+          ? "Sell coffee"
           : "Quiero vender café"
         : locale === "no"
         ? "Kjøpe kaffe"
+        : locale === "en"
+        ? "Buy coffee"
         : "Quiero comprar café";
 
     const subject =
       locale === "no"
         ? `Interesse for kaffe – ${interestLabel} – Guatilla`
+        : locale === "en"
+        ? `Interest in coffee – ${interestLabel} – Guatilla`
         : `Interés en café – ${interestLabel} – Guatilla`;
 
     const bodyLines = [
@@ -72,10 +78,16 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
   const [selectedInterest, setSelectedInterest] = useState<InterestType>(null);
 
   const isNorwegian = locale === "no";
+  const isEnglish = locale === "en";
 
+  const getLangAttribute = () => {
+    if (locale === "no") return "no";
+    if (locale === "en") return "en";
+    return "es";
+  };
 
   return (
-    <main style={pageStyle} lang={isNorwegian ? "no" : "es"}>
+    <main style={pageStyle} lang={getLangAttribute()}>
       <div style={maxWidthStyle}>
         {/* ---------------------------------------------------------------- */}
         {/* CABECERA CON LOGO + NOMBRE                                        */}
@@ -331,9 +343,13 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               {selectedInterest === "sell"
                 ? isNorwegian
                   ? "Jeg vil selge kaffe"
+                  : isEnglish
+                  ? "I want to sell coffee"
                   : "Quiero vender café"
                 : isNorwegian
                 ? "Jeg vil kjøpe kaffe"
+                : isEnglish
+                ? "I want to buy coffee"
                 : "Quiero comprar café"}
             </h2>
             <p
@@ -347,6 +363,8 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
             >
               {isNorwegian
                 ? "Legg igjen kontaktinformasjon, så tar vi kontakt når vi har mer detaljer om volum, kvalitet og neste import."
+                : isEnglish
+                ? "Leave us your contact information, and we'll reach out when we have more details about volumes, quality, and the next import."
                 : "Déjanos tus datos de contacto y te escribimos cuando tengamos más detalles sobre volúmenes, calidad y próxima importación."}
             </p>
 
@@ -359,7 +377,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
             >
               <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 <label style={{ fontSize: "0.8rem", opacity: 0.9 }}>
-                  {isNorwegian ? "Navn" : "Nombre"}
+                  {isNorwegian ? "Navn" : isEnglish ? "Name" : "Nombre"}
                 </label>
                 <input
                   type="text"
@@ -397,7 +415,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
 
               <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 <label style={{ fontSize: "0.8rem", opacity: 0.9 }}>
-                  {isNorwegian ? "Land / by" : "País / ciudad"}
+                  {isNorwegian ? "Land / by" : isEnglish ? "Country / City" : "País / ciudad"}
                 </label>
                 <input
                   type="text"
@@ -424,6 +442,8 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
                 <label style={{ fontSize: "0.8rem", opacity: 0.9 }}>
                   {isNorwegian
                     ? "Kommentar (volum, type kaffe, osv.)"
+                    : isEnglish
+                    ? "Comment (volume, coffee type, etc.)"
                     : "Comentario (volumen, tipo de café, etc.)"}
                 </label>
                 <textarea
@@ -463,7 +483,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
                     cursor: "pointer",
                   }}
                 >
-                  {isNorwegian ? "Send interesse" : "Enviar interés"}
+                  {isNorwegian ? "Send interesse" : isEnglish ? "Send Interest" : "Enviar interés"}
                 </button>
               </div>
             </form>
