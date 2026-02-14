@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, FormEvent } from "react";
 import { getHomeStrings, type HomeLocale } from "../_content/homeStrings";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 const pageStyle: CSSProperties = {
   minHeight: "100vh",
