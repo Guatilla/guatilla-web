@@ -172,16 +172,41 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               {t.locationLine}
             </div>
             <div style={{ opacity: 0.85 }}>{t.taglineLine}</div>
-            <div style={{ marginTop: "0.45rem" }}>
+            <div style={{ marginTop: "0.45rem", display: "flex", gap: "0.8rem" }}>
               <Link
-                href={t.switchToHref}
+                href="/"
                 style={{
-                  color: "#38bdf8",
+                  color: locale === "no" ? "#fbbf24" : "#38bdf8",
                   textDecoration: "none",
                   fontWeight: 600,
+                  opacity: locale === "no" ? 1 : 0.7,
                 }}
               >
-                {t.switchToLabel}
+                Norsk
+              </Link>
+              <span style={{ color: "#64748b" }}>·</span>
+              <Link
+                href="/es"
+                style={{
+                  color: locale === "es" ? "#fbbf24" : "#38bdf8",
+                  textDecoration: "none",
+                  fontWeight: 600,
+                  opacity: locale === "es" ? 1 : 0.7,
+                }}
+              >
+                Español
+              </Link>
+              <span style={{ color: "#64748b" }}>·</span>
+              <Link
+                href="/en"
+                style={{
+                  color: locale === "en" ? "#fbbf24" : "#38bdf8",
+                  textDecoration: "none",
+                  fontWeight: 600,
+                  opacity: locale === "en" ? 1 : 0.7,
+                }}
+              >
+                English
               </Link>
             </div>
           </div>
