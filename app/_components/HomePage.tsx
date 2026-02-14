@@ -119,13 +119,9 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
             alignItems: "center",
             justifyContent: "space-between",
             gap: "1.5rem",
-            padding: "1rem 1.25rem",
-            borderRadius: "999px",
-            background:
-              "linear-gradient(90deg, rgba(56,189,248,0.12), rgba(250,204,21,0.08))",
-            border: "1px solid rgba(148,163,184,0.25)",
-            boxShadow: "0 18px 60px rgba(15,23,42,0.65)",
-            marginBottom: "2rem",
+            padding: "1.5rem 0",
+            borderBottom: "1px solid rgba(148,163,184,0.15)",
+            marginBottom: "2.5rem",
           }}
         >
           {/* Logo + nombre */}
@@ -542,13 +538,9 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
         {/* ---------------------------------------------------------------- */}
         <section
           style={{
-            borderRadius: "1.6rem",
-            padding: "1.6rem 1.8rem",
-            background:
-              "radial-gradient(circle at 0% 0%, rgba(59,130,246,0.15), rgba(15,23,42,0.85))",
-            border: "1px solid rgba(96,165,250,0.35)",
-            boxShadow: "0 18px 55px rgba(15,23,42,0.85)",
-            marginBottom: "2.75rem",
+            padding: "2.5rem 0",
+            borderBottom: "1px solid rgba(148,163,184,0.15)",
+            marginBottom: "2rem",
           }}
         >
           <h2 style={{ fontSize: "1.35rem", marginBottom: "0.25rem" }}>
@@ -765,17 +757,14 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
             display: "grid",
             gridTemplateColumns: "minmax(0,1.1fr) minmax(0,1fr)",
             gap: "1.75rem",
-            marginBottom: "2.75rem",
+            marginBottom: "2rem",
+            paddingBottom: "2.5rem",
+            borderBottom: "1px solid rgba(148,163,184,0.15)",
           }}
         >
           <article
             style={{
-              borderRadius: "1.5rem",
-              padding: "1.5rem 1.6rem",
-              background:
-                "radial-gradient(circle at 0% 0%, rgba(16,185,129,0.18), rgba(15,23,42,0.95))",
-              border: "1px solid rgba(52,211,153,0.4)",
-              boxShadow: "0 18px 60px rgba(6,95,70,0.85)",
+              padding: "0",
             }}
           >
             <h2 style={{ fontSize: "1.25rem", marginBottom: "0.5rem" }}>
@@ -804,12 +793,6 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
 
           <div
             style={{
-              borderRadius: "1.5rem",
-              padding: "1.2rem 1.3rem",
-              background:
-                "radial-gradient(circle at 0% 0%, rgba(59,130,246,0.22), rgba(15,23,42,0.98))",
-              border: "1px solid rgba(59,130,246,0.45)",
-              boxShadow: "0 18px 60px rgba(15,23,42,0.9)",
               display: "flex",
               flexDirection: "column",
               gap: "0.9rem",
@@ -860,13 +843,10 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
         {/* ---------------------------------------------------------------- */}
         <section
           style={{
-            marginBottom: "2.75rem",
-            borderRadius: "1.6rem",
-            padding: "1.6rem 1.8rem",
-            background:
-              "radial-gradient(circle at 0% 0%, rgba(248,250,252,0.05), rgba(15,23,42,0.95))",
-            border: "1px solid rgba(148,163,184,0.45)",
-            boxShadow: "0 18px 55px rgba(15,23,42,0.9)",
+            marginBottom: "2rem",
+            paddingBottom: "2.5rem",
+            borderBottom: "1px solid rgba(148,163,184,0.15)",
+            padding: "2.5rem 0",
           }}
         >
           <h2 style={{ fontSize: "1.25rem", marginBottom: "0.6rem" }}>
