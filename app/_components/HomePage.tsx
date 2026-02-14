@@ -697,57 +697,63 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               gap: "0.9rem",
             }}
           >
-            <figure
-              style={{
-                borderRadius: "1rem",
-                overflow: "hidden",
-                position: "relative",
-                height: "150px",
-              }}
-            >
-              <Image
-                src="/images/fermentacion-cafe1.jpg"
-                alt={t.processImgAlt1}
-                fill
-                sizes="(max-width: 900px) 60vw, 320px"
-                style={{ objectFit: "cover" }}
-              />
-            </figure>
+            <Zoom zoomMargin={80}>
+              <figure
+                style={{
+                  borderRadius: "1rem",
+                  overflow: "hidden",
+                  position: "relative",
+                  height: "150px",
+                }}
+              >
+                <Image
+                  src="/images/fermentacion-cafe1.jpg"
+                  alt={t.processImgAlt1}
+                  fill
+                  sizes="(max-width: 900px) 60vw, 320px"
+                  style={{ objectFit: "cover" }}
+                />
+              </figure>
+            </Zoom>
 
-            <figure
-              style={{
-                borderRadius: "1rem",
-                overflow: "hidden",
-                position: "relative",
-                height: "150px",
-              }}
-            >
-              <Image
-                src="/images/lavado-cafe1.jpg"
-                alt={t.processImgAlt2}
-                fill
-                sizes="(max-width: 900px) 40vw, 220px"
-                style={{ objectFit: "cover" }}
-              />
-            </figure>
+            <Zoom zoomMargin={80}>
+              <figure
+                style={{
+                  borderRadius: "1rem",
+                  overflow: "hidden",
+                  position: "relative",
+                  height: "150px",
+                }}
+              >
+                <Image
+                  src="/images/lavado-cafe1.jpg"
+                  alt={t.processImgAlt2}
+                  fill
+                  sizes="(max-width: 900px) 40vw, 220px"
+                  style={{ objectFit: "cover" }}
+                />
+              </figure>
+            </Zoom>
 
-            <figure
-              style={{
-                borderRadius: "1rem",
-                overflow: "hidden",
-                position: "relative",
-                height: "150px",
-                gridColumn: "span 2",
-              }}
-            >
-              <Image
-                src="/images/lavado-cafe2.jpg"
-                alt={t.processImgAlt3}
-                fill
-                sizes="(max-width: 900px) 100vw, 540px"
-                style={{ objectFit: "cover" }}
-              />
-            </figure>
+            <Zoom zoomMargin={80}>
+              <figure
+                style={{
+                  borderRadius: "1rem",
+                  overflow: "hidden",
+                  position: "relative",
+                  height: "150px",
+                  gridColumn: "span 2",
+                }}
+              >
+                <Image
+                  src="/images/lavado-cafe2.jpg"
+                  alt={t.processImgAlt3}
+                  fill
+                  sizes="(max-width: 900px) 100vw, 540px"
+                  style={{ objectFit: "cover" }}
+                />
+              </figure>
+            </Zoom>
           </div>
         </section>
 
@@ -809,39 +815,43 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               gap: "0.9rem",
             }}
           >
-            <div
-              style={{
-                position: "relative",
-                borderRadius: "1rem",
-                overflow: "hidden",
-                height: "150px",
-              }}
-            >
-              <Image
-                src="/images/pueblos-indigenas.jpg"
-                alt={t.communitiesImgAlt1}
-                fill
-                sizes="(max-width: 900px) 100vw, 320px"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
+            <Zoom zoomMargin={80}>
+              <div
+                style={{
+                  position: "relative",
+                  borderRadius: "1rem",
+                  overflow: "hidden",
+                  height: "150px",
+                }}
+              >
+                <Image
+                  src="/images/pueblos-indigenas.jpg"
+                  alt={t.communitiesImgAlt1}
+                  fill
+                  sizes="(max-width: 900px) 100vw, 320px"
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
+            </Zoom>
 
-            <div
-              style={{
-                position: "relative",
-                borderRadius: "1rem",
-                overflow: "hidden",
-                height: "150px",
-              }}
-            >
-              <Image
-                src="/images/fotografiando-realidades.JPG"
-                alt={t.communitiesImgAlt2}
-                fill
-                sizes="(max-width: 900px) 100vw, 320px"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
+            <Zoom zoomMargin={80}>
+              <div
+                style={{
+                  position: "relative",
+                  borderRadius: "1rem",
+                  overflow: "hidden",
+                  height: "150px",
+                }}
+              >
+                <Image
+                  src="/images/fotografiando-realidades.JPG"
+                  alt={t.communitiesImgAlt2}
+                  fill
+                  sizes="(max-width: 900px) 100vw, 320px"
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
+            </Zoom>
           </div>
         </section>
 
