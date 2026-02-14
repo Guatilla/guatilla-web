@@ -25,7 +25,7 @@ type InterestType = "sell" | "buy" | null;
 export function HomePage({ locale }: { locale: HomeLocale }) {
   const t = getHomeStrings(locale);
 
-  const handleInterestSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleInterestSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
@@ -49,29 +49,48 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
         ? "Buy coffee"
         : "Quiero comprar café";
 
-    const subject =
-      locale === "no"
-        ? `Interesse for kaffe – ${interestLabel} – Guatilla`
-        : locale === "en"
-        ? `Interest in coffee – ${interestLabel} – Guatilla`
-        : `Interés en café – ${interestLabel} – Guatilla`;
+    try {
+      const response = await fetch("https://formspree.io/f/xojndera", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          location,
+          message,
+          interestType: interestLabel,
+        }),
+      });
 
-    const bodyLines = [
-      `Nombre / Navn: ${name}`,
-      `Email: ${email}`,
-      `País / ciudad (Land / by): ${location}`,
-      `Interés / interesse: ${interestLabel}`,
-      "",
-      "Comentarios / Kommentar:",
-      message || "(vacío / tomt)",
-    ];
-
-    const mailto = `mailto:norgesdirektor@guatilla.no?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
-
-    if (typeof window !== "undefined") {
-      window.location.href = mailto;
+      if (response.ok) {
+        alert(
+          locale === "no"
+            ? "Takk for interesse! Vi kontakter deg snart."
+            : locale === "en"
+            ? "Thank you for your interest! We'll contact you soon."
+            : "¡Gracias por tu interés! Te contactaremos pronto."
+        );
+        (event.target as HTMLFormElement).reset();
+        setSelectedInterest(null);
+      } else {
+        alert(
+          locale === "no"
+            ? "Det oppstod en feil. Prøv igjen."
+            : locale === "en"
+            ? "An error occurred. Please try again."
+            : "Ocurrió un error. Intenta de nuevo."
+        );
+      }
+    } catch (error) {
+      alert(
+        locale === "no"
+          ? "Det oppstod en feil. Prøv igjen."
+          : locale === "en"
+          ? "An error occurred. Please try again."
+          : "Ocurrió un error. Intenta de nuevo."
+      );
     }
   };
 
@@ -394,6 +413,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
             </p>
 
             <form
+              onSubmit={handleInterestSubmit}
               style={{
                 display: "grid",
                 gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)",
