@@ -10,8 +10,8 @@ const pageStyle: CSSProperties = {
   minHeight: "100vh",
   fontFamily:
     "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-  color: "#f9fafb",
-  backgroundColor: "#0b1120",
+  color: "#f5f1ed",
+  backgroundColor: "#0f2818",
 };
 
 const maxWidthStyle: CSSProperties = {
