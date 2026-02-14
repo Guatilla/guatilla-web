@@ -1,4 +1,4 @@
-export type HomeLocale = "es" | "no";
+export type HomeLocale = "es" | "no" | "en";
 
 export type HomeStrings = {
   brandLine: string;
