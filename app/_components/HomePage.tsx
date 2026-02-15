@@ -305,7 +305,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               <Link href="/es" onClick={() => setMenuOpen(false)}>
                 Español
               </Link>
-              <Link href="/" onClick={() => setMenuOpen(false)}>
+              <Link href="/no" onClick={() => setMenuOpen(false)}>
                 Norsk
               </Link>
             </div>
