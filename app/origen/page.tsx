@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 
 export default function OrigenPage() {
   return (
@@ -11,12 +10,10 @@ export default function OrigenPage() {
       </p>
 
       <figure>
-        <Image
+        <img
           src="/images/cascada-perija-hero.jpg"
           alt="Serranía del Perijá, agua de montaña"
-          width={1200}
-          height={800}
-          style={{ width: "100%", height: "auto" }}
+          style={{ width: "100%", height: "auto", display: "block" }}
         />
         <figcaption>
           Serranía del Perijá — agua de montaña (foto propia).
