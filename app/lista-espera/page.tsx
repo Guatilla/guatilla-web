@@ -1,12 +1,11 @@
-import Link from "next/link";
-
 export default function ListaEsperaPage() {
   return (
     <main>
       <h1>Lista de espera</h1>
-      <p>Pagina en construccion.</p>
-      <p>Dejanos tu contacto y te avisamos cuando haya disponibilidad.</p>
-      <Link href="/lista-espera">Ir a lista de espera</Link>
+      <p>Página en construcción.</p>
+      <p>
+        Déjanos tu contacto y te avisamos cuando el primer lote esté listo.
+      </p>
       <form>
         <div>
           <label htmlFor="nombre">Nombre</label>
@@ -17,7 +16,11 @@ export default function ListaEsperaPage() {
           <input id="email" name="email" type="email" />
         </div>
         <div>
-          <label htmlFor="interes">Interes</label>
+          <label htmlFor="ubicacion">Ciudad/País</label>
+          <input id="ubicacion" name="ubicacion" type="text" />
+        </div>
+        <div>
+          <label htmlFor="interes">Interés</label>
           <select id="interes" name="interes" defaultValue="">
             <option value="" disabled>
               Selecciona una opcion
@@ -29,7 +32,10 @@ export default function ListaEsperaPage() {
           </select>
         </div>
         <button type="submit">Enviar</button>
-        <p>Esto es una lista de espera. Aun no hay ventas activas.</p>
+        <p>
+          Esto es una lista de espera. Aún no hay ventas activas. Te avisamos
+          cuando el primer lote esté listo.
+        </p>
       </form>
     </main>
   );

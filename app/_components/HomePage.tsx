@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import type { CSSProperties, FormEvent } from "react";
+import type { CSSProperties } from "react";
 import { getHomeStrings, type HomeLocale } from "../_content/homeStrings";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
@@ -36,8 +36,6 @@ const tempCardImageStyle: CSSProperties = {
   objectPosition: "center 35%",
 };
 
-type InterestType = "sell" | "buy" | null;
-
 export function HomePage({ locale }: { locale: HomeLocale }) {
   const t = getHomeStrings(locale);
 
@@ -53,79 +51,8 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
     ["--banner-enciende-url" as any]: `url("${bannerImageUrl}")`,
   };
 
-  const handleInterestSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const formData = new FormData(event.currentTarget);
-
-    const name = (formData.get("name") ?? "").toString().trim();
-    const email = (formData.get("email") ?? "").toString().trim();
-    const location = (formData.get("location") ?? "").toString().trim();
-    const message = (formData.get("message") ?? "").toString().trim();
-    const interestType = (formData.get("interestType") ?? "").toString();
-
-    const interestLabel =
-      interestType === "sell"
-        ? locale === "no"
-          ? "Selge kaffe"
-          : locale === "en"
-          ? "Sell coffee"
-          : "Quiero vender café"
-        : locale === "no"
-        ? "Kjøpe kaffe"
-        : locale === "en"
-        ? "Buy coffee"
-        : "Quiero comprar café";
-
-    try {
-      const response = await fetch("https://formspree.io/f/xojndera", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          location,
-          message,
-          interestType: interestLabel,
-        }),
-      });
-
-      if (response.ok) {
-        alert(
-          locale === "no"
-            ? "Takk for interesse! Vi kontakter deg snart."
-            : locale === "en"
-            ? "Thank you for your interest! We'll contact you soon."
-            : "¡Gracias por tu interés! Te contactaremos pronto."
-        );
-        (event.target as HTMLFormElement).reset();
-        setSelectedInterest(null);
-      } else {
-        alert(
-          locale === "no"
-            ? "Det oppstod en feil. Prøv igjen."
-            : locale === "en"
-            ? "An error occurred. Please try again."
-            : "Ocurrió un error. Intenta de nuevo."
-        );
-      }
-    } catch (error) {
-      alert(
-        locale === "no"
-          ? "Det oppstod en feil. Prøv igjen."
-          : locale === "en"
-          ? "An error occurred. Please try again."
-          : "Ocurrió un error. Intenta de nuevo."
-      );
-    }
-  };
-
-  const [selectedInterest, setSelectedInterest] = useState<InterestType>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
-  const formRef = useRef<HTMLElement | null>(null);
 
   const isNorwegian = locale === "no";
   const isEnglish = locale === "en";
@@ -146,12 +73,6 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
     if (locale === "en") return "en";
     return "es";
   };
-
-  useEffect(() => {
-    if (selectedInterest && formRef.current) {
-      formRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }, [selectedInterest]);
 
   return (
     <main style={pageStyleWithBanner} lang={getLangAttribute()}>
@@ -260,20 +181,12 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
                 {t.heroBodyAfter}
               </p>
               <div className="ikm-hero-actions">
-                <button
-                  type="button"
-                  className="ikm-btn-primary"
-                  onClick={() => setSelectedInterest("sell")}
-                >
-                  {t.interestOptionSell}
-                </button>
-                <button
-                  type="button"
-                  className="ikm-btn-outline"
-                  onClick={() => setSelectedInterest("buy")}
-                >
-                  {t.interestOptionBuy}
-                </button>
+                <Link href="/lista-espera" className="ikm-btn-primary">
+                  {t.waitlistCta}
+                </Link>
+                <Link href="/progreso" className="ikm-btn-outline">
+                  Ver avance del proyecto
+                </Link>
               </div>
             </div>
 
@@ -348,174 +261,55 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
             </div>
           </div>
         </div>
-        {/* ---------------------------------------------------------------- */}
-        {/* FORMULARIO DE INTERÉS (VENDER / COMPRAR)                          */}
-        {/* ---------------------------------------------------------------- */}
-        {selectedInterest && (
-          <section
-            className="interest-form"
-            ref={formRef}
+        <section
+          style={{
+            margin: "2rem 0 2.5rem",
+            padding: "1.5rem",
+            borderRadius: "1.25rem",
+            background: "rgba(15,23,42,0.45)",
+            border: "1px solid rgba(148,163,184,0.25)",
+          }}
+        >
+          <div
             style={{
-              marginBottom: "2.5rem",
-              borderRadius: "1.6rem",
-              padding: "1.6rem 1.8rem",
-              background:
-                "radial-gradient(circle at 0% 0%, rgba(45,212,191,0.15), rgba(15,23,42,0.95))",
-              border: "1px solid rgba(45,212,191,0.4)",
-              boxShadow: "0 18px 55px rgba(15,23,42,0.9)",
+              display: "grid",
+              gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+              gap: "1rem",
             }}
           >
-            <h2 style={{ fontSize: "1.2rem", marginBottom: "0.4rem" }}>
-              {selectedInterest === "sell"
-                ? isNorwegian
-                  ? "Jeg vil selge kaffe"
-                  : isEnglish
-                  ? "I want to sell coffee"
-                  : "Quiero vender café"
-                : isNorwegian
-                ? "Jeg vil kjøpe kaffe"
-                : isEnglish
-                ? "I want to buy coffee"
-                : "Quiero comprar café"}
-            </h2>
-            <p
-              style={{
-                fontSize: "0.9rem",
-                lineHeight: 1.6,
-                color: "#e5e7eb",
-                marginBottom: "1rem",
-                maxWidth: "40rem",
-              }}
-            >
-              {isNorwegian
-                ? "Legg igjen kontaktinformasjon, så tar vi kontakt når vi har mer detaljer om volum, kvalitet og neste import."
-                : isEnglish
-                ? "Leave us your contact information, and we'll reach out when we have more details about volumes, quality, and the next import."
-                : "Déjanos tus datos de contacto y te escribimos cuando tengamos más detalles sobre volúmenes, calidad y próxima importación."}
-            </p>
-
-            <form
-              onSubmit={handleInterestSubmit}
-              style={{
-                display: "grid",
-                gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)",
-                gap: "1rem",
-              }}
-            >
-              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                <label style={{ fontSize: "0.8rem", opacity: 0.9 }}>
-                  {isNorwegian ? "Navn" : isEnglish ? "Name" : "Nombre"}
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  required
-                  style={{
-                    borderRadius: "0.75rem",
-                    border: "1px solid rgba(148,163,184,0.6)",
-                    backgroundColor: "rgba(15,23,42,0.9)",
-                    padding: "0.55rem 0.75rem",
-                    color: "#f9fafb",
-                    fontSize: "0.9rem",
-                  }}
-                />
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                <label style={{ fontSize: "0.8rem", opacity: 0.9 }}>
-                  E-mail
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  style={{
-                    borderRadius: "0.75rem",
-                    border: "1px solid rgba(148,163,184,0.6)",
-                    backgroundColor: "rgba(15,23,42,0.9)",
-                    padding: "0.55rem 0.75rem",
-                    color: "#f9fafb",
-                    fontSize: "0.9rem",
-                  }}
-                />
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                <label style={{ fontSize: "0.8rem", opacity: 0.9 }}>
-                  {isNorwegian ? "Land / by" : isEnglish ? "Country / City" : "País / ciudad"}
-                </label>
-                <input
-                  type="text"
-                  name="location"
-                  style={{
-                    borderRadius: "0.75rem",
-                    border: "1px solid rgba(148,163,184,0.6)",
-                    backgroundColor: "rgba(15,23,42,0.9)",
-                    padding: "0.55rem 0.75rem",
-                    color: "#f9fafb",
-                    fontSize: "0.9rem",
-                  }}
-                />
-              </div>
-
+            {t.valueBlocks.map((block) => (
               <div
+                key={block.title}
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 4,
-                  gridColumn: "span 2",
+                  padding: "1rem",
+                  borderRadius: "0.9rem",
+                  background: "rgba(2,6,23,0.45)",
+                  border: "1px solid rgba(148,163,184,0.2)",
                 }}
               >
-                <label style={{ fontSize: "0.8rem", opacity: 0.9 }}>
-                  {isNorwegian
-                    ? "Kommentar (volum, type kaffe, osv.)"
-                    : isEnglish
-                    ? "Comment (volume, coffee type, etc.)"
-                    : "Comentario (volumen, tipo de café, etc.)"}
-                </label>
-                <textarea
-                  name="message"
-                  rows={3}
-                  style={{
-                    borderRadius: "0.75rem",
-                    border: "1px solid rgba(148,163,184,0.6)",
-                    backgroundColor: "rgba(15,23,42,0.9)",
-                    padding: "0.55rem 0.75rem",
-                    color: "#f9fafb",
-                    fontSize: "0.9rem",
-                    resize: "vertical",
-                  }}
-                />
+                <h3 style={{ marginBottom: "0.4rem", fontSize: "1rem" }}>
+                  {block.title}
+                </h3>
+                <p style={{ margin: 0, fontSize: "0.9rem", color: "#e2e8f0" }}>
+                  {block.body}
+                </p>
               </div>
+            ))}
+          </div>
+        </section>
 
-              {/* Campo oculto con el tipo de interés */}
-              <input
-                type="hidden"
-                name="interestType"
-                value={selectedInterest}
-              />
-
-              <div style={{ gridColumn: "span 2", marginTop: "0.5rem" }}>
-                <button
-                  type="submit"
-                  style={{
-                    padding: "0.7rem 1.8rem",
-                    borderRadius: "999px",
-                    border: "none",
-                    background:
-                      "linear-gradient(90deg, #22c55e, #22d3ee, #38bdf8)",
-                    color: "#0f172a",
-                    fontWeight: 600,
-                    fontSize: "0.9rem",
-                    cursor: "pointer",
-                  }}
-                >
-                  {isNorwegian ? "Send interesse" : isEnglish ? "Send Interest" : "Enviar interés"}
-                </button>
-              </div>
-            </form>
-          </section>
-        )}
+        <section style={{ marginBottom: "2.5rem" }}>
+          <h2 style={{ fontSize: "1.25rem", marginBottom: "0.6rem" }}>
+            {t.statusTitle}
+          </h2>
+          <ul style={{ paddingLeft: "1.2rem", margin: 0, color: "#e2e8f0" }}>
+            {t.statusItems.map((item) => (
+              <li key={item.label} style={{ marginBottom: "0.4rem" }}>
+                <strong>{item.status}:</strong> {item.label}
+              </li>
+            ))}
+          </ul>
+        </section>
 
         {/* ---------------------------------------------------------------- */}
         {/* SERRANÍA DEL PERIJÁ - ORIGEN DEL CAFÉ                             */}
@@ -864,6 +658,26 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               style={{ width: "100%", display: "block" }}
             />
           </div>
+        </section>
+
+        <section
+          style={{
+            marginBottom: "2.5rem",
+            padding: "1.5rem",
+            borderRadius: "1.2rem",
+            border: "1px solid rgba(148,163,184,0.25)",
+            background: "rgba(15,23,42,0.4)",
+          }}
+        >
+          <h2 style={{ fontSize: "1.2rem", marginBottom: "0.5rem" }}>
+            {t.finalCtaTitle}
+          </h2>
+          <p style={{ marginBottom: "1rem", color: "#e2e8f0" }}>
+            {t.finalCtaBody}
+          </p>
+          <Link href="/lista-espera" className="ikm-btn-primary">
+            {t.waitlistCta}
+          </Link>
         </section>
 
             {/* ---------------------------------------------------------------- */}

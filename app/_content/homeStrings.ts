@@ -52,6 +52,13 @@ export type HomeStrings = {
   videoTitle: string;
   videoBody: string;
 
+  waitlistCta: string;
+  valueBlocks: { title: string; body: string }[];
+  statusTitle: string;
+  statusItems: { label: string; status: string }[];
+  finalCtaTitle: string;
+  finalCtaBody: string;
+
   footerCompany: string;
   footerEmailLabel: string;
   footerPhoneLabel: string;
@@ -68,13 +75,12 @@ export const homeStrings: Record<HomeLocale, HomeStrings> = {
     switchToLabel: "Norsk",
     switchToHref: "/",
 
-    heroTitle: "Café de montaña, historias reales.",
-    heroBodyBefore: "Estamos Conectando ",
-    heroBodyStrong1: "fincas de la Serranía del Perijá",
-    heroBodyMiddle: " con compradores conscientes en Noruega. El primer lote se importará con ",
-    heroBodyStrong2: "Ruiz Gomez Import",
-    heroBodyAfter:
-      " como comprador ancla, y a partir de esa experiencia abriremos la puerta a más productores y amantes del café.",
+    heroTitle: "Café de origen del Perijá, con trazabilidad real.",
+    heroBodyBefore: "Guatilla está en montaje: ",
+    heroBodyStrong1: "lotes piloto",
+    heroBodyMiddle: " para documentar calidad y transparencia, ",
+    heroBodyStrong2: "sin prometer fechas",
+    heroBodyAfter: ". Te avisamos cuando el primer lote esté listo.",
     ctaFacebook: "Seguir el proyecto en Facebook",
     ctaNotify: "Quiero saber cuándo esté listo para comprar",
 
@@ -87,38 +93,63 @@ export const homeStrings: Record<HomeLocale, HomeStrings> = {
       "El símbolo de Guatilla nace en un mirador de montaña en la Serranía del Perijá. Hoy se transforma en una puerta para acercar el paisaje, las comunidades y el café de altura directamente a Stavanger.",
     cardImageAlt: "Estructura que inspira el logo Guatilla",
 
-    perijaTitle: "Serranía del Perijá · Origen del café",
-    perijaBodyBefore: "La serranía se eleva hasta los ",
-    perijaBodyStrong1: "3600 m s. n. m.",
-    perijaBodyMiddle:
-      " y marca la frontera natural entre Colombia y Venezuela. Nuestra red de fincas piloto está en esta montaña, en la zona de ",
-    perijaBodyStrong2: "Agustín Codazzi (Cesar)",
-    perijaBodyAfter: ".",
+    perijaTitle: "Origen (Perijá)",
+    perijaBodyBefore: "La Serranía del Perijá nos da altura, agua y biodiversidad. ",
+    perijaBodyStrong1: "Altitud",
+    perijaBodyMiddle: ", clima, suelos y agua se combinan para crear un perfil limpio y dulce en taza.",
+    perijaBodyStrong2: "",
+    perijaBodyAfter: "",
     perijaImgAlt1: "Atardecer en la Serranía del Perijá",
     perijaImgAlt2: "Montañas y nubes sobre el Perijá",
     perijaImgAlt3: "Cumbres de la Serranía del Perijá",
     perijaImgAlt4: "Vegetación y cafetales en el Perijá",
 
-    processTitle: "Cómo se procesa el café",
+    processTitle: "Calidad desde el origen",
     processBody1:
-      "Empezamos con pequeños lotes lavados, trazables finca por finca. Esta fase piloto nos permite documentar cada paso: cosecha selectiva, despulpado, fermentación y secado en patios de altura.",
+      "Trabajamos con lotes pequeños y procesos controlados para definir perfiles de tueste y consistencia en taza.",
     processBody2:
-      "El objetivo es construir una base técnica sólida para, en los próximos 12 meses, realizar la primera importación a Noruega y validar todo el recorrido logístico desde la serranía hasta Stavanger.",
+      "Sin prometer lotes específicos: estamos construyendo el estándar técnico antes de abrir la preventa.",
     processImgAlt1: "Fermentación del café",
     processImgAlt2: "Lavado del café en canales",
     processImgAlt3: "Sistema de lavado de café en la serranía",
 
-    communitiesTitle: "Comunidades y territorio",
+    communitiesTitle: "Transparencia y trazabilidad",
     communitiesBody1:
-      "Guatilla nace en un territorio habitado por comunidades campesinas y pueblos indígenas. La idea es que cada taza de café lleve consigo información clara sobre el origen y la historia de quienes lo producen.",
+      "Queremos que cada taza tenga datos reales: región, proceso, fechas y ruta logística.",
     communitiesBody2:
-      "Este proyecto no es solo un producto: es una documentación técnica, social y logística que permita, más adelante, que otras fincas del Perijá puedan exportar siguiendo un modelo ya probado.",
+      "La transparencia es parte del producto: compartimos avances y lo que falta por resolver.",
     communitiesImgAlt1: "Pueblo indígena en la serranía del Perijá",
     communitiesImgAlt2: "Documentando la realidad de las comunidades",
 
-    videoTitle: "Un primer vistazo al proceso en finca",
+    videoTitle: "Registro de campo (en construcción)",
     videoBody:
-      "Este es un registro simple del despulpado del café en una de las fincas piloto. Más adelante convertiremos este tipo de material en contenido educativo para compradores y productores.",
+      "Publicaremos videos y fotos del proceso cuando tengamos más documentación de los lotes piloto.",
+
+    waitlistCta: "Únete a la lista de espera",
+    valueBlocks: [
+      {
+        title: "Origen",
+        body: "Perijá es montaña, agua limpia y biodiversidad. De ahí viene el carácter del café.",
+      },
+      {
+        title: "Calidad",
+        body: "Lotes piloto, procesos controlados y perfiles de tueste en desarrollo.",
+      },
+      {
+        title: "Transparencia",
+        body: "Datos reales por lote y actualizaciones honestas del avance.",
+      },
+    ],
+    statusTitle: "Estado del proyecto",
+    statusItems: [
+      { label: "Trilladora en montaje", status: "En curso" },
+      { label: "Registro exportador", status: "En curso" },
+      { label: "Primer lote piloto", status: "Siguiente" },
+      { label: "Importacion a Noruega", status: "Siguiente" },
+    ],
+    finalCtaTitle: "Recibe el aviso del primer lote",
+    finalCtaBody:
+      "Si quieres comprar o distribuir, deja tus datos y te avisamos cuando haya disponibilidad.",
 
     footerCompany: "Ruiz Gomez Import · Stavanger",
     footerEmailLabel: "Correo",
@@ -134,14 +165,12 @@ export const homeStrings: Record<HomeLocale, HomeStrings> = {
     switchToLabel: "Español",
     switchToHref: "/es",
 
-    heroTitle: "Fjellkaffe, ekte historier.",
-    heroBodyBefore: "Vi kobler sammen ",
-    heroBodyStrong1: "gårder i Serranía del Perijá",
-    heroBodyMiddle:
-      " med bevisste kjøpere i Norge. Det første partiet importeres med ",
-    heroBodyStrong2: "Ruiz Gomez Import",
-    heroBodyAfter:
-      " som ankerkjøper, og med den erfaringen åpner vi døren for flere produsenter og kaffeentusiaster.",
+    heroTitle: "Fjellkaffe fra Perijá, med ekte sporbarhet.",
+    heroBodyBefore: "Guatilla bygges nå: ",
+    heroBodyStrong1: "pilotpartier",
+    heroBodyMiddle: " for kvalitet og åpenhet, ",
+    heroBodyStrong2: "uten å love datoer",
+    heroBodyAfter: ". Vi varsler når første parti er klart.",
     ctaFacebook: "Følg prosjektet på Facebook",
     ctaNotify: "Jeg vil vite når det er klart for kjøp",
 
@@ -154,38 +183,63 @@ export const homeStrings: Record<HomeLocale, HomeStrings> = {
       "Symbolet til Guatilla ble født på et fjellutsiktspunkt i Serranía del Perijá. I dag blir det en inngang som bringer landskapet, lokalsamfunnene og høydens kaffe direkte til Stavanger.",
     cardImageAlt: "Struktur som inspirerer Guatilla-logoen",
 
-    perijaTitle: "Serranía del Perijá · Kaffens opprinnelse",
-    perijaBodyBefore: "Fjellkjeden stiger opp til ",
-    perijaBodyStrong1: "3600 moh.",
-    perijaBodyMiddle:
-      " og danner den naturlige grensen mellom Colombia og Venezuela. Nettverket vårt av pilotgårder ligger i dette fjellet, i området ",
-    perijaBodyStrong2: "Agustín Codazzi (Cesar)",
-    perijaBodyAfter: ".",
+    perijaTitle: "Opprinnelse (Perijá)",
+    perijaBodyBefore: "Perijá gir høyde, rent vann og mangfold. ",
+    perijaBodyStrong1: "Høyde",
+    perijaBodyMiddle: ", klima, jord og vann gir en ren og søt kopp.",
+    perijaBodyStrong2: "",
+    perijaBodyAfter: "",
     perijaImgAlt1: "Solnedgang i Serranía del Perijá",
     perijaImgAlt2: "Fjell og skyer over Perijá",
     perijaImgAlt3: "Toppene i Serranía del Perijá",
     perijaImgAlt4: "Vegetasjon og kaffegårder i Perijá",
 
-    processTitle: "Slik foredles kaffen",
+    processTitle: "Kvalitet fra opprinnelsen",
     processBody1:
-      "Vi starter med små, vaskede partier med sporbarhet gård for gård. Denne pilotfasen lar oss dokumentere hvert trinn: selektiv plukking, avskalling, fermentering og tørking på høylandsplasser.",
+      "Vi jobber med små partier og kontrollerte prosesser for å forme smaksprofilene.",
     processBody2:
-      "Målet er å bygge et solid teknisk grunnlag slik at vi i løpet av de neste 12 månedene kan gjennomføre den første importen til Norge og verifisere hele logistikkreisen fra fjellene til Stavanger.",
+      "Ingen løfter om spesifikke partier ennå. Vi bygger standarden først.",
     processImgAlt1: "Fermentering av kaffe",
     processImgAlt2: "Vasking av kaffe i kanaler",
     processImgAlt3: "Vaskesystem for kaffe i fjellene",
 
-    communitiesTitle: "Lokalsamfunn og territorium",
+    communitiesTitle: "Apenhet og sporbarhet",
     communitiesBody1:
-      "Guatilla oppstår i et territorium der bonde- og urfolkssamfunn lever. Tanken er at hver kopp kaffe skal bære tydelig informasjon om opprinnelsen og historien til dem som produserer den.",
+      "Hver kopp skal ha data: region, prosess, datoer og logistikkspor.",
     communitiesBody2:
-      "Dette prosjektet er ikke bare et produkt: det er teknisk, sosial og logistisk dokumentasjon som senere kan gjøre det mulig for andre gårder i Perijá å eksportere etter en modell som allerede er testet.",
+      "Vi deler fremdrift og det som gjenstar.",
     communitiesImgAlt1: "Urfolk i fjellene i Perijá",
     communitiesImgAlt2: "Dokumentasjon av lokalsamfunnenes virkelighet",
 
-    videoTitle: "Et første glimt av prosessen på gården",
+    videoTitle: "Feltoppdateringer (under bygging)",
     videoBody:
-      "Dette er en enkel registrering av avskallingen av kaffen på en av pilotgårdene. Senere vil vi gjøre slikt materiale om til lærerikt innhold for kjøpere og produsenter.",
+      "Vi legger ut bilder og video når vi har mer dokumentasjon fra pilotpartiene.",
+
+    waitlistCta: "Bli med pa ventelisten",
+    valueBlocks: [
+      {
+        title: "Opprinnelse",
+        body: "Perijá gir høyde, rent vann og biodiversitet.",
+      },
+      {
+        title: "Kvalitet",
+        body: "Pilotpartier og kontrollerte prosesser for jevn smak.",
+      },
+      {
+        title: "Apenhet",
+        body: "Ekte data per parti og ærlige oppdateringer.",
+      },
+    ],
+    statusTitle: "Prosjektstatus",
+    statusItems: [
+      { label: "Trilleri under montering", status: "Under arbeid" },
+      { label: "Eksportregistrering", status: "Under arbeid" },
+      { label: "Første pilotparti", status: "Neste" },
+      { label: "Import til Norge", status: "Neste" },
+    ],
+    finalCtaTitle: "Få beskjed om første parti",
+    finalCtaBody:
+      "Legg igjen kontaktinfo hvis du vil kjøpe eller distribuere.",
 
     footerCompany: "Ruiz Gomez Import · Stavanger",
     footerEmailLabel: "E-post",
@@ -201,12 +255,12 @@ export const homeStrings: Record<HomeLocale, HomeStrings> = {
     switchToLabel: "English",
     switchToHref: "/en",
 
-    heroTitle: "Mountain coffee, real stories.",
-    heroBodyBefore: "We are connecting ",
-    heroBodyStrong1: "farms in Serranía del Perijá",
-    heroBodyMiddle: " with conscious buyers in Norway. The first batch will be imported with ",
-    heroBodyStrong2: "Ruiz Gomez Import",
-    heroBodyAfter: " as anchor buyer, and from that experience we will open the door to more producers and coffee lovers.",
+    heroTitle: "Perijá origin coffee with real traceability.",
+    heroBodyBefore: "Guatilla is in build mode: ",
+    heroBodyStrong1: "pilot lots",
+    heroBodyMiddle: " for quality and transparency, ",
+    heroBodyStrong2: "without promising dates",
+    heroBodyAfter: ". We will notify you when the first lot is ready.",
     ctaFacebook: "Follow the project on Facebook",
     ctaNotify: "I want to know when it's ready to buy",
 
@@ -217,32 +271,58 @@ export const homeStrings: Record<HomeLocale, HomeStrings> = {
     cardBody: "The Guatilla symbol was born at a mountain viewpoint in Serranía del Perijá. Today it becomes a gateway to bring the landscape, communities, and high-altitude coffee directly to Stavanger.",
     cardImageAlt: "Structure that inspires the Guatilla logo",
 
-    perijaTitle: "Serranía del Perijá · Coffee Origin",
-    perijaBodyBefore: "The mountain range rises to ",
-    perijaBodyStrong1: "3600 m above sea level",
-    perijaBodyMiddle: " and marks the natural border between Colombia and Venezuela. Our network of pilot farms is in this mountain, in the area of ",
-    perijaBodyStrong2: "Agustín Codazzi (Cesar)",
-    perijaBodyAfter: ".",
+    perijaTitle: "Origin (Perijá)",
+    perijaBodyBefore: "Perijá brings altitude, clean water, and biodiversity. ",
+    perijaBodyStrong1: "Altitude",
+    perijaBodyMiddle: ", climate, soils, and water shape a clean, sweet cup.",
+    perijaBodyStrong2: "",
+    perijaBodyAfter: "",
     perijaImgAlt1: "Sunset in Serranía del Perijá",
     perijaImgAlt2: "Mountains and clouds over Perijá",
     perijaImgAlt3: "Peaks of Serranía del Perijá",
     perijaImgAlt4: "Vegetation and coffee plantations in Perijá",
 
-    processTitle: "How coffee is processed",
-    processBody1: "We start with small, washed lots with full traceability farm by farm. This pilot phase allows us to document each step: selective harvesting, pulping, fermentation, and sun-drying on high-altitude patios.",
-    processBody2: "The goal is to build a solid technical foundation so that within the next 12 months we can carry out the first import to Norway and verify the entire logistics journey from the mountains to Stavanger.",
+    processTitle: "Quality from the start",
+    processBody1: "We work with small lots and controlled processes to define roasting profiles.",
+    processBody2: "No promises about specific lots yet. We are building the standard first.",
     processImgAlt1: "Coffee fermentation",
     processImgAlt2: "Coffee washing in channels",
     processImgAlt3: "Coffee washing system in the mountains",
 
-    communitiesTitle: "Communities and Territory",
-    communitiesBody1: "Guatilla arises in a territory inhabited by farming and indigenous communities. The idea is that each cup of coffee carries clear information about the origin and history of those who produce it.",
-    communitiesBody2: "This project is not just a product: it is technical, social, and logistical documentation that will later enable other farms in Perijá to export following an already-tested model.",
+    communitiesTitle: "Transparency and traceability",
+    communitiesBody1: "Every cup should carry real data: region, process, dates, and logistics.",
+    communitiesBody2: "We share honest progress and what remains to solve.",
     communitiesImgAlt1: "Indigenous people in the mountains of Perijá",
     communitiesImgAlt2: "Documenting the reality of communities",
 
-    videoTitle: "A first look at the process on the farm",
-    videoBody: "This is a simple recording of coffee pulping at one of the pilot farms. Later we will turn this type of material into educational content for buyers and producers.",
+    videoTitle: "Field updates (in progress)",
+    videoBody: "We will publish photos and videos as pilot documentation grows.",
+
+    waitlistCta: "Join the waitlist",
+    valueBlocks: [
+      {
+        title: "Origin",
+        body: "Perijá brings altitude, clean water, and biodiversity.",
+      },
+      {
+        title: "Quality",
+        body: "Pilot lots and controlled processing to shape profiles.",
+      },
+      {
+        title: "Transparency",
+        body: "Real data per lot and honest updates.",
+      },
+    ],
+    statusTitle: "Project status",
+    statusItems: [
+      { label: "Milling facility setup", status: "In progress" },
+      { label: "Exporter registration", status: "In progress" },
+      { label: "First pilot lot", status: "Next" },
+      { label: "Import to Norway", status: "Next" },
+    ],
+    finalCtaTitle: "Get notified about the first lot",
+    finalCtaBody:
+      "Leave your contact if you want to buy or distribute.",
 
     footerCompany: "Ruiz Gomez Import · Stavanger",
     footerEmailLabel: "Email",
