@@ -147,12 +147,11 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
         <section className="ikm-shell">
           <div className="ikm-hero-bg">
             <Image
-              src="/images/banner-enciende.jpg"
-              alt="Banner de Kaffe Guatilla"
+              src={getTempImage(0)}
+              alt="Paisaje del Guatilla al atardecer"
               fill
               priority
               sizes="(max-width: 1200px) 100vw, 1200px"
-              className="ikm-hero-bg-image"
               style={{ objectFit: "cover" }}
             />
           </div>
@@ -280,11 +279,11 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
             <aside className="ikm-hero-card">
               <div className="ikm-hero-card-image">
                 <Image
-                  src="/images/taza-logo.jpg"
-                  alt="Taza de cafe con logo Guatilla"
+                  src="/images/logo-realista1.jpg"
+                  alt={t.cardImageAlt}
                   fill
                   sizes="(max-width: 900px) 100vw, 420px"
-                  style={{ objectFit: "cover", objectPosition: "center" }}
+                  style={{ objectFit: "contain" }}
                 />
               </div>
               <div>
