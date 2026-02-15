@@ -369,8 +369,8 @@ body {
 .ikm-menu-list {
   display: flex;
   flex-direction: column;
-  margin: auto 0;
-  padding: 1.5rem 0;
+  margin: 0;
+  padding: 12rem 0 2rem;
 }
 
 .ikm-menu-item {
@@ -379,14 +379,23 @@ body {
   justify-content: space-between;
   padding: 1.2rem 1.4rem;
   border-bottom: 1px solid rgba(11, 15, 18, 0.1);
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(11, 15, 18, 0.12);
   color: inherit;
   font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
   text-align: left;
   max-width: 360px;
   margin: 0 auto;
   border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(3, 6, 8, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ikm-menu-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 26px rgba(3, 6, 8, 0.18);
 }
 
 .ikm-menu-item span {
