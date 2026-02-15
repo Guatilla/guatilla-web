@@ -3,6 +3,7 @@ import {
   Geist,
   Geist_Mono,
   IBM_Plex_Sans,
+  Marcellus,
   Space_Grotesk,
 } from "next/font/google";
 import "./globals.css";
@@ -29,6 +30,12 @@ const spaceGrotesk = Space_Grotesk({
   weight: ["400", "500", "600", "700"],
 });
 
+const marcellus = Marcellus({
+  variable: "--font-marcellus",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
 export const metadata: Metadata = {
   title: "Guatilla",
   description: "Café especial de Colombia · importación directa a Noruega",
@@ -42,7 +49,7 @@ export default function RootLayout({
   return (
     <html lang="no">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${ibmPlexSans.variable} ${spaceGrotesk.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${ibmPlexSans.variable} ${spaceGrotesk.variable} ${marcellus.variable} antialiased`}
       >
         {children}
       </body>

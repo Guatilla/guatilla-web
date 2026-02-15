@@ -13,6 +13,8 @@
     sans-serif;
   --guatilla-font-body: var(--font-ibm-plex), var(--font-space-grotesk),
     sans-serif;
+  --guatilla-font-logo: var(--font-marcellus), var(--font-space-grotesk),
+    serif;
 }
 
 @theme inline {
@@ -111,8 +113,22 @@ body {
   background: var(--guatilla-fire);
 }
 
+.ikm-logo-image {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  background: #ffffff;
+  border: 2px solid rgba(225, 76, 59, 0.65);
+  box-shadow: 0 6px 18px rgba(3, 6, 8, 0.35);
+  padding: 3px;
+}
+
 .ikm-logo-text {
-  font-family: var(--guatilla-font-head);
+  font-family: var(--guatilla-font-logo);
+  letter-spacing: 0.18em;
+  font-size: 0.8rem;
 }
 
 .ikm-logo-sub {

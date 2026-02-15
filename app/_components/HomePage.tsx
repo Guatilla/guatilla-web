@@ -142,10 +142,14 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
           <header className="ikm-header">
             <div className="ikm-logo-block">
               <div className="ikm-logo-mark">
-                <div className="ikm-logo-stripes">
-                  <span />
-                  <span />
-                  <span />
+                <div className="ikm-logo-image" aria-hidden="true">
+                  <Image
+                    src="/images/logo.jpg"
+                    alt="Logo Guatilla"
+                    fill
+                    sizes="36px"
+                    style={{ objectFit: "cover" }}
+                  />
                 </div>
                 <div className="ikm-logo-text">GUATILLA</div>
               </div>
@@ -209,7 +213,6 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
 
           <div className="ikm-hero-grid">
             <div className="ikm-hero-content">
-              <p className="ikm-eyebrow">Inspirado en IKM · Guatilla</p>
               <h1>{t.heroTitle}</h1>
               <p className="ikm-hero-copy">
                 {t.heroBodyBefore}
