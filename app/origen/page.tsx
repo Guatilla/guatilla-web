@@ -3,19 +3,32 @@ import Link from "next/link";
 export default function OrigenPage() {
   return (
     <main>
-      <h1>Origen: Serranía del Perijá (Agustín Codazzi)</h1>
-      <p>
+      <h1 style={{ marginBottom: "0.35rem" }}>
+        Origen: Serranía del Perijá (Agustín Codazzi)
+      </h1>
+      <p style={{ marginTop: 0, marginBottom: "1.25rem" }}>
         Agua de montaña, altura y biodiversidad que influyen en el carácter del
         café.
       </p>
 
-      <figure>
+      <figure
+        style={{
+          maxWidth: "860px",
+          margin: "0 0 1.5rem",
+        }}
+      >
         <img
           src="/images/cascada-perija-hero.jpg"
           alt="Serranía del Perijá, agua de montaña"
-          style={{ width: "100%", height: "auto", display: "block" }}
+          style={{
+            width: "100%",
+            height: "auto",
+            display: "block",
+            borderRadius: "14px",
+            boxShadow: "0 16px 36px rgba(0, 0, 0, 0.35)",
+          }}
         />
-        <figcaption>
+        <figcaption style={{ marginTop: "0.5rem", opacity: 0.8 }}>
           Serranía del Perijá — agua de montaña (foto propia).
         </figcaption>
       </figure>
