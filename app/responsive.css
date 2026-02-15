@@ -244,6 +244,11 @@
   .ikm-icon-text {
     display: block;
   }
+
+  .ikm-lang-popover {
+    top: 78px;
+    right: 16px;
+  }
 }
 
 /* Extra small - 480px y menos */

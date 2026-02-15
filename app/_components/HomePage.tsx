@@ -112,6 +112,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
 
   const [selectedInterest, setSelectedInterest] = useState<InterestType>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [languageOpen, setLanguageOpen] = useState(false);
 
   const isNorwegian = locale === "no";
   const isEnglish = locale === "en";
@@ -172,6 +173,8 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
                 type="button"
                 className="ikm-icon-btn"
                 aria-label={languageLabel}
+                aria-expanded={languageOpen}
+                onClick={() => setLanguageOpen((prev) => !prev)}
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path
@@ -181,6 +184,19 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
                 </svg>
                 <span className="ikm-icon-text">{languageLabel}</span>
               </button>
+              {languageOpen && (
+                <div className="ikm-lang-popover">
+                  <Link href="/en" onClick={() => setLanguageOpen(false)}>
+                    English
+                  </Link>
+                  <Link href="/es" onClick={() => setLanguageOpen(false)}>
+                    Español
+                  </Link>
+                  <Link href="/no" onClick={() => setLanguageOpen(false)}>
+                    Norsk
+                  </Link>
+                </div>
+              )}
               <button
                 type="button"
                 className="ikm-icon-btn"

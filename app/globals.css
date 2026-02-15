@@ -172,6 +172,28 @@ body {
   text-transform: uppercase;
 }
 
+.ikm-lang-popover {
+  position: absolute;
+  top: 64px;
+  right: 140px;
+  display: grid;
+  gap: 0.35rem;
+  background: rgba(11, 15, 18, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 0.6rem 0.75rem;
+  box-shadow: 0 14px 30px rgba(3, 6, 8, 0.45);
+  z-index: 5;
+}
+
+.ikm-lang-popover a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .ikm-icon-btn:hover {
   transform: translateY(-2px);
   background: rgba(15, 23, 42, 0.8);
