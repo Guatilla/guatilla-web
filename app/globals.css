@@ -331,6 +331,8 @@ body {
   transition: transform 0.35s ease;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .ikm-menu.is-open .ikm-menu-panel {
@@ -347,6 +349,9 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-size: 0.75rem;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 .ikm-menu-close {
@@ -370,7 +375,9 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0;
-  padding: 12rem 0 2rem;
+  padding: 12rem 0 3rem;
+  flex: 1;
+  gap: 0.8rem;
 }
 
 .ikm-menu-item {

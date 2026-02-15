@@ -227,6 +227,10 @@
     width: 100%;
   }
 
+  .ikm-menu-list {
+    padding: 9rem 0 3rem;
+  }
+
   .ikm-actions {
     gap: 0.75rem;
   }
@@ -273,6 +277,10 @@
 
   .logo-text {
     font-size: 1rem;
+  }
+
+  .ikm-menu-list {
+    padding: 8rem 0 3rem;
   }
 
   button {
