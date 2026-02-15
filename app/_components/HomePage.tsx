@@ -317,23 +317,22 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
             </div>
             <nav className="ikm-menu-list">
               {[
-                "Productos y servicios",
-                "Nuestro café",
-                "Tiendas en línea",
-                "Sobre Guatilla",
-                "Empleo rural",
-                "Sostenibilidad",
-                "Iniciar sesión",
+                { label: "Inicio", href: "/" },
+                { label: "Nuestro café", href: "/cafe" },
+                { label: "Origen y territorio", href: "/origen" },
+                { label: "Proceso y trazabilidad", href: "/trazabilidad" },
+                { label: "Progreso del proyecto", href: "/progreso" },
+                { label: "Lista de espera", href: "/lista-espera" },
               ].map((item) => (
-                <button
-                  key={item}
-                  type="button"
+                <Link
+                  key={item.href}
+                  href={item.href}
                   className="ikm-menu-item"
                   onClick={() => setMenuOpen(false)}
                 >
-                  {item}
+                  {item.label}
                   <span aria-hidden="true">›</span>
-                </button>
+                </Link>
               ))}
             </nav>
             <div className="ikm-menu-lang">
