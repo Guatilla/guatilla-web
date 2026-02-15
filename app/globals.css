@@ -378,6 +378,8 @@ body {
   padding: 12rem 0 3rem;
   flex: 1;
   gap: 0.8rem;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
 }
 
 .ikm-menu-item {
