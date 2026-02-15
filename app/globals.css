@@ -325,7 +325,7 @@ body {
   margin-left: auto;
   height: 100%;
   width: min(520px, 100%);
-  background: var(--guatilla-sand);
+  background: url("/images/IMG-20231003-WA0001.jpg") no-repeat center 35% / contain;
   color: var(--guatilla-ink);
   transform: translateX(8%);
   transition: transform 0.35s ease;
@@ -369,6 +369,8 @@ body {
 .ikm-menu-list {
   display: flex;
   flex-direction: column;
+  margin: auto 0;
+  padding: 1.5rem 0;
 }
 
 .ikm-menu-item {
@@ -377,11 +379,14 @@ body {
   justify-content: space-between;
   padding: 1.2rem 1.4rem;
   border-bottom: 1px solid rgba(11, 15, 18, 0.1);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.7);
   color: inherit;
   font-size: 0.95rem;
   cursor: pointer;
   text-align: left;
+  max-width: 360px;
+  margin: 0 auto;
+  border-radius: 10px;
 }
 
 .ikm-menu-item span {
