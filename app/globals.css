@@ -156,11 +156,20 @@ body {
   justify-content: center;
   cursor: pointer;
   transition: transform 0.25s ease, background 0.25s ease;
+  flex-direction: column;
+  gap: 0.2rem;
 }
 
 .ikm-icon-btn svg {
   width: 20px;
   height: 20px;
+}
+
+.ikm-icon-text {
+  display: none;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .ikm-icon-btn:hover {

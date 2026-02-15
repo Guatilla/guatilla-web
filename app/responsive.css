@@ -226,6 +226,24 @@
   .ikm-menu-panel {
     width: 100%;
   }
+
+  .ikm-actions {
+    gap: 0.75rem;
+  }
+
+  .ikm-icon-btn {
+    width: 56px;
+    height: 56px;
+  }
+
+  .ikm-icon-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .ikm-icon-text {
+    display: block;
+  }
 }
 
 /* Extra small - 480px y menos */

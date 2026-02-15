@@ -115,6 +115,17 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
 
   const isNorwegian = locale === "no";
   const isEnglish = locale === "en";
+  const languageLabel = isNorwegian
+    ? "Sprak"
+    : isEnglish
+    ? "Language"
+    : "Idioma";
+  const searchLabel = isNorwegian
+    ? "Sok"
+    : isEnglish
+    ? "Search"
+    : "Buscar";
+  const menuLabel = isNorwegian ? "Meny" : isEnglish ? "Menu" : "Menu";
 
   const getLangAttribute = () => {
     if (locale === "no") return "no";
@@ -160,7 +171,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               <button
                 type="button"
                 className="ikm-icon-btn"
-                aria-label="Idioma"
+                aria-label={languageLabel}
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path
@@ -168,11 +179,12 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
                     fill="currentColor"
                   />
                 </svg>
+                <span className="ikm-icon-text">{languageLabel}</span>
               </button>
               <button
                 type="button"
                 className="ikm-icon-btn"
-                aria-label="Buscar"
+                aria-label={searchLabel}
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path
@@ -180,11 +192,12 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
                     fill="currentColor"
                   />
                 </svg>
+                <span className="ikm-icon-text">{searchLabel}</span>
               </button>
               <button
                 type="button"
                 className="ikm-icon-btn"
-                aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+                aria-label={menuOpen ? "Cerrar menu" : "Abrir menu"}
                 aria-expanded={menuOpen}
                 onClick={() => setMenuOpen((prev) => !prev)}
               >
@@ -207,6 +220,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
                     />
                   </svg>
                 )}
+                <span className="ikm-icon-text">{menuLabel}</span>
               </button>
             </div>
           </header>
