@@ -346,6 +346,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
         {/* ---------------------------------------------------------------- */}
         {selectedInterest && (
           <section
+            className="interest-form"
             style={{
               marginBottom: "2.5rem",
               borderRadius: "1.6rem",
