@@ -325,7 +325,7 @@ body {
   margin-left: auto;
   height: 100%;
   width: min(520px, 100%);
-  background: url("/images/IMG-20231003-WA0001.jpg") no-repeat center 35% / contain;
+  background: url("/images/IMG-20231003-WA0001.jpg") no-repeat center 35% / cover;
   color: var(--guatilla-ink);
   transform: translateX(8%);
   transition: transform 0.35s ease;
