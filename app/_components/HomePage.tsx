@@ -299,14 +299,14 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               ))}
             </nav>
             <div className="ikm-menu-lang">
-              <Link href="/" onClick={() => setMenuOpen(false)}>
-                Norsk
+              <Link href="/en" onClick={() => setMenuOpen(false)}>
+                English
               </Link>
               <Link href="/es" onClick={() => setMenuOpen(false)}>
                 Español
               </Link>
-              <Link href="/en" onClick={() => setMenuOpen(false)}>
-                English
+              <Link href="/" onClick={() => setMenuOpen(false)}>
+                Norsk
               </Link>
             </div>
           </div>
@@ -854,19 +854,13 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
           </div>
 
           {/* Iconos de redes */}
-          <div
-            style={{
-              display: "flex",
-              gap: "0.75rem",
-              alignItems: "center",
-            }}
-          >
+          <div className="ikm-socials">
             {/* 1. Finn.no */}
             <a
               href="https://www.finn.no/profile/ads?userid=1063000714"
               target="_blank"
               rel="noreferrer"
-              style={{ display: "inline-flex" }}
+              className="ikm-social-link"
             >
               <Image
                 src="/icons/finn.jpeg"
@@ -881,7 +875,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               href="https://www.facebook.com/profile.php?id=100090938266173"
               target="_blank"
               rel="noreferrer"
-              style={{ display: "inline-flex" }}
+              className="ikm-social-link"
             >
               <Image
                 src="/icons/facebook.jpeg"
@@ -896,7 +890,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               href="https://www.instagram.com/kaffeguatilla/"
               target="_blank"
               rel="noreferrer"
-              style={{ display: "inline-flex" }}
+              className="ikm-social-link"
             >
               <Image
                 src="/icons/instagram.jpeg"
@@ -911,7 +905,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               href="https://www.linkedin.com/in/kaffe-guatilla-a18208234"
               target="_blank"
               rel="noreferrer"
-              style={{ display: "inline-flex" }}
+              className="ikm-social-link"
             >
               <Image
                 src="/icons/linkedin.jpeg"
