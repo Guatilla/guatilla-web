@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, FormEvent } from "react";
@@ -113,6 +113,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
   const [selectedInterest, setSelectedInterest] = useState<InterestType>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
+  const formRef = useRef<HTMLElement | null>(null);
 
   const isNorwegian = locale === "no";
   const isEnglish = locale === "en";
@@ -133,6 +134,12 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
     if (locale === "en") return "en";
     return "es";
   };
+
+  useEffect(() => {
+    if (selectedInterest && formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [selectedInterest]);
 
   return (
     <main style={pageStyle} lang={getLangAttribute()}>
@@ -347,6 +354,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
         {selectedInterest && (
           <section
             className="interest-form"
+            ref={formRef}
             style={{
               marginBottom: "2.5rem",
               borderRadius: "1.6rem",
