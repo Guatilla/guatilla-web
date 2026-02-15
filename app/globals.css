@@ -90,11 +90,11 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0.4rem 0.6rem;
+  padding: 0.5rem 0.9rem;
   background: linear-gradient(90deg, rgba(11, 15, 18, 0.55), rgba(11, 15, 18, 0.2)),
-    url("/images/banner-enciende.jpg");
-  background-size: auto 100%;
-  background-position: center left;
+    var(--banner-enciende-url, url("/images/banner-enciende.jpg"));
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
   border-radius: 12px;
   color: #ffffff;
@@ -102,8 +102,8 @@ body {
   letter-spacing: 0.2em;
   font-weight: 700;
   font-size: 0.78rem;
-  min-height: 56px;
-  width: min(340px, 80vw);
+  min-height: 72px;
+  width: min(420px, 90vw);
 }
 
 .ikm-logo-stripes {

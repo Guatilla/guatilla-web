@@ -246,6 +246,11 @@
     gap: 0.75rem;
   }
 
+  .ikm-logo-mark {
+    width: min(100%, 420px);
+    min-height: 64px;
+  }
+
   .ikm-icon-btn {
     width: 56px;
     height: 56px;

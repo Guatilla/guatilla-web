@@ -41,6 +41,18 @@ type InterestType = "sell" | "buy" | null;
 export function HomePage({ locale }: { locale: HomeLocale }) {
   const t = getHomeStrings(locale);
 
+  const bannerImageUrl =
+    locale === "en"
+      ? "/images/banner-enciende-english.png"
+      : locale === "no"
+      ? "/images/banner-enciende-norsk.png"
+      : "/images/banner-enciende-español.png";
+
+  const pageStyleWithBanner: CSSProperties = {
+    ...pageStyle,
+    ["--banner-enciende-url" as any]: `url("${bannerImageUrl}")`,
+  };
+
   const handleInterestSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -142,7 +154,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
   }, [selectedInterest]);
 
   return (
-    <main style={pageStyle} lang={getLangAttribute()}>
+    <main style={pageStyleWithBanner} lang={getLangAttribute()}>
       <div style={maxWidthStyle}>
         <section className="ikm-shell">
           <div className="ikm-hero-bg">
