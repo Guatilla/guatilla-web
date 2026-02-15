@@ -74,6 +74,65 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
     return "es";
   };
 
+  const valueCards = [
+    {
+      href: "/origen",
+      block: t.valueBlocks[0],
+      icon: (
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M3 18h18v2H3v-2Zm9-14 7 10h-4l-3-5-3 5H5l7-10Z"
+            fill="currentColor"
+          />
+          <path d="M6.5 16h11" stroke="currentColor" strokeWidth="1.5" />
+        </svg>
+      ),
+    },
+    {
+      href: "/progreso",
+      block: t.valueBlocks[1],
+      icon: (
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M3 8h12a4 4 0 0 1 0 8H9a6 6 0 0 1-6-6V8Z"
+            fill="currentColor"
+          />
+          <path
+            d="M15 9h2.5a2.5 2.5 0 1 1 0 5H15"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            fill="none"
+          />
+          <path d="M6 19h10" stroke="currentColor" strokeWidth="1.5" />
+        </svg>
+      ),
+    },
+    {
+      href: "/trazabilidad",
+      block: t.valueBlocks[2],
+      icon: (
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M6 3h8l4 4v14H6V3Z"
+            fill="currentColor"
+            opacity="0.9"
+          />
+          <path
+            d="M14 3v5h5"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            fill="none"
+          />
+          <path
+            d="M8 12h8M8 16h8"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
+        </svg>
+      ),
+    },
+  ];
+
   return (
     <main style={pageStyleWithBanner} lang={getLangAttribute()}>
       <div style={maxWidthStyle}>
@@ -277,23 +336,47 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
               gap: "1rem",
             }}
           >
-            {t.valueBlocks.map((block) => (
-              <div
-                key={block.title}
+            {valueCards.map((card) => (
+              <Link
+                key={card.href}
+                href={card.href}
                 style={{
                   padding: "1rem",
                   borderRadius: "0.9rem",
                   background: "rgba(2,6,23,0.45)",
                   border: "1px solid rgba(148,163,184,0.2)",
+                  textDecoration: "none",
+                  color: "inherit",
+                  display: "block",
                 }}
               >
-                <h3 style={{ marginBottom: "0.4rem", fontSize: "1rem" }}>
-                  {block.title}
-                </h3>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: "0.6rem",
+                    marginBottom: "0.4rem",
+                    color: "#cbd5f5",
+                  }}
+                >
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      width: 18,
+                      height: 18,
+                      opacity: 0.9,
+                    }}
+                  >
+                    {card.icon}
+                  </span>
+                  <h3 style={{ margin: 0, fontSize: "1rem" }}>
+                    {card.block.title}
+                  </h3>
+                </div>
                 <p style={{ margin: 0, fontSize: "0.9rem", color: "#e2e8f0" }}>
-                  {block.body}
+                  {card.block.body}
                 </p>
-              </div>
+              </Link>
             ))}
           </div>
         </section>
