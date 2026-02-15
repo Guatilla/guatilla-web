@@ -160,18 +160,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
 
           <header className="ikm-header">
             <div className="ikm-logo-block">
-              <div className="ikm-logo-mark">
-                <div className="ikm-logo-image" aria-hidden="true">
-                  <Image
-                    src="/images/logo.jpg"
-                    alt="Logo Guatilla"
-                    fill
-                    sizes="36px"
-                    style={{ objectFit: "cover" }}
-                  />
-                </div>
-                <div className="ikm-logo-text">GUATILLA</div>
-              </div>
+              <div className="ikm-logo-mark" aria-hidden="true" />
               <div className="ikm-logo-sub">{t.logoSubLine}</div>
             </div>
 
