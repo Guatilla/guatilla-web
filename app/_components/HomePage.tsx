@@ -11,16 +11,29 @@ import "../responsive.css";
 
 const pageStyle: CSSProperties = {
   minHeight: "100vh",
-  fontFamily:
-    "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+  fontFamily: "var(--guatilla-font-body)",
   color: "#f5f1ed",
-  backgroundColor: "#0f2818",
+  backgroundColor: "var(--guatilla-bg)",
 };
 
 const maxWidthStyle: CSSProperties = {
   maxWidth: "1120px",
   margin: "0 auto",
   padding: "1.5rem",
+};
+
+const TEMP_IMAGES = [
+  "/images/atardecer2.JPG",
+  "/images/cascada3.jpg",
+  "/images/cascada4.JPG",
+];
+
+const getTempImage = (index: number) =>
+  TEMP_IMAGES[index % TEMP_IMAGES.length];
+
+const tempCardImageStyle: CSSProperties = {
+  objectFit: "cover",
+  objectPosition: "center 35%",
 };
 
 type InterestType = "sell" | "buy" | null;
@@ -98,6 +111,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
   };
 
   const [selectedInterest, setSelectedInterest] = useState<InterestType>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const isNorwegian = locale === "no";
   const isEnglish = locale === "en";
@@ -111,263 +125,189 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
   return (
     <main style={pageStyle} lang={getLangAttribute()}>
       <div style={maxWidthStyle}>
-        {/* ---------------------------------------------------------------- */}
-        {/* CABECERA CON LOGO + NOMBRE                                        */}
-        {/* ---------------------------------------------------------------- */}
-        <header
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "1.5rem",
-            padding: "1.5rem 0",
-            borderBottom: "1px solid rgba(148,163,184,0.15)",
-            marginBottom: "2.5rem",
-          }}
-        >
-          {/* Logo + nombre */}
-          <div style={{ display: "flex", alignItems: "center", gap: "0.9rem" }}>
-            <div
-              style={{
-                width: "56px",
-                height: "56px",
-                borderRadius: "999px",
-                overflow: "hidden",
-                background:
-                  "radial-gradient(circle at 30% 20%, #f97316, #facc15 35%, #22c55e 75%, #16a34a 100%)",
-                border: "2px solid rgba(15,23,42,0.8)",
-                boxShadow: "0 10px 40px rgba(15,23,42,0.85)",
-                position: "relative",
-              }}
-            >
-              <Image
-                src="/images/logo.jpg"
-                alt="Logo Kaffe Guatilla"
-                fill
-                style={{ objectFit: "cover" }}
-                sizes="56px"
-              />
-            </div>
-            <div>
-              <div
-                style={{
-                  fontSize: "1.25rem",
-                  fontWeight: 700,
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                }}
-              >
-                KAFFE GUATILLA
-              </div>
-              <div
-                style={{
-                  fontSize: "0.78rem",
-                  opacity: 0.85,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                }}
-              >
-                {t.brandLine}
-              </div>
-            </div>
+        <section className="ikm-shell">
+          <div className="ikm-hero-bg">
+            <Image
+              src={getTempImage(0)}
+              alt="Paisaje del Guatilla al atardecer"
+              fill
+              priority
+              sizes="(max-width: 1200px) 100vw, 1200px"
+              style={{ objectFit: "cover" }}
+            />
           </div>
+          <div className="ikm-hero-overlay" />
+          <div className="ikm-hero-angle" />
 
-          {/* Localización y tagline */}
-          <div
-            style={{
-              textAlign: "right",
-              fontSize: "0.8rem",
-              lineHeight: 1.5,
-            }}
-          >
-            <div
-              style={{
-                fontWeight: 600,
-                color: "#fbbf24",
-                marginBottom: "0.1rem",
-              }}
-            >
-              {t.locationLine}
+          <header className="ikm-header">
+            <div className="ikm-logo-block">
+              <div className="ikm-logo-mark">
+                <div className="ikm-logo-stripes">
+                  <span />
+                  <span />
+                  <span />
+                </div>
+                <div className="ikm-logo-text">GUATILLA</div>
+              </div>
+              <div className="ikm-logo-sub">Café de origen · Colombia</div>
             </div>
-            <div style={{ opacity: 0.85 }}>{t.taglineLine}</div>
-            <div style={{ marginTop: "0.45rem", display: "flex", gap: "0.8rem" }}>
-              <Link
-                href="/"
-                style={{
-                  color: locale === "no" ? "#fbbf24" : "#38bdf8",
-                  textDecoration: "none",
-                  fontWeight: 600,
-                  opacity: locale === "no" ? 1 : 0.7,
-                }}
+
+            <div className="ikm-actions">
+              <button
+                type="button"
+                className="ikm-icon-btn"
+                aria-label="Idioma"
               >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm7 9a7.02 7.02 0 0 1-1.2 3.95h-2.78a17.8 17.8 0 0 0 .58-3.95h3.4Zm-7-7c.92 1.2 1.68 2.95 2.13 5H9.87C10.32 7.95 11.08 6.2 12 5Zm0 14c-.92-1.2-1.68-2.95-2.13-5h4.26c-.45 2.05-1.2 3.8-2.13 5Zm-5.6-3.05A7.02 7.02 0 0 1 5 12h3.4c.07 1.35.26 2.67.58 3.95H6.4Zm1.2-9.9h2.78A17.8 17.8 0 0 0 10.8 10H7.4A7.02 7.02 0 0 1 7.6 6.05Zm6.62 0h2.78A7.02 7.02 0 0 1 18.6 10h-3.4a17.8 17.8 0 0 0-.58-3.95ZM8.4 12h7.2c-.08 1.36-.3 2.68-.64 3.95H9.04A16.6 16.6 0 0 1 8.4 12Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </button>
+              <button
+                type="button"
+                className="ikm-icon-btn"
+                aria-label="Buscar"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M10.5 3a7.5 7.5 0 1 0 4.69 13.36l4.22 4.22 1.06-1.06-4.22-4.22A7.5 7.5 0 0 0 10.5 3Zm0 2a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </button>
+              <button
+                type="button"
+                className="ikm-icon-btn"
+                aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+                aria-expanded={menuOpen}
+                onClick={() => setMenuOpen((prev) => !prev)}
+              >
+                {menuOpen ? (
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M6 6l12 12M18 6l-12 12"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M4 7h16M4 12h16M4 17h16"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                )}
+              </button>
+            </div>
+          </header>
+
+          <div className="ikm-hero-grid">
+            <div className="ikm-hero-content">
+              <p className="ikm-eyebrow">Inspirado en IKM · Guatilla</p>
+              <h1>{t.heroTitle}</h1>
+              <p className="ikm-hero-copy">
+                {t.heroBodyBefore}
+                <strong>{t.heroBodyStrong1}</strong>
+                {t.heroBodyMiddle}
+                <strong>{t.heroBodyStrong2}</strong>
+                {t.heroBodyAfter}
+              </p>
+              <div className="ikm-hero-actions">
+                <button
+                  type="button"
+                  className="ikm-btn-primary"
+                  onClick={() => setSelectedInterest("sell")}
+                >
+                  {t.interestOptionSell}
+                </button>
+                <button
+                  type="button"
+                  className="ikm-btn-outline"
+                  onClick={() => setSelectedInterest("buy")}
+                >
+                  {t.interestOptionBuy}
+                </button>
+              </div>
+            </div>
+
+            <aside className="ikm-hero-card">
+              <div className="ikm-hero-card-image">
+                <Image
+                  src="/images/logo-realista1.jpg"
+                  alt={t.cardImageAlt}
+                  fill
+                  sizes="(max-width: 900px) 100vw, 420px"
+                  style={{ objectFit: "contain" }}
+                />
+              </div>
+              <div>
+                <h2>{t.cardTitle}</h2>
+                <p>{t.cardBody}</p>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <div className={`ikm-menu ${menuOpen ? "is-open" : ""}`}>
+          <div className="ikm-menu-panel">
+            <div className="ikm-menu-top">
+              <span>Menú</span>
+              <button
+                type="button"
+                className="ikm-menu-close"
+                onClick={() => setMenuOpen(false)}
+                aria-label="Cerrar menú"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M6 6l12 12M18 6l-12 12"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </button>
+            </div>
+            <nav className="ikm-menu-list">
+              {[
+                "Productos y servicios",
+                "Nuestro café",
+                "Tiendas en línea",
+                "Sobre Guatilla",
+                "Empleo rural",
+                "Sostenibilidad",
+                "Iniciar sesión",
+              ].map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  className="ikm-menu-item"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item}
+                  <span aria-hidden="true">›</span>
+                </button>
+              ))}
+            </nav>
+            <div className="ikm-menu-lang">
+              <Link href="/" onClick={() => setMenuOpen(false)}>
                 Norsk
               </Link>
-              <span style={{ color: "#64748b" }}>·</span>
-              <Link
-                href="/es"
-                style={{
-                  color: locale === "es" ? "#fbbf24" : "#38bdf8",
-                  textDecoration: "none",
-                  fontWeight: 600,
-                  opacity: locale === "es" ? 1 : 0.7,
-                }}
-              >
+              <Link href="/es" onClick={() => setMenuOpen(false)}>
                 Español
               </Link>
-              <span style={{ color: "#64748b" }}>·</span>
-              <Link
-                href="/en"
-                style={{
-                  color: locale === "en" ? "#fbbf24" : "#38bdf8",
-                  textDecoration: "none",
-                  fontWeight: 600,
-                  opacity: locale === "en" ? 1 : 0.7,
-                }}
-              >
+              <Link href="/en" onClick={() => setMenuOpen(false)}>
                 English
               </Link>
             </div>
           </div>
-        </header>
-
-        {/* ---------------------------------------------------------------- */}
-        {/* HERO PRINCIPAL                                                    */}
-        {/* ---------------------------------------------------------------- */}
-        <section
-          className="grid-hero"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "minmax(0,1.2fr) minmax(0,1fr)",
-            gap: "2rem",
-            marginBottom: "3rem",
-          }}
-        >
-          {/* Texto principal */}
-          <div>
-            <h1
-              style={{
-                fontSize: "2.6rem",
-                lineHeight: 1.1,
-                marginBottom: "1.1rem",
-              }}
-            >
-              {t.heroTitle}
-            </h1>
-            <p
-              style={{
-                fontSize: "0.98rem",
-                lineHeight: 1.6,
-                color: "#e5e7eb",
-                maxWidth: "36rem",
-                marginBottom: "1.75rem",
-              }}
-            >
-              {t.heroBodyBefore}
-              <strong>{t.heroBodyStrong1}</strong>
-              {t.heroBodyMiddle}
-              <strong>{t.heroBodyStrong2}</strong>
-              {t.heroBodyAfter}
-            </p>
-
-            {/* Botones */}
-            <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-            
-              {/* NUEVO: Quiero vender café */}
-              <button
-                type="button"
-                onClick={() => setSelectedInterest("sell")}
-                style={{
-                  padding: "0.85rem 1.6rem",
-                  borderRadius: "999px",
-                  border: "1px solid rgba(34,197,94,0.7)",
-                  backgroundColor:
-                    selectedInterest === "sell"
-                      ? "rgba(34,197,94,0.15)"
-                      : "transparent",
-                  color: "#bbf7d0",
-                  fontSize: "0.9rem",
-                  cursor: "pointer",
-                }}
-              >
-                {t.interestOptionSell}
-              </button>
-
-              {/* NUEVO: Quiero comprar café */}
-              <button
-                type="button"
-                onClick={() => setSelectedInterest("buy")}
-                style={{
-                  padding: "0.85rem 1.6rem",
-                  borderRadius: "999px",
-                  border: "1px solid rgba(56,189,248,0.7)",
-                  backgroundColor:
-                    selectedInterest === "buy"
-                      ? "rgba(56,189,248,0.15)"
-                      : "transparent",
-                  color: "#bae6fd",
-                  fontSize: "0.9rem",
-                  cursor: "pointer",
-                }}
-              >
-                {t.interestOptionBuy}
-              </button>
-            </div>
-          </div>
-
-          {/* Card: historia del logo */}
-          <article
-            style={{
-              borderRadius: "1.5rem",
-              padding: "1.5rem 1.6rem",
-              background:
-                "radial-gradient(circle at 0% 0%, rgba(248,250,252,0.05), rgba(30,64,175,0.55))",
-              border: "1px solid rgba(129,140,248,0.32)",
-              boxShadow: "0 20px 60px rgba(15,23,42,0.95)",
-              display: "flex",
-              flexDirection: "column",
-              gap: "1.1rem",
-            }}
-          >
-            <div
-              style={{
-                borderRadius: "1rem",
-                overflow: "hidden",
-                height: "170px",
-                position: "relative",
-              }}
-            >
-              <Image
-                src="/images/logo-realista1.jpg"
-                alt={t.cardImageAlt}
-                fill
-                sizes="(max-width: 900px) 100vw, 420px"
-                style={{ objectFit: "contain" }}
-              />
-            </div>
-
-            <div>
-              <h2
-                style={{
-                  fontSize: "1rem",
-                  marginBottom: "0.45rem",
-                  fontWeight: 600,
-                }}
-              >
-                {t.cardTitle}
-              </h2>
-              <p
-                style={{
-                  fontSize: "0.9rem",
-                  lineHeight: 1.6,
-                  color: "#e5e7eb",
-                }}
-              >
-                {t.cardBody}
-              </p>
-            </div>
-          </article>
-        </section>
-
+        </div>
         {/* ---------------------------------------------------------------- */}
         {/* FORMULARIO DE INTERÉS (VENDER / COMPRAR)                          */}
         {/* ---------------------------------------------------------------- */}
@@ -582,11 +522,11 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
                 }}
               >
                 <Image
-                  src="/images/atardecer1.JPG"
+                  src={getTempImage(1)}
                   alt={t.perijaImgAlt1}
                   fill
                   sizes="(max-width: 900px) 50vw, 260px"
-                  style={{ objectFit: "cover" }}
+                  style={tempCardImageStyle}
                 />
               </figure>
             </Zoom>
@@ -601,11 +541,11 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
                 }}
               >
                 <Image
-                  src="/images/atardecer2.JPG"
+                  src={getTempImage(2)}
                   alt={t.perijaImgAlt2}
                   fill
                   sizes="(max-width: 900px) 50vw, 260px"
-                  style={{ objectFit: "cover" }}
+                  style={tempCardImageStyle}
                 />
               </figure>
             </Zoom>
@@ -620,11 +560,11 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
                 }}
               >
                 <Image
-                  src="/images/tres-tetas1.jpg"
+                  src={getTempImage(3)}
                   alt={t.perijaImgAlt3}
                   fill
                   sizes="(max-width: 900px) 50vw, 260px"
-                  style={{ objectFit: "cover" }}
+                  style={tempCardImageStyle}
                 />
               </figure>
             </Zoom>
@@ -639,11 +579,11 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
                 }}
               >
                 <Image
-                  src="/images/plata-parque.jpg"
+                  src={getTempImage(4)}
                   alt={t.perijaImgAlt4}
                   fill
                   sizes="(max-width: 900px) 50vw, 260px"
-                  style={{ objectFit: "cover" }}
+                  style={tempCardImageStyle}
                 />
               </figure>
             </Zoom>
@@ -703,11 +643,11 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
                 }}
               >
                 <Image
-                  src="/images/fermentacion-cafe1.jpg"
+                  src={getTempImage(5)}
                   alt={t.processImgAlt1}
                   fill
                   sizes="(max-width: 900px) 60vw, 320px"
-                  style={{ objectFit: "cover" }}
+                  style={tempCardImageStyle}
                 />
               </figure>
             </Zoom>
@@ -722,11 +662,11 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
                 }}
               >
                 <Image
-                  src="/images/lavado-cafe1.jpg"
+                  src={getTempImage(6)}
                   alt={t.processImgAlt2}
                   fill
                   sizes="(max-width: 900px) 40vw, 220px"
-                  style={{ objectFit: "cover" }}
+                  style={tempCardImageStyle}
                 />
               </figure>
             </Zoom>
@@ -742,11 +682,11 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
                 }}
               >
                 <Image
-                  src="/images/lavado-cafe2.jpg"
+                  src={getTempImage(7)}
                   alt={t.processImgAlt3}
                   fill
                   sizes="(max-width: 900px) 100vw, 540px"
-                  style={{ objectFit: "cover" }}
+                  style={tempCardImageStyle}
                 />
               </figure>
             </Zoom>
@@ -813,11 +753,11 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
                 }}
               >
                 <Image
-                  src="/images/pueblos-indigenas.jpg"
+                  src={getTempImage(8)}
                   alt={t.communitiesImgAlt1}
                   fill
                   sizes="(max-width: 900px) 100vw, 320px"
-                  style={{ objectFit: "cover" }}
+                  style={tempCardImageStyle}
                 />
               </div>
             </Zoom>
@@ -832,11 +772,11 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
                 }}
               >
                 <Image
-                  src="/images/fotografiando-realidades.JPG"
+                  src={getTempImage(9)}
                   alt={t.communitiesImgAlt2}
                   fill
                   sizes="(max-width: 900px) 100vw, 320px"
-                  style={{ objectFit: "cover" }}
+                  style={tempCardImageStyle}
                 />
               </div>
             </Zoom>

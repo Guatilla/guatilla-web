@@ -100,6 +100,23 @@
   .header-right {
     width: 100%;
   }
+
+  .ikm-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 2rem 1.4rem 3rem;
+  }
+
+  .ikm-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .ikm-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }
 
 /* Mobile - 640px y menos */
@@ -186,6 +203,28 @@
   header .header-right {
     width: 100%;
     text-align: left;
+  }
+
+  .ikm-shell {
+    border-radius: 18px;
+  }
+
+  .ikm-hero-content h1 {
+    font-size: 1.9rem;
+  }
+
+  .ikm-hero-copy {
+    font-size: 0.9rem;
+  }
+
+  .ikm-btn-primary,
+  .ikm-btn-outline {
+    width: 100%;
+    text-align: center;
+  }
+
+  .ikm-menu-panel {
+    width: 100%;
   }
 }
 
