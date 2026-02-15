@@ -153,7 +153,7 @@ export function HomePage({ locale }: { locale: HomeLocale }) {
                 </div>
                 <div className="ikm-logo-text">GUATILLA</div>
               </div>
-              <div className="ikm-logo-sub">Café de origen · Colombia</div>
+              <div className="ikm-logo-sub">{t.logoSubLine}</div>
             </div>
 
             <div className="ikm-actions">

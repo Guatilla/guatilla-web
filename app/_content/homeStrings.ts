@@ -2,6 +2,7 @@ export type HomeLocale = "es" | "no" | "en";
 
 export type HomeStrings = {
   brandLine: string;
+  logoSubLine: string;
   locationLine: string;
   taglineLine: string;
   switchToLabel: string;
@@ -61,6 +62,7 @@ export type HomeStrings = {
 export const homeStrings: Record<HomeLocale, HomeStrings> = {
   es: {
     brandLine: "Café especial de Colombia · Ruiz Gomez Import",
+    logoSubLine: "Café de origen · Colombia",
     locationLine: "Stavanger · Noruega",
     taglineLine: "Importación directa desde la Serranía del Perijá",
     switchToLabel: "Norsk",
@@ -126,6 +128,7 @@ export const homeStrings: Record<HomeLocale, HomeStrings> = {
   },
   no: {
     brandLine: "Spesialkaffe fra Colombia · Ruiz Gomez Import",
+    logoSubLine: "Opprinnelseskaffe · Colombia",
     locationLine: "Stavanger · Norge",
     taglineLine: "Direkte import fra Serranía del Perijá",
     switchToLabel: "Español",
@@ -192,6 +195,7 @@ export const homeStrings: Record<HomeLocale, HomeStrings> = {
   },
   en: {
     brandLine: "Specialty Coffee from Colombia · Ruiz Gomez Import",
+    logoSubLine: "Origin coffee · Colombia",
     locationLine: "Stavanger · Norway",
     taglineLine: "Direct import from Serranía del Perijá",
     switchToLabel: "English",
