@@ -1,0 +1,13 @@
+:root {
+  /* Base Colors */
+  --brand-linen: #FAF4EC;
+  --brand-coffee: #3C2A21;
+  --brand-terracotta: #D0694D;
+  --brand-olive: #7C8966;
+  --brand-vichy: #B33939;
+  --brand-cream: #FDFCF8;
+
+  /* Backgrounds */
+  --background: var(--brand-linen);
+  --foreground: var(--brand-coffee);
+}

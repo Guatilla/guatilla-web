@@ -1,0 +1,40 @@
+import type { Metadata } from "next";
+import { Outfit, Playfair_Display } from "next/font/google";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import "./globals.css";
+
+const outfit = Outfit({ 
+  subsets: ["latin"],
+  variable: '--font-outfit',
+});
+
+// Using Playfair Display as a fallback for Vianor Rough until custom font is loaded
+const playfair = Playfair_Display({ 
+  subsets: ["latin"],
+  variable: '--font-vianor',
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
+
+export const metadata: Metadata = {
+  title: "Kaffe Guatilla | 100% Colombiano",
+  description: "Café artesanal inspirado en la Serranía del Perijá. Un encuentro cultural en cada taza.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="es" className={`${outfit.variable} ${playfair.variable}`}>
+      <body className="flex flex-col min-h-screen">
+        <Navbar />
+        <main className="flex-grow pt-20">
+          {children}
+        </main>
+        <Footer />
+      </body>
+    </html>
+  );
+}

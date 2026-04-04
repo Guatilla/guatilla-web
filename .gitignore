@@ -19,6 +19,14 @@
 # misc
 .DS_Store
 *.pem
+.vscode/
+
+# temporary root artifacts
+/GUATILLA-*.png
+/Gemini_Generated_Image_*.png
+/WhatsApp Image *.jpeg
+/KAFFE GUATILLA.pdf
+/kaffe_text.txt
 
 # debug
 npm-debug.log*
@@ -27,6 +35,7 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env
 
 # vercel
 .vercel
@@ -34,3 +43,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/src/generated/prisma
