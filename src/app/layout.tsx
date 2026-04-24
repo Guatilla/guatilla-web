@@ -27,8 +27,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${outfit.variable} ${playfair.variable}`}>
-      <body className="flex flex-col min-h-screen">
+    <html lang="es" className={`${outfit.variable} ${playfair.variable}`} suppressHydrationWarning>
+      <body className="flex flex-col min-h-screen" suppressHydrationWarning>
         <Navbar />
         <main className="flex-grow pt-20">
           {children}

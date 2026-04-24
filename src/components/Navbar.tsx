@@ -34,16 +34,24 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Navigation - Centered (Desktop) */}
           <div className="hidden md:flex flex-1 justify-center space-x-12">
-            <Link href="#cafe" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
-              Café
+            <Link href="/" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
+              Home
             </Link>
-            <Link href="#historia" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
-              Nuestra Historia
+            <Link href="#about" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
+              About
             </Link>
-            <Link href="#sostenibilidad" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
-              Sostenibilidad
+            <Link href="#origen" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
+              Origen
+            </Link>
+            <Link href="#shop" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
+              Shop
+            </Link>
+            <Link href="#transparencia" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
+              Transparencia
+            </Link>
+            <Link href="#contact" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
+              Contact
             </Link>
           </div>
 
@@ -95,25 +103,46 @@ export default function Navbar() {
         <div className="md:hidden bg-brand-cream border-t border-brand-coffee/10 absolute w-full left-0 top-full shadow-lg">
           <div className="px-4 pt-2 pb-6 space-y-1 flex flex-col items-center">
             <Link 
-              href="#cafe" 
+              href="/" 
               className="block w-full text-center px-3 py-4 text-sm font-bold tracking-widest text-brand-coffee hover:bg-brand-linen hover:text-brand-terracotta transition-colors uppercase border-b border-brand-coffee/5"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Café
+              Home
             </Link>
             <Link 
-              href="#historia" 
+              href="#about" 
               className="block w-full text-center px-3 py-4 text-sm font-bold tracking-widest text-brand-coffee hover:bg-brand-linen hover:text-brand-terracotta transition-colors uppercase border-b border-brand-coffee/5"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Nuestra Historia
+              About
             </Link>
             <Link 
-              href="#sostenibilidad" 
+              href="#origen" 
               className="block w-full text-center px-3 py-4 text-sm font-bold tracking-widest text-brand-coffee hover:bg-brand-linen hover:text-brand-terracotta transition-colors uppercase border-b border-brand-coffee/5"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Sostenibilidad
+              Origen
+            </Link>
+            <Link 
+              href="#shop" 
+              className="block w-full text-center px-3 py-4 text-sm font-bold tracking-widest text-brand-coffee hover:bg-brand-linen hover:text-brand-terracotta transition-colors uppercase border-b border-brand-coffee/5"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Shop
+            </Link>
+            <Link 
+              href="#transparencia" 
+              className="block w-full text-center px-3 py-4 text-sm font-bold tracking-widest text-brand-coffee hover:bg-brand-linen hover:text-brand-terracotta transition-colors uppercase border-b border-brand-coffee/5"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Transparencia
+            </Link>
+            <Link 
+              href="#contact" 
+              className="block w-full text-center px-3 py-4 text-sm font-bold tracking-widest text-brand-coffee hover:bg-brand-linen hover:text-brand-terracotta transition-colors uppercase border-b border-brand-coffee/5"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Contact
             </Link>
             <div className="flex justify-center w-full pt-4 space-x-8">
                <button className="text-brand-coffee p-2" aria-label="Account">
