@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
 
 export default function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
-  const pathname = usePathname();
+  // const router = useRouter();
+  // const pathname = usePathname();
 
   // In a real i18n setup, this would use a hook to get the actual current locale
   // For this design redesign, we mock the current locale to "no" (Norwegian)

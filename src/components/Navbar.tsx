@@ -38,19 +38,19 @@ export default function Navbar() {
             <Link href="/" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
               Home
             </Link>
-            <Link href="#about" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
+            <Link href="/#about" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
               About
             </Link>
-            <Link href="#origen" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
+            <Link href="/origen" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
               Origen
             </Link>
-            <Link href="#shop" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
+            <Link href="/#shop" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
               Shop
             </Link>
-            <Link href="#transparencia" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
+            <Link href="/#transparencia" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
               Transparencia
             </Link>
-            <Link href="#contact" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
+            <Link href="/#contact" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
               Contact
             </Link>
           </div>
@@ -110,35 +110,35 @@ export default function Navbar() {
               Home
             </Link>
             <Link 
-              href="#about" 
+              href="/#about" 
               className="block w-full text-center px-3 py-4 text-sm font-bold tracking-widest text-brand-coffee hover:bg-brand-linen hover:text-brand-terracotta transition-colors uppercase border-b border-brand-coffee/5"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               About
             </Link>
             <Link 
-              href="#origen" 
+              href="/origen" 
               className="block w-full text-center px-3 py-4 text-sm font-bold tracking-widest text-brand-coffee hover:bg-brand-linen hover:text-brand-terracotta transition-colors uppercase border-b border-brand-coffee/5"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Origen
             </Link>
             <Link 
-              href="#shop" 
+              href="/#shop" 
               className="block w-full text-center px-3 py-4 text-sm font-bold tracking-widest text-brand-coffee hover:bg-brand-linen hover:text-brand-terracotta transition-colors uppercase border-b border-brand-coffee/5"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Shop
             </Link>
             <Link 
-              href="#transparencia" 
+              href="/#transparencia" 
               className="block w-full text-center px-3 py-4 text-sm font-bold tracking-widest text-brand-coffee hover:bg-brand-linen hover:text-brand-terracotta transition-colors uppercase border-b border-brand-coffee/5"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Transparencia
             </Link>
             <Link 
-              href="#contact" 
+              href="/#contact" 
               className="block w-full text-center px-3 py-4 text-sm font-bold tracking-widest text-brand-coffee hover:bg-brand-linen hover:text-brand-terracotta transition-colors uppercase border-b border-brand-coffee/5"
               onClick={() => setIsMobileMenuOpen(false)}
             >

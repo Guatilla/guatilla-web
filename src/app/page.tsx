@@ -125,7 +125,7 @@ export default function Home() {
           <div className="p-12 lg:p-24 flex flex-col justify-center space-y-8">
             <h2 className="text-4xl font-heading font-bold text-brand-coffee">The Hands Behind the Harvest</h2>
             <p className="text-lg text-brand-coffee/70 font-light leading-relaxed">
-              Our coffee comes from the hard-working families of the Serranía del Perijá. We don't just buy coffee; we build long-term partnerships. By providing farmers with direct access to the European market, we help sustain communities and preserve traditional farming methods.
+              Our coffee comes from the hard-working families of the Serranía del Perijá. We don&apos;t just buy coffee; we build long-term partnerships. By providing farmers with direct access to the European market, we help sustain communities and preserve traditional farming methods.
             </p>
             <div className="pt-4">
               <Link href="/origen" className="inline-flex items-center space-x-2 text-brand-terracotta font-bold uppercase tracking-widest text-sm group">
