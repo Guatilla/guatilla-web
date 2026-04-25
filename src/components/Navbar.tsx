@@ -55,10 +55,10 @@ export default function Navbar() {
                 href="/" 
                 className="flex flex-col items-center leading-[0.95]"
               >
-                <span className="font-heading font-black text-2xl md:text-3xl tracking-[0.15em] text-brand-coffee uppercase">
+                <span className="font-brand font-black text-2xl md:text-3xl tracking-[0.15em] text-brand-coffee uppercase">
                   KAFFE
                 </span>
-                <span className="font-heading font-light italic text-2xl md:text-3xl tracking-[0.1em] text-brand-terracotta uppercase">
+                <span className="font-brand font-light italic text-2xl md:text-3xl tracking-[0.1em] text-brand-terracotta uppercase">
                   GUATILLA
                 </span>
               </Link>
@@ -100,8 +100,8 @@ export default function Navbar() {
               href="/" 
               className="flex flex-col items-center leading-[0.9] absolute left-1/2 -translate-x-1/2"
             >
-              <span className="font-heading font-black text-2xl tracking-[0.15em] text-brand-coffee uppercase">KAFFE</span>
-              <span className="font-heading font-light italic text-2xl tracking-[0.1em] text-brand-terracotta uppercase">GUATILLA</span>
+              <span className="font-brand font-black text-2xl tracking-[0.15em] text-brand-coffee uppercase">KAFFE</span>
+              <span className="font-brand font-light italic text-2xl tracking-[0.1em] text-brand-terracotta uppercase">GUATILLA</span>
             </Link>
             
             <button className="text-brand-coffee hover:text-brand-terracotta transition-all duration-300 relative" aria-label="Cart">

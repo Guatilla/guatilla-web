@@ -25,8 +25,9 @@ const config: Config = {
         },
       },
       fontFamily: {
-        heading: ["var(--font-vianor)", "serif"],
+        heading: ["var(--font-playfair)", "serif"],
         sans: ["var(--font-outfit)", "sans-serif"],
+        brand: ["var(--font-vianor)", "serif"],
       },
     },
   },

@@ -7,7 +7,7 @@ export function Footer() {
     <footer className="bg-brand-dark text-brand-beige py-16 px-6 md:px-12 border-t border-brand-primary/20">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
         <div className="col-span-1 md:col-span-2">
-          <h3 className="font-heading text-2xl mb-4 text-brand-primary">KAFFE GUATILLA</h3>
+          <h3 className="font-brand text-2xl mb-4 text-brand-primary">KAFFE GUATILLA</h3>
           <p className="text-brand-beige/70 font-light max-w-sm leading-relaxed">
             Unimos la tradición de la Serranía del Perijá con el trabajo artesanal de familias caficultoras. Sabor auténtico y sostenible en cada taza.
           </p>
