@@ -3,6 +3,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import LanguageSwitcher from "./LanguageSwitcher";
+import NavLink from "./NavLink";
+import MobileMenu from "./MobileMenu";
+import { ShoppingBag, User, Menu } from "lucide-react";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -13,153 +16,111 @@ export default function Navbar() {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.body.style.overflow = "unset";
+    };
+  }, [isMobileMenuOpen]);
 
   return (
-    <nav
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-brand-linen/90 backdrop-blur-md shadow-sm py-4 border-b border-brand-coffee/5"
-          : "bg-transparent py-6"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center">
-          
-          {/* Logo - Left */}
-          <div className="flex-shrink-0 flex items-center">
-            <Link href="/" className="font-heading font-black text-2xl tracking-tighter text-brand-coffee">
-              KAFFE <span className="text-brand-terracotta italic font-light">GUATILLA</span>
-            </Link>
-          </div>
-
-          <div className="hidden md:flex flex-1 justify-center space-x-12">
-            <Link href="/" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
-              Home
-            </Link>
-            <Link href="/#about" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
-              About
-            </Link>
-            <Link href="/origen" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
-              Origen
-            </Link>
-            <Link href="/#shop" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
-              Shop
-            </Link>
-            <Link href="/#transparencia" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
-              Transparencia
-            </Link>
-            <Link href="/#contact" className="text-sm font-bold tracking-widest text-brand-coffee hover:text-brand-terracotta transition-colors uppercase">
-              Contact
-            </Link>
-          </div>
-
-          {/* Icons & Actions - Right */}
-          <div className="hidden md:flex items-center space-x-6">
-            <LanguageSwitcher />
+    <>
+      <nav
+        className={`fixed w-full z-[90] transition-all duration-500 ease-in-out h-20 md:h-[90px] flex items-center ${isScrolled
+            ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-brand-coffee/10"
+            : "bg-white"
+          }`}
+      >
+        <div className="max-w-[1440px] w-full mx-auto px-6 md:px-20 h-full">
+          {/* Desktop Grid Layout - Perfect Centering */}
+          <div className="hidden lg:grid grid-cols-[1fr_auto_1fr] items-center h-full w-full">
             
-            {/* Account Icon */}
-            <button className="text-brand-coffee hover:text-brand-terracotta transition-colors" aria-label="Account">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
+            {/* LEFT SECTION - Navigation Links */}
+            <div className="flex items-center space-x-6 xl:space-x-8 whitespace-nowrap">
+              <NavLink href="/#shop">Shop</NavLink>
+              <NavLink href="/origen">Origen</NavLink>
+              <NavLink href="/#transparencia">Transparency</NavLink>
+              <NavLink href="/project-progress">Progress</NavLink>
+            </div>
+
+            {/* CENTER SECTION - Brand Anchor (Stacked) */}
+            <div className="px-12 flex justify-center">
+              <Link 
+                href="/" 
+                className="flex flex-col items-center leading-[0.95]"
+              >
+                <span className="font-heading font-black text-2xl md:text-3xl tracking-[0.15em] text-brand-coffee uppercase">
+                  KAFFE
+                </span>
+                <span className="font-heading font-light italic text-2xl md:text-3xl tracking-[0.1em] text-brand-terracotta uppercase">
+                  GUATILLA
+                </span>
+              </Link>
+            </div>
+
+            {/* RIGHT SECTION - Utility Controls */}
+            <div className="flex items-center justify-end space-x-6 xl:space-x-8 whitespace-nowrap">
+              <LanguageSwitcher />
+              
+              <div className="flex items-center space-x-5 border-l border-brand-coffee/10 pl-6">
+                <button className="text-brand-coffee hover:text-brand-terracotta transition-all duration-300 transform hover:scale-110" aria-label="Account">
+                  <User size={22} strokeWidth={1.5} />
+                </button>
+                <button className="text-brand-coffee hover:text-brand-terracotta transition-all duration-300 relative group transform hover:scale-110" aria-label="Cart">
+                  <ShoppingBag size={22} strokeWidth={1.5} />
+                  <span className="absolute -top-1 -right-1 flex h-4 w-4">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-terracotta opacity-40"></span>
+                    <span className="relative inline-flex rounded-full h-4 w-4 bg-brand-terracotta text-[9px] text-white font-bold items-center justify-center">
+                      2
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Layout */}
+          <div className="lg:hidden flex items-center justify-between h-full w-full">
+            <button
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="p-2 text-brand-coffee hover:text-brand-terracotta transition-colors flex items-center gap-2 group"
+              aria-label="Menu"
+            >
+              <Menu size={28} />
+              <span className="hidden sm:block text-xs font-bold uppercase tracking-widest text-brand-coffee/60">Menu</span>
             </button>
 
-            {/* Cart Icon */}
-            <button className="text-brand-coffee hover:text-brand-terracotta transition-colors relative" aria-label="Cart">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-              </svg>
-              {/* Optional notification dot for cart */}
-              <span className="absolute -top-1 -right-1 flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-terracotta opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-terracotta"></span>
+            <Link 
+              href="/" 
+              className="flex flex-col items-center leading-[0.9] absolute left-1/2 -translate-x-1/2"
+            >
+              <span className="font-heading font-black text-2xl tracking-[0.15em] text-brand-coffee uppercase">KAFFE</span>
+              <span className="font-heading font-light italic text-2xl tracking-[0.1em] text-brand-terracotta uppercase">GUATILLA</span>
+            </Link>
+            
+            <button className="text-brand-coffee hover:text-brand-terracotta transition-all duration-300 relative" aria-label="Cart">
+              <ShoppingBag size={24} strokeWidth={1.5} />
+              <span className="absolute -top-1 -right-1 flex h-4 w-4">
+                <span className="relative inline-flex rounded-full h-4 w-4 bg-brand-terracotta text-[9px] text-white font-bold items-center justify-center shadow-sm">
+                  2
+                </span>
               </span>
             </button>
           </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center space-x-4">
-             <LanguageSwitcher />
-             <button
-               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-               className="text-brand-coffee hover:text-brand-terracotta focus:outline-none"
-             >
-               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                 {isMobileMenuOpen ? (
-                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                 ) : (
-                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                 )}
-               </svg>
-             </button>
-          </div>
         </div>
-      </div>
+      </nav>
 
-      {/* Mobile Menu Panel */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-brand-cream border-t border-brand-coffee/10 absolute w-full left-0 top-full shadow-lg">
-          <div className="px-4 pt-2 pb-6 space-y-1 flex flex-col items-center">
-            <Link 
-              href="/" 
-              className="block w-full text-center px-3 py-4 text-sm font-bold tracking-widest text-brand-coffee hover:bg-brand-linen hover:text-brand-terracotta transition-colors uppercase border-b border-brand-coffee/5"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Home
-            </Link>
-            <Link 
-              href="/#about" 
-              className="block w-full text-center px-3 py-4 text-sm font-bold tracking-widest text-brand-coffee hover:bg-brand-linen hover:text-brand-terracotta transition-colors uppercase border-b border-brand-coffee/5"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              About
-            </Link>
-            <Link 
-              href="/origen" 
-              className="block w-full text-center px-3 py-4 text-sm font-bold tracking-widest text-brand-coffee hover:bg-brand-linen hover:text-brand-terracotta transition-colors uppercase border-b border-brand-coffee/5"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Origen
-            </Link>
-            <Link 
-              href="/#shop" 
-              className="block w-full text-center px-3 py-4 text-sm font-bold tracking-widest text-brand-coffee hover:bg-brand-linen hover:text-brand-terracotta transition-colors uppercase border-b border-brand-coffee/5"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Shop
-            </Link>
-            <Link 
-              href="/#transparencia" 
-              className="block w-full text-center px-3 py-4 text-sm font-bold tracking-widest text-brand-coffee hover:bg-brand-linen hover:text-brand-terracotta transition-colors uppercase border-b border-brand-coffee/5"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Transparencia
-            </Link>
-            <Link 
-              href="/#contact" 
-              className="block w-full text-center px-3 py-4 text-sm font-bold tracking-widest text-brand-coffee hover:bg-brand-linen hover:text-brand-terracotta transition-colors uppercase border-b border-brand-coffee/5"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Contact
-            </Link>
-            <div className="flex justify-center w-full pt-4 space-x-8">
-               <button className="text-brand-coffee p-2" aria-label="Account">
-                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                 </svg>
-               </button>
-               <button className="text-brand-coffee p-2 relative" aria-label="Cart">
-                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                 </svg>
-                 <span className="absolute top-1 right-1 block w-2 h-2 rounded-full bg-brand-terracotta"></span>
-               </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </nav>
+      {/* Mobile Menu Component */}
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+      />
+    </>
   );
 }

@@ -19,6 +19,11 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "Kaffe Guatilla | 100% Colombiano",
   description: "Café artesanal inspirado en la Serranía del Perijá. Un encuentro cultural en cada taza.",
+  icons: {
+    icon: "/favicon-trimmed.png",
+    shortcut: "/favicon-trimmed.png",
+    apple: "/favicon-trimmed.png",
+  },
 };
 
 export default function RootLayout({
