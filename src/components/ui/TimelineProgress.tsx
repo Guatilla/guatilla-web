@@ -19,8 +19,8 @@ export default function TimelineProgress({ items }: TimelineProgressProps) {
           {/* Dot */}
           <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
              <div className={`w-3 h-3 rounded-full ${
-               item.status === "Completed" ? "bg-brand-olive" : 
-               item.status === "In Progress" ? "bg-brand-terracotta animate-pulse" : 
+               (item.status === "Completed" || item.status === "Fullført") ? "bg-brand-olive" : 
+               (item.status === "In Progress" || item.status === "Pågående" || item.status === "Under utvikling" || item.status === "Under forberedelse") ? "bg-brand-terracotta animate-pulse" : 
                "bg-brand-coffee/20"
              }`} />
           </div>

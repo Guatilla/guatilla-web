@@ -43,10 +43,10 @@ export default function Navbar() {
             
             {/* LEFT SECTION - Navigation Links */}
             <div className="flex items-center space-x-6 xl:space-x-8 whitespace-nowrap">
-              <NavLink href="/#shop">Shop</NavLink>
-              <NavLink href="/origen">Origen</NavLink>
-              <NavLink href="/#transparencia">Transparency</NavLink>
-              <NavLink href="/project-progress">Progress</NavLink>
+              <NavLink href="/shop">Butikk</NavLink>
+              <NavLink href="/origen">Opprinnelse</NavLink>
+              <NavLink href="/about">Om oss</NavLink>
+              <NavLink href="/project-progress">Fremdrift</NavLink>
             </div>
 
             {/* CENTER SECTION - Brand Anchor (Stacked) */}
@@ -93,7 +93,7 @@ export default function Navbar() {
               aria-label="Menu"
             >
               <Menu size={28} />
-              <span className="hidden sm:block text-xs font-bold uppercase tracking-widest text-brand-coffee/60">Menu</span>
+              <span className="hidden sm:block text-xs font-bold uppercase tracking-widest text-brand-coffee/60">Meny</span>
             </button>
 
             <Link 

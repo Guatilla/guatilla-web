@@ -40,10 +40,10 @@ export function Navbar() {
         {/* Desktop Links (Left) */}
         <div className="hidden md:flex items-center gap-8">
           <Link href="/shop" className="text-brand-dark font-medium hover:text-brand-terracotta transition-colors text-sm uppercase tracking-widest">
-            Tienda
+            Butikk
           </Link>
-          <Link href="/historia" className="text-brand-dark font-medium hover:text-brand-terracotta transition-colors text-sm uppercase tracking-widest">
-            Nuestra Historia
+          <Link href="/about" className="text-brand-dark font-medium hover:text-brand-terracotta transition-colors text-sm uppercase tracking-widest">
+            Om oss
           </Link>
         </div>
 
@@ -51,13 +51,13 @@ export function Navbar() {
         <div className="absolute left-1/2 -translate-x-1/2 flex justify-center">
           <Link href="/">
             <Image
-              src="/GUATILLA-02.png"
+              src="/KAFFE-GUATILLA.png"
               alt="Kaffe Guatilla Logo"
               width={140}
               height={140}
               className={cn(
                 "transition-all duration-300",
-                isScrolled ? "w-28 opacity-100" : "w-36 opacity-0 md:opacity-100" // Ocultar logo grande en movil top si se cruza con text, pero aqui lo manejamos por opacidad si es necesario. Ajuste simple:
+                isScrolled ? "w-28 opacity-100" : "w-36 opacity-0 md:opacity-100"
               )}
             />
           </Link>
@@ -84,17 +84,17 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 w-full bg-brand-bg shadow-lg border-t border-brand-primary/20 py-6 px-6 flex flex-col gap-6">
           <Link href="/shop" className="text-brand-dark text-lg font-heading tracking-wide border-b border-brand-primary/10 pb-2">
-            Tienda de Café
+            Butikk
           </Link>
-          <Link href="/historia" className="text-brand-dark text-lg font-heading tracking-wide border-b border-brand-primary/10 pb-2">
-            Nuestra Historia
+          <Link href="/about" className="text-brand-dark text-lg font-heading tracking-wide border-b border-brand-primary/10 pb-2">
+            Om oss
           </Link>
           <Link href="/contacto" className="text-brand-dark text-lg font-heading tracking-wide border-b border-brand-primary/10 pb-2">
-            Contacto
+            Kontakt
           </Link>
           <div className="pt-4 flex items-center gap-4 text-brand-dark">
              <User size={20} />
-             <span>Mi Cuenta</span>
+             <span>Min konto</span>
           </div>
         </div>
       )}

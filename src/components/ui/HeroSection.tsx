@@ -20,23 +20,23 @@ export default function HeroSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10 relative">
         <div className="max-w-3xl">
           <h1 className="text-5xl md:text-7xl font-heading font-bold text-white leading-tight mb-6">
-            Direct Trade Colombian Coffee to Europe
+            Direkte handel med colombiansk kaffe til Europa
           </h1>
           <p className="text-xl md:text-2xl text-white/90 font-light mb-10 leading-relaxed">
-            From Colombian farms to Oslo — no middlemen, full transparency.
+            Fra colombianske gårder til Oslo — uten mellomledd, full åpenhet.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
-              href="#shop"
+              href="/shop"
               className="bg-brand-terracotta text-white px-8 py-4 rounded-full font-bold tracking-widest uppercase text-sm hover:bg-brand-terracotta/90 transition-all text-center"
             >
-              Shop Coffee
+              Handle kaffe
             </Link>
             <Link
-              href="#about"
+              href="/about"
               className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-full font-bold tracking-widest uppercase text-sm hover:bg-white/20 transition-all text-center"
             >
-              Our Story
+              Om oss
             </Link>
           </div>
         </div>

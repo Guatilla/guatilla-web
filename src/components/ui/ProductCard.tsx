@@ -8,7 +8,7 @@ interface ProductCardProps {
   price: number;
   currency?: string;
   imageSrc: string;
-  badge?: "Featured" | "Limited" | "Best Seller" | "New";
+  badge?: "Featured" | "Limited" | "Best Seller" | "New" | "Bestselger" | "Begrenset" | "Anbefalt" | "Ny";
 }
 
 export default function ProductCard({
@@ -21,10 +21,25 @@ export default function ProductCard({
 }: ProductCardProps) {
   
   // Badge styling logic
+  // Badge styling logic
   let badgeColor = "bg-brand-coffee text-white"; // default
-  if (badge === "Best Seller") badgeColor = "bg-brand-terracotta text-white";
-  if (badge === "Limited") badgeColor = "bg-brand-vichy text-white";
-  if (badge === "Featured" || badge === "New") badgeColor = "bg-brand-olive text-white";
+  let displayBadge = badge;
+  if (badge === "Best Seller" || badge === "Bestselger") {
+    badgeColor = "bg-brand-terracotta text-white";
+    displayBadge = "Bestselger";
+  }
+  else if (badge === "Limited" || badge === "Begrenset") {
+    badgeColor = "bg-brand-vichy text-white";
+    displayBadge = "Begrenset";
+  }
+  else if (badge === "Featured" || badge === "Anbefalt") {
+    badgeColor = "bg-brand-olive text-white";
+    displayBadge = "Anbefalt";
+  }
+  else if (badge === "New" || badge === "Ny") {
+    badgeColor = "bg-brand-olive text-white";
+    displayBadge = "Ny";
+  }
 
   return (
     <div className="group bg-brand-cream rounded-[30px] p-6 lg:p-8 flex flex-col h-full border border-brand-coffee/5 transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] hover:shadow-[0_8px_30px_rgba(60,42,33,0.06)] hover:-translate-y-1 relative">
@@ -32,10 +47,10 @@ export default function ProductCard({
       {/* Optional Badge */}
       {badge && (
         <div className={`absolute top-6 left-6 z-20 px-3 py-1 text-[10px] sm:text-xs font-bold uppercase tracking-widest rounded-full shadow-sm ${badgeColor}`}>
-          {badge}
+          {displayBadge}
         </div>
       )}
-
+      
       {/* Image Container: Clean cream background, NO patchwork behind the product */}
       <div className="relative w-full aspect-[4/5] bg-transparent flex items-center justify-center mb-6 overflow-hidden">
         
@@ -65,7 +80,7 @@ export default function ProductCard({
           </div>
 
           <button className="w-full py-4 rounded-full border-2 border-brand-coffee/10 bg-transparent text-brand-coffee font-bold tracking-widest uppercase text-sm transition-all duration-300 hover:border-brand-terracotta hover:bg-brand-terracotta hover:text-white hover:shadow-md">
-            Add to Cart
+            Legg i handlekurv
           </button>
         </div>
       </div>

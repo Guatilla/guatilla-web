@@ -23,8 +23,8 @@ const vianor = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Kaffe Guatilla | 100% Colombiano",
-  description: "Café artesanal inspirado en la Serranía del Perijá. Un encuentro cultural en cada taza.",
+  title: "Kaffe Guatilla | 100% Colombiansk",
+  description: "Håndverkskaffe inspirert av Serranía del Perijá. Et kulturelt møte i hver kopp.",
   icons: {
     icon: "/favicon-trimmed.png",
     shortcut: "/favicon-trimmed.png",
@@ -38,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${outfit.variable} ${playfair.variable} ${vianor.variable}`} suppressHydrationWarning>
+    <html lang="no" className={`${outfit.variable} ${playfair.variable} ${vianor.variable}`} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen" suppressHydrationWarning>
         <Navbar />
         <main className="flex-grow pt-20">

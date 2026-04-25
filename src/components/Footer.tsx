@@ -21,7 +21,7 @@ export default function Footer() {
               />
             </Link>
             <p className="text-sm text-brand-coffee/60 leading-relaxed max-w-xs mb-8">
-              Premium specialty coffee directly from our farms in Colombia to your home in Europe.
+              Spesialkaffe av høy kvalitet direkte fra våre gårder i Colombia til ditt hjem i Europa.
             </p>
             <div className="flex space-x-4 text-brand-coffee/40">
               <Link href="#" className="hover:text-brand-terracotta transition-colors"><Instagram size={20} /></Link>
@@ -30,37 +30,35 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Navigation */}
+          {/* KAFFE GUATILLA */}
           <div className="space-y-6">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-brand-coffee">Navigation</h4>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-brand-coffee">KAFFE GUATILLA</h4>
             <ul className="space-y-4 text-sm text-brand-coffee/70">
-              <li><Link href="/#shop" className="hover:text-brand-terracotta transition-colors">Shop</Link></li>
-              <li><Link href="/origen" className="hover:text-brand-terracotta transition-colors">Origen</Link></li>
-              <li><Link href="/#transparencia" className="hover:text-brand-terracotta transition-colors">Transparency</Link></li>
-              <li><Link href="/project-progress" className="hover:text-brand-terracotta transition-colors">Progress</Link></li>
+              <li><Link href="/about" className="hover:text-brand-terracotta transition-colors">Om oss</Link></li>
+              <li><Link href="/origen" className="hover:text-brand-terracotta transition-colors">Direkte handel</Link></li>
+              <li><Link href="/project-progress" className="hover:text-brand-terracotta transition-colors">Prosjektfremdrift</Link></li>
+              <li><Link href="/contacto" className="hover:text-brand-terracotta transition-colors">Kontakt</Link></li>
             </ul>
           </div>
 
-          {/* Support */}
+          {/* Transparency */}
           <div className="space-y-6">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-brand-coffee">Transparency</h4>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-brand-coffee">Sporbarhet</h4>
             <ul className="space-y-4 text-sm text-brand-coffee/70">
-              <li><Link href="/#transparencia" className="hover:text-brand-terracotta transition-colors">Our Model</Link></li>
-              <li><Link href="/#transparencia" className="hover:text-brand-terracotta transition-colors">Fair Trade</Link></li>
-              <li><Link href="/project-progress" className="hover:text-brand-terracotta transition-colors">Traceability</Link></li>
-              <li><Link href="#" className="hover:text-brand-terracotta transition-colors">FAQs</Link></li>
+              <li><Link href="/about" className="hover:text-brand-terracotta transition-colors">Vår modell</Link></li>
+              <li><Link href="/about" className="hover:text-brand-terracotta transition-colors">Rettferdig prising</Link></li>
+              <li><Link href="/project-progress" className="hover:text-brand-terracotta transition-colors">Sporbarhet</Link></li>
             </ul>
           </div>
 
           {/* Legal */}
           <div className="space-y-6">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-brand-coffee">Legal info</h4>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-brand-coffee">Juridisk informasjon</h4>
             <div className="text-sm text-brand-coffee/70 space-y-4">
-              <p>Guatilla AS (Norway)</p>
-              <p>Organization No: 123 456 789</p>
+              <p>Guatilla AS (Norge)</p>
               <ul className="space-y-4">
-                <li><Link href="#" className="hover:text-brand-terracotta transition-colors">Privacy Policy</Link></li>
-                <li><Link href="#" className="hover:text-brand-terracotta transition-colors">Terms of Service</Link></li>
+                <li><Link href="#" className="hover:text-brand-terracotta transition-colors">Personvernserklæring</Link></li>
+                <li><Link href="#" className="hover:text-brand-terracotta transition-colors">Brukervilkår</Link></li>
               </ul>
             </div>
           </div>
@@ -68,8 +66,8 @@ export default function Footer() {
         </div>
 
         <div className="mt-20 pt-8 border-t border-brand-coffee/5 flex flex-col md:flex-row justify-between items-center text-xs text-brand-coffee/40 tracking-widest uppercase font-bold">
-          <p>© {new Date().getFullYear()} KAFFE GUATILLA. ALL RIGHTS RESERVED.</p>
-          <p className="mt-4 md:mt-0">DESIGNED BY GUATILLA AS</p>
+          <p>© {new Date().getFullYear()} KAFFE GUATILLA. ALLE RETTIGHETER FORBEHOLDT.</p>
+          <p className="mt-4 md:mt-0">DESIGNET AV GUATILLA AS</p>
         </div>
       </div>
     </footer>

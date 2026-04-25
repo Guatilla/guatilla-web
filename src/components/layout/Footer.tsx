@@ -25,7 +25,7 @@ export function Footer() {
         <div>
           <h4 className="font-semibold tracking-widest uppercase text-sm mb-6 text-brand-primary">Soporte</h4>
           <ul className="space-y-3 text-brand-beige/80 font-light">
-            <li><Link href="/faq" className="hover:text-white transition-colors">Preguntas Frecuentes</Link></li>
+
             <li><Link href="/envios" className="hover:text-white transition-colors">Envíos y Devoluciones</Link></li>
             <li><Link href="/contacto" className="hover:text-white transition-colors">Contáctanos</Link></li>
           </ul>
