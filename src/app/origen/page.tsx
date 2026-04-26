@@ -4,6 +4,7 @@ import SectionContainer from "@/components/ui/SectionContainer";
 import OriginCard from "@/components/ui/OriginCard";
 import TimelineStep from "@/components/ui/TimelineStep";
 import ImageTextBlock from "@/components/ui/ImageTextBlock";
+import FieldJournalSection from "@/components/ui/FieldJournalSection";
 import { 
   Users, 
   Handshake, 
@@ -236,6 +237,9 @@ export default function OrigenPage() {
           />
         </div>
       </SectionContainer>
+
+      {/* FIELD JOURNAL SECTION */}
+      <FieldJournalSection />
 
       {/* 10. FINAL CTA */}
       <SectionContainer bgClass="bg-brand-coffee">
