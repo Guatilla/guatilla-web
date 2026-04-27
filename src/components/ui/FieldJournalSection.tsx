@@ -1,6 +1,8 @@
 import React from "react";
+import Link from "next/link";
 import SectionContainer from "@/components/ui/SectionContainer";
-import EditorialBlock from "@/components/ui/EditorialBlock";
+import EditorialImageCard from "@/components/ui/EditorialImageCard";
+import { MapPin, Info, Calendar, ArrowRight } from "lucide-react";
 
 export default function FieldJournalSection() {
   return (
@@ -28,42 +30,146 @@ export default function FieldJournalSection() {
         </div>
 
         {/* Narrative Flow */}
-        <div className="space-y-4">
+        <div className="space-y-16">
           
           {/* 1. Menneskene (People) */}
-          <EditorialBlock
-            title="Menneskene"
-            description="Kaffen vår starter hos produsentene. Det krever dyp kunnskap og omsorg for å pleie avlingene i krevende høydedrag. Hver innhøsting er et resultat av dedikert familietradisjon og hardt arbeid."
-            imageSrc="/assets/producer.png"
-            location="Serranía del Perijá"
-            status="Dokumentert"
-            date="Mars 2024"
-            reverse={false}
-          />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <EditorialImageCard
+              image="/assets/producer.png"
+              alt="Menneskene bak kaffen"
+              variant="large"
+              grayscale
+            />
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <h3 className="text-4xl md:text-5xl font-heading font-bold text-brand-coffee leading-tight">Menneskene</h3>
+                <p className="text-lg text-brand-coffee/75 font-light leading-relaxed">
+                  Kaffen vår starter hos produsentene. Det krever dyp kunnskap og omsorg for å pleie avlingene i krevende høydedrag. Hver innhøsting er et resultat av dedikert familietradisjon og hardt arbeid.
+                </p>
+              </div>
+              <div className="pt-8 border-t border-brand-coffee/10 grid grid-cols-3 gap-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 text-brand-coffee/50">
+                    <MapPin size={12} className="text-brand-terracotta" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Sted</span>
+                  </div>
+                  <p className="text-xs font-medium">Serranía del Perijá</p>
+                </div>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 text-brand-coffee/50">
+                    <Info size={12} className="text-brand-olive" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Status</span>
+                  </div>
+                  <p className="text-xs font-medium">Dokumentert</p>
+                </div>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 text-brand-coffee/50">
+                    <Calendar size={12} />
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Dato</span>
+                  </div>
+                  <p className="text-xs font-medium">Mars 2024</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* 2. Prosessen (Process) */}
-          <EditorialBlock
-            title="Prosessen"
-            description="Etter innhøstingen følger en presisjonsfase. Tørking og prosessering ved opprinnelsen krever streng kontroll. Dette bildet viser kaffebønnene i sin rå, beskyttende form før de renses for eksport."
-            imageSrc="/assets/about-raw-coffee.jpg"
-            location="Trilladora, Colombia"
-            status="Under vurdering"
-            date="Mars 2024"
-            reverse={true}
-          />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div className="space-y-8 lg:order-1 order-2">
+              <div className="space-y-4">
+                <h3 className="text-4xl md:text-5xl font-heading font-bold text-brand-coffee leading-tight">Prosessen</h3>
+                <p className="text-lg text-brand-coffee/75 font-light leading-relaxed">
+                  Etter innhøstingen følger en presisjonsfase. Tørking og prosessering ved opprinnelsen krever streng kontroll. Dette bildet viser kaffebønnene i sin rå, beskyttende form før de renses for eksport.
+                </p>
+              </div>
+              <div className="pt-8 border-t border-brand-coffee/10 grid grid-cols-3 gap-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 text-brand-coffee/50">
+                    <MapPin size={12} className="text-brand-terracotta" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Sted</span>
+                  </div>
+                  <p className="text-xs font-medium">Trilladora, Colombia</p>
+                </div>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 text-brand-coffee/50">
+                    <Info size={12} className="text-brand-olive" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Status</span>
+                  </div>
+                  <p className="text-xs font-medium">Under vurdering</p>
+                </div>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 text-brand-coffee/50">
+                    <Calendar size={12} />
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Dato</span>
+                  </div>
+                  <p className="text-xs font-medium">Mars 2024</p>
+                </div>
+              </div>
+            </div>
+            <EditorialImageCard
+              image="/assets/about-raw-coffee.jpg"
+              alt="Kaffeprosessering"
+              variant="large"
+              grayscale
+              className="lg:order-2 order-1"
+            />
+          </div>
 
           {/* 3. Territoriet (Territory) */}
-          <EditorialBlock
-            title="Territoriet"
-            description="Kvaliteten ligger i jordsmonnet. Serranía del Perijá byr på unike mikroklima, rent vann fra fjellet og vulkansk jord som gir den karakteristiske smaken til Guatilla-kaffen."
-            imageSrc="/assets/perija-hero.jpg"
-            location="Serranía del Perijá"
-            status="Kartlagt"
-            date="Februar 2024"
-            reverse={false}
-          />
-
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <EditorialImageCard
+              image="/assets/perija-hero.jpg"
+              alt="Serranía del Perijá"
+              variant="large"
+              grayscale
+            />
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <h3 className="text-4xl md:text-5xl font-heading font-bold text-brand-coffee leading-tight">Territoriet</h3>
+                <p className="text-lg text-brand-coffee/75 font-light leading-relaxed">
+                  Kvaliteten ligger i jordsmonnet. Serranía del Perijá byr på unike mikroklima, rent vann fra fjellet og vulkansk jord som gir den karakteristiske smaken til Guatilla-kaffen.
+                </p>
+              </div>
+              <div className="pt-8 border-t border-brand-coffee/10 grid grid-cols-3 gap-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 text-brand-coffee/50">
+                    <MapPin size={12} className="text-brand-terracotta" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Sted</span>
+                  </div>
+                  <p className="text-xs font-medium">Serranía del Perijá</p>
+                </div>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 text-brand-coffee/50">
+                    <Info size={12} className="text-brand-olive" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Status</span>
+                  </div>
+                  <p className="text-xs font-medium">Kartlagt</p>
+                </div>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 text-brand-coffee/50">
+                    <Calendar size={12} />
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Dato</span>
+                  </div>
+                  <p className="text-xs font-medium">Februar 2024</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* 4. FINAL CTA */}
+        <div className="pt-24 lg:pt-32 text-center border-t border-brand-coffee/[0.08]">
+          <Link 
+            href="/journal" 
+            className="group inline-flex items-center gap-4 text-brand-coffee hover:text-brand-terracotta transition-all duration-300"
+          >
+            <span className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+              Se hele feltjournalen
+            </span>
+            <ArrowRight size={40} className="transition-transform group-hover:translate-x-3 text-brand-terracotta/40 group-hover:text-brand-terracotta" strokeWidth={1} />
+          </Link>
+        </div>
+
       </div>
     </SectionContainer>
   );

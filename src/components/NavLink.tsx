@@ -29,7 +29,7 @@ export default function NavLink({ href, children, onClick, className = "" }: Nav
         isActive ? "text-brand-terracotta" : "text-brand-coffee hover:text-brand-terracotta"
       } ${className}`}
     >
-      {children}
+      <span className="relative z-10">{children}</span>
       {/* Animated underline */}
       <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-brand-terracotta transform transition-transform duration-300 ${
         isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"

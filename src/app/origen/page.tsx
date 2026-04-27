@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SectionContainer from "@/components/ui/SectionContainer";
 import OriginCard from "@/components/ui/OriginCard";
+import EditorialImageCard from "@/components/ui/EditorialImageCard";
 import TimelineStep from "@/components/ui/TimelineStep";
 import ImageTextBlock from "@/components/ui/ImageTextBlock";
 import FieldJournalSection from "@/components/ui/FieldJournalSection";
@@ -220,20 +221,23 @@ export default function OrigenPage() {
           <p className="text-brand-coffee/60 max-w-2xl mx-auto">Vårt engasjement for kvalitet strekker seg utover bønnene — det gjelder også hvordan vi driver forretninger.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <OriginCard 
+          <EditorialImageCard 
             title="Gjennomsiktig innkjøp"
             description="Vi gir detaljert informasjon om hver innhøsting, fra gårdsnavn til betalingspriser."
-            imageSrc="/assets/quality.png"
+            image="/assets/quality.png"
+            alt="Gjennomsiktig innkjøp"
           />
-          <OriginCard 
+          <EditorialImageCard 
             title="Kontrollert logistikk"
             description="Direkte tilsyn med hele fraktprosessen sikrer at bønnene ankommer ferske og uskadet."
-            imageSrc="/assets/trilladora.png"
+            image="/assets/trilladora.png"
+            alt="Kontrollert logistikk"
           />
-          <OriginCard 
+          <EditorialImageCard 
             title="Langsiktig tillit"
             description="Vi investerer i relasjoner med produsenter, noe som skaper stabilitet for deres familier og vår kvalitet."
-            imageSrc="/assets/producer.png"
+            image="/assets/producer.png"
+            alt="Langsiktig tillit"
           />
         </div>
       </SectionContainer>

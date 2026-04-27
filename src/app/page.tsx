@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import HeroSection from "@/components/ui/HeroSection";
-import ProductCard from "@/components/ui/ProductCard";
 import SectionContainer from "@/components/ui/SectionContainer";
+import FeaturedProducts from "@/components/ui/FeaturedProducts";
 import { Coffee, Ship, Warehouse, CheckCircle, ArrowRight } from "lucide-react";
 
 export const metadata = {
@@ -65,39 +65,7 @@ export default function Home() {
       </SectionContainer>
 
       {/* 3. FEATURED PRODUCTS */}
-      <SectionContainer id="shop" bgClass="bg-brand-linen">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-heading font-bold text-brand-coffee mb-4">Vårt kaffeutvalg</h2>
-            <Link href="/shop" className="text-brand-terracotta font-bold uppercase tracking-widest text-xs hover:underline">Se all kaffe</Link>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <ProductCard 
-              id="1"
-              name="Patchwork Heritage"
-              subtitle="Sjokolade, Nøtter, Røde Frukter"
-              price={199}
-              imageSrc="/assets/coffee_bag_1.png"
-              badge="Best Seller"
-            />
-            <ProductCard 
-              id="2"
-              name="Serranía Reserva"
-              subtitle="Karamell, Sitrus, Blomster"
-              price={219}
-              imageSrc="/assets/coffee_bag_2.png"
-              badge="Limited"
-            />
-            <ProductCard 
-              id="3"
-              name="Finca La Esperanza"
-              subtitle="Honning, Bær, Vanilje"
-              price={189}
-              imageSrc="/assets/coffee_bag_3.png"
-            />
-          </div>
-        </div>
-      </SectionContainer>
+      <FeaturedProducts />
 
       {/* 4. PHILOSOPHY */}
       <SectionContainer id="philosophy" bgClass="bg-brand-linen border-y border-brand-coffee/5">
@@ -117,12 +85,12 @@ export default function Home() {
       {/* 5. PRODUCERS */}
       <SectionContainer id="about" bgClass="bg-white">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2">
-          <div className="relative h-[400px] lg:h-auto">
+          <div className="group rounded-2xl border border-brand-coffee/10 overflow-hidden bg-brand-cream shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_60px_rgba(60,42,33,0.12)] transition-all duration-500 ease-out hover:scale-[1.02] relative h-[400px] lg:h-auto">
             <Image 
               src="/assets/story_illustration.png" 
               alt="Colombiansk kaffeprodusent" 
               fill 
-              className="object-cover"
+              className="object-cover grayscale opacity-90 transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:opacity-100"
             />
           </div>
           <div className="p-12 lg:p-24 flex flex-col justify-center space-y-8">
@@ -163,12 +131,12 @@ export default function Home() {
               </li>
             </ul>
           </div>
-          <div className="relative h-[400px] lg:h-auto order-1 lg:order-2">
+          <div className="group rounded-2xl border border-brand-coffee/10 overflow-hidden bg-brand-cream shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_60px_rgba(60,42,33,0.12)] transition-all duration-500 ease-out hover:scale-[1.02] relative h-[400px] lg:h-auto order-1 lg:order-2">
             <Image 
               src="/assets/infrastructure.png" 
               alt="Prosessering av kaffe" 
               fill 
-              className="object-cover"
+              className="object-cover grayscale opacity-90 transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:opacity-100"
             />
           </div>
         </div>

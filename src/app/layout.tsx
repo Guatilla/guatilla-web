@@ -41,7 +41,7 @@ export default function RootLayout({
     <html lang="no" className={`${outfit.variable} ${playfair.variable} ${vianor.variable}`} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen" suppressHydrationWarning>
         <Navbar />
-        <main className="flex-grow pt-20">
+        <main className="flex-grow pt-[92px]">
           {children}
         </main>
         <Footer />

@@ -48,6 +48,17 @@ export default function Footer() {
               <li><Link href="/about" className="hover:text-brand-terracotta transition-colors">Vår modell</Link></li>
               <li><Link href="/about" className="hover:text-brand-terracotta transition-colors">Rettferdig prising</Link></li>
               <li><Link href="/project-progress" className="hover:text-brand-terracotta transition-colors">Sporbarhet</Link></li>
+              <li>
+                <Link
+                  href="/journal"
+                  className="group inline-flex items-center gap-2 transition-colors duration-200 hover:text-brand-terracotta"
+                >
+                  Feltjournal
+                  <span className="transition-transform duration-200 group-hover:translate-x-1">
+                    →
+                  </span>
+                </Link>
+              </li>
             </ul>
           </div>
 

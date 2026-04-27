@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Coffee, Globe, Heart, ShieldCheck, MapPin } from "lucide-react";
 import SectionWrapper from "@/components/ui/SectionWrapper";
+import EditorialImageCard from "@/components/ui/EditorialImageCard";
 
 export const metadata = {
   title: "Vår Historie | Kaffe Guatilla",
@@ -85,15 +86,12 @@ export default function AboutPage() {
         {/* 3. ORIGIN OF THE SYMBOL (Circular Sculpture) */}
         <SectionWrapper bgClass="bg-brand-linen">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl group order-2 lg:order-1">
-              <Image 
-                src="/assets/about-circle.jpg" 
-                alt="Guatilla sirkulær skulptur ved utsiktspunktet" 
-                fill 
-                className="object-cover transform group-hover:scale-105 transition-transform duration-1000"
-              />
-              <div className="absolute inset-0 bg-brand-coffee/10 group-hover:bg-transparent transition-colors duration-700" />
-            </div>
+            <EditorialImageCard 
+              image="/assets/about-circle.jpg" 
+              alt="Guatilla sirkulær skulptur ved utsiktspunktet" 
+              variant="large"
+              className="order-2 lg:order-1"
+            />
             <div className="space-y-10 order-1 lg:order-2">
               <div className="space-y-4">
                 <h2 className="text-4xl md:text-5xl font-heading font-bold text-brand-coffee leading-tight">
@@ -174,15 +172,11 @@ export default function AboutPage() {
                 </div>
               </div>
             </div>
-            <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl group">
-              <Image 
-                src="/assets/about-raw-coffee.jpg" 
-                alt="Rå kaffebønner i sekk" 
-                fill 
-                className="object-cover transform group-hover:scale-105 transition-transform duration-1000"
-              />
-              <div className="absolute inset-0 bg-brand-coffee/5 group-hover:bg-transparent transition-colors duration-700" />
-            </div>
+            <EditorialImageCard 
+              image="/assets/about-raw-coffee.jpg" 
+              alt="Rå kaffebønner i sekk" 
+              variant="default"
+            />
           </div>
         </SectionWrapper>
 

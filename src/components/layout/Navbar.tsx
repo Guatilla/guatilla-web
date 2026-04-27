@@ -6,7 +6,7 @@ import Image from "next/image"
 import { Search, ShoppingBag, Menu, X, User } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-export function Navbar() {
+export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
@@ -27,7 +27,7 @@ export function Navbar() {
           : "bg-transparent py-5"
       )}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex-between">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
         
         {/* Mobile menu button */}
         <button 
@@ -42,8 +42,14 @@ export function Navbar() {
           <Link href="/shop" className="text-brand-dark font-medium hover:text-brand-terracotta transition-colors text-sm uppercase tracking-widest">
             Butikk
           </Link>
+          <Link href="/origen" className="text-brand-dark font-medium hover:text-brand-terracotta transition-colors text-sm uppercase tracking-widest">
+            Opprinnelse
+          </Link>
           <Link href="/about" className="text-brand-dark font-medium hover:text-brand-terracotta transition-colors text-sm uppercase tracking-widest">
             Om oss
+          </Link>
+          <Link href="/project-progress" className="text-brand-dark font-medium hover:text-brand-terracotta transition-colors text-sm uppercase tracking-widest">
+            Fremdrift
           </Link>
         </div>
 
@@ -73,7 +79,7 @@ export function Navbar() {
           </button>
           <button className="text-brand-dark hover:text-brand-terracotta transition-colors relative">
             <ShoppingBag size={20} strokeWidth={1.5} />
-            <span className="absolute -top-1 -right-2 bg-brand-terracotta text-white text-[10px] font-bold w-4 h-4 rounded-full flex-center">
+            <span className="absolute -top-1 -right-2 bg-brand-terracotta text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
               0
             </span>
           </button>
@@ -82,15 +88,18 @@ export function Navbar() {
 
       {/* Mobile Menu Backdrop */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-brand-bg shadow-lg border-t border-brand-primary/20 py-6 px-6 flex flex-col gap-6">
+        <div className="md:hidden absolute top-full left-0 w-full bg-brand-bg shadow-lg border-t border-brand-primary/20 py-8 px-8 flex flex-col gap-6">
           <Link href="/shop" className="text-brand-dark text-lg font-heading tracking-wide border-b border-brand-primary/10 pb-2">
             Butikk
+          </Link>
+          <Link href="/origen" className="text-brand-dark text-lg font-heading tracking-wide border-b border-brand-primary/10 pb-2">
+            Opprinnelse
           </Link>
           <Link href="/about" className="text-brand-dark text-lg font-heading tracking-wide border-b border-brand-primary/10 pb-2">
             Om oss
           </Link>
-          <Link href="/contacto" className="text-brand-dark text-lg font-heading tracking-wide border-b border-brand-primary/10 pb-2">
-            Kontakt
+          <Link href="/project-progress" className="text-brand-dark text-lg font-heading tracking-wide border-b border-brand-primary/10 pb-2">
+            Fremdrift
           </Link>
           <div className="pt-4 flex items-center gap-4 text-brand-dark">
              <User size={20} />
