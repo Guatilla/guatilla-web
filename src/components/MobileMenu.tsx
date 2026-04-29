@@ -1,9 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { X, User } from "lucide-react";
+import { X } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
 import NavLink from "./NavLink";
+import { NAV_LINKS } from "@/lib/routes";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -44,29 +45,17 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
       <div className="flex-grow overflow-y-auto px-10 py-12 flex flex-col items-center text-center">
         <nav className="flex flex-col w-full space-y-6">
-          <NavLink href="/shop" onClick={onClose} className="text-3xl font-semibold tracking-tight normal-case py-2 border-b border-brand-coffee/5">
-            Butikk
-          </NavLink>
-          <NavLink href="/origen" onClick={onClose} className="text-3xl font-semibold tracking-tight normal-case py-2 border-b border-brand-coffee/5">
-            Opprinnelse
-          </NavLink>
-          <NavLink href="/about" onClick={onClose} className="text-3xl font-semibold tracking-tight normal-case py-2 border-b border-brand-coffee/5">
-            Om oss
-          </NavLink>
-          <NavLink href="/project-progress" onClick={onClose} className="text-3xl font-semibold tracking-tight normal-case py-2 border-b border-brand-coffee/5">
-            Fremdrift
-          </NavLink>
+          {NAV_LINKS.map((link) => (
+            <NavLink key={link.href} href={link.href} onClick={onClose} className="text-3xl font-semibold tracking-tight normal-case py-2 border-b border-brand-coffee/5">
+              {link.label}
+            </NavLink>
+          ))}
           <NavLink href="/journal" onClick={onClose} className="text-3xl font-semibold tracking-tight normal-case py-2 border-b border-brand-coffee/5">
             Feltjournal
           </NavLink>
         </nav>
 
-        <div className="mt-12 flex flex-col items-center space-y-8">
-          <NavLink href="#" onClick={onClose} className="text-lg font-medium flex items-center gap-2">
-            <User size={20} />
-            Konto
-          </NavLink>
-
+        <div className="mt-12 flex flex-col items-center">
           <div className="scale-105">
             <LanguageSwitcher />
           </div>

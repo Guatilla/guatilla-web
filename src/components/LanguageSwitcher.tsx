@@ -4,12 +4,7 @@ import { useState } from "react";
 
 export default function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
-  // const router = useRouter();
-  // const pathname = usePathname();
-
-  // In a real i18n setup, this would use a hook to get the actual current locale
-  // For this design redesign, we mock the current locale to "no" (Norwegian)
-  const currentLocale = "no"; 
+  const currentLocale = "no";
 
   const languages = [
     { code: "no", label: "NO" },
@@ -17,11 +12,8 @@ export default function LanguageSwitcher() {
     { code: "es", label: "ES" },
   ];
 
-  const handleLanguageChange = (code: string) => {
+  const handleLanguageChange = () => {
     setIsOpen(false);
-    // In a real app with next-intl or similar, you would push to the new locale route:
-    // router.push(`/${code}${pathname}`);
-    console.log(`Language switched to: ${code}`);
   };
 
   return (
@@ -64,7 +56,7 @@ export default function LanguageSwitcher() {
             {languages.map((lang) => (
               <button
                 key={lang.code}
-                onClick={() => handleLanguageChange(lang.code)}
+                onClick={() => handleLanguageChange()}
                 className={`${
                   currentLocale === lang.code
                     ? "bg-brand-linen/50 text-brand-terracotta font-bold"

@@ -2,18 +2,15 @@ import React from "react";
 import Link from "next/link";
 import SectionContainer from "@/components/ui/SectionContainer";
 import ProgressCard from "@/components/ui/ProgressCard";
-import MilestoneItem from "@/components/ui/MilestoneItem";
 import TimelineProgress from "@/components/ui/TimelineProgress";
 import { 
   Building2, 
-  Globe2, 
   Users2, 
   Truck, 
   ChevronRight, 
   CheckCircle2, 
   ArrowRight,
   ShieldCheck,
-  Flag,
 } from "lucide-react";
 
 export const metadata = {

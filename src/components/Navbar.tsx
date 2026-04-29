@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ShoppingBag, User, Menu } from "lucide-react";
+import { ShoppingBag, Menu } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
 import MobileMenu from "./MobileMenu";
+import { NAV_LINKS, SITE_ROUTES } from "@/lib/routes";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -23,13 +24,6 @@ export default function Navbar() {
     };
   }, [isMobileMenuOpen]);
 
-  const navLinks = [
-    { href: "/shop", label: "Butikk" },
-    { href: "/origen", label: "Opprinnelse" },
-    { href: "/about", label: "Om oss" },
-    { href: "/project-progress", label: "Fremdrift" },
-  ];
-
   return (
     <>
       <nav
@@ -41,8 +35,8 @@ export default function Navbar() {
           {/* LEFT */}
           <div className="flex items-center gap-12">
 
-            {/* LOGO IMAGE (REEMPLAZO DEL TEXTO) */}
-            <Link href="/" className="shrink-0">
+            {/* LOGO IMAGE */}
+            <Link href={SITE_ROUTES.home} className="shrink-0">
               <Image
                 src="/KAFFE-GUATILLA.png"
                 alt="Kaffe Guatilla"
@@ -55,7 +49,7 @@ export default function Navbar() {
 
             {/* NAV LINKS */}
             <div className="hidden lg:flex items-center gap-8">
-              {navLinks.map((link) => (
+              {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -72,16 +66,9 @@ export default function Navbar() {
 
             <LanguageSwitcher />
 
-            <button className="text-brand-coffee hover:text-brand-terracotta transition-colors">
-              <User size={22} strokeWidth={1.7} />
-            </button>
-
-            <button className="relative text-brand-coffee hover:text-brand-terracotta transition-colors">
+            <Link href={SITE_ROUTES.cart} className="relative text-brand-coffee hover:text-brand-terracotta transition-colors">
               <ShoppingBag size={22} strokeWidth={1.7} />
-              <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-brand-terracotta text-white text-[10px] font-bold flex items-center justify-center">
-                2
-              </span>
-            </button>
+            </Link>
           </div>
 
           {/* MOBILE */}
@@ -93,12 +80,9 @@ export default function Navbar() {
               <Menu size={28} />
             </button>
 
-            <button className="relative text-brand-coffee">
+            <Link href={SITE_ROUTES.cart} className="relative text-brand-coffee">
               <ShoppingBag size={24} />
-              <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-brand-terracotta text-white text-[10px] font-bold flex items-center justify-center">
-                2
-              </span>
-            </button>
+            </Link>
           </div>
         </div>
       </nav>

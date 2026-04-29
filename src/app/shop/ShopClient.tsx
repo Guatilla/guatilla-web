@@ -4,7 +4,7 @@ import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { products, Product } from "@/data/products";
+import { products } from "@/data/products";
 
 
 export default function ShopClient() {

@@ -64,9 +64,6 @@ export default function Home() {
         </div>
       </SectionContainer>
 
-      {/* 3. FEATURED PRODUCTS */}
-      <FeaturedProducts />
-
       {/* 4. PHILOSOPHY */}
       <SectionContainer id="philosophy" bgClass="bg-brand-linen border-y border-brand-coffee/5">
         <div className="max-w-3xl mx-auto px-4 py-24 text-center space-y-8">
@@ -168,6 +165,9 @@ export default function Home() {
           </div>
         </div>
       </SectionContainer>
+
+      {/* 3. FEATURED PRODUCTS */}
+      <FeaturedProducts />
 
       {/* 8. FINAL CTA */}
       <SectionContainer bgClass="bg-brand-coffee">

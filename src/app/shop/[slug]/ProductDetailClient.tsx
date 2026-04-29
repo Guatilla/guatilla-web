@@ -7,7 +7,6 @@ import {
   ArrowLeft, 
   ShoppingBag, 
   Coffee, 
-  ChevronRight, 
   Sprout, 
   Settings, 
   Sun, 

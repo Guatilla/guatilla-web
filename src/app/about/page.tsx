@@ -1,8 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Coffee, Globe, Heart, ShieldCheck, MapPin } from "lucide-react";
-import SectionWrapper from "@/components/ui/SectionWrapper";
+import { ArrowRight, Globe, Heart, ShieldCheck, MapPin } from "lucide-react";
+import SectionContainer from "@/components/ui/SectionContainer";
 import EditorialImageCard from "@/components/ui/EditorialImageCard";
 
 export const metadata = {
@@ -59,7 +59,7 @@ export default function AboutPage() {
         </section>
 
         {/* 2. MEANING OF "GUATILLA" */}
-        <SectionWrapper bgClass="bg-white">
+        <SectionContainer bgClass="bg-white">
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-12 items-center">
               <div className="md:col-span-2">
@@ -70,7 +70,7 @@ export default function AboutPage() {
               </div>
               <div className="md:col-span-3 space-y-6 text-lg text-brand-coffee/70 font-light leading-relaxed">
                 <p>
-                  "Guatilla" var et begrep brukt av urfolkssamfunnene i Serranía del Perijá for å referere til de utenfor deres fellesskap – et ord som en gang markerte avstand og ulikhet.
+                  &ldquo;Guatilla&rdquo; var et begrep brukt av urfolkssamfunnene i Serranía del Perijá for å referere til de utenfor deres fellesskap – et ord som en gang markerte avstand og ulikhet.
                 </p>
                 <p className="font-medium text-brand-coffee italic">
                   I dag tolker vi dette navnet på nytt.
@@ -81,10 +81,10 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
-        </SectionWrapper>
+        </SectionContainer>
 
         {/* 3. ORIGIN OF THE SYMBOL (Circular Sculpture) */}
-        <SectionWrapper bgClass="bg-brand-linen">
+        <SectionContainer bgClass="bg-brand-linen">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <EditorialImageCard 
               image="/assets/about-circle.jpg" 
@@ -123,10 +123,10 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
-        </SectionWrapper>
+        </SectionContainer>
 
         {/* 4. INTEGRATION / BRAND SYSTEM */}
-        <SectionWrapper bgClass="bg-white border-y border-brand-coffee/5">
+        <SectionContainer bgClass="bg-white border-y border-brand-coffee/5">
           <div className="max-w-4xl mx-auto text-center space-y-12 py-12">
             <div className="flex justify-center">
               <Globe className="text-brand-terracotta animate-spin-slow" size={48} strokeWidth={1} />
@@ -138,10 +138,10 @@ export default function AboutPage() {
               Navnet, symbolet og kaffen er deler av den samme identiteten. Ved å forene meningen bak navnet med kraften i symbolet, skaper vi en opplevelse som er like dyp som den er enkel. En opplevelse som starter i Perijá og fullføres i din hverdag.
             </p>
           </div>
-        </SectionWrapper>
+        </SectionContainer>
 
         {/* 5. QUALITY AND COMMITMENT */}
-        <SectionWrapper>
+        <SectionContainer>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div className="space-y-10">
               <div className="space-y-4">
@@ -178,7 +178,7 @@ export default function AboutPage() {
               variant="default"
             />
           </div>
-        </SectionWrapper>
+        </SectionContainer>
 
         {/* FINAL CTA */}
         <section className="py-24 md:py-40 px-6 text-center bg-brand-linen">

@@ -5,16 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
-interface Product {
-  id: string;
-  name: string;
-  origin: string;
-  notes: string;
-  image: string;
-  alt: string;
-  featured?: boolean;
-}
-
 const products = [
   {
     id: "product_origin",
