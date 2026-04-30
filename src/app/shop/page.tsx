@@ -1,4 +1,3 @@
-import React from "react";
 import ShopClient from "./ShopClient";
 
 export const metadata = {

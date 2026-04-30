@@ -3,14 +3,15 @@ import { Outfit, Playfair_Display } from "next/font/google";
 import localFont from "next/font/local";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { CartProvider } from "@/components/CartProvider";
 import "./globals.css";
 
-const outfit = Outfit({ 
+const outfit = Outfit({
   subsets: ["latin"],
   variable: '--font-outfit',
 });
 
-const playfair = Playfair_Display({ 
+const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: '--font-playfair',
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -40,11 +41,13 @@ export default function RootLayout({
   return (
     <html lang="no" className={`${outfit.variable} ${playfair.variable} ${vianor.variable}`} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen" suppressHydrationWarning>
-        <Navbar />
-        <main className="flex-grow pt-[92px]">
-          {children}
-        </main>
-        <Footer />
+        <CartProvider>
+          <Navbar />
+          <main className="flex-grow pt-[92px]">
+            {children}
+          </main>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

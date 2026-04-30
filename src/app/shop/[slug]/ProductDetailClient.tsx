@@ -1,69 +1,39 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { 
-  ArrowLeft, 
-  ShoppingBag, 
-  Coffee, 
-  Sprout, 
-  Settings, 
-  Sun, 
-  Truck, 
-  MapPin 
-} from "lucide-react";
+import { ArrowLeft, ShoppingBag, Coffee, Sprout, Settings, Sun, Truck, MapPin } from "lucide-react";
 import { Product, products } from "@/data/products";
+import Button from "@/components/ui/Button";
+import Badge from "@/components/ui/Badge";
+import { useCart } from "@/components/CartProvider";
 
 interface ProductDetailClientProps {
   product: Product;
 }
 
 export default function ProductDetailClient({ product }: ProductDetailClientProps) {
-  // Get 3 related products (randomly for now, excluding current)
+  const { addItem } = useCart();
   const relatedProducts = products
     .filter((p) => p.slug !== product.slug)
     .slice(0, 3);
 
   const traceabilitySteps = [
-    { 
-      label: "Gård", 
-      icon: Sprout, 
-      description: "Små produsenter i Serranía del Perijá." 
-    },
-    { 
-      label: "Prosess", 
-      icon: Settings, 
-      description: "Naturlig eller vasket behandling." 
-    },
-    { 
-      label: "Tørking", 
-      icon: Sun, 
-      description: "Kontrollert tørking før videre behandling." 
-    },
-    { 
-      label: "Eksport", 
-      icon: Truck, 
-      description: "Direkte handel med færre mellomledd." 
-    },
-    { 
-      label: "Norge", 
-      icon: MapPin, 
-      description: "Importeres og klargjøres for markedet." 
-    },
-    { 
-      label: "Kopp", 
-      icon: Coffee, 
-      description: "Et sporbar parti, klart til brygging." 
-    },
+    { label: "Gård", icon: Sprout, description: "Små produsenter i Serranía del Perijá." },
+    { label: "Prosess", icon: Settings, description: "Naturlig eller vasket behandling." },
+    { label: "Tørking", icon: Sun, description: "Kontrollert tørking før videre behandling." },
+    { label: "Eksport", icon: Truck, description: "Direkte handel med færre mellomledd." },
+    { label: "Norge", icon: MapPin, description: "Importeres og klargjøres for markedet." },
+    { label: "Kopp", icon: Coffee, description: "Et sporbar parti, klart til brygging." },
   ];
 
   return (
     <div className="min-h-screen bg-brand-linen pt-32 pb-20">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Breadcrumbs / Back button */}
+
+        {/* Back link */}
         <div className="mb-12">
-          <Link 
+          <Link
             href="/shop"
             className="inline-flex items-center space-x-2 text-brand-coffee/60 hover:text-brand-terracotta transition-colors group"
           >
@@ -74,7 +44,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 
         {/* Product Hero */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start mb-32">
-          {/* Left: Image Container */}
+
+          {/* Image */}
           <div className="group rounded-2xl border border-brand-coffee/10 overflow-hidden bg-brand-cream shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_60px_rgba(60,42,33,0.12)] transition-all duration-500 ease-out hover:scale-[1.02]">
             <div className="relative aspect-square overflow-hidden bg-brand-linen/30">
               <Image
@@ -84,13 +55,13 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 className="object-cover grayscale opacity-90 transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:opacity-100"
                 priority
               />
-              <div className="absolute top-6 right-6 z-20 bg-brand-coffee/80 backdrop-blur-md text-white text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full shadow-sm">
-                {product.roast}
+              <div className="absolute top-6 right-6 z-20">
+                <Badge variant="default">{product.roast}</Badge>
               </div>
             </div>
           </div>
 
-          {/* Right: Info */}
+          {/* Info */}
           <div className="flex flex-col h-full pt-4">
             <div className="mb-8">
               <p className="text-xs font-bold uppercase tracking-[0.3em] text-brand-terracotta mb-4">
@@ -107,11 +78,12 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               </div>
             </div>
 
+            {/* CTA */}
             <div className="mt-auto space-y-6 pt-10 border-t border-brand-coffee/10">
-              <button className="w-full bg-brand-coffee text-white py-6 rounded-full font-bold uppercase tracking-widest text-sm hover:bg-brand-terracotta transition-colors shadow-lg shadow-brand-coffee/10 flex items-center justify-center space-x-3 group">
-                <ShoppingBag size={20} className="group-hover:scale-110 transition-transform" />
-                <span>Legg i handlekurv</span>
-              </button>
+              <Button variant="primary" fullWidth onClick={() => addItem({ id: product.id, name: product.name, origin: product.origin, price: product.price, priceNum: product.priceNum, image: product.image, slug: product.slug })}>
+                <ShoppingBag size={20} className="mr-2" />
+                Legg i handlekurv
+              </Button>
               <p className="text-center text-xs text-brand-coffee/40 font-medium italic">
                 * Fri frakt på bestillinger over 500 NOK
               </p>
@@ -119,7 +91,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           </div>
         </div>
 
-        {/* Coffee Details (Specifications) */}
+        {/* Specifications */}
         <div className="mb-32">
           <div className="max-w-3xl mx-auto bg-brand-cream/40 backdrop-blur-sm rounded-3xl p-10 md:p-16 border border-brand-coffee/5 shadow-sm">
             <h2 className="text-2xl font-heading font-bold text-brand-coffee mb-10 text-center">Spesifikasjoner</h2>
@@ -153,12 +125,12 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             </p>
           </div>
           <div className="order-1 lg:order-2 relative aspect-[16/10] rounded-2xl overflow-hidden border border-brand-coffee/10 grayscale shadow-sm">
-             <Image 
-               src="/assets/perija-hero.jpg" 
-               alt="Serranía del Perijá" 
-               fill 
-               className="object-cover opacity-80"
-             />
+            <Image
+              src="/assets/perija-hero.jpg"
+              alt="Serranía del Perijá"
+              fill
+              className="object-cover opacity-80"
+            />
           </div>
         </div>
 
@@ -168,20 +140,15 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             <h2 className="text-3xl md:text-4xl font-heading font-bold text-brand-coffee mb-4">Sporbarhet</h2>
             <p className="text-brand-coffee/60 font-light italic">Fra gårdene i Serranía del Perijá til koppen din.</p>
           </div>
-          
-          {/* Timeline Grid */}
+
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-10 lg:gap-4 relative">
-            {/* Desktop Connector Line */}
             <div className="hidden lg:block absolute top-10 left-12 right-12 h-px bg-brand-coffee/10 z-0" />
-            
+
             {traceabilitySteps.map((step, i) => (
               <div key={i} className="flex flex-col items-center text-center relative z-10 group">
-                {/* Icon Container */}
                 <div className="w-16 h-16 bg-brand-cream border border-brand-coffee/10 rounded-full flex items-center justify-center text-brand-coffee mb-6 shadow-sm transition-all duration-500 group-hover:bg-brand-coffee group-hover:text-white group-hover:scale-110 group-hover:border-brand-coffee">
                   <step.icon size={24} strokeWidth={1.5} />
                 </div>
-                
-                {/* Text Content */}
                 <div className="space-y-2 max-w-[200px]">
                   <h3 className="text-sm font-bold uppercase tracking-widest text-brand-coffee">
                     {step.label}
@@ -190,8 +157,6 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     {step.description}
                   </p>
                 </div>
-
-                {/* Mobile Connector Line */}
                 {i < traceabilitySteps.length - 1 && (
                   <div className="md:hidden w-px h-10 bg-brand-coffee/10 my-4" />
                 )}
@@ -205,8 +170,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           <h2 className="text-3xl md:text-4xl font-heading font-bold text-brand-coffee mb-12 text-center">Andre kaffer</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {relatedProducts.map((p) => (
-              <Link 
-                key={p.id} 
+              <Link
+                key={p.id}
                 href={`/shop/${p.slug}`}
                 className="group bg-brand-cream border border-brand-coffee/10 rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.05)] transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-[0_20px_60px_rgba(60,42,33,0.12)]"
               >
@@ -217,8 +182,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     fill
                     className="object-cover grayscale opacity-90 transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:opacity-100"
                   />
-                  <div className="absolute top-4 right-4 z-20 bg-brand-coffee/80 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
-                    {p.roast}
+                  <div className="absolute top-4 right-4 z-20">
+                    <Badge variant="default">{p.roast}</Badge>
                   </div>
                 </div>
                 <div className="p-6">

@@ -7,8 +7,10 @@ import { ShoppingBag, Menu } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
 import MobileMenu from "./MobileMenu";
 import { NAV_LINKS, SITE_ROUTES } from "@/lib/routes";
+import { useCart } from "./CartProvider";
 
 export default function Navbar() {
+  const { cartCount } = useCart();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -27,15 +29,16 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 w-full z-[90] h-[96px] transition-all duration-300 border-b border-brand-coffee/10 ${isScrolled ? "bg-white/95 backdrop-blur-md shadow-sm" : "bg-white"
-          }`}
+        className={`fixed top-0 left-0 w-full z-[90] h-[96px] transition-all duration-300 border-b border-brand-coffee/10 ${
+          isScrolled ? "bg-white/95 backdrop-blur-md shadow-sm" : "bg-white"
+        }`}
       >
         <div className="max-w-[1480px] mx-auto h-full px-8 lg:px-12 flex items-center justify-between">
 
           {/* LEFT */}
           <div className="flex items-center gap-12">
 
-            {/* LOGO IMAGE */}
+            {/* LOGO */}
             <Link href={SITE_ROUTES.home} className="shrink-0">
               <Image
                 src="/KAFFE-GUATILLA.png"
@@ -63,11 +66,17 @@ export default function Navbar() {
 
           {/* RIGHT */}
           <div className="hidden lg:flex items-center gap-7">
-
             <LanguageSwitcher />
-
-            <Link href={SITE_ROUTES.cart} className="relative text-brand-coffee hover:text-brand-terracotta transition-colors">
+            <Link
+              href={SITE_ROUTES.cart}
+              className="relative text-brand-coffee hover:text-brand-terracotta transition-colors"
+            >
               <ShoppingBag size={22} strokeWidth={1.7} />
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-brand-terracotta text-white text-[10px] font-bold flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
             </Link>
           </div>
 
@@ -79,9 +88,16 @@ export default function Navbar() {
             >
               <Menu size={28} />
             </button>
-
-            <Link href={SITE_ROUTES.cart} className="relative text-brand-coffee">
+            <Link
+              href={SITE_ROUTES.cart}
+              className="relative text-brand-coffee"
+            >
               <ShoppingBag size={24} />
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-brand-terracotta text-white text-[10px] font-bold flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
             </Link>
           </div>
         </div>

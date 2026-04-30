@@ -26,5 +26,5 @@ export const SITE_ROUTES = {
   origen: "/origen",
   journal: "/journal",
   projectProgress: "/project-progress",
-  cart: "/carrito",
+  cart: "/cart",
 } as const;

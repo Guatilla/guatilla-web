@@ -1,4 +1,3 @@
-import React from "react";
 import { notFound } from "next/navigation";
 import { products } from "@/data/products";
 import ProductDetailClient from "./ProductDetailClient";

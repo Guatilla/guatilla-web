@@ -3,9 +3,7 @@
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
 import { products } from "@/data/products";
-
 
 export default function ShopClient() {
   const [roastFilter, setRoastFilter] = useState("Alle brenninger");
@@ -24,7 +22,7 @@ export default function ShopClient() {
   return (
     <div className="min-h-screen bg-brand-linen pt-32 pb-20">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Hero Section */}
+        {/* Hero */}
         <div className="text-center mb-20">
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-heading font-bold text-brand-coffee mb-6">
             Våre <em className="italic font-light">kaffer</em>
@@ -40,10 +38,9 @@ export default function ShopClient() {
             Filtrer kaffe
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16">
-            {/* Roast Filter */}
             <div className="space-y-4">
               <label className="text-sm font-semibold text-brand-coffee">Brenningsgrad</label>
-              <select 
+              <select
                 value={roastFilter}
                 onChange={(e) => setRoastFilter(e.target.value)}
                 className="w-full h-14 bg-brand-cream border border-brand-coffee/10 rounded-full px-6 text-base text-brand-coffee outline-none focus:border-brand-terracotta/40 transition-all appearance-none cursor-pointer hover:border-brand-coffee/20"
@@ -55,26 +52,20 @@ export default function ShopClient() {
                 <option>Mørk</option>
               </select>
             </div>
-
-            {/* Origin Filter */}
             <div className="space-y-4">
               <label className="text-sm font-semibold text-brand-coffee">Opprinnelse</label>
-              <select 
+              <select
                 value={originFilter}
                 onChange={(e) => setOriginFilter(e.target.value)}
                 className="w-full h-14 bg-brand-cream border border-brand-coffee/10 rounded-full px-6 text-base text-brand-coffee outline-none focus:border-brand-terracotta/40 transition-all appearance-none cursor-pointer hover:border-brand-coffee/20"
               >
                 <option>Alle opprinnelser</option>
                 <option>Serranía del Perijá</option>
-                <option>Perijá, Cesar</option>
-                <option>Perijá, La Guajira</option>
               </select>
             </div>
-
-            {/* Taste Filter */}
             <div className="space-y-4">
               <label className="text-sm font-semibold text-brand-coffee">Smaksprofil</label>
-              <select 
+              <select
                 value={tasteFilter}
                 onChange={(e) => setTasteFilter(e.target.value)}
                 className="w-full h-14 bg-brand-cream border border-brand-coffee/10 rounded-full px-6 text-base text-brand-coffee outline-none focus:border-brand-terracotta/40 transition-all appearance-none cursor-pointer hover:border-brand-coffee/20"
@@ -91,21 +82,20 @@ export default function ShopClient() {
           </div>
         </div>
 
-        {/* Product Count */}
+        {/* Count */}
         <div className="mb-8 px-2">
           <p className="text-sm font-medium text-brand-coffee/50">
-            Viser alle {filteredProducts.length} kaffer
+            Viser {filteredProducts.length} {filteredProducts.length === 1 ? "kaffe" : "kaffer"}
           </p>
         </div>
 
-        {/* Product Grid */}
+        {/* Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
           {filteredProducts.map((product) => (
-            <div 
+            <div
               key={product.id}
               className="group bg-brand-cream border border-brand-coffee/10 rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.05)] transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-[0_20px_60px_rgba(60,42,33,0.12)] flex flex-col md:flex-row h-full"
             >
-              {/* Left Side: Image */}
               <div className="relative w-full md:w-1/2 aspect-[4/5] md:aspect-auto overflow-hidden bg-brand-linen/30 shrink-0">
                 <Image
                   src={product.image}
@@ -118,7 +108,6 @@ export default function ShopClient() {
                 </div>
               </div>
 
-              {/* Right Side: Details */}
               <div className="p-8 md:p-10 flex flex-col justify-between flex-grow">
                 <div>
                   <div className="mb-6">
@@ -146,7 +135,7 @@ export default function ShopClient() {
                   </div>
                 </div>
 
-                <Link 
+                <Link
                   href={`/shop/${product.slug}`}
                   className="inline-flex items-center space-x-2 text-brand-coffee font-bold uppercase tracking-widest text-xs group/btn hover:text-brand-terracotta transition-colors pt-4"
                 >

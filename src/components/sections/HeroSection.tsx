@@ -1,0 +1,60 @@
+import Image from "next/image";
+import Link from "next/link";
+
+interface HeroSectionProps {
+  title?: string;
+  subtitle?: string;
+  imageSrc?: string;
+  primaryCta?: { label: string; href: string };
+  secondaryCta?: { label: string; href: string };
+}
+
+export default function HeroSection({
+  title = "Direkte handel med colombiansk kaffe til Europa",
+  subtitle = "Fra colombianske gårder til Oslo — uten mellomledd, full åpenhet.",
+  imageSrc = "/assets/hero.png",
+  primaryCta = { label: "Handle kaffe", href: "/shop" },
+  secondaryCta = { label: "Om oss", href: "/about" },
+}: HeroSectionProps) {
+  return (
+    <section className="relative w-full min-h-screen flex items-center bg-brand-linen overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src={imageSrc}
+          alt="Colombian Coffee Farm"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-brand-coffee/40 mix-blend-multiply" />
+      </div>
+
+      {/* Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10 relative">
+        <div className="max-w-3xl">
+          <h1 className="text-5xl md:text-7xl font-heading font-bold text-white leading-tight mb-6">
+            {title}
+          </h1>
+          <p className="text-xl md:text-2xl text-white/90 font-light mb-10 leading-relaxed">
+            {subtitle}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Link
+              href={primaryCta.href}
+              className="bg-brand-terracotta text-white px-8 py-4 rounded-full font-bold tracking-widest uppercase text-sm hover:bg-brand-terracotta/90 transition-all text-center"
+            >
+              {primaryCta.label}
+            </Link>
+            <Link
+              href={secondaryCta.href}
+              className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-full font-bold tracking-widest uppercase text-sm hover:bg-white/20 transition-all text-center"
+            >
+              {secondaryCta.label}
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

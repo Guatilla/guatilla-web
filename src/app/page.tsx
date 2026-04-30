@@ -1,9 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
-import HeroSection from "@/components/ui/HeroSection";
-import SectionContainer from "@/components/ui/SectionContainer";
-import FeaturedProducts from "@/components/ui/FeaturedProducts";
 import { Coffee, Ship, Warehouse, CheckCircle, ArrowRight } from "lucide-react";
+import HeroSection from "@/components/sections/HeroSection";
+import EditorialSplitSection from "@/components/sections/EditorialSplitSection";
+import FeaturedProducts from "@/components/sections/FeaturedProducts";
+import SectionContainer from "@/components/ui/SectionContainer";
 
 export const metadata = {
   title: "Hjem | Kaffe Guatilla",
@@ -13,10 +13,10 @@ export const metadata = {
 export default function Home() {
   return (
     <div className="flex flex-col w-full bg-brand-linen">
-      {/* 1. HERO SECTION */}
+      {/* 1. HERO */}
       <HeroSection />
 
-      {/* 2. BUSINESS MODEL (Colombia → Norway) */}
+      {/* 2. BUSINESS MODEL */}
       <SectionContainer id="model" bgClass="bg-brand-cream border-y border-brand-coffee/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center mb-16">
@@ -24,7 +24,6 @@ export default function Home() {
             <p className="text-brand-coffee/60 max-w-2xl mx-auto">Vi kobler colombianske kaffebønder direkte med europeiske kaffeelskere.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-center relative">
-            {/* Column 1: Colombia */}
             <div className="flex flex-col items-center text-center space-y-6">
               <div className="w-20 h-20 bg-brand-linen rounded-full flex items-center justify-center text-brand-terracotta shadow-sm border border-brand-coffee/5">
                 <Coffee size={32} />
@@ -32,13 +31,9 @@ export default function Home() {
               <h3 className="text-xl font-heading font-bold text-brand-coffee">Colombia</h3>
               <p className="text-brand-coffee/70 font-light">Direkte innkjøp fra bønder i Serranía del Perijá, noe som sikrer rettferdig betaling og full sporbarhet.</p>
             </div>
-
-            {/* Arrow/Flow Icon (Desktop Only) */}
             <div className="hidden md:flex absolute left-1/3 top-10 -translate-x-1/2 text-brand-olive/30">
               <ArrowRight size={40} />
             </div>
-
-            {/* Column 2: Processing */}
             <div className="flex flex-col items-center text-center space-y-6">
               <div className="w-20 h-20 bg-brand-linen rounded-full flex items-center justify-center text-brand-terracotta shadow-sm border border-brand-coffee/5">
                 <Warehouse size={32} />
@@ -46,13 +41,9 @@ export default function Home() {
               <h3 className="text-xl font-heading font-bold text-brand-coffee">Prosessering</h3>
               <p className="text-brand-coffee/70 font-light">Egen infrastruktur (trilladora) lar oss kontrollere kvaliteten fra bønne til eksport.</p>
             </div>
-
-            {/* Arrow/Flow Icon (Desktop Only) */}
             <div className="hidden md:flex absolute left-2/3 top-10 -translate-x-1/2 text-brand-olive/30">
               <ArrowRight size={40} />
             </div>
-
-            {/* Column 3: Norway */}
             <div className="flex flex-col items-center text-center space-y-6">
               <div className="w-20 h-20 bg-brand-linen rounded-full flex items-center justify-center text-brand-terracotta shadow-sm border border-brand-coffee/5">
                 <Ship size={32} />
@@ -64,7 +55,7 @@ export default function Home() {
         </div>
       </SectionContainer>
 
-      {/* 4. PHILOSOPHY */}
+      {/* 3. PHILOSOPHY */}
       <SectionContainer id="philosophy" bgClass="bg-brand-linen border-y border-brand-coffee/5">
         <div className="max-w-3xl mx-auto px-4 py-24 text-center space-y-8">
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-brand-coffee leading-tight">
@@ -79,67 +70,32 @@ export default function Home() {
         </div>
       </SectionContainer>
 
-      {/* 5. PRODUCERS */}
-      <SectionContainer id="about" bgClass="bg-white">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2">
-          <div className="group rounded-2xl border border-brand-coffee/10 overflow-hidden bg-brand-cream shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_60px_rgba(60,42,33,0.12)] transition-all duration-500 ease-out hover:scale-[1.02] relative h-[400px] lg:h-auto">
-            <Image 
-              src="/assets/story_illustration.png" 
-              alt="Colombiansk kaffeprodusent" 
-              fill 
-              className="object-cover grayscale opacity-90 transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:opacity-100"
-            />
-          </div>
-          <div className="p-12 lg:p-24 flex flex-col justify-center space-y-8">
-            <h2 className="text-4xl font-heading font-bold text-brand-coffee">Håndverket bak innhøstingen</h2>
-            <p className="text-lg text-brand-coffee/70 font-light leading-relaxed">
-              Kaffen vår kommer fra de hardtarbeidende familiene i Serranía del Perijá. Vi kjøper ikke bare kaffe; vi bygger langsiktige partnerskap. Ved å gi bønder direkte tilgang til det europeiske markedet, bidrar vi til å opprettholde lokalsamfunn og bevare tradisjonelle jordbruksmetoder.
-            </p>
-            <div className="pt-4">
-              <Link href="/origen" className="inline-flex items-center space-x-2 text-brand-terracotta font-bold uppercase tracking-widest text-sm group">
-                <span>Utforsk opprinnelse</span>
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </SectionContainer>
+      {/* 4. PRODUCERS — Editorial Split */}
+      <EditorialSplitSection
+        image="/assets/story_illustration.png"
+        imageAlt="Colombiansk kaffeprodusent"
+        title="Håndverket bak innhøstingen"
+        description="Kaffen vår kommer fra de hardtarbeidende familiene i Serranía del Perijá. Vi kjøper ikke bare kaffe; vi bygger langsiktige partnerskap. Ved å gi bønder direkte tilgang til det europeiske markedet, bidrar vi til å opprettholde lokalsamfunn og bevare tradisjonelle jordbruksmetoder."
+        cta={{ label: "Utforsk opprinnelse", href: "/origen" }}
+        bgClass="bg-white"
+      />
 
-      {/* 6. INFRASTRUCTURE */}
-      <SectionContainer id="infrastructure" bgClass="bg-brand-cream">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2">
-          <div className="p-12 lg:p-24 flex flex-col justify-center space-y-8 order-2 lg:order-1">
-            <h2 className="text-4xl font-heading font-bold text-brand-coffee">Presisjon i prosessering</h2>
-            <p className="text-lg text-brand-coffee/70 font-light leading-relaxed">
-              Vår egen trilladora i Colombia er hjertet i vår virksomhet. Denne infrastrukturen lar oss håndtere sortering, avskalling og tørking med kirurgisk presisjon, noe som sikrer at bare de fineste bønnene blir eksportert.
-            </p>
-            <ul className="space-y-4">
-              <li className="flex items-center space-x-3 text-brand-coffee/80">
-                <CheckCircle size={20} className="text-brand-olive" />
-                <span>Moderne sorteringsteknologi</span>
-              </li>
-              <li className="flex items-center space-x-3 text-brand-coffee/80">
-                <CheckCircle size={20} className="text-brand-olive" />
-                <span>Kvalitetskontroll på hvert trinn</span>
-              </li>
-              <li className="flex items-center space-x-3 text-brand-coffee/80">
-                <CheckCircle size={20} className="text-brand-olive" />
-                <span>Direkte eksportlogistikk fra Colombia</span>
-              </li>
-            </ul>
-          </div>
-          <div className="group rounded-2xl border border-brand-coffee/10 overflow-hidden bg-brand-cream shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_60px_rgba(60,42,33,0.12)] transition-all duration-500 ease-out hover:scale-[1.02] relative h-[400px] lg:h-auto order-1 lg:order-2">
-            <Image 
-              src="/assets/infrastructure.png" 
-              alt="Prosessering av kaffe" 
-              fill 
-              className="object-cover grayscale opacity-90 transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:opacity-100"
-            />
-          </div>
-        </div>
-      </SectionContainer>
+      {/* 5. INFRASTRUCTURE — Editorial Split (reverse) */}
+      <EditorialSplitSection
+        image="/assets/infrastructure.png"
+        imageAlt="Prosessering av kaffe"
+        title="Presisjon i prosessering"
+        description="Vår egen trilladora i Colombia er hjertet i vår virksomhet. Denne infrastrukturen lar oss håndtere sortering, avskalling og tørking med kirurgisk presisjon, noe som sikrer at bare de fineste bønnene blir eksportert."
+        checklist={[
+          "Moderne sorteringsteknologi",
+          "Kvalitetskontroll på hvert trinn",
+          "Direkte eksportlogistikk fra Colombia",
+        ]}
+        reverse
+        bgClass="bg-brand-cream"
+      />
 
-      {/* 7. TRANSPARENCY SECTION */}
+      {/* 6. TRANSPARENCY */}
       <SectionContainer id="transparencia" bgClass="bg-brand-linen">
         <div className="max-w-5xl mx-auto px-4 py-24">
           <div className="text-center mb-16">
@@ -166,7 +122,7 @@ export default function Home() {
         </div>
       </SectionContainer>
 
-      {/* 3. FEATURED PRODUCTS */}
+      {/* 7. FEATURED PRODUCTS */}
       <FeaturedProducts />
 
       {/* 8. FINAL CTA */}
