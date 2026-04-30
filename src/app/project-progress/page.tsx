@@ -3,6 +3,7 @@ import Link from "next/link";
 import SectionContainer from "@/components/ui/SectionContainer";
 import ProgressCard from "@/components/ui/ProgressCard";
 import TimelineProgress from "@/components/ui/TimelineProgress";
+import WaitlistForm from "@/components/WaitlistForm";
 import { 
   Building2, 
   Users2, 
@@ -162,12 +163,12 @@ export default function ProjectProgressPage() {
           <p className="text-lg text-brand-coffee/60 max-w-2xl mx-auto font-light leading-relaxed">
             Bli den første som får vite om lanseringen av det første partiet med KAFFE GUATILLA.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-4">
-            <Link href="/contacto" className="btn-primary px-16 py-5 text-base w-full sm:w-auto">
-              Bli med
-            </Link>
-            <Link href="/origen" className="btn-secondary w-full sm:w-auto flex items-center justify-center gap-2">
-              Se opprinnelse <ArrowRight size={18} />
+          <div className="pt-4">
+            <WaitlistForm />
+          </div>
+          <div className="flex items-center justify-center pt-4 border-t border-brand-coffee/5">
+            <Link href="/origen" className="flex items-center gap-2 font-bold uppercase tracking-widest text-xs text-brand-coffee/60 hover:text-brand-terracotta transition-colors group">
+              Se opprinnelse <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
         </div>

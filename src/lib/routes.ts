@@ -27,4 +27,5 @@ export const SITE_ROUTES = {
   journal: "/journal",
   projectProgress: "/project-progress",
   cart: "/cart",
+  contact: "/contact",
 } as const;

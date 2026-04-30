@@ -190,7 +190,7 @@ export default function AboutPage() {
               <Link href="/shop" className="btn-primary px-12 py-5 text-base w-full sm:w-auto text-center">
                 Utforsk kaffen
               </Link>
-              <Link href="/contacto" className="text-brand-coffee font-bold uppercase tracking-widest text-sm hover:text-brand-terracotta transition-colors flex items-center gap-2 group">
+              <Link href="/contact" className="text-brand-coffee font-bold uppercase tracking-widest text-sm hover:text-brand-terracotta transition-colors flex items-center gap-2 group">
                 Kontakt oss <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>

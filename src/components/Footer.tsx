@@ -23,6 +23,9 @@ export default function Footer() {
             <p className="text-sm text-brand-coffee/60 leading-relaxed max-w-xs mb-8">
               Spesialkaffe av høy kvalitet direkte fra våre gårder i Colombia til ditt hjem i Europa.
             </p>
+            <Link href="/contact" className="text-sm font-bold text-brand-coffee hover:text-brand-terracotta transition-colors uppercase tracking-widest">
+              Kontakt
+            </Link>
           </div>
 
           {/* KAFFE GUATILLA */}
