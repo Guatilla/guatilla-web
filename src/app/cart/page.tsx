@@ -134,22 +134,49 @@ export default function CartPage() {
                 ))}
               </div>
 
-              <div className="border-t border-brand-coffee/10 pt-6">
+              <div className="border-t border-brand-coffee/10 pt-6 space-y-4">
                 <div className="flex justify-between items-baseline">
                   <span className="text-xs font-bold uppercase tracking-widest text-brand-coffee/50">Subtotal</span>
-                  <span className="text-2xl font-heading font-bold text-brand-coffee">{cartTotal} NOK</span>
+                  <span className="text-lg font-heading font-bold text-brand-coffee">{cartTotal} {items[0]?.currency || "NOK"}</span>
+                </div>
+
+                <div className="flex justify-between items-baseline">
+                  <span className="text-xs text-brand-coffee/40">Frakt (estimert)</span>
+                  <span className="text-xs font-medium text-brand-coffee/40">Inkludert</span>
+                </div>
+
+                <div className="flex justify-between items-baseline pt-3 border-t border-brand-coffee/5">
+                  <span className="text-sm font-bold uppercase tracking-widest text-brand-coffee">Estimert total</span>
+                  <span className="text-2xl font-heading font-bold text-brand-coffee">{cartTotal} {items[0]?.currency || "NOK"}</span>
                 </div>
               </div>
 
-              <button
-                disabled
-                className="w-full py-5 rounded-full font-bold uppercase tracking-widest text-sm bg-brand-coffee/20 text-brand-coffee/40 cursor-not-allowed"
-              >
-                Gå til betaling
-              </button>
-              <p className="text-center text-xs text-brand-coffee/30 italic">
-                Betaling kommer snart
-              </p>
+              <div className="rounded-xl border border-brand-coffee/10 p-5 space-y-3 bg-white/50">
+                <button
+                  disabled
+                  className="w-full py-5 rounded-full font-bold uppercase tracking-widest text-sm bg-brand-coffee/15 text-brand-coffee/40 cursor-not-allowed"
+                >
+                  Betaling kommer snart
+                </button>
+                <p className="text-center text-xs text-brand-coffee/35 leading-relaxed">
+                  Vi åpner for bestilling når neste parti er klart.
+                </p>
+              </div>
+
+              <div className="text-center">
+                <Link
+                  href="/shop"
+                  className="text-sm font-bold text-brand-coffee/60 hover:text-brand-terracotta transition-colors underline underline-offset-4"
+                >
+                  Fortsett å handle
+                </Link>
+              </div>
+
+              <div className="border-t border-brand-coffee/10 pt-6">
+                <p className="text-xs text-brand-coffee/35 text-center leading-relaxed">
+                  Alle priser inkluderer mva. Fri frakt på bestillinger over 500 NOK.
+                </p>
+              </div>
             </div>
           </div>
         </div>
