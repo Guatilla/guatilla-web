@@ -26,7 +26,7 @@ export default function ProductGrid({ filter, limit }: ProductGridProps) {
           name={product.name}
           slug={product.slug}
           origin={product.origin}
-          price={product.price}
+          price={product.priceNum}
           currency={product.currency}
           imageSrc={product.image}
           imageAlt={product.alt}

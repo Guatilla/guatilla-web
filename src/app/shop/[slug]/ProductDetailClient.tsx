@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ShoppingBag, Coffee, Sprout, Settings, Sun, Truck, MapPin } from "lucide-react";
-import { Product, products } from "@/data/products";
+import { Product, getRelatedProducts } from "@/data/products";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 import { useCart } from "@/components/CartProvider";
@@ -14,9 +14,7 @@ interface ProductDetailClientProps {
 
 export default function ProductDetailClient({ product }: ProductDetailClientProps) {
   const { addItem } = useCart();
-  const relatedProducts = products
-    .filter((p) => p.slug !== product.slug)
-    .slice(0, 3);
+  const relatedProducts = getRelatedProducts(product.slug);
 
   const traceabilitySteps = [
     { label: "Gård", icon: Sprout, description: "Små produsenter i Serranía del Perijá." },
@@ -80,7 +78,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 
             {/* CTA */}
             <div className="mt-auto space-y-6 pt-10 border-t border-brand-coffee/10">
-              <Button variant="primary" fullWidth onClick={() => addItem({ id: product.id, name: product.name, origin: product.origin, price: product.price, priceNum: product.priceNum, image: product.image, slug: product.slug })}>
+              <Button variant="primary" fullWidth onClick={() => addItem({ id: product.id, name: product.name, origin: product.origin, price: product.price, priceNum: product.priceNum, currency: product.currency, image: product.image, slug: product.slug })}>
                 <ShoppingBag size={20} className="mr-2" />
                 Legg i handlekurv
               </Button>

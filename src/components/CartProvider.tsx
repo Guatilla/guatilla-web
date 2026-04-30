@@ -8,6 +8,7 @@ export interface CartItem {
   origin: string;
   price: string;
   priceNum: number;
+  currency: string;
   image: string;
   slug: string;
   quantity: number;

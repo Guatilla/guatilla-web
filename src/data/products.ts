@@ -141,3 +141,17 @@ export const products: Product[] = [
     featured: false,
   },
 ];
+
+export function getProductBySlug(slug: string): Product | undefined {
+  return products.find((p) => p.slug === slug);
+}
+
+export function getFeaturedProducts(): Product[] {
+  return products.filter((p) => p.featured);
+}
+
+export function getRelatedProducts(slug: string, limit = 3): Product[] {
+  return products
+    .filter((p) => p.slug !== slug)
+    .slice(0, limit);
+}

@@ -1,17 +1,21 @@
 export interface JournalEntry {
+  id: string;
   slug: string;
   title: string;
-  category: "Mennesker" | "Prosess" | "Territorium" | "Kvalitet";
-  date: string;
   excerpt: string;
   content: string;
+  category: "Mennesker" | "Prosess" | "Territorium" | "Kvalitet";
+  date: string;
   image: string;
-  location?: string;
   author: string;
+  readingTime: string;
+  featured: boolean;
+  location?: string;
 }
 
 export const journalEntries: JournalEntry[] = [
   {
+    id: "innhosting-i-takeheimen",
     slug: "innhosting-i-takeheimen",
     title: "Innhøsting i tåkeheimen",
     category: "Territorium",
@@ -21,8 +25,11 @@ export const journalEntries: JournalEntry[] = [
     image: "/assets/journal/harvest-mist.png",
     location: "Serranía del Perijá, Colombia",
     author: "Felt-teamet",
+    readingTime: "4 min",
+    featured: true,
   },
   {
+    id: "portrett-av-don-fabio",
     slug: "portrett-av-don-fabio",
     title: "Møt Don Fabio: En vokter av tradisjon",
     category: "Mennesker",
@@ -32,8 +39,11 @@ export const journalEntries: JournalEntry[] = [
     image: "/assets/journal/don-fabio.png",
     location: "Serranía del Perijá, Colombia",
     author: "Relasjonsansvarlig",
+    readingTime: "5 min",
+    featured: true,
   },
   {
+    id: "torkeprosessen-ved-trilladoraen",
     slug: "torkeprosessen-ved-trilladoraen",
     title: "Presisjon i tørkeprosessen",
     category: "Prosess",
@@ -43,8 +53,11 @@ export const journalEntries: JournalEntry[] = [
     image: "/assets/journal/drying-process.png",
     location: "Trilladora, Colombia",
     author: "Kvalitetskontrollør",
+    readingTime: "6 min",
+    featured: false,
   },
   {
+    id: "nye-kaffeplanter-i-rod-jord",
     slug: "nye-kaffeplanter-i-rod-jord",
     title: "Fremtiden spirer i rød jord",
     category: "Kvalitet",
@@ -54,5 +67,26 @@ export const journalEntries: JournalEntry[] = [
     image: "/assets/journal/young-plants.png",
     location: "Serranía del Perijá, Colombia",
     author: "Agronom-teamet",
+    readingTime: "4 min",
+    featured: false,
   },
 ];
+
+export function getJournalEntryBySlug(slug: string): JournalEntry | undefined {
+  return journalEntries.find((e) => e.slug === slug);
+}
+
+export function getFeaturedJournalEntries(): JournalEntry[] {
+  return journalEntries.filter((e) => e.featured);
+}
+
+export function getRelatedJournalEntries(slug: string, limit = 3): JournalEntry[] {
+  return journalEntries
+    .filter((e) => e.slug !== slug)
+    .slice(0, limit);
+}
+
+export function getJournalEntriesByCategory(category: string): JournalEntry[] {
+  if (category === "Alle") return journalEntries;
+  return journalEntries.filter((e) => e.category === category);
+}

@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { journalEntries } from "@/data/journal";
+import { journalEntries, getJournalEntryBySlug } from "@/data/journal";
 import SectionContainer from "@/components/ui/SectionContainer";
 import { ArrowLeft, Calendar, User } from "lucide-react";
 
@@ -20,7 +20,7 @@ export async function generateStaticParams() {
 
 export default async function JournalDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const entry = journalEntries.find((e) => e.slug === slug);
+  const entry = getJournalEntryBySlug(slug);
 
   if (!entry) {
     notFound();

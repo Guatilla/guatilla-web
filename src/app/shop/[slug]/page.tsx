@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { products } from "@/data/products";
+import { products, getProductBySlug } from "@/data/products";
 import ProductDetailClient from "./ProductDetailClient";
 
 interface ProductPageProps {
@@ -10,7 +10,7 @@ interface ProductPageProps {
 
 export async function generateMetadata({ params }: ProductPageProps) {
   const { slug } = await params;
-  const product = products.find((p) => p.slug === slug);
+  const product = getProductBySlug(slug);
   
   if (!product) return { title: "Produkt ikke funnet" };
 
@@ -28,7 +28,7 @@ export async function generateStaticParams() {
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
-  const product = products.find((p) => p.slug === slug);
+  const product = getProductBySlug(slug);
 
   if (!product) {
     notFound();
