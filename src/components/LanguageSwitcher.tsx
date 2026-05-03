@@ -17,36 +17,34 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div className="relative inline-block text-left z-50">
-      <div>
-        <button
-          type="button"
-          onClick={() => setIsOpen(!isOpen)}
-          className="inline-flex justify-center w-full px-4 py-2 text-sm font-bold tracking-wider text-brand-coffee hover:text-brand-terracotta transition-colors uppercase focus:outline-none"
-          id="language-menu-button"
-          aria-expanded={isOpen}
-          aria-haspopup="true"
+    <div className="relative z-[100] inline-block text-left">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className="inline-flex items-center justify-center px-2 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-current transition-colors hover:text-brand-terracotta focus:outline-none"
+        id="language-menu-button"
+        aria-expanded={isOpen}
+        aria-haspopup="true"
+      >
+        {currentLocale}
+        <svg
+          className="ml-2 h-4 w-4"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
         >
-          {currentLocale}
-          <svg
-            className="-mr-1 ml-2 h-5 w-5"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
-      </div>
+          <path
+            fillRule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </button>
 
       {isOpen && (
         <div
-          className="origin-top-right absolute right-0 mt-2 w-24 rounded-md shadow-lg bg-brand-cream border border-brand-coffee/10 ring-1 ring-black ring-opacity-5 focus:outline-none"
+          className="absolute right-0 mt-3 w-24 overflow-hidden rounded-xl border border-brand-coffee/10 bg-brand-cream !text-brand-coffee shadow-xl ring-1 ring-black/5"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="language-menu-button"
@@ -56,12 +54,12 @@ export default function LanguageSwitcher() {
             {languages.map((lang) => (
               <button
                 key={lang.code}
-                onClick={() => handleLanguageChange()}
-                className={`${
+                onClick={handleLanguageChange}
+                className={`block w-full px-4 py-2 text-left text-xs font-bold uppercase tracking-[0.16em] transition-colors ${
                   currentLocale === lang.code
-                    ? "bg-brand-linen/50 text-brand-terracotta font-bold"
-                    : "text-brand-coffee hover:bg-brand-linen"
-                } block w-full text-left px-4 py-2 text-sm uppercase tracking-wider transition-colors`}
+                    ? "bg-brand-linen !text-brand-terracotta"
+                    : "!text-brand-coffee hover:bg-brand-linen"
+                }`}
                 role="menuitem"
                 tabIndex={-1}
               >

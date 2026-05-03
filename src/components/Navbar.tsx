@@ -6,7 +6,7 @@ import Image from "next/image";
 import { ShoppingBag, Menu } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
 import MobileMenu from "./MobileMenu";
-import { NAV_LINKS, SITE_ROUTES } from "@/lib/routes";
+import { SITE_ROUTES } from "@/lib/routes";
 import { useCart } from "./CartProvider";
 
 export default function Navbar() {
@@ -15,7 +15,8 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleScroll = () => setIsScrolled(window.scrollY > 40);
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
 
     document.body.style.overflow = isMobileMenuOpen ? "hidden" : "unset";
@@ -26,79 +27,89 @@ export default function Navbar() {
     };
   }, [isMobileMenuOpen]);
 
+  const navState = isScrolled
+    ? "bg-brand-linen text-brand-coffee border-brand-coffee/10 shadow-md backdrop-blur-xl"
+    : "bg-black/60 text-white border-white/35 shadow-[0_10px_35px_rgba(0,0,0,0.2)] backdrop-blur-xl";
+
+  const linkClass =
+    "text-[11px] uppercase tracking-[0.18em] font-medium transition hover:text-brand-terracotta";
+
   return (
     <>
-      <nav
-        className={`fixed top-0 left-0 w-full z-[90] h-[96px] transition-all duration-300 border-b border-brand-coffee/10 ${
-          isScrolled ? "bg-white/95 backdrop-blur-md shadow-sm" : "bg-white"
-        }`}
-      >
-        <div className="max-w-[1480px] mx-auto h-full px-8 lg:px-12 flex items-center justify-between">
+      <nav className="fixed left-0 top-0 z-[90] w-full px-4 pt-5 lg:px-0 lg:pt-6">
+        <div
+          className={`mx-auto flex h-[60px] w-full max-w-[360px] items-center justify-between rounded-full border px-5 transition-all duration-500 lg:h-[58px] lg:max-w-[820px] lg:px-6 ${navState}`}
+        >
+          {/* LOGO */}
+          <Link href={SITE_ROUTES.home} className="flex shrink-0 items-center">
+            <Image
+              src="/KAFFE-GUATILLA.png"
+              alt="Kaffe Guatilla"
+              width={120}
+              height={40}
+              priority
+              className="h-[38px] w-auto object-contain lg:h-[50px]"
+            />
+          </Link>
 
-          {/* LEFT */}
-          <div className="flex items-center gap-12">
-
-            {/* LOGO */}
-            <Link href={SITE_ROUTES.home} className="shrink-0">
-              <Image
-                src="/KAFFE-GUATILLA.png"
-                alt="Kaffe Guatilla"
-                width={80}
-                height={80}
-                className="h-[80px] w-auto object-contain"
-                priority
-              />
+          {/* DESKTOP LINKS */}
+          <div className="hidden items-center gap-7 lg:flex">
+            <Link href="/about" className={linkClass}>
+              Om oss
             </Link>
-
-            {/* NAV LINKS */}
-            <div className="hidden lg:flex items-center gap-8">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-sm font-bold uppercase tracking-[0.14em] text-brand-coffee hover:text-brand-terracotta transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
+            <Link href="/shop" className={linkClass}>
+              Butikk
+            </Link>
+            <Link href="/project-progress" className={linkClass}>
+              Fremdrift
+            </Link>
+            <Link href="/origen" className={linkClass}>
+              Opprinnelse
+            </Link>
           </div>
 
-          {/* RIGHT */}
-          <div className="hidden lg:flex items-center gap-7">
-            <LanguageSwitcher />
+          {/* DESKTOP RIGHT */}
+          <div className="hidden items-center gap-5 lg:flex">
+            <div className="relative z-[100]">
+              <LanguageSwitcher />
+            </div>
+
             <Link
               href={SITE_ROUTES.cart}
-              className="relative text-brand-coffee hover:text-brand-terracotta transition-colors"
+              className="relative flex h-8 w-8 items-center justify-center transition hover:text-brand-terracotta"
             >
-              <ShoppingBag size={22} strokeWidth={1.7} />
+              <ShoppingBag size={18} strokeWidth={1.7} />
+
               {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-brand-terracotta text-white text-[10px] font-bold flex items-center justify-center">
+                <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-brand-terracotta text-[9px] font-bold text-white">
                   {cartCount}
                 </span>
               )}
             </Link>
           </div>
 
-          {/* MOBILE */}
-          <div className="lg:hidden flex items-center gap-4">
+          {/* MOBILE RIGHT */}
+          <div className="flex items-center gap-4 lg:hidden">
+            <Link
+              href={SITE_ROUTES.cart}
+              className="relative flex h-8 w-8 items-center justify-center"
+            >
+              <ShoppingBag size={20} strokeWidth={1.7} />
+
+              {cartCount > 0 && (
+                <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-brand-terracotta text-[9px] font-bold text-white">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
+
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="text-brand-coffee"
+              aria-label="Open menu"
+              className="flex h-8 w-8 items-center justify-center"
             >
-              <Menu size={28} />
+              <Menu size={22} />
             </button>
-            <Link
-              href={SITE_ROUTES.cart}
-              className="relative text-brand-coffee"
-            >
-              <ShoppingBag size={24} />
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-brand-terracotta text-white text-[10px] font-bold flex items-center justify-center">
-                  {cartCount}
-                </span>
-              )}
-            </Link>
           </div>
         </div>
       </nav>
