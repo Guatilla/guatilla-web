@@ -19,7 +19,7 @@ export default function CTASection({
 
   return (
     <SectionContainer bgClass={bgClass}>
-      <div className="max-w-4xl mx-auto px-4 py-24 text-center space-y-10">
+      <div className="max-w-4xl mx-auto px-4 text-center space-y-10">
         <h2
           className={`text-4xl md:text-6xl font-heading font-bold leading-tight ${
             isDark ? "text-white" : "text-brand-coffee"

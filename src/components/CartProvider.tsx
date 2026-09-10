@@ -12,6 +12,14 @@ export interface CartItem {
   image: string;
   slug: string;
   quantity: number;
+  /** valgt maling — vises som en attributt-lapp i kurven */
+  grind?: string;
+  /** valgt vekt, f.eks. "250 g" */
+  weight?: string;
+  /** abonnementslinje — gir 15 % rabatt i oppsummeringen */
+  subscription?: boolean;
+  /** full listepris før rabatt (for å vise «Delsum» og «Rabatt») */
+  listPriceNum?: number;
 }
 
 interface CartContextType {
@@ -44,11 +52,21 @@ function saveCart(items: CartItem[]) {
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(loadCart);
+  // Start empty so the server render and the first client render match;
+  // hydrate from localStorage after mount (avoids a hydration mismatch).
+  const [items, setItems] = useState<CartItem[]>([]);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    saveCart(items);
-  }, [items]);
+    Promise.resolve().then(() => {
+      setItems(loadCart());
+      setHydrated(true);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (hydrated) saveCart(items);
+  }, [items, hydrated]);
 
   const addItem = useCallback((product: Omit<CartItem, "quantity">) => {
     setItems((prev) => {

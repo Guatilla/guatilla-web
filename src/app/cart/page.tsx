@@ -1,185 +1,477 @@
 "use client";
 
+import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Minus, Plus, X } from "lucide-react";
-import { useCart } from "@/components/CartProvider";
+import { products } from "@/data/products";
+import { useCart, type CartItem } from "@/components/CartProvider";
 
+/* ── Tokens (modern patchwork) ─────────────────────────────────── */
+const CREAM = "#FDF1E5";
+const WARM = "#F2E6D8";
+const PHOTO_CELL = "#F7ECDE";
+const HAIRLINE = "#E2D2BF";
+const INK = "#2E2018";
+const BODY = "#4A382C";
+const MUTED = "#6B5A4E";
+const TERRA = "#A94B2F";
+const DEEP_TERRA = "#8E3A2B";
+const MUSTARD = "#DDA83A";
+const OLIVE = "#5C7148";
+const ON_DARK = "#FFF7EF";
+
+const F_BITTER = "var(--font-bitter), Georgia, serif";
+const F_KARLA = "var(--font-karla), system-ui, sans-serif";
+const F_MONO = "var(--font-space-mono), ui-monospace, monospace";
+
+/* seamed container: 2px ink lines between and around abutting cells */
+const seam = (extra: React.CSSProperties = {}): React.CSSProperties => ({
+  background: INK,
+  border: `2px solid ${INK}`,
+  gap: "2px",
+  ...extra,
+});
+
+type Tone = "cream" | "ink";
+const toneColor = (t: Tone) => (t === "ink" ? INK : ON_DARK);
+
+/* Flavour-note colour per known product; anything else derives from data. */
+const NOTE_META: Record<string, { note: string; bg: string; tone: Tone }> = {
+  origen: { note: "Kakao", bg: DEEP_TERRA, tone: "cream" },
+  mestizaje: { note: "Karamell", bg: MUSTARD, tone: "ink" },
+  encuentro: { note: "Honning", bg: DEEP_TERRA, tone: "cream" },
+  territorio: { note: "Kakao", bg: DEEP_TERRA, tone: "cream" },
+  heritage: { note: "Fruktig", bg: MUSTARD, tone: "ink" },
+  sierra: { note: "Karamell", bg: DEEP_TERRA, tone: "cream" },
+};
+
+const findProduct = (item: CartItem) =>
+  products.find((p) => p.id === item.id) ||
+  (item.slug ? products.find((p) => p.slug === item.slug) : undefined);
+
+function deriveLine(item: CartItem) {
+  const p = findProduct(item);
+  const meta = NOTE_META[item.id] ?? (p ? NOTE_META[p.id] : undefined);
+
+  const seg = p?.flavourSpectrum?.[0];
+  const note = meta?.note ?? p?.smaksprofil?.[0];
+  const noteBg = meta?.bg ?? seg?.bg ?? DEEP_TERRA;
+  const noteTone: Tone = meta?.tone ?? (seg?.tone === "ink" ? "ink" : "cream");
+
+  const grind = item.grind ?? (p ? "Hele bønner" : undefined);
+  const size = item.weight ?? p?.weight?.split(" / ")[0];
+
+  const originLine = item.subscription
+    ? "Abonnement · hver 4. uke"
+    : p
+    ? `${p.origin} · ${p.process.toLowerCase()}`
+    : item.origin;
+
+  return {
+    note,
+    noteBg,
+    noteTone,
+    grind,
+    size,
+    originLine,
+    unitPrice: item.priceNum,
+    lineTotal: item.priceNum * item.quantity,
+  };
+}
+
+const CSS = `
+.cart { background:${CREAM}; color:${BODY}; font-family:${F_KARLA}; }
+.cart *:focus-visible { outline:2px solid ${INK}; outline-offset:2px; }
+.cart .on-dark:focus-visible { outline-color:${MUSTARD}; }
+.cart button { cursor:pointer; }
+
+.cart-inner { max-width:1300px; margin:0 auto; padding:clamp(24px,4vw,48px) clamp(16px,3vw,44px) 64px; }
+.cart .eyebrow { margin:0; font-family:${F_MONO}; font-weight:700; font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:${MUTED}; }
+
+.page-head { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:20px; }
+.page-head h1 { margin:8px 0 0; font-family:${F_BITTER}; font-weight:800; font-size:clamp(36px,5.5vw,56px); line-height:.95; letter-spacing:-.035em; color:${INK}; }
+
+.steps { display:flex; flex-wrap:wrap; }
+.step { display:flex; align-items:center; justify-content:center; font-family:${F_MONO}; font-weight:700; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; padding:11px 16px; }
+
+.layout { margin-top:clamp(28px,3.5vw,44px); display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap:clamp(24px,3vw,40px); align-items:start; }
+.left-col { min-width:0; display:flex; flex-direction:column; gap:26px; }
+
+.cart-block-head { background:${CREAM}; display:flex; flex-wrap:wrap; align-items:center; gap:12px; padding:12px 18px; }
+.link-btn { border:none; background:transparent; padding:0; font-family:${F_MONO}; font-weight:700; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:${TERRA}; }
+
+.li { background:${CREAM}; padding:18px; display:grid; grid-template-columns:auto 1fr; column-gap:18px; row-gap:14px; align-items:start; grid-template-areas:"thumb body" ". controls"; }
+.li--noimg { grid-template-columns:1fr; grid-template-areas:"body" "controls"; }
+.li--noimg .li-thumb { display:none; }
+.li-thumb { grid-area:thumb; align-self:center; width:clamp(96px,26vw,132px); aspect-ratio:1/1; box-sizing:border-box; position:relative; overflow:hidden; background:${PHOTO_CELL}; border:1.5px solid ${HAIRLINE}; }
+.li-body { grid-area:body; min-width:0; display:flex; flex-direction:column; gap:12px; }
+.li-controls { grid-area:controls; display:flex; flex-wrap:wrap; align-items:center; gap:16px; }
+.li-titlerow { display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 14px; }
+.li-name { font-family:${F_BITTER}; font-weight:800; font-size:24px; color:${INK}; }
+.li-total { font-family:${F_BITTER}; font-weight:800; font-size:20px; color:${INK}; white-space:nowrap; }
+.li-strip { align-self:flex-start; max-width:100%; display:flex; flex-wrap:wrap; background:${INK}; border:1.5px solid ${INK}; gap:2px; }
+.li-note { font-family:${F_BITTER}; font-weight:800; font-style:italic; font-size:12px; padding:5px 10px; white-space:nowrap; }
+.li-tag { background:${WARM}; color:${INK}; font-family:${F_MONO}; font-weight:700; font-size:10px; letter-spacing:.06em; text-transform:uppercase; padding:5px 10px; white-space:nowrap; }
+.li-origin { margin:0; font-family:${F_KARLA}; font-size:13.5px; line-height:1.45; color:${BODY}; }
+
+.stepper { display:inline-flex; flex:none; background:${INK}; border:2px solid ${INK}; gap:2px; }
+.step-btn { width:40px; height:44px; border:none; font-family:${F_MONO}; font-weight:700; font-size:15px; }
+.step-val { min-width:40px; height:44px; display:grid; place-items:center; background:${CREAM}; color:${INK}; font-family:${F_MONO}; font-weight:700; font-size:14px; }
+.li-unit { font-family:${F_KARLA}; font-size:12.5px; color:${MUTED}; white-space:nowrap; }
+.remove-btn { flex:none; border:none; background:transparent; padding:0; min-height:44px; display:inline-flex; align-items:center; font-family:${F_KARLA}; font-size:12.5px; color:${TERRA}; text-decoration:underline; text-underline-offset:4px; }
+
+.empty { background:${WARM}; border:2px solid ${INK}; padding:34px 30px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px; }
+.empty-copy { display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 14px; min-width:0; }
+.empty-title { font-family:${F_BITTER}; font-weight:800; font-style:italic; font-size:24px; color:${INK}; }
+.empty-text { font-family:${F_KARLA}; font-size:15px; color:${BODY}; }
+.btn-ink { display:inline-flex; align-items:center; justify-content:center; border:none; background:${INK}; color:${ON_DARK}; font-family:${F_MONO}; font-weight:700; font-size:11px; letter-spacing:.12em; text-transform:uppercase; padding:12px 18px; text-decoration:none; }
+.continue { font-family:${F_MONO}; font-weight:700; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:${TERRA}; text-decoration:none; }
+
+.summary { min-width:0; position:sticky; top:24px; display:flex; flex-direction:column; }
+.sum-olive { background:${OLIVE}; color:${ON_DARK}; padding:28px 26px; }
+.sum-h2 { margin:0; font-family:${F_BITTER}; font-weight:800; font-size:28px; color:${ON_DARK}; }
+.sum-rows { margin-top:16px; display:flex; flex-direction:column; gap:10px; }
+.sum-row { display:flex; justify-content:space-between; gap:12px; }
+.sum-row-label { font-family:${F_KARLA}; font-size:15px; color:${ON_DARK}; }
+.sum-row-value { font-family:${F_MONO}; font-weight:700; font-size:13px; color:${ON_DARK}; }
+.sum-divider { height:2px; background:${ON_DARK}; margin:6px 0; }
+.sum-totalrow { display:flex; justify-content:space-between; align-items:baseline; gap:12px; }
+.sum-total { font-family:${F_BITTER}; font-weight:800; font-style:italic; font-size:30px; }
+.summary-checkout { border:none; background:${INK}; color:${ON_DARK}; padding:22px 26px; font-family:${F_MONO}; font-weight:700; font-size:12px; letter-spacing:.14em; text-transform:uppercase; }
+.reassure { background:${TERRA}; color:${ON_DARK}; padding:18px 26px; font-family:${F_KARLA}; font-size:13px; }
+
+.sticky-bar { display:none; }
+
+@media (max-width: 640px) {
+  .cart-inner { padding:20px 16px 24px; }
+  .page-head { flex-direction:column; align-items:stretch; gap:16px; }
+  .page-head h1 { font-size:38px; }
+  .steps { width:100%; }
+  .step { flex:1; padding:12px 6px; font-size:9.5px; letter-spacing:.12em; }
+  .layout { margin-top:22px; gap:22px; }
+  .cart .eyebrow { font-size:9.5px; }
+  .link-btn { font-size:9.5px; }
+  .cart-block-head { padding:11px 14px; }
+  .li { padding:14px; column-gap:13px; row-gap:11px; grid-template-areas:"thumb body" "controls controls"; }
+  .li--noimg { grid-template-columns:1fr; grid-template-areas:"body" "controls"; }
+  .li-thumb { align-self:start; width:72px; }
+  .li-body { gap:8px; }
+  .li-name { font-size:19px; }
+  .li-total { font-size:16px; }
+  .li-strip { flex-wrap:nowrap; overflow:hidden; }
+  .li-note { font-size:10px; padding:3px 7px; }
+  .li-tag { font-size:8.5px; padding:3px 7px; letter-spacing:.03em; }
+  .li-origin { font-size:12px; line-height:1.4; }
+  .li-controls { gap:10px; flex-wrap:nowrap; }
+  .step-btn { width:38px; height:44px; }
+  .step-val { min-width:34px; height:44px; }
+  .li-unit { font-size:11px; }
+  .li-unit .stk { display:none; }
+  .empty { flex-direction:column; align-items:stretch; padding:26px 20px; gap:14px; }
+  .empty-title { font-size:21px; }
+  .empty-text { font-size:14px; }
+  .empty .btn-ink { width:100%; padding:16px; }
+  .sum-olive { padding:22px 20px; }
+  .sum-h2 { font-size:23px; }
+  .sum-row-label { font-size:14px; }
+  .sum-row-value { font-size:12px; }
+  .sum-total { font-size:26px; }
+  .reassure { padding:15px 20px; font-size:12.5px; }
+  .summary { position:static; top:auto; }
+  .summary-checkout { display:none; }
+  .sticky-bar { display:flex; }
+}
+
+@media (max-width: 860px) {
+  .summary { position:static; top:auto; }
+}
+
+@media (prefers-reduced-motion: reduce) { .cart * { transition:none !important; } }
+`;
+
+/* ── Page ──────────────────────────────────────────────────────── */
 export default function CartPage() {
-  const { items, removeItem, updateQuantity, clearCart, cartTotal } = useCart();
+  const { items, removeItem, updateQuantity, clearCart } = useCart();
 
-  if (items.length === 0) {
-    return (
-      <div className="min-h-screen bg-brand-linen pt-32 pb-20">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-10">
-            <div className="w-24 h-24 bg-brand-coffee/5 rounded-full flex items-center justify-center">
-              <svg className="w-12 h-12 text-brand-coffee/30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-              </svg>
-            </div>
-            <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl font-heading font-bold text-brand-coffee">Handlekurven din er tom</h1>
-              <p className="text-lg text-brand-coffee/60 font-light max-w-md mx-auto">
-                Klar til å oppdage smakene fra Serranía del Perijá?
-              </p>
-            </div>
-            <Link
-              href="/shop"
-              className="btn-primary"
-            >
-              Utforsk kaffen vår
-            </Link>
-          </div>
-        </div>
-      </div>
+  const count = items.reduce((s, i) => s + i.quantity, 0);
+
+  const { subtotal, discount, total } = useMemo(() => {
+    const sub = items.reduce((s, i) => s + (i.listPriceNum ?? i.priceNum) * i.quantity, 0);
+    const disc = items.reduce(
+      (s, i) => s + ((i.listPriceNum ?? i.priceNum) - i.priceNum) * i.quantity,
+      0
     );
-  }
+    return { subtotal: sub, discount: disc, total: sub - disc };
+  }, [items]);
 
   return (
-    <div className="min-h-screen bg-brand-linen pt-32 pb-20">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+    <div className="cart">
+      <style>{CSS}</style>
 
-        {/* Header */}
-        <div className="mb-12">
-          <Link
-            href="/shop"
-            className="inline-flex items-center space-x-2 text-brand-coffee/60 hover:text-brand-terracotta transition-colors group"
-          >
-            <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-            <span className="text-xs font-bold uppercase tracking-widest">Tilbake til butikken</span>
-          </Link>
-        </div>
-
-        <h1 className="text-4xl md:text-5xl font-heading font-bold text-brand-coffee mb-12">Handlekurv</h1>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
-
-          {/* Cart Items */}
-          <div className="lg:col-span-2 space-y-6">
-            {items.map((item) => (
-              <div
-                key={item.id}
-                className="flex gap-6 p-6 bg-brand-cream rounded-2xl border border-brand-coffee/5 shadow-[0_4px_12px_rgba(0,0,0,0.03)]"
-              >
-                {/* Image */}
-                <div className="relative w-28 h-36 rounded-xl overflow-hidden bg-brand-linen shrink-0">
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-
-                {/* Details */}
-                <div className="flex flex-col flex-grow justify-between">
-                  <div className="space-y-1">
-                    <h3 className="text-xl font-heading font-bold text-brand-coffee">{item.name}</h3>
-                    <p className="text-xs font-bold uppercase tracking-widest text-brand-coffee/40">{item.origin}</p>
-                    <p className="text-lg font-heading font-bold text-brand-coffee">{item.price}</p>
-                  </div>
-
-                  {/* Controls */}
-                  <div className="flex items-center justify-between mt-4">
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        className="w-8 h-8 rounded-full border border-brand-coffee/20 flex items-center justify-center text-brand-coffee hover:border-brand-terracotta hover:text-brand-terracotta transition-colors"
-                        aria-label="Decrease quantity"
-                      >
-                        <Minus size={14} />
-                      </button>
-                      <span className="text-sm font-bold text-brand-coffee w-6 text-center">{item.quantity}</span>
-                      <button
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        className="w-8 h-8 rounded-full border border-brand-coffee/20 flex items-center justify-center text-brand-coffee hover:border-brand-terracotta hover:text-brand-terracotta transition-colors"
-                        aria-label="Increase quantity"
-                      >
-                        <Plus size={14} />
-                      </button>
-                    </div>
-
-                    <button
-                      onClick={() => removeItem(item.id)}
-                      className="text-brand-coffee/30 hover:text-brand-vichy transition-colors"
-                      aria-label="Remove item"
-                    >
-                      <X size={20} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            <button
-              onClick={clearCart}
-              className="text-sm font-bold uppercase tracking-widest text-brand-coffee/40 hover:text-brand-terracotta transition-colors"
-            >
-              Tøm handlekurv
-            </button>
+      <div className="cart-inner">
+        {/* ── PAGE HEAD ─────────────────────────────────────── */}
+        <div className="page-head">
+          <div>
+            <p className="eyebrow">Steg 1 av 3 · Kurv</p>
+            <h1>Handlekurv</h1>
           </div>
 
-          {/* Summary */}
-          <div className="lg:col-span-1">
-            <div className="bg-brand-cream rounded-2xl border border-brand-coffee/5 p-8 space-y-8 sticky top-32">
-              <h2 className="text-xl font-heading font-bold text-brand-coffee">Oppsummering</h2>
+          <div className="steps" style={seam()}>
+            {([
+              ["Kurv", true],
+              ["Levering", false],
+              ["Betaling", false],
+            ] as const).map(([label, active]) => (
+              <span
+                key={label}
+                className="step"
+                style={{
+                  background: active ? INK : CREAM,
+                  color: active ? ON_DARK : MUTED,
+                }}
+              >
+                {label}
+              </span>
+            ))}
+          </div>
+        </div>
 
-              <div className="space-y-3 text-sm">
-                {items.map((item) => (
-                  <div key={item.id} className="flex justify-between text-brand-coffee/70">
-                    <span>{item.name} × {item.quantity}</span>
-                    <span className="font-medium">{item.priceNum * item.quantity} {item.currency}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="border-t border-brand-coffee/10 pt-6 space-y-4">
-                <div className="flex justify-between items-baseline">
-                  <span className="text-xs font-bold uppercase tracking-widest text-brand-coffee/50">Subtotal</span>
-                  <span className="text-lg font-heading font-bold text-brand-coffee">{cartTotal} {items[0]?.currency || "NOK"}</span>
+        {/* ── LAYOUT ────────────────────────────────────────── */}
+        <div className="layout">
+          {/* ── LEFT COLUMN ─────────────────────────────────── */}
+          <div className="left-col">
+            {items.length > 0 ? (
+              <div style={seam({ display: "flex", flexDirection: "column" })}>
+                {/* header */}
+                <div className="cart-block-head">
+                  <span className="eyebrow">
+                    {count === 1 ? "1 vare i kurven" : `${count} varer i kurven`}
+                  </span>
+                  <span style={{ flex: 1 }} />
+                  <button className="link-btn" onClick={clearCart}>
+                    Tøm kurv
+                  </button>
                 </div>
 
-                <div className="flex justify-between items-baseline">
-                  <span className="text-xs text-brand-coffee/40">Frakt (estimert)</span>
-                  <span className="text-xs font-medium text-brand-coffee/40">Inkludert</span>
-                </div>
+                {/* line items */}
+                {items.map((item) => {
+                  const v = deriveLine(item);
+                  return (
+                    <div key={item.id} className={item.image ? "li" : "li li--noimg"}>
+                      {/* thumbnail — omitted entirely when there is no image */}
+                      {item.image && (
+                        <div className="li-thumb">
+                          <Image
+                            src={item.image}
+                            alt=""
+                            fill
+                            sizes="(max-width: 640px) 72px, 132px"
+                            style={{ objectFit: "cover" }}
+                          />
+                        </div>
+                      )}
 
-                <div className="flex justify-between items-baseline pt-3 border-t border-brand-coffee/5">
-                  <span className="text-sm font-bold uppercase tracking-widest text-brand-coffee">Estimert total</span>
-                  <span className="text-2xl font-heading font-bold text-brand-coffee">{cartTotal} {items[0]?.currency || "NOK"}</span>
-                </div>
+                      {/* body: title + attributes + origin */}
+                      <div className="li-body">
+                        <div className="li-titlerow">
+                          <span className="li-name">{item.name}</span>
+                          <span style={{ flex: 1 }} />
+                          <span className="li-total">{v.lineTotal} NOK</span>
+                        </div>
+
+                        {(v.note || v.grind || v.size) && (
+                          <div className="li-strip">
+                            {v.note && (
+                              <span
+                                className="li-note"
+                                style={{ background: v.noteBg, color: toneColor(v.noteTone) }}
+                              >
+                                {v.note}
+                              </span>
+                            )}
+                            {[v.grind, v.size].filter(Boolean).map((t) => (
+                              <span key={t} className="li-tag">
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        <p className="li-origin">{v.originLine}</p>
+                      </div>
+
+                      {/* controls */}
+                      <div className="li-controls">
+                        <div className="stepper">
+                          <button
+                            aria-label={`Færre ${item.name}`}
+                            onClick={() =>
+                              updateQuantity(item.id, Math.max(1, item.quantity - 1))
+                            }
+                            disabled={item.quantity <= 1}
+                            className="step-btn"
+                            style={{
+                              background: item.quantity <= 1 ? WARM : CREAM,
+                              color: item.quantity <= 1 ? MUTED : INK,
+                            }}
+                          >
+                            −
+                          </button>
+                          <span aria-hidden className="step-val">
+                            {item.quantity}
+                          </span>
+                          <button
+                            aria-label={`Flere ${item.name}`}
+                            onClick={() =>
+                              updateQuantity(item.id, Math.min(9, item.quantity + 1))
+                            }
+                            disabled={item.quantity >= 9}
+                            className="step-btn"
+                            style={{
+                              background: item.quantity >= 9 ? WARM : CREAM,
+                              color: item.quantity >= 9 ? MUTED : INK,
+                            }}
+                          >
+                            +
+                          </button>
+                        </div>
+
+                        <span className="li-unit">
+                          {v.unitPrice} NOK<span className="stk"> / stk</span>
+                        </span>
+                        <span style={{ flex: 1 }} />
+                        <button className="remove-btn" onClick={() => removeItem(item.id)}>
+                          Fjern
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-
-              <div className="rounded-xl border border-brand-coffee/10 p-5 space-y-3 bg-white/50">
-                <button
-                  disabled
-                  className="w-full py-5 rounded-full font-bold uppercase tracking-widest text-sm bg-brand-coffee/15 text-brand-coffee/40 cursor-not-allowed"
-                >
-                  Betaling kommer snart
-                </button>
-                <p className="text-center text-xs text-brand-coffee/35 leading-relaxed">
-                  Vi åpner for bestilling når neste parti er klart.
-                </p>
-              </div>
-
-              <div className="text-center">
-                <Link
-                  href="/shop"
-                  className="text-sm font-bold text-brand-coffee/60 hover:text-brand-terracotta transition-colors underline underline-offset-4"
-                >
-                  Fortsett å handle
+            ) : (
+              /* ── EMPTY STATE ──────────────────────────────── */
+              <div className="empty">
+                <div className="empty-copy">
+                  <span className="empty-title">Kurven er tom</span>
+                  <span className="empty-text">
+                    Fire partier venter fra samme fjellkjede.
+                  </span>
+                </div>
+                <Link href="/shop" className="btn-ink on-dark">
+                  Se all kaffe
                 </Link>
               </div>
+            )}
 
-              <div className="border-t border-brand-coffee/10 pt-6">
-                <p className="text-xs text-brand-coffee/35 text-center leading-relaxed">
-                  Alle priser inkluderer mva. Fri frakt på bestillinger over 500 NOK.
-                </p>
+            {/* ── CONTINUE ───────────────────────────────────── */}
+            <Link href="/shop" className="continue">
+              ← Fortsett å handle
+            </Link>
+          </div>
+
+          {/* ── RIGHT COLUMN ───────────────────────────────── */}
+          <div className="summary" style={seam({ display: "flex", flexDirection: "column" })}>
+            {/* a) summary */}
+            <div className="sum-olive">
+              <h2 className="sum-h2">Oppsummering</h2>
+              <div className="sum-rows" aria-live="polite">
+                <div className="sum-row">
+                  <span className="sum-row-label">Delsum</span>
+                  <span className="sum-row-value">{subtotal} NOK</span>
+                </div>
+                {discount > 0 && (
+                  <div className="sum-row">
+                    <span className="sum-row-label">Rabatt</span>
+                    <span className="sum-row-value">−{discount} NOK</span>
+                  </div>
+                )}
+                <div className="sum-divider" />
+                <div className="sum-totalrow">
+                  <span className="sum-total">Totalt</span>
+                  <span className="sum-total">{total} NOK</span>
+                </div>
               </div>
+            </div>
+
+            {/* b) checkout (desktop only — mobile uses the sticky bar) */}
+            <button
+              type="button"
+              className="summary-checkout on-dark"
+              disabled={items.length === 0}
+              style={{ opacity: items.length === 0 ? 0.5 : 1 }}
+            >
+              Til kassen · {total} NOK
+            </button>
+
+            {/* c) reassurance */}
+            <div className="reassure">
+              Vipps · kort · Klarna. Ristet mandag, sendt samme uke.
             </div>
           </div>
         </div>
+
+        {/* ── STICKY CHECKOUT BAR (mobile only) ─────────────── */}
+        {items.length > 0 && (
+          <div
+            className="sticky-bar"
+            style={{
+              position: "sticky",
+              bottom: 0,
+              zIndex: 20,
+              boxSizing: "border-box",
+              margin: "24px -16px 0",
+              background: CREAM,
+              borderTop: `2px solid ${INK}`,
+              padding: "12px 16px calc(16px + env(safe-area-inset-bottom))",
+              flexDirection: "column",
+              gap: "8px",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "baseline", gap: "12px" }}>
+              <span
+                style={{
+                  fontFamily: F_MONO,
+                  fontWeight: 700,
+                  fontSize: "9.5px",
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: MUTED,
+                }}
+              >
+                Totalt
+              </span>
+              <span style={{ flex: 1 }} />
+              <span
+                style={{
+                  fontFamily: F_BITTER,
+                  fontWeight: 800,
+                  fontSize: "20px",
+                  color: INK,
+                }}
+              >
+                {total} NOK
+              </span>
+            </div>
+            <button
+              type="button"
+              className="on-dark"
+              style={{
+                width: "100%",
+                border: "none",
+                background: INK,
+                color: ON_DARK,
+                padding: "20px",
+                fontFamily: F_MONO,
+                fontWeight: 700,
+                fontSize: "11.5px",
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+              }}
+            >
+              Til kassen
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

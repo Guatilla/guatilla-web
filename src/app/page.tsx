@@ -1,143 +1,234 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Coffee, Ship, Warehouse, CheckCircle, ArrowRight } from "lucide-react";
-import HeroSection from "@/components/sections/HeroSection";
-import EditorialSplitSection from "@/components/sections/EditorialSplitSection";
-import FeaturedProducts from "@/components/sections/FeaturedProducts";
-import SectionContainer from "@/components/ui/SectionContainer";
+import DirectTrade from "@/components/sections/DirectTrade";
+import SeasonalClosing from "@/components/sections/SeasonalClosing";
 
 export const metadata = {
-  title: "Hjem | Kaffe Guatilla",
-  description: "Ekte colombiansk kaffe levert direkte til din dør.",
+  title: "Kaffe Guatilla | Fra våre egne fjell i Colombia til din kopp i Norge",
+  description:
+    "Spesialkaffe dyrket av oss i Serranía del Perijá og håndristet i små partier i Stavanger. Null mellomledd, 100 % direkte sporbarhet.",
 };
+
+const PILLARS = [
+  {
+    n: "01",
+    tone: "bg-brand-terracotta text-brand-cream",
+    title: "Dyrket av oss",
+    body: "Vi kjøper ikke anonyme lot. Vi steller hvert kaffetre på våre egne fincas i Agustín Codazzi, mellom 1 400 og 2 000 moh.",
+  },
+  {
+    n: "02",
+    tone: "bg-brand-gold text-brand-coffee",
+    title: "Nordisk presisjonsbrenning",
+    body: "Vi rister lokalt i Stavanger i mikropartier, med lyse og mellomlyse kurver som løfter den naturlige sødmen og de florale tonene.",
+  },
+  {
+    n: "03",
+    tone: "bg-brand-forest text-brand-cream",
+    title: "Garantert ferskhet",
+    body: "Vi rister og pakker på bestilling, så bønnen når deg i sitt beste avgassings­vindu.",
+  },
+];
+
+const CATALOG = [
+  {
+    tag: "Klassiker",
+    tagTone: "bg-brand-gold text-brand-coffee",
+    name: "Guatilla Signature",
+    variant: "Vasket Excelso",
+    notes: "Mørk sjokolade, panela, rund kropp og en lys, tydelig sitrussyre.",
+    origin: "Agustín Codazzi, Cesar · 100 % Arabica",
+    price: "Fra 189 NOK",
+    cta: "Kjøp Signature",
+    href: "/shop/origen",
+  },
+  {
+    tag: "Begrenset · micro-parti",
+    tagTone: "bg-brand-olive text-brand-cream",
+    name: "Serranía Microlot",
+    variant: "Rosa Bourbon",
+    notes: "Jasmin, kaffeblomst, modne røde bær og en silkeaktig, langvarig sødme.",
+    origin: "Familiegård · nummerert lot",
+    price: "Fra 215 NOK",
+    cta: "Kjøp microlot",
+    href: "/shop/heritage",
+  },
+  {
+    tag: "Gave",
+    tagTone: "bg-brand-vichy text-brand-cream",
+    name: "Smakspakke",
+    variant: "2–3 varianter",
+    notes: "Et sett for å oppdage de ulike tonene fra Perijá hjemme — i grov eller fin maling.",
+    origin: "Gave · smaksreise",
+    price: "Sett sammen selv",
+    cta: "Se pakker",
+    href: "/shop",
+  },
+];
+
+const BTN_FOCUS =
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-coffee";
 
 export default function Home() {
   return (
-    <div className="flex flex-col w-full bg-brand-linen">
-      {/* 1. HERO */}
-      <HeroSection />
-
-      {/* 2. BUSINESS MODEL */}
-      <SectionContainer id="model" bgClass="bg-brand-cream border-y border-brand-coffee/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-brand-coffee mb-4">Vår direkte modell</h2>
-            <p className="text-brand-coffee/60 max-w-2xl mx-auto">Vi kobler colombianske kaffebønder direkte med europeiske kaffeelskere.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-center relative">
-            <div className="flex flex-col items-center text-center space-y-6">
-              <div className="w-20 h-20 bg-brand-linen rounded-full flex items-center justify-center text-brand-terracotta shadow-sm border border-brand-coffee/5">
-                <Coffee size={32} />
+    <div className="bg-brand-linen">
+      {/* ── HERO ─────────────────────────────────────────── */}
+      <section className="bg-brand-linen">
+        <div className="container-page pb-12 pt-16 lg:pb-14 lg:pt-[72px]">
+          <div className="grid gap-8 min-[880px]:grid-cols-[1.12fr_0.88fr] min-[880px]:gap-10">
+            {/* left column */}
+            <div className="flex flex-col">
+              <span className="self-start bg-brand-gold px-3.5 py-2 font-sans text-[10.5px] font-bold uppercase tracking-[0.16em] text-brand-coffee">
+                Dyrket av oss · Ristet i Stavanger
+              </span>
+              <h1 className="mt-6 font-heading text-[38px] font-extrabold leading-[0.98] tracking-[-0.035em] text-brand-coffee [text-wrap:balance] min-[560px]:text-[48px] min-[900px]:text-[56px] min-[1100px]:text-[68px]">
+                Fra våre{" "}
+                <span className="inline-block -rotate-[1.2deg] bg-brand-terracotta-dark px-3 pb-1 italic text-brand-cream">
+                  egne
+                </span>{" "}
+                fjell i Colombia til din kopp i Norge
+              </h1>
+              <p className="mt-6 max-w-[46ch] font-sans text-[16px] leading-[1.6] text-brand-coffee/[0.78] min-[900px]:text-[17px]">
+                Spesialkaffe dyrket av oss i Serranía del Perijá og håndristet i
+                små partier i Stavanger. Null mellomledd — 100 % direkte
+                sporbarhet.
+              </p>
+              <div className="min-[880px]:flex-1" />
+              <div className="mt-8 flex flex-col self-start border-2 border-brand-coffee min-[480px]:flex-row lg:mt-10">
+                <Link
+                  href="/shop"
+                  className={`bg-brand-coffee px-7 py-[18px] text-center font-sans text-[11.5px] font-bold uppercase tracking-[0.12em] text-brand-cream transition-colors hover:bg-brand-coffee/90 ${BTN_FOCUS}`}
+                >
+                  Utforsk kaffen vår
+                </Link>
+                <Link
+                  href="/kaffe"
+                  className={`border-t-2 border-brand-coffee bg-brand-linen px-7 py-[18px] text-center font-sans text-[11.5px] font-bold uppercase tracking-[0.12em] text-brand-coffee transition-colors hover:bg-brand-cream min-[480px]:border-l-2 min-[480px]:border-t-0 ${BTN_FOCUS}`}
+                >
+                  Slik jobber vi →
+                </Link>
               </div>
-              <h3 className="text-xl font-heading font-bold text-brand-coffee">Colombia</h3>
-              <p className="text-brand-coffee/70 font-light">Direkte innkjøp fra bønder i Serranía del Perijá, noe som sikrer rettferdig betaling og full sporbarhet.</p>
             </div>
-            <div className="hidden md:flex absolute left-1/3 top-10 -translate-x-1/2 text-brand-olive/30">
-              <ArrowRight size={40} />
-            </div>
-            <div className="flex flex-col items-center text-center space-y-6">
-              <div className="w-20 h-20 bg-brand-linen rounded-full flex items-center justify-center text-brand-terracotta shadow-sm border border-brand-coffee/5">
-                <Warehouse size={32} />
+
+            {/* right column — two-patch stack, ink seam */}
+            <div className="flex flex-col gap-[2px] border-2 border-brand-coffee bg-brand-coffee">
+              <div className="relative min-h-[260px] flex-1 overflow-hidden min-[880px]:min-h-[330px]">
+                <Image
+                  src="/assets/hero-coffee.jpg"
+                  alt="Grønne kaffesekker, Serranía del Perijá"
+                  fill
+                  priority
+                  className="object-cover"
+                  sizes="(max-width: 880px) 100vw, 40vw"
+                />
               </div>
-              <h3 className="text-xl font-heading font-bold text-brand-coffee">Prosessering</h3>
-              <p className="text-brand-coffee/70 font-light">Egen infrastruktur (trilladora) lar oss kontrollere kvaliteten fra bønne til eksport.</p>
-            </div>
-            <div className="hidden md:flex absolute left-2/3 top-10 -translate-x-1/2 text-brand-olive/30">
-              <ArrowRight size={40} />
-            </div>
-            <div className="flex flex-col items-center text-center space-y-6">
-              <div className="w-20 h-20 bg-brand-linen rounded-full flex items-center justify-center text-brand-terracotta shadow-sm border border-brand-coffee/5">
-                <Ship size={32} />
+              <div className="bg-brand-olive px-6 py-[22px] text-brand-cream">
+                <p className="font-heading text-[26px] font-extrabold italic leading-none">
+                  Egne fincas
+                </p>
+                <p className="mt-1.5 font-sans text-[13.5px] leading-[1.45]">
+                  Agustín Codazzi · 1 400–2 000 moh · 100 % Arabica.
+                </p>
               </div>
-              <h3 className="text-xl font-heading font-bold text-brand-coffee">Norge</h3>
-              <p className="text-brand-coffee/70 font-light">Import og distribusjon av Guatilla AS direkte til din dør i Europa.</p>
             </div>
           </div>
         </div>
-      </SectionContainer>
+      </section>
 
-      {/* 3. PHILOSOPHY */}
-      <SectionContainer id="philosophy" bgClass="bg-brand-linen border-y border-brand-coffee/5">
-        <div className="max-w-3xl mx-auto px-4 py-24 text-center space-y-8">
-          <h2 className="text-4xl md:text-5xl font-heading font-bold text-brand-coffee leading-tight">
-            Rettferdig betaling. Full sporbarhet. <br/> Ingen mellomledd.
-          </h2>
-          <p className="text-xl text-brand-coffee/70 font-light leading-relaxed">
-            Ved å kontrollere vår egen infrastruktur i Colombia og importere direkte til Norge, sikrer vi at bøndene får en rettferdig pris og du får spesialkaffe av høyeste kvalitet. Hver bønne er sporbar tilbake til den spesifikke gården.
-          </p>
-          <div className="pt-8">
-            <Link href="/about" className="btn-primary">Lær mer om vår påvirkning</Link>
-          </div>
-        </div>
-      </SectionContainer>
+      {/* ── PILLARS ──────────────────────────────────────── */}
+      <section className="container-page pb-14">
+        <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-terracotta">
+          Slik gjør vi det
+        </span>
+        <h2 className="mt-2 max-w-[18ch] font-heading text-3xl font-extrabold leading-[1.08] sm:text-4xl lg:text-[44px]">
+          Fra frø til kopp — uten mellomledd
+        </h2>
 
-      {/* 4. PRODUCERS — Editorial Split */}
-      <EditorialSplitSection
-        image="/assets/story_illustration.png"
-        imageAlt="Colombiansk kaffeprodusent"
-        title="Håndverket bak innhøstingen"
-        description="Kaffen vår kommer fra de hardtarbeidende familiene i Serranía del Perijá. Vi kjøper ikke bare kaffe; vi bygger langsiktige partnerskap. Ved å gi bønder direkte tilgang til det europeiske markedet, bidrar vi til å opprettholde lokalsamfunn og bevare tradisjonelle jordbruksmetoder."
-        cta={{ label: "Utforsk opprinnelse", href: "/origen" }}
-        bgClass="bg-white"
-      />
-
-      {/* 5. INFRASTRUCTURE — Editorial Split (reverse) */}
-      <EditorialSplitSection
-        image="/assets/infrastructure.png"
-        imageAlt="Prosessering av kaffe"
-        title="Presisjon i prosessering"
-        description="Vår egen trilladora i Colombia er hjertet i vår virksomhet. Denne infrastrukturen lar oss håndtere sortering, avskalling og tørking med kirurgisk presisjon, noe som sikrer at bare de fineste bønnene blir eksportert."
-        checklist={[
-          "Moderne sorteringsteknologi",
-          "Kvalitetskontroll på hvert trinn",
-          "Direkte eksportlogistikk fra Colombia",
-        ]}
-        reverse
-        bgClass="bg-brand-cream"
-      />
-
-      {/* 6. TRANSPARENCY */}
-      <SectionContainer id="transparencia" bgClass="bg-brand-linen">
-        <div className="max-w-5xl mx-auto px-4 py-24">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-heading font-bold text-brand-coffee mb-4">Full åpenhet</h2>
-            <p className="text-brand-coffee/60">Vi mener du fortjener å vite nøyaktig hvor kaffen din kommer fra.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div className="space-y-4">
-              <div className="text-brand-terracotta"><CheckCircle size={32} /></div>
-              <h3 className="text-xl font-heading font-bold text-brand-coffee">Rettferdig betaling</h3>
-              <p className="text-brand-coffee/70 font-light text-sm">Vi betaler den colombianske bonden rettferdig, noe som sikrer en verdig inntekt for våre partnere.</p>
+        <div className="mt-7 flex flex-col gap-[2px] border-2 border-brand-coffee bg-brand-coffee min-[760px]:flex-row">
+          {PILLARS.map((p) => (
+            <div key={p.n} className="flex flex-1 flex-col bg-brand-cream p-7 lg:p-8">
+              <span
+                className={`inline-flex w-fit items-center px-2.5 py-1.5 font-heading text-[15px] font-extrabold italic leading-none ${p.tone}`}
+              >
+                {p.n}
+              </span>
+              <h3 className="mt-4 font-heading text-[21px] font-extrabold leading-[1.15] text-brand-coffee">
+                {p.title}
+              </h3>
+              <p className="mt-2.5 font-sans text-[14px] leading-[1.6] text-brand-coffee/[0.75]">
+                {p.body}
+              </p>
             </div>
-            <div className="space-y-4">
-              <div className="text-brand-terracotta"><CheckCircle size={32} /></div>
-              <h3 className="text-xl font-heading font-bold text-brand-coffee">Ingen mellomledd</h3>
-              <p className="text-brand-coffee/70 font-light text-sm">Ved å fjerne unødvendige mellomledd, beholder vi mer verdi i de lokale kaffesamfunnene.</p>
-            </div>
-            <div className="space-y-4">
-              <div className="text-brand-terracotta"><CheckCircle size={32} /></div>
-              <h3 className="text-xl font-heading font-bold text-brand-coffee">Garantert kvalitet</h3>
-              <p className="text-brand-coffee/70 font-light text-sm">Hvert parti blir testet og poengsatt av profesjonelle før det forlater Colombia.</p>
-            </div>
-          </div>
+          ))}
         </div>
-      </SectionContainer>
+      </section>
 
-      {/* 7. FEATURED PRODUCTS */}
-      <FeaturedProducts />
-
-      {/* 8. FINAL CTA */}
-      <SectionContainer bgClass="bg-brand-coffee">
-        <div className="max-w-4xl mx-auto px-4 py-24 text-center space-y-10">
-          <h2 className="text-4xl md:text-6xl font-heading font-bold text-white leading-tight">
-            Klar for å smake ekte colombiansk kaffe?
-          </h2>
-          <div className="pt-4">
-            <Link href="/shop" className="bg-brand-terracotta text-white px-12 py-5 rounded-full font-bold tracking-widest uppercase text-sm hover:bg-brand-terracotta/90 transition-all inline-block shadow-xl">
-              Handle nå
-            </Link>
+      {/* ── CATALOG ──────────────────────────────────────── */}
+      <section className="container-page pb-14">
+        <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-terracotta">
+              Kolleksjonen
+            </span>
+            <h2 className="mt-2 font-heading text-3xl font-extrabold sm:text-4xl lg:text-[44px]">
+              Utvalgte partier
+            </h2>
           </div>
+          <Link
+            href="/shop"
+            className={`border-2 border-brand-coffee bg-brand-cream px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.14em] text-brand-coffee transition-colors hover:bg-brand-linen ${BTN_FOCUS}`}
+          >
+            Se hele butikken →
+          </Link>
         </div>
-      </SectionContainer>
+
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {CATALOG.map((c) => (
+            <article
+              key={c.name}
+              className="flex flex-col border-2 border-brand-coffee bg-brand-cream"
+            >
+              <span
+                className={`px-5 py-2.5 font-sans text-[10px] font-bold uppercase tracking-[0.16em] ${c.tagTone}`}
+              >
+                {c.tag}
+              </span>
+              <div className="flex flex-1 flex-col p-6">
+                <h3 className="font-heading text-[26px] font-extrabold leading-none text-brand-coffee">
+                  {c.name}
+                </h3>
+                <p className="mt-2 font-sans text-[10.5px] font-bold uppercase tracking-[0.16em] text-brand-coffee/55">
+                  {c.variant}
+                </p>
+                <p className="mt-3.5 font-sans text-[14px] leading-[1.6] text-brand-coffee/[0.78]">
+                  {c.notes}
+                </p>
+                <p className="mt-2.5 font-sans text-[12.5px] leading-[1.5] text-brand-coffee/55">
+                  {c.origin}
+                </p>
+                <div className="flex-1" />
+                <div className="mt-6 flex items-center justify-between gap-3 border-t-2 border-brand-coffee pt-4">
+                  <span className="font-heading text-[16px] font-extrabold text-brand-coffee">
+                    {c.price}
+                  </span>
+                  <Link
+                    href={c.href}
+                    className={`bg-brand-coffee px-4 py-3 font-sans text-[10.5px] font-bold uppercase tracking-[0.12em] text-brand-cream transition-colors hover:bg-brand-coffee/90 ${BTN_FOCUS}`}
+                  >
+                    {c.cta}
+                  </Link>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* ── DIRECT TRADE ─────────────────────────────────── */}
+      <DirectTrade />
+
+      {/* ── SEASONAL CLOSING ─────────────────────────────── */}
+      <SeasonalClosing />
     </div>
   );
 }

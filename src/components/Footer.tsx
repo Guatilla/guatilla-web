@@ -1,80 +1,168 @@
-import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { FOOTER_LINKS } from "@/lib/routes";
+import FooterNewsletter from "@/components/patchwork/FooterNewsletter";
+
+const COLUMNS: {
+  heading: string;
+  links: { href: string; label: string }[];
+}[] = [
+  {
+    heading: "Butikk",
+    links: [
+      { href: "/shop", label: "Hele bønner" },
+      { href: "/shop", label: "Malt kaffe" },
+      { href: "/shop", label: "Abonnement" },
+      { href: "/shop", label: "Gavesett" },
+    ],
+  },
+  {
+    heading: "Merke",
+    links: [
+      { href: "/about", label: "Om oss" },
+      { href: "/origen", label: "Opprinnelse" },
+      { href: "/journal", label: "Feltjournal" },
+    ],
+  },
+  {
+    heading: "Hjelp",
+    links: [
+      { href: "/contact", label: "Frakt & retur" },
+      { href: "/contact", label: "Kontakt" },
+      { href: "/about", label: "Vilkår" },
+      { href: "/about", label: "Personvern" },
+    ],
+  },
+];
+
+const FOCUS =
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold";
+
+function IgIcon() {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="3" y="3" width="18" height="18" />
+      <circle cx="12" cy="12" r="4.5" />
+      <circle cx="17" cy="7" r="1" />
+    </svg>
+  );
+}
+
+function FbIcon() {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8a1 1 0 0 1 1-1Z" />
+    </svg>
+  );
+}
 
 export default function Footer() {
   return (
-    <footer className="bg-brand-cream border-t border-brand-coffee/5 py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 lg:gap-24">
+    <footer className="bg-brand-coffee">
+      {/* 1) binding strip — the only patchwork gesture */}
+      <div
+        aria-hidden="true"
+        className="grid h-[10px] grid-cols-[1.6fr_1fr_1.2fr_0.8fr]"
+      >
+        <span className="bg-brand-orange" />
+        <span className="bg-brand-gold" />
+        <span className="bg-brand-olive" />
+        <span className="bg-brand-vichy" />
+      </div>
 
-          {/* Brand Info */}
-          <div className="col-span-1 md:col-span-1">
-            <Link href="/" className="block mt-2 mb-8">
+      {/* 2) body */}
+      <div className="container-frame pb-7 pt-[52px]">
+        <div className="grid grid-cols-1 gap-x-11 gap-y-10 min-[620px]:grid-cols-3 min-[1000px]:grid-cols-[1.5fr_0.75fr_0.75fr_0.75fr] min-[1000px]:items-start min-[1000px]:gap-11">
+          {/* brand column */}
+          <div className="min-[620px]:col-span-3 min-[1000px]:col-span-1">
+            <Link
+              href="/"
+              aria-label="Kaffe Guatilla — forsiden"
+              className={`flex items-center gap-3 ${FOCUS}`}
+            >
               <Image
-                src="/favicon-trimmed.png"
-                alt="KAFFE GUATILLA"
-                width={300}
-                height={100}
-                className="h-32 w-auto object-contain"
+                src="/guatilla-emblem.webp"
+                alt=""
+                width={48}
+                height={48}
+                className="h-10 w-10 shrink-0 object-contain"
               />
+              <span className="font-heading text-[22px] font-extrabold italic leading-none text-brand-cream">
+                Kaffe Guatilla
+              </span>
             </Link>
-            <p className="text-sm text-brand-coffee/60 leading-relaxed max-w-xs mb-8">
-              Spesialkaffe av høy kvalitet direkte fra våre gårder i Colombia til ditt hjem i Europa.
+
+            <p className="mt-5 max-w-[30ch] font-sans text-[15.5px] leading-[1.6] text-brand-linen">
+              Fire mikropartier fra samme fjellkjede, ristet i Stavanger hver
+              mandag.
             </p>
-            <Link href="/contact" className="text-sm font-bold text-brand-coffee hover:text-brand-terracotta transition-colors uppercase tracking-widest">
-              Kontakt
-            </Link>
+
+            <FooterNewsletter />
           </div>
 
-          {/* KAFFE GUATILLA */}
-          <div className="space-y-6">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-brand-coffee">KAFFE GUATILLA</h4>
-            <ul className="space-y-4 text-sm text-brand-coffee/70">
-              {FOOTER_LINKS.brand.map((link) => (
-                <li key={link.href + link.label}>
-                  <Link href={link.href} className="hover:text-brand-terracotta transition-colors">{link.label}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Transparency */}
-          <div className="space-y-6">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-brand-coffee">Sporbarhet</h4>
-            <ul className="space-y-4 text-sm text-brand-coffee/70">
-              {FOOTER_LINKS.transparency.map((link, i) => (
-                <li key={link.href + link.label + i}>
+          {/* link columns */}
+          {COLUMNS.map((col) => (
+            <div key={col.heading}>
+              <h3 className="border-b-2 border-dashed border-[color:rgba(217,164,65,0.65)] pb-3 font-sans text-[10.5px] font-bold uppercase tracking-[0.16em] text-brand-gold">
+                {col.heading}
+              </h3>
+              <div className="mt-4 flex flex-col items-start gap-2.5">
+                {col.links.map((l) => (
                   <Link
-                    href={link.href}
-                    className="group inline-flex items-center gap-2 transition-colors duration-200 hover:text-brand-terracotta"
+                    key={l.label}
+                    href={l.href}
+                    className={`font-sans text-[14.5px] leading-tight text-brand-cream underline-offset-4 transition-colors hover:text-brand-gold hover:underline focus-visible:text-brand-gold motion-reduce:transition-none ${FOCUS}`}
                   >
-                    {link.label}
-                    {link.href === "/journal" && (
-                      <span className="transition-transform duration-200 group-hover:translate-x-1">
-                        →
-                      </span>
-                    )}
+                    {l.label}
                   </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Legal */}
-          <div className="space-y-6">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-brand-coffee">Juridisk informasjon</h4>
-            <div className="text-sm text-brand-coffee/70 space-y-4">
-              <p>Guatilla AS (Norge)</p>
+                ))}
+              </div>
             </div>
-          </div>
-
+          ))}
         </div>
 
-        <div className="mt-20 pt-8 border-t border-brand-coffee/5 flex flex-col md:flex-row justify-between items-center text-xs text-brand-coffee/40 tracking-widest uppercase font-bold">
-          <p>© {new Date().getFullYear()} KAFFE GUATILLA. ALLE RETTIGHETER FORBEHOLDT.</p>
-          <p className="mt-4 md:mt-0">DESIGNET AV GUATILLA AS</p>
+        {/* 3) legal bar */}
+        <div className="mt-10 flex flex-col items-start gap-4 border-t-[1.5px] border-dashed border-[color:rgba(253,252,248,0.4)] pt-[22px] min-[620px]:flex-row min-[620px]:items-center min-[620px]:justify-between">
+          <p className="font-sans text-[12.5px] text-brand-linen">
+            © {new Date().getFullYear()} Guatilla AS — Med enerett
+          </p>
+          <div className="flex gap-2.5">
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Instagram"
+              className={`flex h-[30px] w-[30px] items-center justify-center border-[1.5px] border-brand-cream text-brand-cream transition-colors hover:border-brand-gold hover:text-brand-gold motion-reduce:transition-none ${FOCUS}`}
+            >
+              <IgIcon />
+            </a>
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Facebook"
+              className={`flex h-[30px] w-[30px] items-center justify-center border-[1.5px] border-brand-cream text-brand-cream transition-colors hover:border-brand-gold hover:text-brand-gold motion-reduce:transition-none ${FOCUS}`}
+            >
+              <FbIcon />
+            </a>
+          </div>
         </div>
       </div>
     </footer>

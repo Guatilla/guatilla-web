@@ -2,53 +2,89 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { JournalEntry } from "@/data/journal";
-import { Calendar, ArrowRight } from "lucide-react";
+import { CATEGORY_META } from "./categories";
 
 interface JournalEntryCardProps {
   entry: JournalEntry;
+  last?: boolean;
 }
 
-export default function JournalEntryCard({ entry }: JournalEntryCardProps) {
+function ArrowRight() {
   return (
-    <Link 
-      href={`/journal/${entry.slug}`}
-      className="group block bg-white/40 border border-brand-coffee/[0.08] rounded-lg overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-1 hover:bg-white"
+    <svg
+      width="13"
+      height="13"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
-      <div className="flex flex-col md:flex-row items-stretch">
-        {/* Content Side */}
-        <div className="flex-1 p-8 md:p-12 lg:p-16 flex flex-col justify-center space-y-6">
-          <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-coffee/40">
-            <span className="text-brand-terracotta">{entry.category}</span>
-            <span className="w-1 h-1 rounded-full bg-brand-coffee/20" />
-            <div className="flex items-center gap-1.5">
-              <Calendar size={12} />
-              <span>{entry.date}</span>
-            </div>
-          </div>
+      <path d="M5 12h14" />
+      <path d="m13 6 6 6-6 6" />
+    </svg>
+  );
+}
 
-          <h3 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-brand-coffee leading-tight">
-            {entry.title}
-          </h3>
-          
-          <p className="text-lg text-brand-coffee/60 font-light leading-relaxed line-clamp-3 max-w-xl">
-            {entry.excerpt}
-          </p>
+export default function JournalEntryCard({ entry, last = false }: JournalEntryCardProps) {
+  const cat = CATEGORY_META[entry.category];
 
-          <div className="pt-4 inline-flex items-center gap-2 text-brand-coffee font-bold uppercase tracking-widest text-[11px] group-hover:text-brand-terracotta transition-colors">
-            Les hele saken <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-          </div>
+  return (
+    <article
+      className={`grid gap-8 py-9 md:grid-cols-[1fr_0.82fr] md:gap-[44px] ${
+        last ? "" : "border-b-2 border-dashed border-[color:rgba(60,42,33,0.2)]"
+      }`}
+    >
+      <div className="order-2 self-center md:order-1">
+        <div className="inline-flex items-center gap-[9px]">
+          <span className={`h-[10px] w-[10px] shrink-0 ${cat.dot}`} />
+          <span className={`text-[11px] font-semibold uppercase tracking-[0.13em] ${cat.text}`}>
+            {entry.category}
+          </span>
+          <span className="text-[11px] text-brand-coffee/30">·</span>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.13em] text-brand-coffee/50">
+            {entry.date}
+          </span>
         </div>
 
-        {/* Image Side */}
-        <div className="w-full md:w-2/5 lg:w-1/2 relative aspect-square md:aspect-auto min-h-[300px] overflow-hidden bg-brand-cream">
+        <h3 className="mt-3.5 font-heading text-[26px] font-extrabold leading-[1.1] tracking-tight text-brand-coffee sm:text-[30px] lg:text-[34px]">
+          <Link href={`/journal/${entry.slug}`} className="transition-colors hover:text-brand-terracotta">
+            {entry.title}
+          </Link>
+        </h3>
+
+        <p className="mt-3.5 line-clamp-2 max-w-[540px] text-[14px] font-light leading-[1.8] text-brand-coffee/70">
+          {entry.excerpt}
+        </p>
+
+        <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
+          <Link
+            href={`/journal/${entry.slug}`}
+            className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-brand-terracotta transition-colors hover:text-brand-terracotta-dark"
+          >
+            Les hele saken <ArrowRight />
+          </Link>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.13em] text-brand-coffee/40">
+            {entry.author} · {entry.readingTime}
+          </span>
+        </div>
+      </div>
+
+      <Link
+        href={`/journal/${entry.slug}`}
+        className="stitch group order-1 block overflow-hidden bg-brand-coffee md:order-2"
+      >
+        <div className="relative aspect-[16/10] w-full md:aspect-auto md:h-[258px]">
           <Image
             src={entry.image}
             alt={entry.title}
             fill
-            className="object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-105"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            sizes="(max-width: 768px) 100vw, 40vw"
           />
         </div>
-      </div>
-    </Link>
+      </Link>
+    </article>
   );
 }

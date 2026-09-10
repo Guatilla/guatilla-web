@@ -1,13 +1,62 @@
 :root {
-  /* Base Colors */
+  /* ========================================
+   BASE BRAND (CORE)
+  ======================================== */
   --brand-linen: #FAF4EC;
-  --brand-coffee: #3C2A21;
-  --brand-terracotta: #D0694D;
-  --brand-olive: #7C8966;
-  --brand-vichy: #B33939;
   --brand-cream: #FDFCF8;
+  --brand-coffee: #3C2A21;
 
-  /* Backgrounds */
+  /* ========================================
+   WARM (logo izquierda 🔶)
+  ======================================== */
+  --brand-terracotta: #D0694D;
+  --brand-terracotta-dark: #8A3E2F;
+  --brand-orange: #E9822B;
+  --brand-gold: #D9A441;
+
+  /* ========================================
+   NATURE (logo derecha 🌿)
+  ======================================== */
+  --brand-olive: #5F6E4F;
+  --brand-forest: #4F6F52;
+  --brand-teal: #214D51;
+
+  /* ========================================
+   ACCENT (usar poco ⚠️)
+  ======================================== */
+  --brand-vichy: #B33939;
+
+  /* ========================================
+   SEMANTIC BASE
+  ======================================== */
   --background: var(--brand-linen);
   --foreground: var(--brand-coffee);
+
+  /* ========================================
+   THEMES (POR SECCIÓN)
+  ======================================== */
+
+  /* LIGHT */
+  --theme-light-bg: var(--brand-linen);
+  --theme-light-surface: var(--brand-cream);
+  --theme-light-text: var(--brand-coffee);
+  --theme-light-muted: rgba(60, 42, 33, 0.7);
+
+  /* DARK (coffee) */
+  --theme-dark-bg: var(--brand-coffee);
+  --theme-dark-surface: #4A3025;
+  --theme-dark-text: var(--brand-cream);
+  --theme-dark-muted: rgba(253, 252, 248, 0.75);
+
+  /* GREEN (origen) */
+  --theme-green-bg: var(--brand-olive);
+  --theme-green-surface: var(--brand-forest);
+  --theme-green-text: var(--brand-cream);
+  --theme-green-muted: rgba(253, 252, 248, 0.75);
+
+  /* WARM (impacto) */
+  --theme-warm-bg: var(--brand-terracotta-dark);
+  --theme-warm-surface: var(--brand-terracotta);
+  --theme-warm-text: var(--brand-cream);
+  --theme-warm-muted: rgba(253, 252, 248, 0.8);
 }

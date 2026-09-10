@@ -1,160 +1,194 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
-import Image from "next/image";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { products } from "@/data/products";
+import ProductCard from "@/components/patchwork/ProductCard";
+
+const ROASTS = ["Lys", "Medium", "Medium-mørk", "Mørk"];
+const BREW_METHODS = ["Filter", "Espresso", "Presskanne", "Moka"];
+
+const HEADER_TONES = [
+  "bg-brand-forest text-brand-cream",
+  "bg-brand-teal text-brand-cream",
+  "bg-brand-olive text-brand-cream",
+  "bg-brand-terracotta text-brand-cream",
+  "bg-brand-vichy text-brand-cream",
+];
+
+function toggle(list: string[], value: string): string[] {
+  return list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
+}
 
 export default function ShopClient() {
-  const [roastFilter, setRoastFilter] = useState("Alle brenninger");
-  const [originFilter, setOriginFilter] = useState("Alle opprinnelser");
-  const [tasteFilter, setTasteFilter] = useState("Alle smaker");
+  const [roasts, setRoasts] = useState<string[]>([]);
+  const [brews, setBrews] = useState<string[]>([]);
+  const [subscription, setSubscription] = useState(false);
 
-  const filteredProducts = useMemo(() => {
-    return products.filter((p) => {
-      const matchRoast = roastFilter === "Alle brenninger" || p.roast === roastFilter;
-      const matchOrigin = originFilter === "Alle opprinnelser" || p.origin === originFilter;
-      const matchTaste = tasteFilter === "Alle smaker" || p.smaksprofil.includes(tasteFilter);
-      return matchRoast && matchOrigin && matchTaste;
-    });
-  }, [roastFilter, originFilter, tasteFilter]);
+  const filtered = useMemo(
+    () => products.filter((p) => roasts.length === 0 || roasts.includes(p.roast)),
+    [roasts]
+  );
+
+  const groupLabel = "text-[11px] font-bold uppercase tracking-[0.2em]";
 
   return (
-    <div className="min-h-screen bg-brand-linen pt-32 pb-20">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Hero */}
-        <div className="text-center mb-20">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-heading font-bold text-brand-coffee mb-6">
-            Våre <em className="italic font-light">kaffer</em>
+    <div className="bg-brand-linen">
+      {/* header patch */}
+      <section className="container-page pb-12 pt-16 lg:pt-[72px]">
+        <div className="stitch pop bg-brand-terracotta px-7 py-10 text-brand-cream sm:px-12 sm:py-12">
+          <span className={`${groupLabel} text-[#FDF0DA]`}>
+            Butikk • {products.length} partier
+          </span>
+          <h1 className="mt-3 font-heading text-4xl font-extrabold leading-[1.05] sm:text-5xl">
+            All kaffen vår
           </h1>
-          <p className="text-xl md:text-2xl text-brand-coffee/70 font-light max-w-2xl mx-auto leading-relaxed">
-            Hver kopp forteller en historie fra Perijá — om jord, kultur og håndverk.
+          <p className="mt-3.5 max-w-xl text-[15px] leading-relaxed text-brand-cream/90">
+            Mikropartier fra Serranía del Perijá. Velg hele bønner eller malt —
+            alt ristes når du bestiller.
           </p>
         </div>
+      </section>
 
-        {/* Filter Bar */}
-        <div className="bg-brand-cream/40 backdrop-blur-md rounded-3xl p-10 md:p-14 mb-16 border border-brand-coffee/5 shadow-sm">
-          <h2 className="text-xl md:text-2xl font-heading font-bold text-brand-coffee mb-12">
-            Filtrer kaffe
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16">
-            <div className="space-y-4">
-              <label className="text-sm font-semibold text-brand-coffee">Brenningsgrad</label>
-              <select
-                value={roastFilter}
-                onChange={(e) => setRoastFilter(e.target.value)}
-                className="w-full h-14 bg-brand-cream border border-brand-coffee/10 rounded-full px-6 text-base text-brand-coffee outline-none focus:border-brand-terracotta/40 transition-all appearance-none cursor-pointer hover:border-brand-coffee/20"
-              >
-                <option>Alle brenninger</option>
-                <option>Lys</option>
-                <option>Medium</option>
-                <option>Medium-mørk</option>
-                <option>Mørk</option>
-              </select>
-            </div>
-            <div className="space-y-4">
-              <label className="text-sm font-semibold text-brand-coffee">Opprinnelse</label>
-              <select
-                value={originFilter}
-                onChange={(e) => setOriginFilter(e.target.value)}
-                className="w-full h-14 bg-brand-cream border border-brand-coffee/10 rounded-full px-6 text-base text-brand-coffee outline-none focus:border-brand-terracotta/40 transition-all appearance-none cursor-pointer hover:border-brand-coffee/20"
-              >
-                <option>Alle opprinnelser</option>
-                <option>Serranía del Perijá</option>
-              </select>
-            </div>
-            <div className="space-y-4">
-              <label className="text-sm font-semibold text-brand-coffee">Smaksprofil</label>
-              <select
-                value={tasteFilter}
-                onChange={(e) => setTasteFilter(e.target.value)}
-                className="w-full h-14 bg-brand-cream border border-brand-coffee/10 rounded-full px-6 text-base text-brand-coffee outline-none focus:border-brand-terracotta/40 transition-all appearance-none cursor-pointer hover:border-brand-coffee/20"
-              >
-                <option>Alle smaker</option>
-                <option>Kakao</option>
-                <option>Karamell</option>
-                <option>Honning</option>
-                <option>Fruktig</option>
-                <option>Floral</option>
-                <option>Krydret</option>
-              </select>
+      <div className="grid gap-7 container-page pb-12 lg:grid-cols-[260px_1fr]">
+        {/* ── FILTER SIDEBAR ─────────────────────────────── */}
+        <aside className="flex flex-col gap-4">
+          {/* Rist */}
+          <div className="stitch bg-brand-cream p-5">
+            <p className={`${groupLabel} text-brand-coffee/55`}>Rist</p>
+            <div className="mt-3 flex flex-col gap-2">
+              {ROASTS.map((r) => {
+                const active = roasts.includes(r);
+                return (
+                  <button
+                    key={r}
+                    onClick={() => setRoasts((prev) => toggle(prev, r))}
+                    className={`stitch px-3 py-2 text-left text-[12px] font-semibold transition-colors ${
+                      active
+                        ? "bg-brand-gold text-brand-coffee"
+                        : "bg-brand-linen text-brand-coffee"
+                    }`}
+                  >
+                    {r}
+                  </button>
+                );
+              })}
             </div>
           </div>
-        </div>
 
-        {/* Count */}
-        <div className="mb-8 px-2">
-          <p className="text-sm font-medium text-brand-coffee/50">
-            Viser {filteredProducts.length} {filteredProducts.length === 1 ? "kaffe" : "kaffer"}
-          </p>
-        </div>
-
-        {/* Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-          {filteredProducts.map((product) => (
-            <div
-              key={product.id}
-              className="group bg-brand-cream border border-brand-coffee/10 rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.05)] transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-[0_20px_60px_rgba(60,42,33,0.12)] flex flex-col md:flex-row h-full"
-            >
-              <div className="relative w-full md:w-1/2 aspect-[4/5] md:aspect-auto overflow-hidden bg-brand-linen/30 shrink-0">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-cover grayscale opacity-90 transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:opacity-100"
-                />
-                <div className="absolute top-4 right-4 z-20 bg-brand-coffee/80 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full shadow-sm">
-                  {product.roast}
-                </div>
-              </div>
-
-              <div className="p-8 md:p-10 flex flex-col justify-between flex-grow">
-                <div>
-                  <div className="mb-6">
-                    <h3 className="text-3xl font-heading font-bold text-brand-coffee mb-1 group-hover:text-brand-terracotta transition-colors">
-                      {product.name}
-                    </h3>
-                    <p className="text-xs font-bold uppercase tracking-widest text-brand-coffee/40">
-                      {product.origin}
-                    </p>
-                  </div>
-
-                  <div className="space-y-4 mb-8">
-                    <div className="flex justify-between items-center border-b border-brand-coffee/5 pb-2">
-                      <span className="text-xs font-medium text-brand-coffee/40 uppercase tracking-wider">Høyde:</span>
-                      <span className="text-sm font-bold text-brand-coffee/80">{product.altitude}</span>
-                    </div>
-                    <div className="flex justify-between items-center border-b border-brand-coffee/5 pb-2">
-                      <span className="text-xs font-medium text-brand-coffee/40 uppercase tracking-wider">Prosess:</span>
-                      <span className="text-sm font-bold text-brand-coffee/80">{product.process}</span>
-                    </div>
-                    <div className="flex flex-col space-y-1">
-                      <span className="text-xs font-medium text-brand-coffee/40 uppercase tracking-wider">Noter:</span>
-                      <span className="text-sm font-light text-brand-coffee/70 italic">{product.notes}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <Link
-                  href={`/shop/${product.slug}`}
-                  className="inline-flex items-center space-x-2 text-brand-coffee font-bold uppercase tracking-widest text-xs group/btn hover:text-brand-terracotta transition-colors pt-4"
-                >
-                  <span>Utforsk kaffen</span>
-                  <div className="w-8 h-px bg-brand-coffee group-hover/btn:bg-brand-terracotta group-hover/btn:w-12 transition-all duration-300" />
-                </Link>
-              </div>
+          {/* Bryggemetode */}
+          <div className="stitch bg-brand-cream p-5">
+            <p className={`${groupLabel} text-brand-coffee/55`}>Bryggemetode</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {BREW_METHODS.map((b) => {
+                const active = brews.includes(b);
+                return (
+                  <button
+                    key={b}
+                    onClick={() => setBrews((prev) => toggle(prev, b))}
+                    className={`stitch px-2.5 py-1.5 text-[12px] font-semibold transition-colors ${
+                      active
+                        ? "bg-brand-gold text-brand-coffee"
+                        : "bg-brand-linen text-brand-coffee"
+                    }`}
+                  >
+                    {b}
+                  </button>
+                );
+              })}
             </div>
-          ))}
-        </div>
+          </div>
 
-        {filteredProducts.length === 0 && (
-          <div className="text-center py-40 border-2 border-dashed border-brand-coffee/10 rounded-3xl">
-            <p className="text-xl text-brand-coffee/40 font-light italic">
-              Ingen kaffe matcher filtrene dine. Prøv en annen kombinasjon.
+          {/* Kjøp som */}
+          <div className="stitch bg-brand-forest p-5 text-brand-cream">
+            <p className={`${groupLabel} opacity-80`}>Kjøp som</p>
+            <div className="mt-3 flex flex-col gap-2">
+              <button
+                onClick={() => setSubscription(false)}
+                className={`stitch px-3 py-2 text-left text-[12px] font-semibold transition-colors ${
+                  !subscription
+                    ? "bg-brand-gold text-brand-coffee"
+                    : "bg-brand-cream text-brand-coffee"
+                }`}
+              >
+                Engangskjøp
+              </button>
+              <button
+                onClick={() => setSubscription(true)}
+                className={`stitch px-3 py-2 text-left text-[12px] font-bold transition-colors ${
+                  subscription
+                    ? "bg-brand-gold text-brand-coffee"
+                    : "bg-brand-cream text-brand-coffee"
+                }`}
+              >
+                Abonnement −15%
+              </button>
+            </div>
+          </div>
+
+          {(roasts.length > 0 || brews.length > 0) && (
+            <button
+              onClick={() => {
+                setRoasts([]);
+                setBrews([]);
+              }}
+              className="self-start text-[11px] font-bold uppercase tracking-[0.14em] text-brand-terracotta-dark hover:text-brand-terracotta"
+            >
+              Nullstill filtre
+            </button>
+          )}
+        </aside>
+
+        {/* ── PRODUCT GRID ───────────────────────────────── */}
+        <div>
+          <p className="mb-4 text-[13px] text-brand-coffee/60">
+            Viser {filtered.length} av {products.length}
+          </p>
+
+          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            {filtered.map((product, i) => {
+              const subPrice =
+                product.priceNum - Math.round(product.priceNum * 0.15);
+              return (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  headerClassName={HEADER_TONES[i % HEADER_TONES.length]}
+                  displayPrice={
+                    subscription ? `${subPrice} NOK` : undefined
+                  }
+                />
+              );
+            })}
+          </div>
+
+          {filtered.length === 0 && (
+            <div className="stitch bg-brand-cream px-6 py-16 text-center text-brand-coffee/50">
+              Ingen kaffe matcher filtrene. Prøv en annen kombinasjon.
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* subscription promo */}
+      <section className="container-page pb-14">
+        <div className="stitch pop flex flex-col gap-5 bg-brand-vichy px-7 py-8 text-brand-cream sm:flex-row sm:items-center sm:justify-between sm:px-10">
+          <div>
+            <h3 className="font-heading text-2xl font-extrabold">
+              Kan ikke velge? Ta hele teppet.
+            </h3>
+            <p className="mt-2 text-sm text-brand-cream/90">
+              Smakspakke med alle {products.length} partier, 100 g hver.
             </p>
           </div>
-        )}
-      </div>
+          <Link
+            href="/shop"
+            className="stitch shrink-0 self-start bg-brand-gold px-6 py-3.5 text-[11px] font-bold uppercase tracking-[0.14em] text-brand-coffee sm:self-auto"
+          >
+            Se smakspakke →
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

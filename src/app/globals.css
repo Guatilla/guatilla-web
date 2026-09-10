@@ -3,6 +3,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  /* Ancho de contenido — mismo margen que /about */
+  .container-page {
+    @apply mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-24;
+  }
+  /* Navbar y footer — un poco menos margen que el contenido */
+  .container-frame {
+    @apply mx-auto w-full max-w-[1600px] px-4 sm:px-8 lg:px-14;
+  }
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -65,6 +76,26 @@
 
   .btn-secondary {
     @apply border-2 border-brand-coffee text-brand-coffee font-bold py-4 px-10 rounded-full transition-all duration-300 hover:bg-brand-coffee hover:text-white uppercase tracking-wider bg-transparent;
+  }
+
+  /* ── Patchwork ("lappeteppe") system ─────────────────────────────
+     Cada bloque es una "lappe": campo de color de la paleta de marca,
+     cosido con borde de puntada, sombra plana y textura tejida. */
+  .font-disp {
+    font-family: var(--font-shrikhand), var(--font-playfair), Georgia, serif;
+    font-weight: 400;
+  }
+  .stitch {
+    border: 2.5px dashed rgba(60, 42, 33, 0.4);
+  }
+  .stitch-light {
+    border: 2.5px dashed rgba(253, 252, 248, 0.45);
+  }
+  .pop {
+    box-shadow: 6px 6px 0 rgba(60, 42, 33, 0.16);
+  }
+  .pop-sm {
+    box-shadow: 5px 5px 0 rgba(60, 42, 33, 0.16);
   }
 }
 

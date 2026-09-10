@@ -1,10 +1,14 @@
 import React from "react";
+import { LucideIcon } from "lucide-react";
+import Heading from "@/components/ui/Heading";
+import Text from "@/components/ui/Text";
 
 interface TimelineStepProps {
   number: number;
   title: string;
   description: string;
   isLast?: boolean;
+  icon?: LucideIcon;
 }
 
 export default function TimelineStep({
@@ -12,20 +16,39 @@ export default function TimelineStep({
   title,
   description,
   isLast = false,
+  icon: Icon,
 }: TimelineStepProps) {
   return (
-    <div className="flex group">
-      <div className="flex flex-col items-center mr-6 md:mr-10">
-        <div className="flex-shrink-0 flex items-center justify-center size-10 md:size-12 rounded-full border-2 border-brand-terracotta bg-brand-linen text-brand-terracotta font-heading font-bold text-lg md:text-xl z-10 transition-colors group-hover:bg-brand-terracotta group-hover:text-white aspect-square">
+    <div
+      className={`group relative grid grid-cols-[56px_1fr_90px] gap-6 py-8 transition-all duration-300 md:grid-cols-[72px_1fr_120px] md:gap-8 ${
+        !isLast ? "border-b border-brand-coffee/10" : ""
+      }`}
+    >
+      {!isLast && (
+        <div className="absolute left-[28px] top-[72px] h-full w-px bg-brand-terracotta/20 md:left-[36px]" />
+      )}
+
+      <div className="relative z-10 flex w-[56px] justify-center md:w-[72px]">
+        <div className="flex size-14 items-center justify-center rounded-full border border-brand-coffee/15 bg-brand-cream font-heading text-xl font-bold text-brand-coffee shadow-sm transition-all duration-300 group-hover:scale-105 group-hover:border-brand-terracotta group-hover:bg-brand-terracotta group-hover:text-white md:size-[72px] md:text-2xl">
           {number}
         </div>
-        {!isLast && (
-          <div className="w-0.5 h-full bg-brand-coffee/10 group-hover:bg-brand-terracotta/30 transition-colors my-2"></div>
-        )}
       </div>
-      <div className={`pb-12 ${isLast ? "pb-0" : ""}`}>
-        <h3 className="text-xl md:text-2xl font-heading font-bold text-brand-coffee mb-2">{title}</h3>
-        <p className="text-brand-coffee/70 font-light leading-relaxed max-w-xl">{description}</p>
+
+      <div className="flex flex-col justify-center">
+        <Heading
+          variant="h3"
+          className="leading-tight tracking-tight text-brand-coffee"
+        >
+          {title}
+        </Heading>
+
+        <Text className="mt-3 max-w-xl text-[15px] leading-relaxed text-brand-coffee/65 md:text-base">
+          {description}
+        </Text>
+      </div>
+
+      <div className="hidden items-center justify-center text-brand-coffee/30 transition-colors duration-300 group-hover:text-brand-terracotta md:flex">
+        {Icon && <Icon size={54} strokeWidth={1.2} />}
       </div>
     </div>
   );

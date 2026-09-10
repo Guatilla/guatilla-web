@@ -3,7 +3,11 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import Badge from "@/components/ui/Badge";
+import Heading from "@/components/ui/Heading";
+import Text from "@/components/ui/Text";
+import Button from "@/components/ui/Button";
 
 const products = [
   {
@@ -12,7 +16,7 @@ const products = [
     name: "Origen",
     origin: "Serranía del Perijá",
     notes: "Noter av kakao, panela og røde bær",
-    image: "/assets/coffee_bag_1.png",
+    image: "/assets/bag-origen.jpg",
     alt: "Origen - Serranía del Perijá",
     featured: true,
   },
@@ -22,7 +26,7 @@ const products = [
     name: "Mestizaje",
     origin: "Serranía del Perijá",
     notes: "Noter av karamell, mandel og sitrus",
-    image: "/assets/coffee_bag_2.png",
+    image: "/assets/bag-mestizaje.jpg",
     alt: "Mestizaje - Serranía del Perijá",
   },
   {
@@ -31,7 +35,7 @@ const products = [
     name: "Encuentro",
     origin: "Serranía del Perijá",
     notes: "Noter av honning, nøtter og krydder",
-    image: "/assets/coffee_bag_3.png",
+    image: "/assets/bag-encuentro.jpg",
     alt: "Encuentro - Serranía del Perijá",
   },
   {
@@ -40,51 +44,59 @@ const products = [
     name: "Territorio",
     origin: "Serranía del Perijá",
     notes: "Noter av mørk sjokolade, kirsebær og florale toner",
-    image: "/assets/coffee_bag_4.png",
+    image: "/assets/bag-territorio.jpg",
     alt: "Territorio - Serranía del Perijá",
-  }
+  },
 ];
 
 export default function FeaturedProducts() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: "left" | "right") => {
-    if (scrollContainerRef.current) {
-      const { scrollLeft, clientWidth } = scrollContainerRef.current;
-      const scrollAmount = clientWidth * 0.75;
-      const scrollTo = direction === "left" ? scrollLeft - scrollAmount : scrollLeft + scrollAmount;
-      scrollContainerRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
-    }
+    if (!scrollContainerRef.current) return;
+
+    const { scrollLeft, clientWidth } = scrollContainerRef.current;
+    const scrollAmount = clientWidth * 0.75;
+    const scrollTo =
+      direction === "left" ? scrollLeft - scrollAmount : scrollLeft + scrollAmount;
+
+    scrollContainerRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
   };
 
   return (
-    <section className="w-full bg-brand-linen py-20 lg:py-32">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Header & Controls */}
-        <div className="relative z-20 flex flex-col md:flex-row md:items-end justify-between mb-12">
+    <section className="w-full overflow-hidden bg-theme-light-bg py-24 lg:py-32">
+      <div className="mx-auto max-w-[1280px] px-6 lg:px-8">
+        <div className="relative z-20 mb-12 flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <div className="max-w-2xl">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-brand-coffee mb-4">
-              Vår <em className="italic font-light">kaffe</em>
-            </h2>
-            <p className="text-lg md:text-xl text-brand-coffee/70 font-light">
-              Hver blend forteller en historie fra Perijá
+            <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.32em] text-brand-terracotta">
+              Første kolleksjon
             </p>
+
+            <Heading variant="display" className="text-brand-coffee">
+              Vår <em className="font-light italic">kaffe</em>
+            </Heading>
+
+            <Text
+              variant="body"
+              className="mt-4 max-w-xl text-lg text-brand-coffee/70 md:text-xl"
+            >
+              Hver kaffe forteller en historie fra Serranía del Perijá.
+            </Text>
           </div>
 
-          {/* Desktop Navigation Arrows */}
-          <div className="hidden md:flex items-center space-x-4">
-            <button 
+          <div className="hidden items-center gap-4 md:flex">
+            <button
               onClick={() => scroll("left")}
               aria-label="Scroll left"
-              className="w-12 h-12 rounded-full border border-brand-coffee/20 flex items-center justify-center text-brand-coffee hover:bg-brand-terracotta hover:border-brand-terracotta hover:text-white transition-colors duration-300"
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-brand-coffee/20 text-brand-coffee transition-colors duration-300 hover:border-brand-terracotta hover:bg-brand-terracotta hover:text-white"
             >
               <ChevronLeft size={24} strokeWidth={1.5} />
             </button>
-            <button 
+
+            <button
               onClick={() => scroll("right")}
               aria-label="Scroll right"
-              className="w-12 h-12 rounded-full border border-brand-coffee/20 flex items-center justify-center text-brand-coffee hover:bg-brand-terracotta hover:border-brand-terracotta hover:text-white transition-colors duration-300"
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-brand-coffee/20 text-brand-coffee transition-colors duration-300 hover:border-brand-terracotta hover:bg-brand-terracotta hover:text-white"
             >
               <ChevronRight size={24} strokeWidth={1.5} />
             </button>
@@ -92,76 +104,72 @@ export default function FeaturedProducts() {
         </div>
       </div>
 
-      {/* Carousel Container */}
       <div className="relative w-full overflow-visible">
-        <div 
+        <div
           ref={scrollContainerRef}
-          className="flex overflow-x-auto overflow-y-visible snap-x snap-mandatory gap-6 md:gap-8 pt-10 pb-20 px-6 md:px-12 scroll-px-6 md:scroll-px-12 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          className="flex snap-x snap-mandatory gap-6 overflow-x-auto overflow-y-visible px-6 pb-20 pt-10 scroll-px-6 [-ms-overflow-style:none] [scrollbar-width:none] md:gap-8 md:px-12 md:scroll-px-12 [&::-webkit-scrollbar]:hidden"
         >
-          {/* Spacer for proper alignment in max-w container */}
-          {/* Left padding space managed by px-6 md:px-12 */}
-
           {products.map((product) => (
-            <Link 
+            <Link
               key={product.id}
               href={`/shop/${product.slug}`}
-              className={`flex-none snap-center group cursor-pointer transition-all duration-500 ease-out hover:scale-[1.02] rounded-2xl overflow-hidden border border-brand-coffee/15 bg-brand-cream shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_60px_rgba(60,42,33,0.12)] p-4 md:p-6 lg:p-8 ${
-                product.featured 
-                  ? "w-[85vw] md:w-[45vw] lg:w-[38vw]" 
+              className={`group flex-none snap-center overflow-hidden rounded-2xl border border-brand-coffee/10 bg-brand-cream p-4 shadow-soft transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-editorial md:p-6 lg:p-8 ${
+                product.featured
+                  ? "w-[85vw] md:w-[45vw] lg:w-[38vw]"
                   : "w-[75vw] md:w-[32vw] lg:w-[26vw]"
               }`}
             >
-              {/* Image Container */}
-              <div 
-                className={`relative w-full overflow-hidden rounded-2xl bg-brand-cream/50 mb-6 transition-all duration-500 ${
+              <div
+                className={`relative mb-6 w-full overflow-hidden rounded-2xl bg-brand-linen ${
                   product.featured ? "aspect-[4/5]" : "aspect-[3/4]"
                 }`}
               >
                 {product.featured && (
-                  <div className="absolute top-4 right-4 z-20 bg-brand-coffee text-white text-[10px] md:text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full shadow-sm">
-                    Utvalgt
+                  <div className="absolute right-4 top-4 z-20">
+                    <Badge variant="featured">Utvalgt</Badge>
                   </div>
                 )}
-                
+
                 <Image
                   src={product.image}
                   alt={product.alt}
                   fill
-                  className="object-cover grayscale opacity-90 transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:opacity-100"
+                  className="object-cover grayscale opacity-90 transition-all duration-700 ease-out group-hover:scale-[1.03] group-hover:grayscale-0 group-hover:opacity-100"
                 />
+
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-60" />
               </div>
 
-              {/* Product Details */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-start">
-                  <h3 className="text-2xl font-heading font-bold text-brand-coffee transition-colors group-hover:text-brand-terracotta">
-                    {product.name}
-                  </h3>
-                </div>
-                <p className="text-sm font-medium text-brand-coffee/60 uppercase tracking-widest">
+              <div>
+                <Heading
+                  variant="h3"
+                  className="text-brand-coffee transition-colors group-hover:text-brand-terracotta"
+                >
+                  {product.name}
+                </Heading>
+
+                <p className="mt-2 text-[11px] font-bold uppercase tracking-[0.22em] text-brand-coffee/55">
                   {product.origin}
                 </p>
-                <p className="text-brand-coffee/70 font-light mt-2">
+
+                <Text
+                  variant="small"
+                  className="mt-3 leading-relaxed text-brand-coffee/70"
+                >
                   {product.notes}
-                </p>
+                </Text>
               </div>
             </Link>
           ))}
 
-          {/* Right Spacer */}
-          <div className="shrink-0 w-4 md:w-8" />
+          <div className="w-4 shrink-0 md:w-8" />
         </div>
       </div>
 
-      {/* Bottom CTA */}
       <div className="mt-4 flex justify-center px-4">
-        <Link 
-          href="/shop" 
-          className="inline-flex items-center space-x-2 text-brand-coffee font-bold uppercase tracking-widest text-sm group hover:text-brand-terracotta transition-colors"
-        >
-          <span>Se alle produkter</span>
-          <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-        </Link>
+        <Button href="/shop" variant="secondary" size="sm" withArrow>
+          Se alle produkter
+        </Button>
       </div>
     </section>
   );

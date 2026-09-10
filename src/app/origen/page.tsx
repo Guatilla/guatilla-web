@@ -1,272 +1,352 @@
 import Image from "next/image";
-import Link from "next/link";
-import SectionContainer from "@/components/ui/SectionContainer";
-import OriginCard from "@/components/ui/OriginCard";
-import EditorialImageCard from "@/components/ui/EditorialImageCard";
-import TimelineStep from "@/components/ui/TimelineStep";
-import ImageTextBlock from "@/components/ui/ImageTextBlock";
-import FieldJournalSection from "@/components/ui/FieldJournalSection";
-import { 
-  Users, 
-  Handshake, 
-  TrendingUp, 
-  ShieldCheck, 
-  Globe, 
-  ChevronRight,
-  Coffee,
-} from "lucide-react";
 
 export const metadata = {
   title: "Opprinnelse | Kaffe Guatilla",
-  description: "Oppdag reisen til Kaffe Guatilla spesialkaffe fra de høytliggende gårdene i Colombia til din kopp i Europa.",
+  description:
+    "Røttene våre i Serranía del Perijá — familiegårder i Agustín Codazzi, Cesar, opp til 2 000 moh, egen trille (Ruiz Café Esperanza) og direkte handel til Stavanger.",
 };
+
+/* ── Tokens (modern patchwork) ─────────────────────────────────── */
+const CREAM = "#FDF1E5";
+const WARM = "#F2E6D8";
+const PHOTO_CELL = "#F7ECDE";
+const INK = "#2E2018";
+const BODY = "#4A382C";
+const MUTED = "#6B5A4E";
+const TERRA = "#A94B2F";
+const DEEP_TERRA = "#8E3A2B";
+const MUSTARD = "#DDA83A";
+const OLIVE = "#5C7148";
+const TEAL = "#1F4B4B";
+const ON_DARK = "#FFF7EF";
+
+const F_BITTER = "var(--font-bitter), Georgia, serif";
+const F_KARLA = "var(--font-karla), system-ui, sans-serif";
+const F_MONO = "var(--font-space-mono), ui-monospace, monospace";
+
+const PEOPLE = [
+  {
+    name: "Stevenson",
+    role: "Jord & foredling · Codazzi",
+    line: "Steller jorda og prosesseringen i Agustín Codazzi.",
+    accent: OLIVE,
+  },
+  {
+    name: "Jennifer",
+    role: "Teknisk eksport · Colombia",
+    line: "Styrer den tekniske eksporten og dokumentasjonen fra Colombia.",
+    accent: TEAL,
+  },
+  {
+    name: "Wilkins",
+    role: "Rist & levering · Stavanger",
+    line: "Leder ristingen og leveringen i Stavanger.",
+    accent: TERRA,
+  },
+];
+
+const CSS = `
+.org { background:${CREAM}; color:${BODY}; font-family:${F_KARLA}; }
+.org *:focus-visible { outline:2px solid ${INK}; outline-offset:2px; }
+.org a { transition:background-color .16s ease, color .16s ease; }
+
+.org-sect { max-width:1180px; margin:0 auto; padding:clamp(60px,6vw,104px) clamp(24px,4vw,56px); }
+.org-eyebrow { margin:0; font-family:${F_MONO}; font-weight:700; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:${TERRA}; }
+.org-disp { margin:0; font-family:${F_BITTER}; font-weight:800; color:${INK}; letter-spacing:-.035em; line-height:1; }
+
+/* banner */
+.org-banner { position:relative; width:100%; height:clamp(240px,40vw,460px); overflow:hidden;
+  border-bottom:2px solid ${INK}; background:${TEAL}; }
+.org-banner-tag { position:absolute; left:0; bottom:0; background:${CREAM}; color:${INK};
+  padding:9px 15px; font-family:${F_MONO}; font-weight:700; font-size:10px; letter-spacing:.1em; text-transform:uppercase; }
+
+/* hero */
+.org-hero { padding-top:clamp(52px,5.5vw,88px); }
+.org-h1 { margin:24px 0 0; font-size:clamp(38px,6.2vw,88px); max-width:15ch; text-wrap:balance; }
+.org-lead { margin:30px 0 0; max-width:52ch; font-size:18px; line-height:1.62; color:${BODY}; }
+
+.org-altbar { margin-top:48px; display:flex; align-items:flex-end; gap:2px; background:${CREAM}; }
+.org-alt { flex:1; box-shadow:0 0 0 2px ${INK}; padding:12px 18px; display:flex; flex-direction:column; justify-content:flex-end; color:${ON_DARK}; }
+.org-alt .k { font-family:${F_MONO}; font-weight:700; font-size:10px; letter-spacing:.1em; }
+.org-alt .v { font-family:${F_BITTER}; font-weight:800; font-size:20px; }
+
+/* terroir */
+.org-band { background:${WARM}; border-top:2px solid ${INK}; border-bottom:2px solid ${INK}; }
+.org-tiles { margin-top:40px; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:2px; background:${INK}; border:2px solid ${INK}; }
+.org-tile { padding:30px 24px; display:flex; flex-direction:column; gap:14px; min-height:300px; }
+.org-tile .t { font-family:${F_BITTER}; font-weight:800; font-size:27px; line-height:1; }
+.org-tile .m { font-family:${F_MONO}; font-weight:700; font-size:12px; }
+.org-tile .b { margin-top:auto; font-size:14.5px; line-height:1.55; }
+
+/* vertikal kontroll */
+.org-steps { margin-top:40px; display:flex; flex-direction:column; gap:2px; background:${INK}; border:2px solid ${INK}; }
+.org-step { display:flex; gap:2px; background:${INK}; }
+.org-step-n { flex:0 0 120px; display:flex; align-items:center; justify-content:center; color:${ON_DARK};
+  font-family:${F_BITTER}; font-weight:800; font-style:italic; font-size:40px; }
+.org-step-c { flex:1; background:${CREAM}; padding:24px 26px; min-width:0; }
+.org-step-c h3 { margin:0; font-family:${F_BITTER}; font-weight:800; font-size:20px; color:${INK}; }
+.org-step-c p { margin:8px 0 0; font-size:14.5px; line-height:1.6; color:${BODY}; }
+.org-chip { margin-top:14px; display:inline-block; background:${INK}; color:${CREAM}; padding:8px 14px;
+  font-family:${F_MONO}; font-weight:700; font-size:10px; letter-spacing:.1em; text-transform:uppercase; }
+
+/* human */
+.org-quote { margin:22px 0 0; max-width:30ch; font-family:${F_BITTER}; font-weight:800;
+  font-size:clamp(24px,3.2vw,42px); line-height:1.15; letter-spacing:-.02em; color:${INK}; }
+.org-quote em { font-style:italic; color:${TERRA}; }
+.org-humans { margin-top:40px; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:2px; background:${INK}; border:2px solid ${INK}; }
+.org-human { background:${CREAM}; padding:26px 22px; display:flex; flex-direction:column; gap:10px; }
+.org-human .bar { height:8px; width:56px; }
+.org-human .n { margin-top:4px; font-family:${F_BITTER}; font-weight:800; font-size:22px; color:${INK}; }
+.org-human .r { font-family:${F_MONO}; font-weight:700; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:${MUTED}; }
+.org-human .l { font-size:13.5px; line-height:1.55; color:${BODY}; }
+
+/* route */
+.org-route { margin-top:40px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+.org-route .dot { width:14px; height:14px; flex:none; }
+.org-route .city { font-family:${F_BITTER}; font-weight:800; font-size:20px; color:${INK}; }
+.org-route .line { flex:1; min-width:40px; height:2px; background:${INK}; }
+.org-blocks { margin-top:34px; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:2px; background:${INK}; border:2px solid ${INK}; }
+.org-block { padding:28px 24px; }
+.org-block h3 { margin:0; font-family:${F_BITTER}; font-weight:800; font-size:19px; color:${INK}; }
+.org-block p { margin:10px 0 0; font-size:14.5px; line-height:1.6; color:${BODY}; }
+
+/* institusjonelt */
+.org-inst { border-top:2px solid ${INK}; }
+.org-inst-row { max-width:1180px; margin:0 auto; }
+.org-inst-inner { display:flex; flex-wrap:wrap; gap:2px; background:${INK}; border-left:2px solid ${INK}; border-right:2px solid ${INK}; }
+.org-inst-inner span { flex:1 1 220px; background:${WARM}; color:${INK}; padding:22px 24px;
+  font-family:${F_MONO}; font-weight:700; font-size:11px; letter-spacing:.08em; text-transform:uppercase; }
+
+@media (max-width: 760px) {
+  .org-tiles { grid-template-columns:1fr; }
+  .org-tile { min-height:0; }
+  .org-humans { grid-template-columns:1fr; }
+  .org-blocks { grid-template-columns:1fr; }
+}
+@media (max-width: 560px) {
+  .org-altbar { display:grid; grid-template-columns:1fr 1fr; align-items:stretch; }
+  .org-alt { height:auto; min-height:96px; }
+  .org-step-n { flex-basis:84px; font-size:32px; }
+}
+@media (prefers-reduced-motion: reduce) { .org * { transition:none !important; } }
+`;
 
 export default function OrigenPage() {
   return (
-    <div className="flex flex-col w-full bg-brand-linen">
-      {/* 2. HERO SECTION */}
-      <section className="relative h-[80vh] min-h-[600px] w-full flex items-center justify-center overflow-hidden">
-        <Image 
-          src="/assets/origin-hero.png" 
-          alt="Colombianske kaffefjell" 
-          fill 
-          className="object-cover" 
+    <div className="org">
+      <style>{CSS}</style>
+
+      {/* ── BANNER ───────────────────────────────────────── */}
+      <div className="org-banner">
+        <Image
+          src="/assets/perija-hero.jpg"
+          alt="Serranía del Perijá — tåkeskog og skogkledde skråninger på Cesars østside"
+          fill
           priority
+          sizes="100vw"
+          style={{ objectFit: "cover", objectPosition: "center 55%" }}
         />
-        <div className="absolute inset-0 bg-black/30" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 text-center text-white space-y-6">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-heading font-bold text-shadow-sm">
-            Fra colombiansk jord <br className="hidden md:block" /> til norske kopper
-          </h1>
-          <p className="text-lg md:text-2xl font-light max-w-3xl mx-auto opacity-90 leading-relaxed">
-            Kaffen vår starter med colombianske produsenter, nøyaktig prosessering og en direkte vei til Europa — bygget på rettferdighet, kvalitet og full sporbarhet.
-          </p>
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="#process" className="btn-primary w-full sm:w-auto">
-              Utforsk prosessen
-            </Link>
-            <Link href="#producers" className="btn-secondary !border-white !text-white hover:!bg-white hover:!text-brand-coffee w-full sm:w-auto">
-              Møt produsentene
-            </Link>
+        <span className="org-banner-tag">Serranía del Perijá · Cesars østskråning</span>
+      </div>
+
+      {/* ── HERO ─────────────────────────────────────────── */}
+      <section className="org-sect org-hero">
+        <p className="org-eyebrow">Opprinnelse · Frente Colombia</p>
+        <h1 className="org-disp org-h1">Røttene våre i Serranía del Perijá</h1>
+        <p className="org-lead">
+          Mellom tåkeskoger og fruktbar vulkansk jord dyrker vi spesialkaffe med
+          generasjoners kunnskap — og forpliktelsen til å bringe den rett til
+          Norge, uten mellomledd.
+        </p>
+
+        <div className="org-altbar">
+          <div className="org-alt" style={{ background: OLIVE, height: 84 }}>
+            <span className="k">Dalen</span>
+            <span className="v">1 400 moh</span>
+          </div>
+          <div className="org-alt" style={{ background: TEAL, height: 122 }}>
+            <span className="k">Skråning</span>
+            <span className="v">1 700 moh</span>
+          </div>
+          <div className="org-alt" style={{ background: DEEP_TERRA, height: 168 }}>
+            <span className="k">Topp</span>
+            <span className="v">2 000 moh</span>
+          </div>
+          <div
+            className="org-alt"
+            style={{ flex: 1.1, background: PHOTO_CELL, color: MUTED, alignSelf: "stretch" }}
+          >
+            <span className="k">Familiegårder</span>
+            <span className="v" style={{ color: INK, fontSize: 18 }}>
+              100 % Arabica
+            </span>
           </div>
         </div>
       </section>
 
-      {/* 3. ORIGIN STATEMENT */}
-      <SectionContainer bgClass="bg-brand-linen py-32">
-        <div className="max-w-3xl mx-auto text-center space-y-8">
-          <span className="text-brand-terracotta font-bold uppercase tracking-[0.3em] text-xs">Vår filosofi</span>
-          <h2 className="text-4xl md:text-5xl font-heading font-bold text-brand-coffee">
-            Opprinnelse er ikke et sted. <br /> Det er en relasjon.
+      {/* ── TERROIR ──────────────────────────────────────── */}
+      <section className="org-band">
+        <div className="org-sect">
+          <p className="org-eyebrow">Terroiret</p>
+          <h2 className="org-disp" style={{ marginTop: 14, fontSize: "clamp(30px,3.8vw,52px)" }}>
+            Naturen som former koppen
           </h2>
-          <p className="text-xl text-brand-coffee/70 font-light leading-relaxed italic">
-            &quot;Hos KAFFE GUATILLA betyr opprinnelse å vite hvem som dyrker kaffen, hvordan den prosesseres, og hvordan verdien går tilbake til menneskene bak hver innhøsting.&quot;
+
+          <div className="org-tiles">
+            <div className="org-tile" style={{ background: MUSTARD, color: INK }}>
+              <span className="t">Høyde</span>
+              <span className="m">1 400–2 000 MOH</span>
+              <span className="b">
+                Langsom modning gir høyere tetthet i bønnen og kompleks eplesyre.
+              </span>
+            </div>
+            <div className="org-tile" style={{ background: OLIVE, color: ON_DARK }}>
+              <span className="t">Mikroklima</span>
+              <span className="m">VIND · SKY · KJØLIGE NETTER</span>
+              <span className="b">
+                Naturlig konsentrasjon av sukker — søte toner av panela og karamell.
+              </span>
+            </div>
+            <div className="org-tile" style={{ background: TEAL, color: ON_DARK }}>
+              <span className="t">Jord &amp; skygge</span>
+              <span className="m">INNFØDT SKOGDEKKE</span>
+              <span className="b">
+                Bevart biologisk fuktighet og jevn, homogen modning.
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── VERTIKAL KONTROLL ────────────────────────────── */}
+      <section className="org-sect">
+        <p className="org-eyebrow">Vertikal kontroll · Fra frø til trille</p>
+        <h2 className="org-disp" style={{ marginTop: 14, fontSize: "clamp(30px,3.8vw,52px)" }}>
+          Vi eier hvert steg
+        </h2>
+
+        <div className="org-steps">
+          <div className="org-step">
+            <div className="org-step-n" style={{ background: DEEP_TERRA }}>01</div>
+            <div className="org-step-c">
+              <h3>Stell av kaffetreet</h3>
+              <p>
+                Tradisjonelle Arabica-varianter — Caturra og Castillo — og
+                mikrolot i toppklasse: Rosa Bourbon og Rød Bourbon.
+              </p>
+            </div>
+          </div>
+          <div className="org-step">
+            <div className="org-step-n" style={{ background: MUSTARD, color: INK }}>02</div>
+            <div className="org-step-c">
+              <h3>Selektiv håndplukking</h3>
+              <p>
+                Vi høster kun bær på sitt optimale modningspunkt — riktig brix —
+                og unngår grønne og overmodne bønner.
+              </p>
+            </div>
+          </div>
+          <div className="org-step">
+            <div className="org-step-n" style={{ background: TEAL }}>03</div>
+            <div className="org-step-c">
+              <h3>Beneficio og trille · Ruiz Café Esperanza</h3>
+              <p>
+                Tradisjonell våt foredling med kontrollert fermentering og jevn
+                tørking. Mekanisk trilling klassifiserer etter tetthet og
+                størrelse — skjerm over 14/16 — og gir grønne bønner med
+                fuktighet på 11,5–12,5 %.
+              </p>
+              <span className="org-chip">INGESEC-trille · 80 kg/t</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── DEN MENNESKELIGE DIMENSJONEN ─────────────────── */}
+      <section className="org-band">
+        <div className="org-sect">
+          <p className="org-eyebrow">Den menneskelige dimensjonen · Ekte direct trade</p>
+          <p className="org-quote">
+            Broen er <em>familiær</em> — ikke en slogan.
           </p>
-          <div className="w-24 h-px bg-brand-terracotta/30 mx-auto pt-4" />
-        </div>
-      </SectionContainer>
+          <p style={{ margin: "20px 0 0", maxWidth: "60ch", fontSize: 15.5, lineHeight: 1.7, color: BODY }}>
+            I den globale kaffekjeden måles avstanden mellom den som sår og den
+            som drikker ofte i titalls mellomledd. Hos Guatilla AS er det vår
+            faktiske driftsstruktur.
+          </p>
 
-      {/* 4. COLOMBIA REGION SECTION */}
-      <SectionContainer id="region" bgClass="bg-brand-cream border-y border-brand-coffee/5">
-        <ImageTextBlock 
-          title="Serranía del Perijá"
-          description={
-            <div className="space-y-4">
-              <p>Kaffen vår blir født i de unike mikroklimaene i Serranía del Perijá, der høy høyde og rik vulkansk jord skaper de perfekte forholdene for spesialkaffe.</p>
-              <ul className="space-y-3 pt-4">
-                {[
-                  "Gårder i stor høyde (1500m+)",
-                  "Spesialkaffekultur",
-                  "Familiebasert produksjon",
-                  "Nøye selektiv innhøsting",
-                  "Rik jord og varierte mikroklima"
-                ].map((item, idx) => (
-                  <li key={idx} className="flex items-center space-x-3 text-brand-coffee/80">
-                    <div className="w-1.5 h-1.5 rounded-full bg-brand-terracotta" />
-                    <span className="text-base">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          }
-          imageSrc="/assets/origin-hero.png"
-          imageAlt="Colombianske kaffefjell"
-          reverse
-        />
-      </SectionContainer>
-
-      {/* 5. PRODUCERS SECTION */}
-      <SectionContainer id="producers" bgClass="bg-brand-linen">
-        <div className="text-center mb-20 space-y-4">
-          <h2 className="text-4xl md:text-5xl font-heading font-bold text-brand-coffee">Bygget med produsenter, ikke rundt dem</h2>
-          <p className="text-brand-coffee/60 max-w-2xl mx-auto">Vi bygger en modell der åpenhet og rettferdig verdi er fundamentet i hvert partnerskap.</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <OriginCard 
-            title="Direkte relasjoner"
-            description="Vi jobber tett med colombianske produsenter og lokale partnere for å bygge langsiktig tillit og bærekraftig vekst."
-            icon={<Users size={28} />}
-          />
-          <OriginCard 
-            title="Rettferdig verdi"
-            description="Vår modell er utformet for å redusere avhengigheten av utnyttende mellomledd, slik at mer penger forblir hos bøndene."
-            icon={<Handshake size={28} />}
-          />
-          <OriginCard 
-            title="Felles vekst"
-            description="Etter hvert som driften vokser, er målet å skape bedre muligheter og infrastruktur i hele forsyningskjeden."
-            icon={<TrendingUp size={28} />}
-          />
-        </div>
-      </SectionContainer>
-
-      {/* 6. PROCESSING / TRILLADORA SECTION */}
-      <SectionContainer id="process" bgClass="bg-white border-y border-brand-coffee/5">
-        <ImageTextBlock 
-          title="Kontrollert prosessering, bedre kvalitet"
-          description={
-            <div className="space-y-6">
-              <p>Trilladoraens rolle er sentral i vårt kvalitetsløfte. Ved å håndtere vår egen infrastruktur, sikrer vi at hver bønne er klargjort for eksport under streng overvåking.</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
-                <div className="space-y-2">
-                  <h4 className="font-bold text-brand-coffee flex items-center gap-2">
-                    <ShieldCheck size={18} className="text-brand-olive" />
-                    Kvalitetskontroll
-                  </h4>
-                  <p className="text-sm text-brand-coffee/70">Grundig testing før forsendelse sikrer konsistens.</p>
-                </div>
-                <div className="space-y-2">
-                  <h4 className="font-bold text-brand-coffee flex items-center gap-2">
-                    <Globe size={18} className="text-brand-olive" />
-                    Sporbarhet
-                  </h4>
-                  <p className="text-sm text-brand-coffee/70">Full kontroll over dokumentasjon og partier.</p>
-                </div>
+          <div className="org-humans">
+            {PEOPLE.map((p) => (
+              <div key={p.name} className="org-human">
+                <span className="bar" style={{ background: p.accent }} />
+                <span className="n">{p.name}</span>
+                <span className="r">{p.role}</span>
+                <span className="l">{p.line}</span>
               </div>
-            </div>
-          }
-          imageSrc="/assets/trilladora.png"
-          imageAlt="Anlegg for kaffeprosessering"
-        />
-      </SectionContainer>
-
-      {/* 7. TRACEABILITY TIMELINE */}
-      <SectionContainer id="timeline" bgClass="bg-brand-cream">
-        <div className="max-w-5xl mx-auto">
-          <div className="mb-20 text-center md:text-left">
-            <h2 className="text-4xl md:text-5xl font-heading font-bold text-brand-coffee mb-6">Hvert trinn teller</h2>
-            <p className="text-brand-coffee/60 max-w-xl text-lg font-light">Fra det første bæret som plukkes til den siste koppen, følger vi hvert øyeblikk på reisen.</p>
-          </div>
-          <div className="space-y-0">
-            <TimelineStep number={1} title="Gård" description="Nøye dyrking i høytliggende colombiansk jord." />
-            <TimelineStep number={2} title="Innhøsting" description="Håndplukket utvalg av bare de modneste kaffebærene." />
-            <TimelineStep number={3} title="Seleksjon" description="Manuell og mekanisk sortering for å sikre feilfrie bønner." />
-            <TimelineStep number={4} title="Prosessering" description="Kontrollert tørking og avskalling i vår egen trilladora." />
-            <TimelineStep number={5} title="Eksportforberedelse" description="Nøye pakking og logistikk for reisen til Europa." />
-            <TimelineStep number={6} title="Import til Norge" description="Direkte ankomst til Guatilla AS sine anlegg i Norge." />
-            <TimelineStep number={7} title="Brenning / Distribusjon" description="Ekspertbrenning og lokal distribusjon i hele Europa." />
-            <TimelineStep number={8} title="Kopp" description="Spesialkaffe nytes med god samvittighet og full åpenhet." isLast />
+            ))}
           </div>
         </div>
-      </SectionContainer>
+      </section>
 
-      {/* 8. COLOMBIA → NORWAY BRIDGE */}
-      <SectionContainer id="bridge" bgClass="bg-brand-coffee text-white overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-brand-terracotta/5 -skew-x-12 translate-x-1/2" />
-        
-        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div className="space-y-8">
-            <h2 className="text-4xl md:text-6xl font-heading font-bold leading-tight">
-              En direkte bro mellom <br /> Colombia og Norge
-            </h2>
-            <p className="text-lg md:text-xl font-light text-white/80 leading-relaxed">
-              Guatilla AS fungerer som den kommersielle og logistiske broen, og fjerner de typiske lagene med mellomledd. Vi håndterer alt fra gårdsrelasjoner til europeisk distribusjon.
+      {/* ── FRA CARTAGENA TIL STAVANGER ──────────────────── */}
+      <section className="org-sect">
+        <p className="org-eyebrow">Fra Cartagena til Stavanger</p>
+        <h2 className="org-disp" style={{ marginTop: 14, fontSize: "clamp(30px,3.8vw,52px)" }}>
+          Den rene ruten
+        </h2>
+
+        <div className="org-route">
+          <span className="dot" style={{ background: TEAL }} />
+          <span className="city">Cartagena</span>
+          <span className="line" />
+          <svg
+            width="30"
+            height="30"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke={INK}
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M4 16h16l-2.4 4.5H6.4z" />
+            <path d="M12 3.5v9.5" />
+            <path d="M12 4.5l5.5 8H12z" />
+          </svg>
+          <span className="line" />
+          <span className="city">Stavanger</span>
+          <span className="dot" style={{ background: OLIVE }} />
+        </div>
+
+        <div className="org-blocks">
+          <div className="org-block" style={{ background: CREAM }}>
+            <h3>Inspeksjon i opprinnelse</h3>
+            <p>
+              Plantehelse- og tollsertifisering i Colombia, avviklet gjennom FNC
+              og plattformen Cafenlace.
             </p>
-            <div className="flex flex-wrap gap-4 pt-4">
-              <div className="bg-white/10 backdrop-blur-sm px-6 py-4 rounded-xl border border-white/10 flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-brand-terracotta" />
-                <span className="font-bold tracking-widest uppercase text-xs">Colombia</span>
-              </div>
-              <div className="flex items-center text-white/30">
-                <ChevronRight />
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm px-6 py-4 rounded-xl border border-white/10 flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-brand-olive" />
-                <span className="font-bold tracking-widest uppercase text-xs">Prosessering</span>
-              </div>
-              <div className="flex items-center text-white/30">
-                <ChevronRight />
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm px-6 py-4 rounded-xl border border-white/10 flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-blue-400" />
-                <span className="font-bold tracking-widest uppercase text-xs">Norge</span>
-              </div>
-            </div>
           </div>
-          <div className="relative h-[300px] md:h-[400px] flex items-center justify-center">
-            <div className="relative w-full h-full border border-white/10 rounded-2xl flex items-center justify-center p-8 bg-brand-linen/5">
-                <div className="text-center space-y-4">
-                   <Globe size={120} className="text-brand-terracotta/40 mx-auto" strokeWidth={1} />
-                   <p className="text-sm font-bold tracking-[0.2em] uppercase text-brand-terracotta">Global direkte handel</p>
-                </div>
-            </div>
+          <div className="org-block" style={{ background: PHOTO_CELL }}>
+            <h3>Ren rute</h3>
+            <p>
+              Sjøfrakt fra Sociedad Portuaria de Cartagena rett til Stavanger,
+              med ferskheten beskyttet helt fram til mikrobrenneriet.
+            </p>
           </div>
         </div>
-      </SectionContainer>
+      </section>
 
-      {/* 9. QUALITY AND TRUST SECTION */}
-      <SectionContainer id="quality" bgClass="bg-brand-linen">
-        <div className="text-center mb-20 space-y-4">
-          <h2 className="text-4xl md:text-5xl font-heading font-bold text-brand-coffee">Kvalitet med ansvar</h2>
-          <p className="text-brand-coffee/60 max-w-2xl mx-auto">Vårt engasjement for kvalitet strekker seg utover bønnene — det gjelder også hvordan vi driver forretninger.</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <EditorialImageCard 
-            title="Gjennomsiktig innkjøp"
-            description="Vi gir detaljert informasjon om hver innhøsting, fra gårdsnavn til betalingspriser."
-            image="/assets/quality.png"
-            alt="Gjennomsiktig innkjøp"
-          />
-          <EditorialImageCard 
-            title="Kontrollert logistikk"
-            description="Direkte tilsyn med hele fraktprosessen sikrer at bønnene ankommer ferske og uskadet."
-            image="/assets/trilladora.png"
-            alt="Kontrollert logistikk"
-          />
-          <EditorialImageCard 
-            title="Langsiktig tillit"
-            description="Vi investerer i relasjoner med produsenter, noe som skaper stabilitet for deres familier og vår kvalitet."
-            image="/assets/producer.png"
-            alt="Langsiktig tillit"
-          />
-        </div>
-      </SectionContainer>
-
-      {/* FIELD JOURNAL SECTION */}
-      <FieldJournalSection />
-
-      {/* 10. FINAL CTA */}
-      <SectionContainer bgClass="bg-brand-coffee">
-        <div className="max-w-4xl mx-auto text-center space-y-12">
-          <div className="inline-block p-4 bg-brand-terracotta/20 rounded-full mb-4">
-            <Coffee size={40} className="text-brand-terracotta" />
-          </div>
-          <h2 className="text-4xl md:text-7xl font-heading font-bold text-white leading-tight">
-            Oppdag kaffe med <br /> en ekte opprinnelse
-          </h2>
-          <p className="text-xl text-white/70 font-light max-w-2xl mx-auto">
-            Opplev forskjellen med en gjennomsiktig forsyningskjede og varmen fra colombiansk spesialkaffe.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8">
-            <Link href="/shop" className="btn-primary px-16 py-6 text-lg">
-              Handle kaffe
-            </Link>
-            <Link href="/about" className="text-white font-bold uppercase tracking-widest text-sm hover:text-brand-terracotta transition-colors flex items-center gap-2">
-              Lær om sporbarhet <ChevronRight size={18} />
-            </Link>
+      {/* ── INSTITUSJONELT ──────────────────────────────── */}
+      <div className="org-inst">
+        <div className="org-inst-row org-sect" style={{ paddingTop: 0, paddingBottom: 0 }}>
+          <div className="org-inst-inner">
+            <span>FNC-godkjent produksjon og eksport</span>
+            <span>Despatsjer via Cafenlace</span>
+            <span>Ruiz Café Esperanza — egen trilladora</span>
           </div>
         </div>
-      </SectionContainer>
+      </div>
+      <div style={{ height: 56 }} />
     </div>
   );
 }
