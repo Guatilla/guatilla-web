@@ -19,30 +19,17 @@ const NAV_ITEMS = [
 
 const BUTIKK_MENU = [
   {
-    heading: "Etter rist",
+    heading: "Etter kvalitet",
     links: [
-      { label: "Lys", href: "/shop" },
-      { label: "Medium", href: "/shop" },
-      { label: "Medium-mørk", href: "/shop" },
-      { label: "Mørk", href: "/shop" },
+      { label: "Café de Montaña (Excelso)", href: "/shop" },
+      { label: "Café Especial", href: "/shop" },
     ],
   },
   {
-    heading: "Etter bryggemetode",
+    heading: "Etter format",
     links: [
-      { label: "Filter", href: "/shop" },
-      { label: "Espresso", href: "/shop" },
-      { label: "Presskanne", href: "/shop" },
-      { label: "Moka", href: "/shop" },
-    ],
-  },
-  {
-    heading: "Kjøp som",
-    links: [
-      { label: "Engangskjøp", href: "/shop" },
-      { label: "Abonnement −15%", href: "/shop" },
-      { label: "Smakspakke", href: "/shop" },
-      { label: "Gavekort", href: "/shop" },
+      { label: "Hele bønner", href: "/shop" },
+      { label: "Malt", href: "/shop" },
     ],
   },
 ];
@@ -128,19 +115,7 @@ export default function Navbar() {
         {/* 1) announcement bar */}
         <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-0.5 bg-brand-teal px-4 py-2.5 text-center text-brand-cream sm:gap-x-[26px]">
           <span className="text-[10.5px] font-bold uppercase tracking-[0.16em]">
-            Fri frakt over 500 kr
-          </span>
-          <svg
-            width="7"
-            height="7"
-            viewBox="0 0 8 8"
-            aria-hidden="true"
-            className="hidden shrink-0 text-brand-gold sm:block"
-          >
-            <path d="M4 0 8 4 4 8 0 4Z" fill="currentColor" />
-          </svg>
-          <span className="text-[10.5px] font-bold uppercase tracking-[0.16em]">
-            Ristet på bestilling i Norge
+            Nettbutikken er under oppbygging — salg er foreløpig ikke tilgjengelig
           </span>
         </div>
 

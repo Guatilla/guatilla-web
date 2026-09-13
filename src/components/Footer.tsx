@@ -11,8 +11,8 @@ const COLUMNS: {
     links: [
       { href: "/shop", label: "Hele bønner" },
       { href: "/shop", label: "Malt kaffe" },
-      { href: "/shop", label: "Abonnement" },
-      { href: "/shop", label: "Gavesett" },
+      { href: "/shop", label: "Café de Montaña" },
+      { href: "/shop", label: "Café Especial" },
     ],
   },
   {
@@ -21,6 +21,7 @@ const COLUMNS: {
       { href: "/about", label: "Om oss" },
       { href: "/origen", label: "Opprinnelse" },
       { href: "/journal", label: "Feltjournal" },
+      { href: "/sporbarhet", label: "Sporbarhet" },
     ],
   },
   {

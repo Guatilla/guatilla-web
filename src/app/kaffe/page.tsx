@@ -38,6 +38,7 @@ const PRODUCTS: {
   tagBg: string;
   variant: string;
   image: string;
+  imagePosition?: string;
   alt: string;
   spectrum: Seg[];
   profile: string;
@@ -89,8 +90,9 @@ const PRODUCTS: {
     tag: "B2B",
     tagBg: TEAL,
     variant: "Grønne bønner",
-    image: "/assets/about-raw-coffee.jpg",
-    alt: "Grønne kaffebønner, eksportstandard",
+    image: "/assets/raw-coffee-export.jpg",
+    imagePosition: "center 25%",
+    alt: "Grønne kaffebønner pakket for eksport, vakuumsekker merket café verde",
     spectrum: [
       { label: "Malla 16", pct: 38, bg: TEAL },
       { label: "11,5–12,5 %", pct: 36, bg: DARK_BROWN },
@@ -192,7 +194,7 @@ const CSS = `
 .pf-link { font-family:${F_MONO}; font-weight:700; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:${TERRA}; text-decoration:none; }
 .pf-row { margin-top:clamp(22px,3vw,32px); }
 .pf-card { background:${CREAM}; display:flex; flex-direction:column; }
-.pf-photo { position:relative; height:210px; background:${PHOTO_CELL}; border-bottom:2px solid ${INK}; }
+.pf-photo { position:relative; height:260px; background:${PHOTO_CELL}; border-bottom:2px solid ${INK}; }
 .pf-tag { position:absolute; left:0; top:0; padding:7px 11px; font-family:${F_MONO}; font-weight:700; font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; }
 .pf-body { padding:24px 22px; display:flex; flex-direction:column; gap:14px; flex:1; }
 .pf-name { margin:0; font-family:${F_BITTER}; font-weight:800; font-size:25px; line-height:1.05; color:${INK}; }
@@ -233,14 +235,14 @@ export default function VarKaffePage() {
       <section className="vk-hero">
         <div className="vk-hero-photo">
           <Image
-            src="/assets/perija-hero.jpg"
+            src="/assets/perija-montanas.jpg"
             alt="Serranía del Perijá, Agustín Codazzi"
             fill
             priority
             sizes="(max-width: 860px) 100vw, 50vw"
             style={{ objectFit: "cover" }}
           />
-          <span className="vk-hero-label">1 400–2 000 moh</span>
+          <span className="vk-hero-label">900–1 800 moh</span>
         </div>
 
         <div className="vk-hero-panel">
@@ -284,8 +286,9 @@ export default function VarKaffePage() {
             <div className="terroir-left">
               <div className="terroir-copy">
                 <p>
-                  Partiene våre vokser i Agustín Codazzi i Cesar, mellom 1 400 og
-                  2 000 moh. Kjølig mikroklima gir langsom modning — mer sukker,
+                  Partiene våre vokser i Agustín Codazzi i Cesar, fra kaffe fra
+                  900–1 300 moh til vår mest eksklusive kaffe fra opp mot
+                  1 800 moh. Kjølig mikroklima gir langsom modning — mer sukker,
                   klarere syre og et bredere aromaspekter i koppen.
                 </p>
                 <p>
@@ -296,7 +299,7 @@ export default function VarKaffePage() {
               </div>
               <div className="terroir-stats">
                 {[
-                  { b: "1 400–2 000", s: "moh" },
+                  { b: "900–1 800", s: "moh" },
                   { b: "Malla 16", s: "FNC-utvalg" },
                   { b: "11,5–12,5 %", s: "Fuktighet" },
                 ].map((st) => (
@@ -310,11 +313,11 @@ export default function VarKaffePage() {
 
             <div className="terroir-photo">
               <Image
-                src="/assets/producer.png"
-                alt="Håndplukking på familiegården i Codazzi"
+                src="/assets/cerezas-cosecha.jpg"
+                alt="Modne kaffekirsebær, håndplukket på familiegården i Codazzi"
                 fill
                 sizes="(max-width: 860px) 100vw, 45vw"
-                style={{ objectFit: "cover", objectPosition: "center 30%" }}
+                style={{ objectFit: "cover" }}
               />
             </div>
           </div>
@@ -409,7 +412,7 @@ export default function VarKaffePage() {
                   alt={p.alt}
                   fill
                   sizes="(max-width: 820px) 100vw, 33vw"
-                  style={{ objectFit: "cover" }}
+                  style={{ objectFit: "cover", objectPosition: p.imagePosition ?? "center" }}
                 />
                 <span
                   className="pf-tag"

@@ -14,7 +14,7 @@ const PILLARS = [
     n: "01",
     tone: "bg-brand-terracotta text-brand-cream",
     title: "Dyrket av oss",
-    body: "Vi kjøper ikke anonyme lot. Vi steller hvert kaffetre på våre egne fincas i Agustín Codazzi, mellom 1 400 og 2 000 moh.",
+    body: "Vi kjøper ikke anonyme lot. Vi steller hvert kaffetre på våre egne fincas i Agustín Codazzi, fra 900–1 300 moh og opp mot 1 800 moh.",
   },
   {
     n: "02",
@@ -32,37 +32,24 @@ const PILLARS = [
 
 const CATALOG = [
   {
-    tag: "Klassiker",
+    tag: "Vasket · Excelso",
     tagTone: "bg-brand-gold text-brand-coffee",
-    name: "Guatilla Signature",
-    variant: "Vasket Excelso",
-    notes: "Mørk sjokolade, panela, rund kropp og en lys, tydelig sitrussyre.",
-    origin: "Agustín Codazzi, Cesar · 100 % Arabica",
-    price: "Fra 189 NOK",
-    cta: "Kjøp Signature",
-    href: "/shop/origen",
+    name: "Café de Montaña",
+    variant: "Hele bønner / malt",
+    notes: "Håndplukket og vasket i Serranía del Perijá. Rund kropp og en lys, balansert syre.",
+    origin: "Serranía del Perijá · 900–1 300 moh",
+    cta: "Se partiet",
+    href: "/shop/montana-hele-bonner",
   },
   {
-    tag: "Begrenset · micro-parti",
+    tag: "Vasket · Especial",
     tagTone: "bg-brand-olive text-brand-cream",
-    name: "Serranía Microlot",
-    variant: "Rosa Bourbon",
-    notes: "Jasmin, kaffeblomst, modne røde bær og en silkeaktig, langvarig sødme.",
-    origin: "Familiegård · nummerert lot",
-    price: "Fra 215 NOK",
-    cta: "Kjøp microlot",
-    href: "/shop/heritage",
-  },
-  {
-    tag: "Gave",
-    tagTone: "bg-brand-vichy text-brand-cream",
-    name: "Smakspakke",
-    variant: "2–3 varianter",
-    notes: "Et sett for å oppdage de ulike tonene fra Perijá hjemme — i grov eller fin maling.",
-    origin: "Gave · smaksreise",
-    price: "Sett sammen selv",
-    cta: "Se pakker",
-    href: "/shop",
+    name: "Café Especial",
+    variant: "Hele bønner / malt",
+    notes: "Høstet på våre høyestliggende partier, opp mot 1 800 moh. Langsom modning og kompleks smak.",
+    origin: "Serranía del Perijá · opp mot 1 800 moh",
+    cta: "Se partiet",
+    href: "/shop/especial-hele-bonner",
   },
 ];
 
@@ -114,11 +101,12 @@ export default function Home() {
             <div className="flex flex-col gap-[2px] border-2 border-brand-coffee bg-brand-coffee">
               <div className="relative min-h-[260px] flex-1 overflow-hidden min-[880px]:min-h-[330px]">
                 <Image
-                  src="/assets/hero-coffee.jpg"
-                  alt="Grønne kaffesekker, Serranía del Perijá"
+                  src="/assets/fincas-propias-atardecer.jpg"
+                  alt="Kaffesekker på egen finca ved solnedgang, Serranía del Perijá"
                   fill
                   priority
                   className="object-cover"
+                  style={{ objectPosition: "center 65%" }}
                   sizes="(max-width: 880px) 100vw, 40vw"
                 />
               </div>
@@ -127,7 +115,7 @@ export default function Home() {
                   Egne fincas
                 </p>
                 <p className="mt-1.5 font-sans text-[13.5px] leading-[1.45]">
-                  Agustín Codazzi · 1 400–2 000 moh · 100 % Arabica.
+                  Agustín Codazzi · 900–1 800 moh · 100 % Arabica.
                 </p>
               </div>
             </div>
@@ -182,7 +170,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2">
           {CATALOG.map((c) => (
             <article
               key={c.name}
@@ -209,7 +197,7 @@ export default function Home() {
                 <div className="flex-1" />
                 <div className="mt-6 flex items-center justify-between gap-3 border-t-2 border-brand-coffee pt-4">
                   <span className="font-heading text-[16px] font-extrabold text-brand-coffee">
-                    {c.price}
+                    Pris kommer
                   </span>
                   <Link
                     href={c.href}

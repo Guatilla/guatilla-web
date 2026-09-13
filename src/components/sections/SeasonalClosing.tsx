@@ -152,11 +152,11 @@ export default function SeasonalClosing() {
       <div className="seasonal-banner">
         <div className="seasonal-photo">
           <Image
-            src="/assets/producer.png"
+            src="/assets/cafe-pergamino.jpg"
             alt="Sesongens kaffe fra Serranía del Perijá"
             fill
             sizes="(max-width: 860px) 100vw, 55vw"
-            style={{ objectFit: "cover", objectPosition: "center 28%" }}
+            style={{ objectFit: "cover", objectPosition: "center 40%" }}
           />
         </div>
 

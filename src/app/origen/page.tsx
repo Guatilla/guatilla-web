@@ -3,7 +3,7 @@ import Image from "next/image";
 export const metadata = {
   title: "Opprinnelse | Kaffe Guatilla",
   description:
-    "Røttene våre i Serranía del Perijá — familiegårder i Agustín Codazzi, Cesar, opp til 2 000 moh, egen trille (Ruiz Café Esperanza) og direkte handel til Stavanger.",
+    "Røttene våre i Serranía del Perijá — familiegårder i Agustín Codazzi, Cesar, opp til 1 800 moh, egen trille (Ruiz Café Esperanza) og direkte handel til Stavanger.",
 };
 
 /* ── Tokens (modern patchwork) ─────────────────────────────────── */
@@ -88,6 +88,7 @@ const CSS = `
 .org-step-c p { margin:8px 0 0; font-size:14.5px; line-height:1.6; color:${BODY}; }
 .org-chip { margin-top:14px; display:inline-block; background:${INK}; color:${CREAM}; padding:8px 14px;
   font-family:${F_MONO}; font-weight:700; font-size:10px; letter-spacing:.1em; text-transform:uppercase; }
+.org-step-photo { margin:18px auto 0; position:relative; width:100%; max-width:300px; overflow:hidden; border:2px solid ${INK}; }
 
 /* human */
 .org-quote { margin:22px 0 0; max-width:30ch; font-family:${F_BITTER}; font-weight:800;
@@ -106,7 +107,10 @@ const CSS = `
 .org-route .city { font-family:${F_BITTER}; font-weight:800; font-size:20px; color:${INK}; }
 .org-route .line { flex:1; min-width:40px; height:2px; background:${INK}; }
 .org-blocks { margin-top:34px; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:2px; background:${INK}; border:2px solid ${INK}; }
-.org-block { padding:28px 24px; }
+.org-block { padding:26px 24px 28px; }
+.org-credit { display:flex; align-items:center; gap:16px; margin-bottom:18px; padding-bottom:18px; border-bottom:1px solid ${INK}2e; }
+.org-credit img { width:72px; height:auto; display:block; flex:none; opacity:.95; }
+.org-credit span { font-family:${F_MONO}; font-weight:700; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:${BODY}; line-height:1.6; }
 .org-block h3 { margin:0; font-family:${F_BITTER}; font-weight:800; font-size:19px; color:${INK}; }
 .org-block p { margin:10px 0 0; font-size:14.5px; line-height:1.6; color:${BODY}; }
 
@@ -124,8 +128,11 @@ const CSS = `
   .org-blocks { grid-template-columns:1fr; }
 }
 @media (max-width: 560px) {
-  .org-altbar { display:grid; grid-template-columns:1fr 1fr; align-items:stretch; }
-  .org-alt { height:auto; min-height:96px; }
+  .org-altbar { flex-wrap:wrap; }
+  .org-alt { padding:10px 12px; }
+  .org-alt .k { font-size:9px; }
+  .org-alt .v { font-size:13px; }
+  .org-alt:last-child { flex:1 0 100% !important; }
   .org-step-n { flex-basis:84px; font-size:32px; }
 }
 @media (prefers-reduced-motion: reduce) { .org * { transition:none !important; } }
@@ -162,15 +169,15 @@ export default function OrigenPage() {
         <div className="org-altbar">
           <div className="org-alt" style={{ background: OLIVE, height: 84 }}>
             <span className="k">Dalen</span>
-            <span className="v">1 400 moh</span>
+            <span className="v">900 moh</span>
           </div>
           <div className="org-alt" style={{ background: TEAL, height: 122 }}>
             <span className="k">Skråning</span>
-            <span className="v">1 700 moh</span>
+            <span className="v">1 300 moh</span>
           </div>
           <div className="org-alt" style={{ background: DEEP_TERRA, height: 168 }}>
             <span className="k">Topp</span>
-            <span className="v">2 000 moh</span>
+            <span className="v">1 800 moh</span>
           </div>
           <div
             className="org-alt"
@@ -195,7 +202,7 @@ export default function OrigenPage() {
           <div className="org-tiles">
             <div className="org-tile" style={{ background: MUSTARD, color: INK }}>
               <span className="t">Høyde</span>
-              <span className="m">1 400–2 000 MOH</span>
+              <span className="m">900–1 800 MOH</span>
               <span className="b">
                 Langsom modning gir høyere tetthet i bønnen og kompleks eplesyre.
               </span>
@@ -234,6 +241,16 @@ export default function OrigenPage() {
                 Tradisjonelle Arabica-varianter — Caturra og Castillo — og
                 mikrolot i toppklasse: Rosa Bourbon og Rød Bourbon.
               </p>
+              <span className="org-chip">Sertifisert plantemateriale · Bourbon Rosado</span>
+              <div className="org-step-photo" style={{ aspectRatio: "1159 / 1280" }}>
+                <Image
+                  src="/assets/semilla-bourbon-rosado.jpg"
+                  alt="Semilla de café, variant Bourbon Rosado, klar for planting"
+                  fill
+                  sizes="(max-width: 480px) 60vw, 300px"
+                  style={{ objectFit: "contain" }}
+                />
+              </div>
             </div>
           </div>
           <div className="org-step">
@@ -257,6 +274,15 @@ export default function OrigenPage() {
                 fuktighet på 11,5–12,5 %.
               </p>
               <span className="org-chip">INGESEC-trille · 80 kg/t</span>
+              <div className="org-step-photo" style={{ aspectRatio: "1400 / 1867" }}>
+                <Image
+                  src="/assets/trilladora-maskin.jpg"
+                  alt="Trillemaskinen hos Ruiz Café Esperanza"
+                  fill
+                  sizes="(max-width: 480px) 60vw, 300px"
+                  style={{ objectFit: "contain" }}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -320,6 +346,14 @@ export default function OrigenPage() {
 
         <div className="org-blocks">
           <div className="org-block" style={{ background: CREAM }}>
+            <div className="org-credit">
+              <Image src="/assets/cace-logo-ink.png" alt="CACE L&G S.A.S." width={72} height={72} style={{ width: 72, height: "auto" }} />
+              <span>
+                Eksportør av rekord
+                <br />
+                CACE L&amp;G S.A.S.
+              </span>
+            </div>
             <h3>Inspeksjon i opprinnelse</h3>
             <p>
               Plantehelse- og tollsertifisering i Colombia, avviklet gjennom FNC

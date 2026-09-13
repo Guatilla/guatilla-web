@@ -35,14 +35,12 @@ const seam = (extra: React.CSSProperties = {}): React.CSSProperties => ({
 type Tone = "cream" | "ink";
 const toneColor = (t: Tone) => (t === "ink" ? INK : ON_DARK);
 
-/* Flavour-note colour per known product; anything else derives from data. */
+/* Grade colour per known product; anything else derives from data. */
 const NOTE_META: Record<string, { note: string; bg: string; tone: Tone }> = {
-  origen: { note: "Kakao", bg: DEEP_TERRA, tone: "cream" },
-  mestizaje: { note: "Karamell", bg: MUSTARD, tone: "ink" },
-  encuentro: { note: "Honning", bg: DEEP_TERRA, tone: "cream" },
-  territorio: { note: "Kakao", bg: DEEP_TERRA, tone: "cream" },
-  heritage: { note: "Fruktig", bg: MUSTARD, tone: "ink" },
-  sierra: { note: "Karamell", bg: DEEP_TERRA, tone: "cream" },
+  "montana-hele-bonner": { note: "Excelso", bg: DEEP_TERRA, tone: "cream" },
+  "montana-malt": { note: "Excelso", bg: DEEP_TERRA, tone: "cream" },
+  "especial-hele-bonner": { note: "Especial", bg: MUSTARD, tone: "ink" },
+  "especial-malt": { note: "Especial", bg: MUSTARD, tone: "ink" },
 };
 
 const findProduct = (item: CartItem) =>

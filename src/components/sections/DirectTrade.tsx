@@ -73,11 +73,11 @@ export default function DirectTrade() {
 
           <div className="dt-photo">
             <Image
-              src="/assets/trilladora.png"
-              alt="Vår egen trilladora i Agustín Codazzi, Colombia"
+              src="/assets/trilladora-arbeid.jpg"
+              alt="Familien vår foredler kaffen for hånd ved vår egen trilladora i Agustín Codazzi"
               fill
               sizes="(max-width: 860px) 100vw, 55vw"
-              style={{ objectFit: "cover" }}
+              style={{ objectFit: "cover", objectPosition: "center 15%" }}
             />
           </div>
         </div>
