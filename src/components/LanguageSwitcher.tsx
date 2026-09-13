@@ -20,6 +20,7 @@ export default function LanguageSwitcher() {
     <div className="relative z-[100] inline-block text-left">
       <button
         type="button"
+        aria-label="Velg språk"
         onClick={() => setIsOpen(!isOpen)}
         className="inline-flex items-center justify-center px-2 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-current transition-colors hover:text-brand-terracotta focus:outline-none"
         id="language-menu-button"

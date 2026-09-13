@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata = {
   title: "Vår kaffe | Kaffe Guatilla",
   description:
-    "100 % Arabica single-origin fra Agustín Codazzi, Colombia — dyrket i Serranía del Perijá, foredlet i egen trilladora og ristet i mikropartier i Stavanger.",
+    "Spesialkaffe av 100 % arabica fra Agustín Codazzi i Colombia — dyrket i Serranía del Perijá, foredlet i familiens tørrmølle og brent i mikropartier i Stavanger.",
 };
 
 /* ── Tokens (modern patchwork) ─────────────────────────────────── */
@@ -49,7 +49,7 @@ const PRODUCTS: {
 }[] = [
   {
     name: "Guatilla Signature",
-    tag: "Hovedlinje",
+    tag: "Fast sortiment",
     tagBg: TERRA,
     variant: "Vasket Excelso",
     image: "/assets/bag-origen.jpg",
@@ -60,10 +60,10 @@ const PRODUCTS: {
       { label: "Sitrus", pct: 25, bg: OLIVE },
     ],
     profile:
-      "Opprinnelsessjokolade og panela, rund kropp og en mild, balansert sitrussyre. Hverdagskaffen vår.",
+      "Smaksnoter av sjokolade og panela, rund munnfølelse og en mild, balansert sitrussyrlighet. Hverdagskaffen vår.",
     format: "250 g / 500 g",
     anbefalt: "Filter og espresso",
-    cta: "Kjøp Signature",
+    cta: "Se Guatilla Signature",
     href: "/shop",
   },
   {
@@ -76,33 +76,33 @@ const PRODUCTS: {
     spectrum: [
       { label: "Jasmin", pct: 40, bg: OLIVE },
       { label: "Røde bær", pct: 34, bg: RED },
-      { label: "Silke", pct: 26, bg: MUSTARD },
+      { label: "Silkeaktig", pct: 26, bg: MUSTARD },
     ],
     profile:
-      "Intenst floralt — jasmin, modne røde bær og silkeaktig tekstur. Laget for manuell filterbrygging.",
-    format: "Nummererte lot",
+      "Intenst floralt — jasmin, modne røde bær og silkeaktig tekstur. Utviklet for håndbrygg.",
+    format: "Nummererte partier",
     anbefalt: "V60, Chemex, Aeropress",
-    cta: "Kjøp microlot",
+    cta: "Se Serranía Microlot",
     href: "/shop",
   },
   {
     name: "Råkaffe til brennerier",
     tag: "B2B",
     tagBg: TEAL,
-    variant: "Grønne bønner",
+    variant: "Råkaffe",
     image: "/assets/raw-coffee-export.jpg",
     imagePosition: "center 25%",
-    alt: "Grønne kaffebønner pakket for eksport, vakuumsekker merket café verde",
+    alt: "Råkaffe pakket for eksport i vakuumsekker merket café verde",
     spectrum: [
-      { label: "Malla 16", pct: 38, bg: TEAL },
+      { label: "Siktestørrelse 16", pct: 38, bg: TEAL },
       { label: "11,5–12,5 %", pct: 36, bg: DARK_BROWN },
       { label: "FNC", pct: 26, bg: MUSTARD },
     ],
     profile:
-      "Utvalgt i opprinnelse med kontrollert fuktighet og komplett datablad — for norske mikrobrennerier.",
+      "Utvalgt ved opprinnelsen, med kontrollert fuktighet og komplett datablad — for norske mikrobrennerier.",
     format: "10 kg eske / 50 kg sekk",
-    anbefalt: "Egen risteprofil",
-    cta: "Be om prøve og datablad",
+    anbefalt: "Tilpasset brenneprofil",
+    cta: "Be om smaksprøve og datablad",
     href: "/contact",
   },
 ];
@@ -111,20 +111,20 @@ const TRACE = [
   {
     n: "01",
     bg: TERRA,
-    title: "Ekte direct trade",
+    title: "Direkte handel",
     body: "Familien som dyrker i Colombia er den samme som importerer og distribuerer i Rogaland.",
   },
   {
     n: "02",
     bg: MUSTARD,
-    title: "Godkjent mattrygghet",
+    title: "Registrert matimportør",
     body: "Registrert hos Mattilsynet som importør og første mottaker av næringsmidler.",
   },
   {
     n: "03",
     bg: TEAL,
     title: "GS1-sporbarhet",
-    body: "Lotkoding og sporing etter internasjonal GS1-standard, hele veien.",
+    body: "Partikoding og sporing etter internasjonal GS1-standard, hele veien.",
   },
 ];
 
@@ -251,9 +251,9 @@ export default function VarKaffePage() {
             Dyrket i Serranía del Perijá. Foredlet for <em>nordiske</em> ganer.
           </h1>
           <p className="vk-hero-lead">
-            100 % Arabica spesialkaffe med single origin fra Agustín Codazzi,
-            Colombia. Vi følger hvert steg — fra jord og skyggetre til siste
-            risting i Stavanger.
+            Spesialkaffe av 100 % arabica fra Agustín Codazzi i Colombia. Vi
+            følger hvert steg — fra jord og skyggetre til brenningen i
+            Stavanger.
           </p>
           <div className="vk-hero-btns">
             <a
@@ -286,21 +286,21 @@ export default function VarKaffePage() {
             <div className="terroir-left">
               <div className="terroir-copy">
                 <p>
-                  Partiene våre vokser i Agustín Codazzi i Cesar, fra kaffe fra
+                  Partiene våre vokser i Agustín Codazzi i Cesar, fra
                   900–1 300 moh til vår mest eksklusive kaffe fra opp mot
                   1 800 moh. Kjølig mikroklima gir langsom modning — mer sukker,
                   klarere syre og et bredere aromaspekter i koppen.
                 </p>
                 <p>
-                  Vi kjøper ikke sekker av mellomledd på messe. Familiegårdene
-                  våre plukker selektivt for hånd — kun modne kirsebær — og vi
-                  foredler i vår egen lokale trilladora.
+                  Vi kjøper ikke anonyme kaffepartier gjennom mellomledd.
+                  Familiegårdene våre plukker selektivt for hånd — kun modne
+                  kaffebær — og vi foredler dem i familiens lokale tørrmølle.
                 </p>
               </div>
               <div className="terroir-stats">
                 {[
                   { b: "900–1 800", s: "moh" },
-                  { b: "Malla 16", s: "FNC-utvalg" },
+                  { b: "Siktestørrelse 16", s: "FNC-sortering" },
                   { b: "11,5–12,5 %", s: "Fuktighet" },
                 ].map((st) => (
                   <div key={st.s} className="terroir-stat">
@@ -324,15 +324,15 @@ export default function VarKaffePage() {
 
           <div className="terroir-sub">
             <div>
-              <b>Selektiv høsting.</b> Kun modne kirsebær, plukket for hånd i
+              <b>Selektiv høsting.</b> Kun modne kaffebær, plukket for hånd i
               flere runder.
             </div>
             <div>
-              <b>Egen trilladora.</b> Foredling lokalt, med eksportstandard.
+              <b>Familiens tørrmølle.</b> Lokal foredling til eksportstandard.
             </div>
             <div>
               <b>FNC-standard.</b> Resolusjon 02/2016, kontrollert utvalg per
-              lot.
+              parti.
             </div>
           </div>
         </div>
@@ -341,9 +341,9 @@ export default function VarKaffePage() {
       {/* ── 3) ROASTING ─────────────────────────────────── */}
       <section className="vk-section">
         <p className="vk-eyebrow" style={{ color: TERRA }}>
-          Ristingen · Norge
+          Brenningen · Norge
         </p>
-        <h2 className="vk-h2">Nordisk risting, i mikropartier</h2>
+        <h2 className="vk-h2">Nordisk brenning i mikropartier</h2>
 
         <div
           className="row3"
@@ -356,21 +356,21 @@ export default function VarKaffePage() {
           {[
             {
               bg: OLIVE,
-              k: "Foredling i opprinnelse",
-              t: "Rene vaskede prosesser",
-              b: "Tradisjonell vasket foredling med kontrollert fermentering — krystallklar kopp, lyse toner og lik kvalitet fra lot til lot.",
+              k: "Foredling ved opprinnelsen",
+              t: "Ren, vasket foredling",
+              b: "Tradisjonell vasket foredling med kontrollert fermentering — en ren kopp, lyse toner og jevn kvalitet fra parti til parti.",
             },
             {
               bg: MUSTARD,
-              k: "Lys- / mellombrent",
-              t: "Vi brenner ikke oljene",
-              b: "Varmen styres presist for å bevare jasmin, panela, røde bær og mild sjokolade — ikke ristekarakter.",
+              k: "Lys- og mellombrent",
+              t: "Smaken står i sentrum",
+              b: "Varmen styres presist for å bevare jasmin, panela, røde bær og mild sjokolade — uten at brennepreget tar over.",
             },
             {
               bg: DEEP_TERRA,
-              k: "Roast to order",
-              t: "Pakket nyristet",
-              b: "Ristet i Stavanger og pakket samme uke, så kaffen når deg i riktig avgassingsvindu.",
+              k: "Brent på bestilling",
+              t: "Pakket nybrent",
+              b: "Brent i Stavanger og pakket samme uke, slik at kaffen når deg i riktig avgassingsvindu.",
             },
           ].map((c) => (
             <div

@@ -54,7 +54,7 @@ export default function JournalGrid({
       {showCTA && (
         <div className="pt-8 text-center">
           <Button href="/journal" variant="secondary" size="sm" withArrow>
-            Se alle journaler
+            Se hele feltjournalen
           </Button>
         </div>
       )}

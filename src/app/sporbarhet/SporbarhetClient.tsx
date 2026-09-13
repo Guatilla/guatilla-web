@@ -34,6 +34,10 @@ function formatDate(iso: string | null): string | null {
   return new Intl.DateTimeFormat("nb-NO", { dateStyle: "long" }).format(d);
 }
 
+function formatGrind(value: string | null): string | null {
+  return value === "Malt" ? "Malt kaffe" : value;
+}
+
 type Status = "idle" | "loading" | "found" | "not-found" | "error";
 
 const CSS = `
@@ -116,11 +120,11 @@ function LotResult({ lot }: { lot: CoffeeLot }) {
   return (
     <div>
       <div className="spb-result-hd">
-        <p className="lot">Lotnummer {lot.lot_number}</p>
+        <p className="lot">Partinummer {lot.lot_number}</p>
         <h1>{lot.product_name || "Kaffe Guatilla"}</h1>
         {(lot.grind || lot.net_weight) && (
           <p className="sub">
-            {[lot.grind, lot.net_weight].filter(Boolean).join(" · ")}
+            {[formatGrind(lot.grind), lot.net_weight].filter(Boolean).join(" · ")}
           </p>
         )}
       </div>
@@ -131,12 +135,12 @@ function LotResult({ lot }: { lot: CoffeeLot }) {
         <FieldGrid
           fields={[
             { label: "Produktnavn", value: lot.product_name },
-            { label: "Hele bønner / malt", value: lot.grind },
+            { label: "Format", value: formatGrind(lot.grind) },
             { label: "Nettovekt", value: lot.net_weight },
             { label: "Brenningsgrad", value: lot.roast_degree },
             { label: "Brennedato", value: formatDate(lot.roast_date) },
             { label: "Best før", value: formatDate(lot.best_before) },
-            { label: "Lotnummer", value: lot.lot_number },
+            { label: "Partinummer", value: lot.lot_number },
           ]}
         />
       </section>
@@ -149,10 +153,10 @@ function LotResult({ lot }: { lot: CoffeeLot }) {
             { label: "Land", value: lot.country },
             { label: "Region / departement", value: lot.region },
             { label: "Kommune", value: lot.municipality },
-            { label: "Gård / finca", value: lot.farm },
+            { label: "Gård", value: lot.farm },
             { label: "Produsent", value: lot.producer },
             { label: "Høyde over havet", value: lot.altitude },
-            { label: "Høsteår / innhøstingsperiode", value: lot.harvest_period },
+            { label: "Innhøstingsår / periode", value: lot.harvest_period },
           ]}
         />
       </section>
@@ -163,10 +167,10 @@ function LotResult({ lot }: { lot: CoffeeLot }) {
         <FieldGrid
           fields={[
             { label: "Art", value: lot.species },
-            { label: "Sort / varietet", value: lot.variety },
+            { label: "Kaffesort", value: lot.variety },
             { label: "Klassifisering", value: lot.grade },
             { label: "Prosess", value: lot.process },
-            { label: "Screen size", value: lot.screen_size },
+            { label: "Siktestørrelse", value: lot.screen_size },
           ]}
         />
       </section>
@@ -186,8 +190,8 @@ function LotResult({ lot }: { lot: CoffeeLot }) {
               { label: "Vannaktivitet", value: lot.water_activity },
               { label: "Defekter", value: lot.defects },
               { label: "Laboratoriekontroller", value: lot.lab_notes },
-              { label: "Cupping score", value: lot.cupping_score },
-              { label: "Smaksprofil / sensorisk profil", value: lot.flavour_profile },
+              { label: "Cuppingpoeng", value: lot.cupping_score },
+              { label: "Smaksprofil", value: lot.flavour_profile },
             ]}
           />
         </section>
@@ -323,13 +327,13 @@ export default function SporbarhetClient({ initialLot }: { initialLot?: string }
               <p className="spb-eyebrow">Kaffe Guatilla · Sporbarhet</p>
               <h1 className="spb-h1">Spor kaffen din</h1>
               <p className="spb-lead">
-                Skriv inn lotnummeret som står på kaffeposen, så viser vi deg
+                Skriv inn partinummeret som står på kaffeposen, så viser vi deg
                 hele reisen — fra gård i Serranía del Perijá til posen din.
               </p>
 
               <form className="spb-form" onSubmit={handleSubmit} style={seam()}>
                 <label className="sr-only" htmlFor="lotnummer" style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>
-                  Lotnummer
+                  Partinummer
                 </label>
                 <input
                   id="lotnummer"
@@ -347,12 +351,12 @@ export default function SporbarhetClient({ initialLot }: { initialLot?: string }
                 {status === "error" && error && <p className="spb-formerr">{error}</p>}
               </form>
 
-              <p className="spb-example">Lotnummeret finner du trykket på kaffeposen.</p>
+              <p className="spb-example">Partinummeret finner du trykket på kaffeposen.</p>
             </div>
 
             {status === "not-found" && (
               <div className="spb-nf" style={{ marginTop: 22 }}>
-                <h2>Lotnummeret ble ikke funnet.</h2>
+                <h2>Partinummeret ble ikke funnet.</h2>
                 <p>Kontroller nummeret på kaffeposen og prøv igjen.</p>
                 <Link href="/contact" className="btn">
                   Kontakt oss

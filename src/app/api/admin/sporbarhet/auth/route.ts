@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
 
   if (!process.env.SPORBARHET_ADMIN_PASSWORD || !process.env.SPORBARHET_SESSION_SECRET) {
     return NextResponse.json(
-      { error: "Admin-innlogging er ikke konfigurert på serveren ennå." },
+      { error: "Administratorinnlogging er ikke konfigurert på serveren ennå." },
       { status: 503 }
     );
   }

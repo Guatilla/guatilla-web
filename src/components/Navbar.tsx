@@ -29,7 +29,7 @@ const BUTIKK_MENU = [
     heading: "Etter format",
     links: [
       { label: "Hele bønner", href: "/shop" },
-      { label: "Malt", href: "/shop" },
+      { label: "Malt kaffe", href: "/shop" },
     ],
   },
 ];
@@ -115,7 +115,7 @@ export default function Navbar() {
         {/* 1) announcement bar */}
         <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-0.5 bg-brand-teal px-4 py-2.5 text-center text-brand-cream sm:gap-x-[26px]">
           <span className="text-[10.5px] font-bold uppercase tracking-[0.16em]">
-            Nettbutikken er under oppbygging — salg er foreløpig ikke tilgjengelig
+            Nettbutikken er under oppbygging — salget er ikke åpnet ennå
           </span>
         </div>
 
@@ -184,7 +184,7 @@ export default function Navbar() {
           <div className="hidden items-center gap-4 lg:flex">
             <button
               type="button"
-              aria-label="Søk kaffe"
+              aria-label="Søk etter kaffe"
               className={`p-1 text-brand-coffee transition-colors hover:text-brand-terracotta ${FOCUS_RING}`}
             >
               <Search size={18} strokeWidth={1.8} />

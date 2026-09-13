@@ -56,7 +56,8 @@ function deriveLine(item: CartItem) {
   const noteBg = meta?.bg ?? seg?.bg ?? DEEP_TERRA;
   const noteTone: Tone = meta?.tone ?? (seg?.tone === "ink" ? "ink" : "cream");
 
-  const grind = item.grind ?? (p ? "Hele bønner" : undefined);
+  const rawGrind = item.grind ?? (p ? "Hele bønner" : undefined);
+  const grind = rawGrind === "Malt" ? "Malt kaffe" : rawGrind;
   const size = item.weight ?? p?.weight?.split(" / ")[0];
 
   const originLine = item.subscription
@@ -403,7 +404,7 @@ export default function CartPage() {
 
             {/* c) reassurance */}
             <div className="reassure">
-              Vipps · kort · Klarna. Ristet mandag, sendt samme uke.
+              Vipps · kort · Klarna. Brent mandag, sendt samme uke.
             </div>
           </div>
         </div>

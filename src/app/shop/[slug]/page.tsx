@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: ProductPageProps) {
   const { slug } = await params;
   const product = getProductBySlug(slug);
   
-  if (!product) return { title: "Produkt ikke funnet" };
+  if (!product) return { title: "Produktet ble ikke funnet | Kaffe Guatilla" };
 
   return {
     title: `${product.name} | Kaffe Guatilla`,

@@ -3,7 +3,7 @@ import Image from "next/image";
 export const metadata = {
   title: "Opprinnelse | Kaffe Guatilla",
   description:
-    "Røttene våre i Serranía del Perijá — familiegårder i Agustín Codazzi, Cesar, opp til 1 800 moh, egen trille (Ruiz Café Esperanza) og direkte handel til Stavanger.",
+    "Røttene våre i Serranía del Perijá — familiegårder i Agustín Codazzi i Cesar, familiens tørrmølle Ruiz Café Esperanza og direkte handel til Stavanger.",
 };
 
 /* ── Tokens (modern patchwork) ─────────────────────────────────── */
@@ -27,8 +27,8 @@ const F_MONO = "var(--font-space-mono), ui-monospace, monospace";
 const PEOPLE = [
   {
     name: "Stevenson",
-    role: "Jord & foredling · Codazzi",
-    line: "Steller jorda og prosesseringen i Agustín Codazzi.",
+    role: "Jord og foredling · Codazzi",
+    line: "Har ansvar for dyrkingen og foredlingen i Agustín Codazzi.",
     accent: OLIVE,
   },
   {
@@ -39,8 +39,8 @@ const PEOPLE = [
   },
   {
     name: "Wilkins",
-    role: "Rist & levering · Stavanger",
-    line: "Leder ristingen og leveringen i Stavanger.",
+    role: "Brenning og levering · Stavanger",
+    line: "Leder brenningen og leveringen i Stavanger.",
     accent: TERRA,
   },
 ];
@@ -158,7 +158,7 @@ export default function OrigenPage() {
 
       {/* ── HERO ─────────────────────────────────────────── */}
       <section className="org-sect org-hero">
-        <p className="org-eyebrow">Opprinnelse · Frente Colombia</p>
+        <p className="org-eyebrow">Opprinnelse · Colombia</p>
         <h1 className="org-disp org-h1">Røttene våre i Serranía del Perijá</h1>
         <p className="org-lead">
           Mellom tåkeskoger og fruktbar vulkansk jord dyrker vi spesialkaffe med
@@ -202,9 +202,9 @@ export default function OrigenPage() {
           <div className="org-tiles">
             <div className="org-tile" style={{ background: MUSTARD, color: INK }}>
               <span className="t">Høyde</span>
-              <span className="m">900–1 800 MOH</span>
+              <span className="m">900–1 800 moh</span>
               <span className="b">
-                Langsom modning gir høyere tetthet i bønnen og kompleks eplesyre.
+                Langsom modning gir høyere tetthet i bønnen og en kompleks syrlighet.
               </span>
             </div>
             <div className="org-tile" style={{ background: OLIVE, color: ON_DARK }}>
@@ -215,10 +215,10 @@ export default function OrigenPage() {
               </span>
             </div>
             <div className="org-tile" style={{ background: TEAL, color: ON_DARK }}>
-              <span className="t">Jord &amp; skygge</span>
-              <span className="m">INNFØDT SKOGDEKKE</span>
+              <span className="t">Jord og skygge</span>
+              <span className="m">NATURLIG SKOGDEKKE</span>
               <span className="b">
-                Bevart biologisk fuktighet og jevn, homogen modning.
+                Skogdekket bidrar til jevn fuktighet og ensartet modning.
               </span>
             </div>
           </div>
@@ -227,9 +227,9 @@ export default function OrigenPage() {
 
       {/* ── VERTIKAL KONTROLL ────────────────────────────── */}
       <section className="org-sect">
-        <p className="org-eyebrow">Vertikal kontroll · Fra frø til trille</p>
+        <p className="org-eyebrow">Kontroll i alle ledd · Fra frø til tørrmølle</p>
         <h2 className="org-disp" style={{ marginTop: 14, fontSize: "clamp(30px,3.8vw,52px)" }}>
-          Vi eier hvert steg
+          Vi følger hvert steg
         </h2>
 
         <div className="org-steps">
@@ -238,14 +238,14 @@ export default function OrigenPage() {
             <div className="org-step-c">
               <h3>Stell av kaffetreet</h3>
               <p>
-                Tradisjonelle Arabica-varianter — Caturra og Castillo — og
-                mikrolot i toppklasse: Rosa Bourbon og Rød Bourbon.
+                Tradisjonelle arabicasorter — Caturra og Castillo — og
+                mikropartier i toppklasse: Rosa Bourbon og Red Bourbon.
               </p>
-              <span className="org-chip">Sertifisert plantemateriale · Bourbon Rosado</span>
+              <span className="org-chip">Sertifisert plantemateriale · Rosa Bourbon</span>
               <div className="org-step-photo" style={{ aspectRatio: "1159 / 1280" }}>
                 <Image
                   src="/assets/semilla-bourbon-rosado.jpg"
-                  alt="Semilla de café, variant Bourbon Rosado, klar for planting"
+                  alt="Rosa Bourbon-kaffefrø, klare til planting"
                   fill
                   sizes="(max-width: 480px) 60vw, 300px"
                   style={{ objectFit: "contain" }}
@@ -258,26 +258,26 @@ export default function OrigenPage() {
             <div className="org-step-c">
               <h3>Selektiv håndplukking</h3>
               <p>
-                Vi høster kun bær på sitt optimale modningspunkt — riktig brix —
-                og unngår grønne og overmodne bønner.
+                Vi høster bare kaffebær på sitt optimale modningspunkt — med
+                riktig Brix-verdi — og unngår umodne og overmodne bær.
               </p>
             </div>
           </div>
           <div className="org-step">
             <div className="org-step-n" style={{ background: TEAL }}>03</div>
             <div className="org-step-c">
-              <h3>Beneficio og trille · Ruiz Café Esperanza</h3>
+              <h3>Våtforedling og tørrmølle · Ruiz Café Esperanza</h3>
               <p>
-                Tradisjonell våt foredling med kontrollert fermentering og jevn
-                tørking. Mekanisk trilling klassifiserer etter tetthet og
-                størrelse — skjerm over 14/16 — og gir grønne bønner med
+                Tradisjonell våtforedling med kontrollert fermentering og jevn
+                tørking. Mekanisk tørrmølling sorterer etter tetthet og
+                størrelse — siktestørrelse over 14/16 — og gir råkaffe med
                 fuktighet på 11,5–12,5 %.
               </p>
-              <span className="org-chip">INGESEC-trille · 80 kg/t</span>
+              <span className="org-chip">INGESEC-tørrmølle · 80 kg/t</span>
               <div className="org-step-photo" style={{ aspectRatio: "1400 / 1867" }}>
                 <Image
                   src="/assets/trilladora-maskin.jpg"
-                  alt="Trillemaskinen hos Ruiz Café Esperanza"
+                  alt="Tørrmøllen hos Ruiz Café Esperanza"
                   fill
                   sizes="(max-width: 480px) 60vw, 300px"
                   style={{ objectFit: "contain" }}
@@ -291,14 +291,14 @@ export default function OrigenPage() {
       {/* ── DEN MENNESKELIGE DIMENSJONEN ─────────────────── */}
       <section className="org-band">
         <div className="org-sect">
-          <p className="org-eyebrow">Den menneskelige dimensjonen · Ekte direct trade</p>
+          <p className="org-eyebrow">Den menneskelige dimensjonen · Direkte handel</p>
           <p className="org-quote">
-            Broen er <em>familiær</em> — ikke en slogan.
+            Broen er <em>familien</em> — ikke et slagord.
           </p>
           <p style={{ margin: "20px 0 0", maxWidth: "60ch", fontSize: 15.5, lineHeight: 1.7, color: BODY }}>
-            I den globale kaffekjeden måles avstanden mellom den som sår og den
-            som drikker ofte i titalls mellomledd. Hos Guatilla AS er det vår
-            faktiske driftsstruktur.
+            I den globale kaffekjeden er det ofte mange ledd mellom den som
+            dyrker, og den som drikker kaffen. Hos Guatilla AS er familiebåndet
+            selve driftsmodellen.
           </p>
 
           <div className="org-humans">
@@ -318,7 +318,7 @@ export default function OrigenPage() {
       <section className="org-sect">
         <p className="org-eyebrow">Fra Cartagena til Stavanger</p>
         <h2 className="org-disp" style={{ marginTop: 14, fontSize: "clamp(30px,3.8vw,52px)" }}>
-          Den rene ruten
+          Den direkte ruten
         </h2>
 
         <div className="org-route">
@@ -326,6 +326,7 @@ export default function OrigenPage() {
           <span className="city">Cartagena</span>
           <span className="line" />
           <svg
+            aria-hidden="true"
             width="30"
             height="30"
             viewBox="0 0 24 24"
@@ -349,14 +350,14 @@ export default function OrigenPage() {
             <div className="org-credit">
               <Image src="/assets/cace-logo-ink.png" alt="CACE L&G S.A.S." width={72} height={72} style={{ width: 72, height: "auto" }} />
               <span>
-                Eksportør av rekord
+                Registrert eksportør
                 <br />
                 CACE L&amp;G S.A.S.
               </span>
             </div>
-            <h3>Inspeksjon i opprinnelse</h3>
+            <h3>Kontroll ved opprinnelsen</h3>
             <p>
-              Plantehelse- og tollsertifisering i Colombia, avviklet gjennom FNC
+              Plantehelse- og tollsertifisering i Colombia, håndtert gjennom FNC
               og plattformen Cafenlace.
             </p>
           </div>
@@ -364,7 +365,7 @@ export default function OrigenPage() {
             <h3>Ren rute</h3>
             <p>
               Sjøfrakt fra Sociedad Portuaria de Cartagena rett til Stavanger,
-              med ferskheten beskyttet helt fram til mikrobrenneriet.
+              med kvaliteten ivaretatt helt fram til mikrobrenneriet.
             </p>
           </div>
         </div>
@@ -375,8 +376,8 @@ export default function OrigenPage() {
         <div className="org-inst-row org-sect" style={{ paddingTop: 0, paddingBottom: 0 }}>
           <div className="org-inst-inner">
             <span>FNC-godkjent produksjon og eksport</span>
-            <span>Despatsjer via Cafenlace</span>
-            <span>Ruiz Café Esperanza — egen trilladora</span>
+            <span>Forsendelser via Cafenlace</span>
+            <span>Ruiz Café Esperanza — familiens tørrmølle</span>
           </div>
         </div>
       </div>

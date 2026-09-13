@@ -41,7 +41,7 @@ export interface Product {
   smaksprofil: string[];
   category?: string;
   featured: boolean;
-  /** «nyristet · uke NN» — stempel på galleribildet; valgfritt så vi slipper å late som vi har et faktisk parti ristet ennå */
+  /** «nybrent · uke NN» — stempel på galleribildet; valgfritt så vi slipper å late som vi har et faktisk parti brent ennå */
   week?: string;
   /** informasjonscelle i galleriet (oliven) */
   dryingNote: string;
@@ -64,7 +64,7 @@ export const products: Product[] = [
     slug: "montana-hele-bonner",
     name: "Café de Montaña — Hele bønner",
     origin: "Serranía del Perijá",
-    roast: "Ristet på bestilling",
+    roast: "Brent på bestilling",
     altitude: "900–1 300 moh",
     process: "Vasket",
     grade: "Excelso",
@@ -77,17 +77,17 @@ export const products: Product[] = [
     image: "/assets/bag-mestizaje.jpg",
     alt: "Kaffe Guatilla, Café de Montaña, hele bønner 250 g — illustrasjonsbilde av emballasje",
     description:
-      "Kaffe fra våre familiegårder i Serranía del Perijá, dyrket på 900–1 300 moh. 100 % Arabica, klassifisert Excelso, vasket prosess og fullt sporbar til Finca La Guatilla — søk opp lotnummeret på posen under Sporbarhet. Leveres som hele bønner, 250 g.",
+      "Kaffe fra familiegårdene våre i Serranía del Perijá, dyrket på 900–1 300 moh. Excelso-klassifisert kaffe av 100 % arabica, med vasket foredling og full sporbarhet tilbake til Finca La Guatilla. Finn partiet via partinummeret på posen under Sporbarhet. Leveres som hele bønner, 250 g.",
     smaksprofil: ["Arabica"],
     category: "montana",
     featured: false,
-    dryingNote: "Vasket og tørket på hevede senger («camas») ved vår trilladora.",
+    dryingNote: "Vasket og tørket på hevede tørkesenger ved familiens tørrmølle.",
     farm: "Finca La Guatilla",
     variety: "Arabica",
     processDetail: "Vasket",
-    roastDetail: "Ristet på bestilling",
+    roastDetail: "Brent på bestilling",
     brew: {
-      dose: "60 g / l",
+      dose: "60 g/l",
       water: "94–96 °C",
       time: "3–4 min",
       recommended: "Filter, V60",
@@ -96,9 +96,9 @@ export const products: Product[] = [
   {
     id: "montana-malt",
     slug: "montana-malt",
-    name: "Café de Montaña — Malt",
+    name: "Café de Montaña — Malt kaffe",
     origin: "Serranía del Perijá",
-    roast: "Ristet på bestilling",
+    roast: "Brent på bestilling",
     altitude: "900–1 300 moh",
     process: "Vasket",
     grade: "Excelso",
@@ -111,17 +111,17 @@ export const products: Product[] = [
     image: "/assets/bag-mestizaje.jpg",
     alt: "Kaffe Guatilla, Café de Montaña, malt kaffe 250 g — illustrasjonsbilde av emballasje",
     description:
-      "Kaffe fra våre familiegårder i Serranía del Perijá, dyrket på 900–1 300 moh. 100 % Arabica, klassifisert Excelso, vasket prosess og fullt sporbar til Finca La Guatilla — søk opp lotnummeret på posen under Sporbarhet. Leveres ferdig malt, 250 g.",
+      "Kaffe fra familiegårdene våre i Serranía del Perijá, dyrket på 900–1 300 moh. Excelso-klassifisert kaffe av 100 % arabica, med vasket foredling og full sporbarhet tilbake til Finca La Guatilla. Finn partiet via partinummeret på posen under Sporbarhet. Leveres som malt kaffe, 250 g.",
     smaksprofil: ["Arabica"],
     category: "montana",
     featured: false,
-    dryingNote: "Vasket og tørket på hevede senger («camas») ved vår trilladora.",
+    dryingNote: "Vasket og tørket på hevede tørkesenger ved familiens tørrmølle.",
     farm: "Finca La Guatilla",
     variety: "Arabica",
     processDetail: "Vasket",
-    roastDetail: "Ristet på bestilling",
+    roastDetail: "Brent på bestilling",
     brew: {
-      dose: "60 g / l",
+      dose: "60 g/l",
       water: "94–96 °C",
       time: "3–4 min",
       recommended: "Filter",
@@ -132,7 +132,7 @@ export const products: Product[] = [
     slug: "especial-hele-bonner",
     name: "Café Especial — Hele bønner",
     origin: "Serranía del Perijá",
-    roast: "Ristet på bestilling",
+    roast: "Brent på bestilling",
     altitude: "1 800 moh",
     process: "Vasket",
     grade: "Especial",
@@ -145,17 +145,17 @@ export const products: Product[] = [
     image: "/assets/bag-heritage.jpg",
     alt: "Kaffe Guatilla, Café Especial, hele bønner 250 g — illustrasjonsbilde av emballasje",
     description:
-      "Vårt mest eksklusive parti, høstet på opp mot 1 800 moh der kjølig klima gir langsom modning. 100 % Arabica, klassifisert Especial — over 80 poeng hos sertifiserte koppetestere — vasket prosess og fullt sporbar til Finca La Guatilla. Leveres som hele bønner, 250 g.",
+      "Vårt mest eksklusive parti, høstet på opp mot 1 800 moh, der kjølig klima gir langsom modning. Especial-klassifisert kaffe av 100 % arabica, vurdert til over 80 poeng av sertifiserte smakere, med vasket foredling og full sporbarhet tilbake til Finca La Guatilla. Leveres som hele bønner, 250 g.",
     smaksprofil: ["Arabica"],
     category: "especial",
     featured: true,
-    dryingNote: "Vasket og tørket på hevede senger («camas») ved vår trilladora.",
+    dryingNote: "Vasket og tørket på hevede tørkesenger ved familiens tørrmølle.",
     farm: "Finca La Guatilla",
     variety: "Arabica",
     processDetail: "Vasket",
-    roastDetail: "Ristet på bestilling",
+    roastDetail: "Brent på bestilling",
     brew: {
-      dose: "60 g / l",
+      dose: "60 g/l",
       water: "94–96 °C",
       time: "3–4 min",
       recommended: "Filter, V60",
@@ -164,9 +164,9 @@ export const products: Product[] = [
   {
     id: "especial-malt",
     slug: "especial-malt",
-    name: "Café Especial — Malt",
+    name: "Café Especial — Malt kaffe",
     origin: "Serranía del Perijá",
-    roast: "Ristet på bestilling",
+    roast: "Brent på bestilling",
     altitude: "1 800 moh",
     process: "Vasket",
     grade: "Especial",
@@ -179,17 +179,17 @@ export const products: Product[] = [
     image: "/assets/bag-heritage.jpg",
     alt: "Kaffe Guatilla, Café Especial, malt kaffe 250 g — illustrasjonsbilde av emballasje",
     description:
-      "Vårt mest eksklusive parti, høstet på opp mot 1 800 moh der kjølig klima gir langsom modning. 100 % Arabica, klassifisert Especial — over 80 poeng hos sertifiserte koppetestere — vasket prosess og fullt sporbar til Finca La Guatilla. Leveres ferdig malt, 250 g.",
+      "Vårt mest eksklusive parti, høstet på opp mot 1 800 moh, der kjølig klima gir langsom modning. Especial-klassifisert kaffe av 100 % arabica, vurdert til over 80 poeng av sertifiserte smakere, med vasket foredling og full sporbarhet tilbake til Finca La Guatilla. Leveres som malt kaffe, 250 g.",
     smaksprofil: ["Arabica"],
     category: "especial",
     featured: true,
-    dryingNote: "Vasket og tørket på hevede senger («camas») ved vår trilladora.",
+    dryingNote: "Vasket og tørket på hevede tørkesenger ved familiens tørrmølle.",
     farm: "Finca La Guatilla",
     variety: "Arabica",
     processDetail: "Vasket",
-    roastDetail: "Ristet på bestilling",
+    roastDetail: "Brent på bestilling",
     brew: {
-      dose: "60 g / l",
+      dose: "60 g/l",
       water: "94–96 °C",
       time: "3–4 min",
       recommended: "Filter",

@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   const lot = request.nextUrl.searchParams.get("lot")?.trim();
 
   if (!lot) {
-    return NextResponse.json({ error: "Lotnummer mangler" }, { status: 400 });
+    return NextResponse.json({ error: "Partinummer mangler" }, { status: 400 });
   }
 
   const supabase = getSupabaseAdmin();
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     .maybeSingle();
 
   if (error) {
-    return NextResponse.json({ error: "Kunne ikke slå opp lotnummeret." }, { status: 500 });
+    return NextResponse.json({ error: "Kunne ikke slå opp partinummeret." }, { status: 500 });
   }
 
   if (!data) {

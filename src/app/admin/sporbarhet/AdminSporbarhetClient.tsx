@@ -117,7 +117,7 @@ const SECTIONS: { title: string; fields: TextField[] }[] = [
     title: "Produkt",
     fields: [
       { key: "product_name", label: "Produktnavn" },
-      { key: "grind", label: "Hele bønner / malt", type: "select", options: ["Hele bønner", "Malt"] },
+      { key: "grind", label: "Format", type: "select", options: ["Hele bønner", "Malt"] },
       { key: "net_weight", label: "Nettovekt" },
       { key: "roast_degree", label: "Brenningsgrad" },
       { key: "roast_date", label: "Brennedato", type: "date" },
@@ -130,20 +130,20 @@ const SECTIONS: { title: string; fields: TextField[] }[] = [
       { key: "country", label: "Land" },
       { key: "region", label: "Region / departement" },
       { key: "municipality", label: "Kommune" },
-      { key: "farm", label: "Gård / finca" },
+      { key: "farm", label: "Gård" },
       { key: "producer", label: "Produsent" },
       { key: "altitude", label: "Høyde over havet" },
-      { key: "harvest_period", label: "Høsteår / innhøstingsperiode" },
+      { key: "harvest_period", label: "Innhøstingsår / periode" },
     ],
   },
   {
     title: "Kaffen",
     fields: [
       { key: "species", label: "Art" },
-      { key: "variety", label: "Sort / varietet" },
+      { key: "variety", label: "Kaffesort" },
       { key: "grade", label: "Klassifisering", type: "select", options: ["Excelso", "Especial"] },
       { key: "process", label: "Prosess" },
-      { key: "screen_size", label: "Screen size" },
+      { key: "screen_size", label: "Siktestørrelse" },
     ],
   },
   {
@@ -153,8 +153,8 @@ const SECTIONS: { title: string; fields: TextField[] }[] = [
       { key: "water_activity", label: "Vannaktivitet" },
       { key: "defects", label: "Defekter" },
       { key: "lab_notes", label: "Laboratoriekontroller" },
-      { key: "cupping_score", label: "Cupping score" },
-      { key: "flavour_profile", label: "Smaksprofil / sensorisk profil", type: "textarea" },
+      { key: "cupping_score", label: "Cuppingpoeng" },
+      { key: "flavour_profile", label: "Smaksprofil", type: "textarea" },
     ],
   },
   {
@@ -221,7 +221,7 @@ function Login({ onLoggedIn }: { onLoggedIn: () => void }) {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data?.error || "Innlogging feilet.");
+        setError(data?.error || "Kunne ikke logge inn.");
         return;
       }
       onLoggedIn();
@@ -237,10 +237,11 @@ function Login({ onLoggedIn }: { onLoggedIn: () => void }) {
       <style>{CSS}</style>
       <div className="adm-login">
         <form className="adm-login-box" onSubmit={handleSubmit}>
-          <h1>Sporbarhet · Admin</h1>
+          <h1>Sporbarhet · administrasjon</h1>
           <p>Logg inn for å opprette og redigere kaffepartier.</p>
           <input
             type="password"
+            aria-label="Passord"
             placeholder="Passord"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -317,7 +318,7 @@ function Dashboard({ onLoggedOut }: { onLoggedOut: () => void }) {
         const res = await fetch("/api/admin/sporbarhet/upload", { method: "POST", body: fd });
         const data = await res.json();
         if (!res.ok) {
-          setMessage({ kind: "err", text: data?.error || "Opplasting feilet." });
+          setMessage({ kind: "err", text: data?.error || "Kunne ikke laste opp bildet." });
           continue;
         }
         uploaded.push({ id: data.id, url: data.url });
@@ -336,7 +337,7 @@ function Dashboard({ onLoggedOut }: { onLoggedOut: () => void }) {
 
   async function handleSave() {
     if (!form.lot_number.trim()) {
-      setMessage({ kind: "err", text: "Lotnummer er påkrevd." });
+      setMessage({ kind: "err", text: "Partinummer må fylles ut." });
       return;
     }
     setSaving(true);
@@ -353,7 +354,7 @@ function Dashboard({ onLoggedOut }: { onLoggedOut: () => void }) {
       });
       const data = await res.json();
       if (!res.ok) {
-        setMessage({ kind: "err", text: data?.error || "Lagring feilet." });
+        setMessage({ kind: "err", text: data?.error || "Kunne ikke lagre." });
         return;
       }
       setMessage({ kind: "ok", text: "Lagret." });
@@ -391,7 +392,7 @@ function Dashboard({ onLoggedOut }: { onLoggedOut: () => void }) {
       <style>{CSS}</style>
 
       <div className="adm-topbar">
-        <h1>Sporbarhet · Admin</h1>
+        <h1>Sporbarhet · administrasjon</h1>
         <span className="sp" />
         <a href="/sporbarhet" target="_blank" rel="noreferrer">
           Se /sporbarhet ↗
@@ -445,10 +446,10 @@ function Dashboard({ onLoggedOut }: { onLoggedOut: () => void }) {
             {message && <p className={`adm-msg ${message.kind}`}>{message.text}</p>}
 
             <div className="adm-section">
-              <h3>Lot</h3>
+              <h3>Parti</h3>
               <div className="adm-grid">
                 <div className="adm-field">
-                  <label htmlFor="lot_number">Lotnummer</label>
+                  <label htmlFor="lot_number">Partinummer</label>
                   <input
                     id="lot_number"
                     value={form.lot_number}
@@ -478,7 +479,7 @@ function Dashboard({ onLoggedOut }: { onLoggedOut: () => void }) {
                           <option value="">—</option>
                           {f.options?.map((opt) => (
                             <option key={opt} value={opt}>
-                              {opt}
+                              {opt === "Malt" ? "Malt kaffe" : opt}
                             </option>
                           ))}
                         </select>
@@ -514,7 +515,7 @@ function Dashboard({ onLoggedOut }: { onLoggedOut: () => void }) {
                   />
                 </div>
                 <div className="adm-field full">
-                  <label htmlFor="story_video_url">Video-URL (valgfritt, embed-lenke)</label>
+                  <label htmlFor="story_video_url">Video-URL (valgfri innbyggingslenke)</label>
                   <input
                     id="story_video_url"
                     value={textVal(form.story_video_url)}

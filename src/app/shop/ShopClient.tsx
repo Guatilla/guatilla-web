@@ -117,8 +117,8 @@ export default function ShopClient() {
           </p>
           <h1>All kaffen vår</h1>
           <p>
-            Mikropartier fra Serranía del Perijá. Hele bønner eller malt —
-            samme kaffe, klar for din traktemetode.
+            Mikropartier fra Serranía del Perijá. Hele bønner eller malt kaffe —
+            samme kaffe, tilpasset bryggemetoden din.
           </p>
         </div>
       </header>
@@ -138,7 +138,7 @@ export default function ShopClient() {
                     className={`shop-chip${active ? " shop-chip--on" : ""}`}
                     onClick={() => setGrinds((prev) => toggle(prev, g))}
                   >
-                    {g}
+                    {g === "Malt" ? "Malt kaffe" : g}
                   </button>
                 );
               })}
@@ -244,7 +244,7 @@ function ShopCard({
 
       <div className="shop-card-body">
         <span className="shop-kicker">
-          {product.grind} • {product.weight}
+          {product.grind === "Malt" ? "Malt kaffe" : product.grind} • {product.weight}
         </span>
         <p>{product.notes}</p>
       </div>

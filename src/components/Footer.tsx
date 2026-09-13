@@ -16,7 +16,7 @@ const COLUMNS: {
     ],
   },
   {
-    heading: "Merke",
+    heading: "Guatilla",
     links: [
       { href: "/about", label: "Om oss" },
       { href: "/origen", label: "Opprinnelse" },
@@ -27,7 +27,7 @@ const COLUMNS: {
   {
     heading: "Hjelp",
     links: [
-      { href: "/contact", label: "Frakt & retur" },
+      { href: "/contact", label: "Frakt og retur" },
       { href: "/contact", label: "Kontakt" },
       { href: "/about", label: "Vilkår" },
       { href: "/about", label: "Personvern" },
@@ -111,7 +111,7 @@ export default function Footer() {
             </Link>
 
             <p className="mt-5 max-w-[30ch] font-sans text-[15.5px] leading-[1.6] text-brand-linen">
-              Fire mikropartier fra samme fjellkjede, ristet i Stavanger hver
+              Fire mikropartier fra samme fjellkjede, brent i Stavanger hver
               mandag.
             </p>
 
@@ -142,7 +142,7 @@ export default function Footer() {
         {/* 3) legal bar */}
         <div className="mt-10 flex flex-col items-start gap-4 border-t-[1.5px] border-dashed border-[color:rgba(253,252,248,0.4)] pt-[22px] min-[620px]:flex-row min-[620px]:items-center min-[620px]:justify-between">
           <p className="font-sans text-[12.5px] text-brand-linen">
-            © {new Date().getFullYear()} Guatilla AS — Med enerett
+            © {new Date().getFullYear()} Guatilla AS — alle rettigheter forbeholdt
           </p>
           <div className="flex gap-2.5">
             <a

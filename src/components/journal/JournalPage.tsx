@@ -24,7 +24,7 @@ const F_KARLA = "var(--font-karla), system-ui, sans-serif";
 const F_MONO = "var(--font-space-mono), ui-monospace, monospace";
 
 const CATS: JournalEntry["category"][] = [
-  "Territorium",
+  "Opprinnelse",
   "Mennesker",
   "Prosess",
   "Kvalitet",
@@ -177,11 +177,11 @@ export default function JournalPage({ entries }: JournalPageProps) {
           <span style={{ background: OLIVE }} />
           <span style={{ background: TEAL }} />
         </div>
-        <p className="fj-eyebrow">Dokumentasjon &amp; arkiv</p>
+        <p className="fj-eyebrow">Dokumentasjon og arkiv</p>
         <h1>Feltjournal</h1>
         <p className="fj-hd-intro">
           En samling av øyeblikk, mennesker og prosesser, fortalt som de
-          skjedde — direkte fra kaffefeltene i Serranía del Perijá.
+          skjedde — direkte fra kaffegårdene i Serranía del Perijá.
         </p>
         <p className="fj-eyebrow fj-hd-meta">
           {entries.length} innlegg · Sist oppdatert {entries[0]?.date}

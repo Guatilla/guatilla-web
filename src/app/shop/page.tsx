@@ -2,7 +2,7 @@ import ShopClient from "./ShopClient";
 
 export const metadata = {
   title: "Butikk | Kaffe Guatilla",
-  description: "Utforsk vår kolleksjon av colombiansk spesialkaffe direkte fra Perijá.",
+  description: "Utforsk utvalget vårt av colombiansk spesialkaffe fra Serranía del Perijá.",
 };
 
 export default function ShopPage() {

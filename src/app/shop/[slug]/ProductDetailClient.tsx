@@ -46,8 +46,8 @@ const label: React.CSSProperties = {
 export default function ProductDetailClient({ product }: ProductDetailClientProps) {
   const grindNote =
     product.grind === "Malt"
-      ? "Vi tilpasser malingsgrad (filter, press, espresso) ved bestilling."
-      : "Hele bønner — mal selv rett før trakting for best resultat.";
+      ? "Vi tilpasser kverningsgraden til filterkaffe, presskanne eller espresso ved bestilling."
+      : "Hele bønner — kvern dem rett før brygging for best resultat.";
 
   return (
     <div
@@ -95,7 +95,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
       >
         {/* 1) BREADCRUMB */}
         <nav
-          aria-label="Sti"
+          aria-label="Brødsmulesti"
           style={{
             fontFamily: F_KARLA,
             fontWeight: 400,
@@ -170,7 +170,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               <div className="thumb">
                 <Image
                   src="/assets/about-raw-coffee.jpg"
-                  alt="Grønne kaffebønner"
+                  alt="Råkaffe fra Colombia"
                   fill
                   sizes="200px"
                   style={{ objectFit: "cover" }}
@@ -300,7 +300,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     color: MUTED,
                   }}
                 >
-                  {product.weight} · {product.grind}
+                  {product.weight} · {product.grind === "Malt" ? "Malt kaffe" : product.grind}
                 </span>
               </p>
             </div>
@@ -356,8 +356,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     color: BODY_INK,
                   }}
                 >
-                  Full smaksprofil og cupping-score for dette partiet
-                  publiseres per lotnummer under{" "}
+                  Full smaksprofil og cuppingpoeng for dette partiet
+                  publiseres for hvert partinummer under{" "}
                   <Link href="/sporbarhet" style={{ color: TERRACOTTA, fontWeight: 700 }}>
                     Sporbarhet
                   </Link>
@@ -377,7 +377,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               >
                 <div style={{ background: MUSTARD, padding: "15px 16px" }}>
                   <p style={{ margin: 0, fontFamily: F_BITTER, fontWeight: 600, fontSize: "15px", color: INK }}>
-                    {product.grind}
+                    {product.grind === "Malt" ? "Malt kaffe" : product.grind}
                   </p>
                 </div>
                 <div style={{ background: CREAM, padding: "15px 16px" }}>
@@ -408,7 +408,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   🚧 Nettbutikken er under oppbygging
                 </p>
                 <p style={{ margin: "6px 0 0", fontSize: "13.5px", lineHeight: 1.5, color: INK }}>
-                  Det er ennå ikke mulig å bestille dette partiet online.
+                  Det er ennå ikke mulig å bestille dette partiet på nett.
                   Ta kontakt så hjelper vi deg i mellomtiden.
                 </p>
               </div>
@@ -435,9 +435,9 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             {/* i) trust strip */}
             <div style={seam({ display: "flex", flexWrap: "wrap" })}>
               {[
-                { t: "Ristes på bestilling", bg: ORANGE, fg: INK },
-                { t: "Sporbar til lotnummer", bg: MUSTARD, fg: INK },
-                { t: "Direktekjøpt parti", bg: TEAL, fg: ON_DARK },
+                { t: "Brennes på bestilling", bg: ORANGE, fg: INK },
+                { t: "Sporbar med partinummer", bg: MUSTARD, fg: INK },
+                { t: "Direkte handel", bg: TEAL, fg: ON_DARK },
               ].map((c) => (
                 <span
                   key={c.t}
@@ -470,7 +470,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
         >
           {[
             { l: "Gård", v: product.farm },
-            { l: "Varietet", v: product.variety },
+            { l: "Kaffesort", v: product.variety },
             { l: "Prosess", v: product.processDetail },
             { l: "Brenning", v: product.roastDetail },
           ].map((s) => (
@@ -630,7 +630,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 color: ON_DARK,
               }}
             >
-              Fire produkter, samme fjellkjede
+              Fire kaffeprodukter, samme fjellkjede
             </h2>
             <p
               style={{
@@ -642,8 +642,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 color: ON_DARK,
               }}
             >
-              {product.name} er ett av fire produkter fra Serranía del
-              Perijá — se resten av sortimentet mens vi bygger butikken.
+              Dette er ett av fire kaffeprodukter fra Serranía del Perijá — se
+              resten av sortimentet mens vi bygger butikken.
             </p>
             <Link
               href="/shop"

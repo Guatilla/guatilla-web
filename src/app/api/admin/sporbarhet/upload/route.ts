@@ -9,7 +9,7 @@ const BUCKET = "sporbarhet";
 const MAX_BYTES = 10 * 1024 * 1024; // 10 MB
 const ALLOWED = new Set(["image/png", "image/jpeg", "image/webp", "image/gif"]);
 
-/** POST multipart/form-data { file } → laster opp ett bilde, returnerer { id, url }. Admin only. */
+/** POST multipart/form-data { file } → laster opp ett bilde og returnerer { id, url }. Kun for administratorer. */
 export async function POST(request: NextRequest) {
   const unauthorized = requireAdmin(request);
   if (unauthorized) return unauthorized;
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     });
 
   if (uploadError) {
-    return NextResponse.json({ error: uploadError.message }, { status: 500 });
+    return NextResponse.json({ error: "Kunne ikke laste opp bildet." }, { status: 500 });
   }
 
   const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);

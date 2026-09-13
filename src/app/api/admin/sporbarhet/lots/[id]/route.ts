@@ -9,7 +9,7 @@ interface RouteParams {
   params: Promise<{ id: string }>;
 }
 
-/** PATCH → oppdaterer ett eller flere felt på et parti (også aktiver/deaktiver). Admin only. */
+/** PATCH → oppdaterer ett eller flere felt på et parti (også aktiver/deaktiver). Kun for administratorer. */
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   const unauthorized = requireAdmin(request);
   if (unauthorized) return unauthorized;
@@ -29,7 +29,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
   }
 
   if (typeof body.lot_number === "string" && !body.lot_number.trim()) {
-    return NextResponse.json({ error: "Lotnummer kan ikke være tomt" }, { status: 400 });
+    return NextResponse.json({ error: "Partinummer kan ikke være tomt" }, { status: 400 });
   }
 
   const { data, error } = await supabase
@@ -41,9 +41,9 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 
   if (error) {
     if (error.code === "23505") {
-      return NextResponse.json({ error: "Lotnummeret er allerede i bruk." }, { status: 409 });
+      return NextResponse.json({ error: "Partinummeret er allerede i bruk." }, { status: 409 });
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: "Kunne ikke oppdatere kaffepartiet." }, { status: 500 });
   }
 
   return NextResponse.json({ lot: data });

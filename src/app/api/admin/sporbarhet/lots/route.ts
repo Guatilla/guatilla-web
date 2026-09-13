@@ -5,7 +5,7 @@ import type { CoffeeLotInput } from "@/types/coffeeLot";
 
 export const dynamic = "force-dynamic";
 
-/** GET → lister alle partier (aktive og deaktiverte), nyeste først. Admin only. */
+/** GET → lister alle partier (aktive og deaktiverte), nyeste først. Kun for administratorer. */
 export async function GET(request: NextRequest) {
   const unauthorized = requireAdmin(request);
   if (unauthorized) return unauthorized;
@@ -21,12 +21,12 @@ export async function GET(request: NextRequest) {
     .order("created_at", { ascending: false });
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: "Kunne ikke hente kaffepartiene." }, { status: 500 });
   }
   return NextResponse.json({ lots: data ?? [] });
 }
 
-/** POST → oppretter et nytt parti. Admin only. */
+/** POST → oppretter et nytt parti. Kun for administratorer. */
 export async function POST(request: NextRequest) {
   const unauthorized = requireAdmin(request);
   if (unauthorized) return unauthorized;
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
 
   const lotNumber = body.lot_number?.trim();
   if (!lotNumber) {
-    return NextResponse.json({ error: "Lotnummer er påkrevd" }, { status: 400 });
+    return NextResponse.json({ error: "Partinummer må fylles ut" }, { status: 400 });
   }
 
   const { data, error } = await supabase
@@ -57,11 +57,11 @@ export async function POST(request: NextRequest) {
   if (error) {
     if (error.code === "23505") {
       return NextResponse.json(
-        { error: `Lotnummeret «${lotNumber}» finnes allerede.` },
+        { error: `Partinummeret «${lotNumber}» finnes allerede.` },
         { status: 409 }
       );
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: "Kunne ikke opprette kaffepartiet." }, { status: 500 });
   }
 
   return NextResponse.json({ lot: data }, { status: 201 });

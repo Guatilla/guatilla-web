@@ -1,12 +1,12 @@
-import Image from "next/image";
 import Link from "next/link";
 import DirectTrade from "@/components/sections/DirectTrade";
 import SeasonalClosing from "@/components/sections/SeasonalClosing";
+import HeroFarmCarousel from "@/components/HeroFarmCarousel";
 
 export const metadata = {
   title: "Kaffe Guatilla | Fra våre egne fjell i Colombia til din kopp i Norge",
   description:
-    "Spesialkaffe dyrket av oss i Serranía del Perijá og håndristet i små partier i Stavanger. Null mellomledd, 100 % direkte sporbarhet.",
+    "Spesialkaffe dyrket av familien vår i Serranía del Perijá og brent i små partier i Stavanger. Direkte handel og full sporbarhet.",
 };
 
 const PILLARS = [
@@ -14,19 +14,19 @@ const PILLARS = [
     n: "01",
     tone: "bg-brand-terracotta text-brand-cream",
     title: "Dyrket av oss",
-    body: "Vi kjøper ikke anonyme lot. Vi steller hvert kaffetre på våre egne fincas i Agustín Codazzi, fra 900–1 300 moh og opp mot 1 800 moh.",
+    body: "Vi kjøper ikke anonyme kaffepartier. Vi steller hvert kaffetre på familiegårdene våre i Agustín Codazzi, fra 900–1 300 moh og opp mot 1 800 moh.",
   },
   {
     n: "02",
     tone: "bg-brand-gold text-brand-coffee",
-    title: "Nordisk presisjonsbrenning",
-    body: "Vi rister lokalt i Stavanger i mikropartier, med lyse og mellomlyse kurver som løfter den naturlige sødmen og de florale tonene.",
+    title: "Presis brenning i Stavanger",
+    body: "Vi brenner kaffen lokalt i Stavanger i mikropartier, med lyse og mellomlyse brenneprofiler som fremhever den naturlige sødmen og de florale tonene.",
   },
   {
     n: "03",
     tone: "bg-brand-forest text-brand-cream",
     title: "Garantert ferskhet",
-    body: "Vi rister og pakker på bestilling, så bønnen når deg i sitt beste avgassings­vindu.",
+    body: "Vi brenner og pakker på bestilling, slik at kaffen når deg i sitt beste avgassingsvindu.",
   },
 ];
 
@@ -35,8 +35,8 @@ const CATALOG = [
     tag: "Vasket · Excelso",
     tagTone: "bg-brand-gold text-brand-coffee",
     name: "Café de Montaña",
-    variant: "Hele bønner / malt",
-    notes: "Håndplukket og vasket i Serranía del Perijá. Rund kropp og en lys, balansert syre.",
+    variant: "Hele bønner / malt kaffe",
+    notes: "Håndplukket og vasket i Serranía del Perijá. Rund munnfølelse og en lys, balansert syrlighet.",
     origin: "Serranía del Perijá · 900–1 300 moh",
     cta: "Se partiet",
     href: "/shop/montana-hele-bonner",
@@ -45,7 +45,7 @@ const CATALOG = [
     tag: "Vasket · Especial",
     tagTone: "bg-brand-olive text-brand-cream",
     name: "Café Especial",
-    variant: "Hele bønner / malt",
+    variant: "Hele bønner / malt kaffe",
     notes: "Høstet på våre høyestliggende partier, opp mot 1 800 moh. Langsom modning og kompleks smak.",
     origin: "Serranía del Perijá · opp mot 1 800 moh",
     cta: "Se partiet",
@@ -66,7 +66,7 @@ export default function Home() {
             {/* left column */}
             <div className="flex flex-col">
               <span className="self-start bg-brand-gold px-3.5 py-2 font-sans text-[10.5px] font-bold uppercase tracking-[0.16em] text-brand-coffee">
-                Dyrket av oss · Ristet i Stavanger
+                Dyrket av oss · Brent i Stavanger
               </span>
               <h1 className="mt-6 font-heading text-[38px] font-extrabold leading-[0.98] tracking-[-0.035em] text-brand-coffee [text-wrap:balance] min-[560px]:text-[48px] min-[900px]:text-[56px] min-[1100px]:text-[68px]">
                 Fra våre{" "}
@@ -76,8 +76,8 @@ export default function Home() {
                 fjell i Colombia til din kopp i Norge
               </h1>
               <p className="mt-6 max-w-[46ch] font-sans text-[16px] leading-[1.6] text-brand-coffee/[0.78] min-[900px]:text-[17px]">
-                Spesialkaffe dyrket av oss i Serranía del Perijá og håndristet i
-                små partier i Stavanger. Null mellomledd — 100 % direkte
+                Spesialkaffe dyrket av familien vår i Serranía del Perijá og
+                brent i små partier i Stavanger. Direkte handel og full
                 sporbarhet.
               </p>
               <div className="min-[880px]:flex-1" />
@@ -100,19 +100,11 @@ export default function Home() {
             {/* right column — two-patch stack, ink seam */}
             <div className="flex flex-col gap-[2px] border-2 border-brand-coffee bg-brand-coffee">
               <div className="relative min-h-[260px] flex-1 overflow-hidden min-[880px]:min-h-[330px]">
-                <Image
-                  src="/assets/fincas-propias-atardecer.jpg"
-                  alt="Kaffesekker på egen finca ved solnedgang, Serranía del Perijá"
-                  fill
-                  priority
-                  className="object-cover"
-                  style={{ objectPosition: "center 65%" }}
-                  sizes="(max-width: 880px) 100vw, 40vw"
-                />
+                <HeroFarmCarousel />
               </div>
               <div className="bg-brand-olive px-6 py-[22px] text-brand-cream">
                 <p className="font-heading text-[26px] font-extrabold italic leading-none">
-                  Egne fincas
+                  Våre familiegårder
                 </p>
                 <p className="mt-1.5 font-sans text-[13.5px] leading-[1.45]">
                   Agustín Codazzi · 900–1 800 moh · 100 % Arabica.
@@ -156,7 +148,7 @@ export default function Home() {
         <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
           <div>
             <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-terracotta">
-              Kolleksjonen
+              Utvalget
             </span>
             <h2 className="mt-2 font-heading text-3xl font-extrabold sm:text-4xl lg:text-[44px]">
               Utvalgte partier

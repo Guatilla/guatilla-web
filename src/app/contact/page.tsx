@@ -28,18 +28,18 @@ const F_MONO = "var(--font-space-mono), ui-monospace, monospace";
 const CHANNELS = [
   {
     dot: TERRA,
-    title: "Generelt & kaffe",
+    title: "Kaffe og generelle spørsmål",
     body: "Spørsmål om partiene våre, smaksprofiler eller en bestilling.",
   },
   {
     dot: MUSTARD,
-    title: "Samarbeid & engros",
-    body: "Vil du bli forhandler, eller kjøpe råkaffe til din brenneri?",
+    title: "Samarbeid og engros",
+    body: "Vil du bli forhandler eller kjøpe råkaffe til brenneriet ditt?",
   },
   {
     dot: TEAL,
     title: "Presse",
-    body: "Presseforespørsler, bilder og intervjuer med gården.",
+    body: "Presseforespørsler, bilder og intervjuer med familien på gården.",
   },
 ];
 
@@ -125,8 +125,9 @@ export default function ContactPage() {
             La oss ta en prat om <em>kaffe</em>.
           </h1>
           <p className="ct-lead">
-            Har du spørsmål om partiene våre, vil samarbeide som brenneri,
-            eller representerer presse? Vi svarer fra både Colombia og Norge.
+            Har du spørsmål om partiene våre, ønsker et samarbeid på vegne av
+            et brenneri eller representerer pressen? Vi svarer fra både
+            Colombia og Norge.
           </p>
 
           <div className="ct-route">
@@ -214,8 +215,8 @@ export default function ContactPage() {
               <div className="ct-field">
                 <label htmlFor="ct-subject">Emne</label>
                 <select id="ct-subject">
-                  <option>Generelt &amp; kaffe</option>
-                  <option>Samarbeid &amp; engros</option>
+                  <option>Kaffe og generelle spørsmål</option>
+                  <option>Samarbeid og engros</option>
                   <option>Presse</option>
                 </select>
               </div>

@@ -222,6 +222,7 @@ export default async function JournalDetailPage({ params }: PageProps) {
             {entry.location && (
               <p className="art-loc">
                 <svg
+                  aria-hidden="true"
                   width="13"
                   height="13"
                   viewBox="0 0 24 24"
@@ -265,6 +266,7 @@ export default async function JournalDetailPage({ params }: PageProps) {
               <div className="art-author-id">
                 <span className="art-avatar">
                   <svg
+                    aria-hidden="true"
                     width="18"
                     height="18"
                     viewBox="0 0 24 24"

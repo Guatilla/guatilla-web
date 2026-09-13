@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Vår Historie | Kaffe Guatilla",
+  title: "Vår historie | Kaffe Guatilla",
   description:
     "Oppdag historien bak Kaffe Guatilla – fra de colombianske fjellene til kaffekulturen i Stavanger.",
 };
@@ -26,9 +26,9 @@ const F_KARLA = "var(--font-karla), system-ui, sans-serif";
 const F_MONO = "var(--font-space-mono), ui-monospace, monospace";
 
 const BRIDGE = [
-  { n: "01", bg: TERRA, color: ON_DARK, label: "Mellom territorier" },
+  { n: "01", bg: TERRA, color: ON_DARK, label: "Mellom steder" },
   { n: "02", bg: OLIVE, color: ON_DARK, label: "Mellom kulturer" },
-  { n: "03", bg: MUSTARD, color: INK, label: "Mellom produsenten og din kopp" },
+  { n: "03", bg: MUSTARD, color: INK, label: "Mellom produsent og kaffedrikker" },
 ];
 
 const IDENTITY = [
@@ -153,9 +153,8 @@ export default function AboutPage() {
               Fra Perijá til <em>Stavanger</em>.
             </h1>
             <p className="om-hero-lead">
-              Vår historie begynner i den majestetiske Serranía del Perijá i
-              Colombia, men den finner sitt sanne hjem i Stavanger og den
-              europeiske kaffekulturen.
+              Historien vår begynner i Serranía del Perijá i Colombia og
+              fortsetter i Stavanger, der kaffen møter norsk kaffekultur.
             </p>
             <div className="om-hero-tags">
               <span>Colombia</span>
@@ -191,9 +190,9 @@ export default function AboutPage() {
                 Før
               </div>
               <p>
-                Guatilla var et begrep brukt av urfolkssamfunnene i Serranía del
-                Perijá for å referere til de utenfor deres fellesskap – et ord
-                som en gang markerte avstand og ulikhet.
+                Guatilla var et ord som urfolkssamfunnene i Serranía del Perijá
+                brukte om mennesker utenfor sine egne fellesskap – et ord som
+                en gang markerte avstand og ulikhet.
               </p>
             </div>
             <div className="om-prose-cell" style={{ background: WARM }}>
@@ -229,7 +228,7 @@ export default function AboutPage() {
             <div className="om-sym-photo">
               <Image
                 src="/assets/about-circle.jpg"
-                alt="Guatilla sirkulær skulptur"
+                alt="Den sirkelformede Guatilla-skulpturen"
                 fill
                 sizes="(max-width: 1100px) 100vw, 50vw"
                 style={{ objectFit: "cover", objectPosition: "center" }}
@@ -237,9 +236,9 @@ export default function AboutPage() {
             </div>
             <div className="om-sym-copy">
               <p>
-                Symbolet til Guatilla ble unnfanget ved et utsiktspunkt høyt oppe
-                i Serranía del Perijá. Det som startet som en visuell opplevelse
-                av landskapet og fargene, har blitt retolket som en bro.
+                Guatillas symbol ble til ved et utsiktspunkt høyt oppe i
+                Serranía del Perijá. Det som startet som en visuell opplevelse
+                av landskapet og fargene, tolket vi senere som en bro.
               </p>
               <div className="om-bridge">
                 {BRIDGE.map((b) => (
@@ -270,9 +269,9 @@ export default function AboutPage() {
               <p className="om-eyebrow">Ansvaret</p>
               <p>
                 For oss er ikke kvalitet bare en teknisk poengsum; det er et
-                løfte. Ved å samarbeide direkte med våre produsenter, sikrer vi
-                rettferdige vilkår og bærekraftig utvikling for lokalsamfunnene i
-                Colombia.
+                løfte. Gjennom direkte samarbeid med kaffeprodusentene i familien
+                vår bidrar vi til rettferdige vilkår og langsiktig utvikling i
+                lokalsamfunnene i Colombia.
               </p>
             </div>
             <div className="om-resp-grid om-q2">

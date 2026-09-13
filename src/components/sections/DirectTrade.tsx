@@ -60,11 +60,11 @@ export default function DirectTrade() {
         <div className="dt-row">
           <div className="dt-text">
             <p className="dt-p">
-              Kaffebransjen er full av kalde mellomledd der sporet til kvalitet
-              og mennesker forsvinner. Hos Guatilla lukker vi det gapet: vi
-              kjenner de som sår, høster og foredler hver bønne — fordi det er
-              vår egen familie. Vi kobler varmen og dedikasjonen fra colombiansk
-              opprinnelse rett til den norske kaffekulturen.
+              Kaffebransjen har ofte lange verdikjeder der sporbarheten tilbake
+              til menneskene bak kaffen går tapt. Hos Guatilla kjenner vi dem
+              som sår, høster og foredler kaffen — fordi de er vår egen familie.
+              Slik bringer vi varmen og engasjementet fra Colombia direkte inn i
+              norsk kaffekultur.
             </p>
             <Link href="/origen" className="dt-link">
               Les vår historie →
@@ -74,7 +74,7 @@ export default function DirectTrade() {
           <div className="dt-photo">
             <Image
               src="/assets/trilladora-arbeid.jpg"
-              alt="Familien vår foredler kaffen for hånd ved vår egen trilladora i Agustín Codazzi"
+              alt="Familien vår foredler kaffen ved tørrmøllen i Agustín Codazzi"
               fill
               sizes="(max-width: 860px) 100vw, 55vw"
               style={{ objectFit: "cover", objectPosition: "center 15%" }}

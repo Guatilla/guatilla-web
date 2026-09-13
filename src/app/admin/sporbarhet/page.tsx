@@ -1,7 +1,7 @@
 import AdminSporbarhetClient from "./AdminSporbarhetClient";
 
 export const metadata = {
-  title: "Sporbarhet · Admin | Kaffe Guatilla",
+  title: "Sporbarhet · administrasjon | Kaffe Guatilla",
   robots: { index: false, follow: false },
 };
 
