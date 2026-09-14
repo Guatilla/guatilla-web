@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 import type { Product } from "@/data/products";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 interface ProductDetailClientProps {
   product: Product;
@@ -43,11 +44,112 @@ const label: React.CSSProperties = {
   color: MUTED,
 };
 
+const PDP_COPY = {
+  no: {
+    breadcrumb: "Kaffe",
+    breadcrumbLabel: "Brødsmulesti",
+    illustration: "illustrasjonsbilde",
+    rawAlt: "Råkaffe fra Colombia",
+    mountainAlt: "Fjellkjeden Serranía del Perijá",
+    price: "Pris kommer",
+    ground: "Malt kaffe",
+    wholeBean: "Hele bønner",
+    groundNote:
+      "Vi tilpasser kverningsgraden til filterkaffe, presskanne eller espresso ved bestilling.",
+    wholeBeanNote: "Hele bønner — kvern dem rett før brygging for best resultat.",
+    inCup: "I koppen",
+    profileBefore:
+      "Full smaksprofil og cuppingpoeng for dette partiet publiseres for hvert partinummer under",
+    traceability: "Sporbarhet",
+    format: "Format",
+    construction: "🚧 Nettbutikken er under oppbygging",
+    constructionBody:
+      "Det er ennå ikke mulig å bestille dette partiet på nett. Ta kontakt så hjelper vi deg i mellomtiden.",
+    contact: "Ta kontakt",
+    trust: ["Brennes på bestilling", "Sporbar med partinummer", "Direkte handel"],
+    specs: ["Gård", "Kaffesort", "Prosess", "Brenning"],
+    brewTitle: "Bryggeforslag",
+    brewRows: ["Dose", "Vann", "Tid"],
+    recommended: "Anbefalt",
+    sameRange: "Fra samme fjellkjede",
+    familyTitle: "Fire kaffeprodukter, samme fjellkjede",
+    familyBody:
+      "Dette er ett av fire kaffeprodukter fra Serranía del Perijá — se resten av sortimentet mens vi bygger butikken.",
+    allProducts: "Se hele sortimentet",
+  },
+  en: {
+    breadcrumb: "Coffee",
+    breadcrumbLabel: "Breadcrumb",
+    illustration: "packaging illustration",
+    rawAlt: "Green coffee from Colombia",
+    mountainAlt: "The Serranía del Perijá mountain range",
+    price: "Price coming soon",
+    ground: "Ground coffee",
+    wholeBean: "Whole bean",
+    groundNote:
+      "We adjust the grind for filter, French press or espresso when you order.",
+    wholeBeanNote: "Whole bean — grind just before brewing for the best result.",
+    inCup: "In the cup",
+    profileBefore:
+      "The full flavour profile and cupping score for this lot are published for each lot number under",
+    traceability: "Traceability",
+    format: "Format",
+    construction: "🚧 Our online shop is under construction",
+    constructionBody:
+      "This lot cannot be ordered online yet. Contact us and we will help you in the meantime.",
+    contact: "Contact us",
+    trust: ["Roasted to order", "Traceable by lot number", "Direct trade"],
+    specs: ["Farm", "Variety", "Process", "Roast"],
+    brewTitle: "Brewing guide",
+    brewRows: ["Dose", "Water", "Time"],
+    recommended: "Recommended",
+    sameRange: "From the same mountain range",
+    familyTitle: "Four coffee products, one mountain range",
+    familyBody:
+      "This is one of four coffee products from Serranía del Perijá — explore the rest of the range while we build the shop.",
+    allProducts: "View the full range",
+  },
+  es: {
+    breadcrumb: "Café",
+    breadcrumbLabel: "Migas de pan",
+    illustration: "ilustración del empaque",
+    rawAlt: "Café verde de Colombia",
+    mountainAlt: "La Serranía del Perijá",
+    price: "Precio próximamente",
+    ground: "Café molido",
+    wholeBean: "En grano",
+    groundNote:
+      "Adaptamos la molienda para filtro, prensa francesa o espresso cuando hagas el pedido.",
+    wholeBeanNote: "En grano: muélelo justo antes de prepararlo para obtener el mejor resultado.",
+    inCup: "En la taza",
+    profileBefore:
+      "El perfil de sabor completo y la puntuación de cata de este lote se publican para cada número de lote en",
+    traceability: "Trazabilidad",
+    format: "Formato",
+    construction: "🚧 Nuestra tienda está en construcción",
+    constructionBody:
+      "Todavía no es posible pedir este lote por internet. Contáctanos y te ayudaremos mientras tanto.",
+    contact: "Contáctanos",
+    trust: ["Tostado bajo pedido", "Trazable por número de lote", "Comercio directo"],
+    specs: ["Finca", "Variedad", "Proceso", "Tueste"],
+    brewTitle: "Guía de preparación",
+    brewRows: ["Dosis", "Agua", "Tiempo"],
+    recommended: "Recomendado",
+    sameRange: "De la misma serranía",
+    familyTitle: "Cuatro cafés, una misma serranía",
+    familyBody:
+      "Este es uno de los cuatro cafés de la Serranía del Perijá. Descubre el resto de la selección mientras construimos la tienda.",
+    allProducts: "Ver toda la selección",
+  },
+} as const;
+
 export default function ProductDetailClient({ product }: ProductDetailClientProps) {
+  const locale = useLocale();
+  const copy = PDP_COPY[locale];
   const grindNote =
     product.grind === "Malt"
-      ? "Vi tilpasser kverningsgraden til filterkaffe, presskanne eller espresso ved bestilling."
-      : "Hele bønner — kvern dem rett før brygging for best resultat.";
+      ? copy.groundNote
+      : copy.wholeBeanNote;
 
   return (
     <div
@@ -95,7 +197,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
       >
         {/* 1) BREADCRUMB */}
         <nav
-          aria-label="Brødsmulesti"
+          aria-label={copy.breadcrumbLabel}
           style={{
             fontFamily: F_KARLA,
             fontWeight: 400,
@@ -104,7 +206,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           }}
         >
           <Link href="/shop" style={{ color: MUTED, textDecoration: "none" }}>
-            Kaffe
+            {copy.breadcrumb}
           </Link>
           <span style={{ color: SLASH, margin: "0 7px" }}>/</span>
           <span style={{ color: INK, fontWeight: 700 }}>{product.name}</span>
@@ -161,7 +263,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   transform: "rotate(-2deg)",
                 }}
               >
-                illustrasjonsbilde
+                {copy.illustration}
               </span>
             </div>
 
@@ -170,7 +272,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               <div className="thumb">
                 <Image
                   src="/assets/about-raw-coffee.jpg"
-                  alt="Råkaffe fra Colombia"
+                  alt={copy.rawAlt}
                   fill
                   sizes="200px"
                   style={{ objectFit: "cover" }}
@@ -179,7 +281,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               <div className="thumb">
                 <Image
                   src="/assets/perija-hero.jpg"
-                  alt="Fjellkjeden Serranía del Perijá"
+                  alt={copy.mountainAlt}
                   fill
                   sizes="200px"
                   style={{ objectFit: "cover" }}
@@ -290,7 +392,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     color: INK,
                   }}
                 >
-                  Pris kommer
+                  {copy.price}
                 </span>
                 <span
                   style={{
@@ -300,7 +402,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     color: MUTED,
                   }}
                 >
-                  {product.weight} · {product.grind === "Malt" ? "Malt kaffe" : product.grind}
+                  {product.weight} · {product.grind === "Malt" ? copy.ground : copy.wholeBean}
                 </span>
               </p>
             </div>
@@ -308,7 +410,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             {/* e) I KOPPEN — flavour spectrum, when we have real data for this lot */}
             {product.flavourSpectrum ? (
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                <span style={label}>I koppen</span>
+                <span style={label}>{copy.inCup}</span>
                 <div
                   style={{
                     display: "flex",
@@ -344,7 +446,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               </div>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                <span style={label}>I koppen</span>
+                <span style={label}>{copy.inCup}</span>
                 <p
                   style={{
                     margin: 0,
@@ -356,10 +458,9 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     color: BODY_INK,
                   }}
                 >
-                  Full smaksprofil og cuppingpoeng for dette partiet
-                  publiseres for hvert partinummer under{" "}
+                  {copy.profileBefore}{" "}
                   <Link href="/sporbarhet" style={{ color: TERRACOTTA, fontWeight: 700 }}>
-                    Sporbarhet
+                    {copy.traceability}
                   </Link>
                   .
                 </p>
@@ -368,7 +469,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 
             {/* f) FORMAT — fast per pose, ikke valgbart */}
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              <span style={label}>Format</span>
+              <span style={label}>{copy.format}</span>
               <div
                 style={seam({
                   display: "grid",
@@ -377,7 +478,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               >
                 <div style={{ background: MUSTARD, padding: "15px 16px" }}>
                   <p style={{ margin: 0, fontFamily: F_BITTER, fontWeight: 600, fontSize: "15px", color: INK }}>
-                    {product.grind === "Malt" ? "Malt kaffe" : product.grind}
+                    {product.grind === "Malt" ? copy.ground : copy.wholeBean}
                   </p>
                 </div>
                 <div style={{ background: CREAM, padding: "15px 16px" }}>
@@ -405,11 +506,10 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     color: INK,
                   }}
                 >
-                  🚧 Nettbutikken er under oppbygging
+                  {copy.construction}
                 </p>
                 <p style={{ margin: "6px 0 0", fontSize: "13.5px", lineHeight: 1.5, color: INK }}>
-                  Det er ennå ikke mulig å bestille dette partiet på nett.
-                  Ta kontakt så hjelper vi deg i mellomtiden.
+                  {copy.constructionBody}
                 </p>
               </div>
               <Link
@@ -428,16 +528,16 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   textDecoration: "none",
                 }}
               >
-                Ta kontakt
+                {copy.contact}
               </Link>
             </div>
 
             {/* i) trust strip */}
             <div style={seam({ display: "flex", flexWrap: "wrap" })}>
               {[
-                { t: "Brennes på bestilling", bg: ORANGE, fg: INK },
-                { t: "Sporbar med partinummer", bg: MUSTARD, fg: INK },
-                { t: "Direkte handel", bg: TEAL, fg: ON_DARK },
+                { t: copy.trust[0], bg: ORANGE, fg: INK },
+                { t: copy.trust[1], bg: MUSTARD, fg: INK },
+                { t: copy.trust[2], bg: TEAL, fg: ON_DARK },
               ].map((c) => (
                 <span
                   key={c.t}
@@ -469,10 +569,10 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           })}
         >
           {[
-            { l: "Gård", v: product.farm },
-            { l: "Kaffesort", v: product.variety },
-            { l: "Prosess", v: product.processDetail },
-            { l: "Brenning", v: product.roastDetail },
+            { l: copy.specs[0], v: product.farm },
+            { l: copy.specs[1], v: product.variety },
+            { l: copy.specs[2], v: product.processDetail },
+            { l: copy.specs[3], v: product.roastDetail },
           ].map((s) => (
             <div key={s.l} style={{ background: CREAM, padding: "22px 20px" }}>
               <p
@@ -525,13 +625,13 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 color: INK,
               }}
             >
-              Bryggeforslag
+              {copy.brewTitle}
             </h2>
             <div style={seam({ display: "flex", flexDirection: "column" })}>
               {[
-                { l: "Dose", v: product.brew.dose },
-                { l: "Vann", v: product.brew.water },
-                { l: "Tid", v: product.brew.time },
+                { l: copy.brewRows[0], v: product.brew.dose },
+                { l: copy.brewRows[1], v: product.brew.water },
+                { l: copy.brewRows[2], v: product.brew.time },
               ].map((r) => (
                 <div
                   key={r.l}
@@ -578,7 +678,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     color: INK,
                   }}
                 >
-                  Anbefalt
+                  {copy.recommended}
                 </span>
                 <span
                   style={{
@@ -617,7 +717,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 color: "#FFF1E8",
               }}
             >
-              Fra samme fjellkjede
+              {copy.sameRange}
             </span>
             <h2
               style={{
@@ -630,7 +730,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 color: ON_DARK,
               }}
             >
-              Fire kaffeprodukter, samme fjellkjede
+              {copy.familyTitle}
             </h2>
             <p
               style={{
@@ -642,8 +742,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 color: ON_DARK,
               }}
             >
-              Dette er ett av fire kaffeprodukter fra Serranía del Perijá — se
-              resten av sortimentet mens vi bygger butikken.
+              {copy.familyBody}
             </p>
             <Link
               href="/shop"
@@ -661,7 +760,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 textDecoration: "none",
               }}
             >
-              Se hele sortimentet
+              {copy.allProducts}
             </Link>
           </div>
         </div>

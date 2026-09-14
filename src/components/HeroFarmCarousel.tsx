@@ -2,6 +2,8 @@
 
 import Image, { type StaticImageData } from "next/image";
 import { useEffect, useState, useSyncExternalStore } from "react";
+import { useLocale } from "@/i18n/LocaleProvider";
+import type { Locale } from "@/i18n/config";
 import slide01 from "../../public/assets/hero-guatilla-01.jpg";
 import slide02 from "../../public/assets/hero-guatilla-02.jpeg";
 import slide03 from "../../public/assets/hero-guatilla-03.jpeg";
@@ -28,39 +30,103 @@ function getReducedMotionServerSnapshot() {
 
 interface Slide {
   src: StaticImageData;
-  alt: string;
+  alt: Record<Locale, string>;
   objectPosition: string;
 }
 
 const SLIDES: Slide[] = [
   {
     src: slide01,
-    alt: "To barn fra familien går over kaffe som tørker i solen i Agustín Codazzi",
+    alt: {
+      no: "To barn fra familien går over kaffe som tørker i solen i Agustín Codazzi",
+      en: "Two children from the family walk across coffee drying in the sun in Agustín Codazzi",
+      es: "Dos niños de la familia caminan junto al café que se seca al sol en Agustín Codazzi",
+    },
     objectPosition: "center 58%",
   },
   {
     src: slide02,
-    alt: "Familiemedlemmer med nyplukkede kaffebær på en av gårdene",
+    alt: {
+      no: "Familiemedlemmer med nyplukkede kaffebær på en av gårdene",
+      en: "Family members hold freshly picked coffee cherries on one of the farms",
+      es: "Miembros de la familia con cerezas de café recién recolectadas en una de las fincas",
+    },
     objectPosition: "center 48%",
   },
   {
     src: slide03,
-    alt: "To barn fra familien sitter blant sekker med kaffe",
+    alt: {
+      no: "To barn fra familien sitter blant sekker med kaffe",
+      en: "Two children from the family sit among bags of coffee",
+      es: "Dos niños de la familia sentados entre sacos de café",
+    },
     objectPosition: "center 46%",
   },
   {
     src: slide04,
-    alt: "Familien frakter kaffehøsten ned fra fjellgården med muldyr",
+    alt: {
+      no: "Familien frakter kaffehøsten ned fra fjellgården med muldyr",
+      en: "The family transports the coffee harvest down from the mountain farm by mule",
+      es: "La familia transporta la cosecha desde la finca de montaña en mulas",
+    },
     objectPosition: "center 50%",
   },
   {
     src: slide05,
-    alt: "Et familiemedlem undersøker modne kaffebær på gården",
+    alt: {
+      no: "Et familiemedlem undersøker modne kaffebær på gården",
+      en: "A family member inspects ripe coffee cherries on the farm",
+      es: "Un miembro de la familia revisa cerezas maduras de café en la finca",
+    },
     objectPosition: "center 50%",
   },
 ];
 
+const CAROUSEL_COPY = {
+  no: {
+    region: "Bilder fra familiegårdene",
+    description: "karusell",
+    select: "Velg bilde",
+    show: (index: number, total: number) => `Vis bilde ${index} av ${total}`,
+    reducedMotion:
+      "Automatisk bildefremvisning er slått av fordi redusert bevegelse er aktivert",
+    play: "Start bildefremvisningen",
+    pause: "Sett bildefremvisningen på pause",
+    manual: "Manuell",
+    playLabel: "Spill av",
+    pauseLabel: "Pause",
+  },
+  en: {
+    region: "Photos from the family farms",
+    description: "carousel",
+    select: "Choose image",
+    show: (index: number, total: number) => `Show image ${index} of ${total}`,
+    reducedMotion:
+      "Automatic slideshow is disabled because reduced motion is enabled",
+    play: "Start slideshow",
+    pause: "Pause slideshow",
+    manual: "Manual",
+    playLabel: "Play",
+    pauseLabel: "Pause",
+  },
+  es: {
+    region: "Fotos de las fincas familiares",
+    description: "carrusel",
+    select: "Elegir imagen",
+    show: (index: number, total: number) => `Mostrar imagen ${index} de ${total}`,
+    reducedMotion:
+      "La presentación automática está desactivada porque el movimiento reducido está activo",
+    play: "Iniciar presentación",
+    pause: "Pausar presentación",
+    manual: "Manual",
+    playLabel: "Reproducir",
+    pauseLabel: "Pausa",
+  },
+} as const;
+
 export default function HeroFarmCarousel() {
+  const locale = useLocale();
+  const copy = CAROUSEL_COPY[locale];
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -85,8 +151,8 @@ export default function HeroFarmCarousel() {
     <div
       className="absolute inset-0"
       role="region"
-      aria-label="Bilder fra familiegårdene"
-      aria-roledescription="karusell"
+      aria-label={copy.region}
+      aria-roledescription={copy.description}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -97,7 +163,7 @@ export default function HeroFarmCarousel() {
           <Image
             key={slide.src.src}
             src={slide.src}
-            alt={isActive ? slide.alt : ""}
+            alt={isActive ? slide.alt[locale] : ""}
             aria-hidden={!isActive}
             fill
             priority={index === 0}
@@ -112,14 +178,14 @@ export default function HeroFarmCarousel() {
 
       <div
         className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 border border-brand-cream/70 bg-brand-coffee/80 px-2 py-1.5 text-brand-cream backdrop-blur-sm"
-        aria-label="Velg bilde"
+        aria-label={copy.select}
       >
         {SLIDES.map((slide, index) => (
           <button
             key={slide.src.src}
             type="button"
             onClick={() => setActiveIndex(index)}
-            aria-label={`Vis bilde ${index + 1} av ${SLIDES.length}`}
+            aria-label={copy.show(index + 1, SLIDES.length)}
             aria-current={index === activeIndex ? "true" : undefined}
             className={`h-2.5 w-2.5 rounded-full border border-brand-cream transition-colors motion-reduce:transition-none ${
               index === activeIndex ? "bg-brand-gold" : "bg-transparent hover:bg-brand-cream/60"
@@ -133,14 +199,18 @@ export default function HeroFarmCarousel() {
           className="px-1 font-sans text-[9px] font-bold uppercase tracking-[0.1em] hover:text-brand-gold"
           aria-label={
             prefersReducedMotion
-              ? "Automatisk bildefremvisning er slått av fordi redusert bevegelse er aktivert"
+              ? copy.reducedMotion
               : isPaused
-                ? "Start bildefremvisningen"
-                : "Sett bildefremvisningen på pause"
+                ? copy.play
+                : copy.pause
           }
           disabled={prefersReducedMotion}
         >
-          {prefersReducedMotion ? "Manuell" : isPaused ? "Spill av" : "Pause"}
+          {prefersReducedMotion
+            ? copy.manual
+            : isPaused
+              ? copy.playLabel
+              : copy.pauseLabel}
         </button>
       </div>
     </div>

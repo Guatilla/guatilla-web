@@ -1,11 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
-
-export const metadata = {
-  title: "Vår kaffe | Kaffe Guatilla",
-  description:
-    "Spesialkaffe av 100 % arabica fra Agustín Codazzi i Colombia — dyrket i Serranía del Perijá, foredlet i familiens tørrmølle og brent i mikropartier i Stavanger.",
-};
+import Link from "@/components/LocalizedLink";
+import { getRequestLocale } from "@/i18n/server";
 
 /* ── Tokens (modern patchwork) ─────────────────────────────────── */
 const CREAM = "#FDF1E5";
@@ -128,6 +123,171 @@ const TRACE = [
   },
 ];
 
+const KAFFE_COPY = {
+  no: {
+    metaTitle: "Vår kaffe | Kaffe Guatilla",
+    metaDescription:
+      "Spesialkaffe av 100 % arabica fra Agustín Codazzi i Colombia — dyrket i Serranía del Perijá, foredlet i familiens tørrmølle og brent i mikropartier i Stavanger.",
+    altitude: "900–1 800 moh",
+    heroEyebrow: "Vår kaffe · Codazzi → Stavanger",
+    heroBefore: "Dyrket i Serranía del Perijá. Foredlet for",
+    heroEmphasis: "nordiske",
+    heroAfter: "ganer.",
+    heroLead:
+      "Spesialkaffe av 100 % arabica fra Agustín Codazzi i Colombia. Vi følger hvert steg — fra jord og skyggetre til brenningen i Stavanger.",
+    portfolioCta: "Se sortimentet",
+    originCta: "Opprinnelsen",
+    terroirEyebrow: "Terroiret · Colombia",
+    terroirTitle: "Langsom modning, håndplukket kirsebær",
+    terroirBody: [
+      "Partiene våre vokser i Agustín Codazzi i Cesar, fra 900–1 300 moh til vår mest eksklusive kaffe fra opp mot 1 800 moh. Kjølig mikroklima gir langsom modning — mer sukker, klarere syre og et bredere aromaspekter i koppen.",
+      "Vi kjøper ikke anonyme kaffepartier gjennom mellomledd. Familiegårdene våre plukker selektivt for hånd — kun modne kaffebær — og vi foredler dem i familiens lokale tørrmølle.",
+    ],
+    stats: [
+      { b: "900–1 800", s: "moh" },
+      { b: "Siktestørrelse 16", s: "FNC-sortering" },
+      { b: "11,5–12,5 %", s: "Fuktighet" },
+    ],
+    cherryAlt: "Modne kaffekirsebær, håndplukket på familiegården i Codazzi",
+    terroirNotes: [
+      { title: "Selektiv høsting.", body: "Kun modne kaffebær, plukket for hånd i flere runder." },
+      { title: "Familiens tørrmølle.", body: "Lokal foredling til eksportstandard." },
+      { title: "FNC-standard.", body: "Resolusjon 02/2016, kontrollert utvalg per parti." },
+    ],
+    roastingEyebrow: "Brenningen · Norge",
+    roastingTitle: "Nordisk brenning i mikropartier",
+    roastCards: [
+      { bg: OLIVE, k: "Foredling ved opprinnelsen", t: "Ren, vasket foredling", b: "Tradisjonell vasket foredling med kontrollert fermentering — en ren kopp, lyse toner og jevn kvalitet fra parti til parti." },
+      { bg: MUSTARD, k: "Lys- og mellombrent", t: "Smaken står i sentrum", b: "Varmen styres presist for å bevare jasmin, panela, røde bær og mild sjokolade — uten at brennepreget tar over." },
+      { bg: DEEP_TERRA, k: "Brent på bestilling", t: "Pakket nybrent", b: "Brent i Stavanger og pakket samme uke, slik at kaffen når deg i riktig avgassingsvindu." },
+    ],
+    assortment: "Sortimentet",
+    variants: "Våre varianter",
+    fullShop: "Hele butikken",
+    format: "Format",
+    recommended: "Anbefalt",
+    traceability: "Sporbarhet",
+    traceTitle: "Samme familie fra jorda i Cesar til lageret i Rogaland",
+  },
+  en: {
+    metaTitle: "Our coffee | Kaffe Guatilla",
+    metaDescription:
+      "100% Arabica specialty coffee from Agustín Codazzi, Colombia — grown in Serranía del Perijá, processed at the family dry mill and roasted in microlots in Stavanger.",
+    altitude: "900–1,800 m a.s.l.",
+    heroEyebrow: "Our coffee · Codazzi → Stavanger",
+    heroBefore: "Grown in Serranía del Perijá. Crafted for",
+    heroEmphasis: "Nordic",
+    heroAfter: "palates.",
+    heroLead:
+      "100% Arabica specialty coffee from Agustín Codazzi in Colombia. We follow every step — from soil and shade trees to roasting in Stavanger.",
+    portfolioCta: "View the range",
+    originCta: "The origin",
+    terroirEyebrow: "The terroir · Colombia",
+    terroirTitle: "Slow ripening, hand-picked cherries",
+    terroirBody: [
+      "Our lots grow in Agustín Codazzi in Cesar, from 900–1,300 metres to our most exclusive coffee at up to 1,800 metres above sea level. The cool microclimate allows slow ripening — more sugar, brighter acidity and a broader spectrum of aromas in the cup.",
+      "We do not buy anonymous lots through intermediaries. Our family farms pick selectively by hand — only ripe cherries — and process them at the family's local dry mill.",
+    ],
+    stats: [
+      { b: "900–1,800", s: "m a.s.l." },
+      { b: "Screen size 16", s: "FNC grading" },
+      { b: "11.5–12.5%", s: "Moisture" },
+    ],
+    cherryAlt: "Ripe coffee cherries, hand-picked on the family farm in Codazzi",
+    terroirNotes: [
+      { title: "Selective harvesting.", body: "Only ripe cherries, hand-picked over several rounds." },
+      { title: "The family dry mill.", body: "Local processing to export standard." },
+      { title: "FNC standard.", body: "Resolution 02/2016, with controlled grading for each lot." },
+    ],
+    roastingEyebrow: "Roasting · Norway",
+    roastingTitle: "Nordic roasting in microlots",
+    roastCards: [
+      { bg: OLIVE, k: "Processing at origin", t: "Clean, washed process", b: "Traditional washed processing with controlled fermentation — a clean cup, bright notes and consistent quality from lot to lot." },
+      { bg: MUSTARD, k: "Light and medium-light", t: "Flavour takes centre stage", b: "Heat is precisely controlled to preserve jasmine, panela, red berries and mild chocolate — without the roast taking over." },
+      { bg: DEEP_TERRA, k: "Roasted to order", t: "Packed fresh", b: "Roasted in Stavanger and packed the same week, so the coffee reaches you in the right degassing window." },
+    ],
+    assortment: "The range",
+    variants: "Our coffees",
+    fullShop: "Full shop",
+    format: "Format",
+    recommended: "Recommended",
+    traceability: "Traceability",
+    traceTitle: "The same family from the soil in Cesar to the warehouse in Rogaland",
+    products: [
+      { name: "Guatilla Signature", tag: "Core range", variant: "Washed Excelso", alt: "Guatilla Signature — washed Excelso", spectrum: ["Chocolate", "Panela", "Citrus"], profile: "Notes of chocolate and panela, a round mouthfeel and mild, balanced citrus acidity. Our everyday coffee.", format: "250 g / 500 g", recommended: "Filter and espresso", cta: "View Guatilla Signature" },
+      { name: "Serranía Microlot", tag: "Limited edition", variant: "Pink Bourbon", alt: "Serranía Microlot — Pink Bourbon", spectrum: ["Jasmine", "Red berries", "Silky"], profile: "Intensely floral — jasmine, ripe red berries and a silky texture. Developed for hand brewing.", format: "Numbered lots", recommended: "V60, Chemex, Aeropress", cta: "View Serranía Microlot" },
+      { name: "Green coffee for roasteries", tag: "B2B", variant: "Green coffee", alt: "Green coffee packed for export in vacuum bags labelled café verde", spectrum: ["Screen size 16", "11.5–12.5%", "FNC"], profile: "Selected at origin, with controlled moisture and a complete data sheet — for Norwegian micro-roasteries.", format: "10 kg box / 50 kg bag", recommended: "Custom roast profile", cta: "Request a sample and data sheet" },
+    ],
+    trace: [
+      { title: "Direct trade", body: "The family that grows in Colombia is the same family that imports and distributes in Rogaland." },
+      { title: "Registered food importer", body: "Registered with the Norwegian Food Safety Authority as importer and first recipient of food products." },
+      { title: "GS1 traceability", body: "Lot coding and tracking to the international GS1 standard, all the way." },
+    ],
+  },
+  es: {
+    metaTitle: "Nuestro café | Kaffe Guatilla",
+    metaDescription:
+      "Café de especialidad 100 % arábica de Agustín Codazzi, Colombia: cultivado en la Serranía del Perijá, procesado en la trilladora familiar y tostado en microlotes en Stavanger.",
+    altitude: "900–1.800 m s. n. m.",
+    heroEyebrow: "Nuestro café · Codazzi → Stavanger",
+    heroBefore: "Cultivado en la Serranía del Perijá. Elaborado para",
+    heroEmphasis: "paladares",
+    heroAfter: "nórdicos.",
+    heroLead:
+      "Café de especialidad 100 % arábica de Agustín Codazzi, Colombia. Seguimos cada paso: desde la tierra y los árboles de sombra hasta el tueste en Stavanger.",
+    portfolioCta: "Ver la selección",
+    originCta: "El origen",
+    terroirEyebrow: "El terroir · Colombia",
+    terroirTitle: "Maduración lenta, cerezas recolectadas a mano",
+    terroirBody: [
+      "Nuestros lotes crecen en Agustín Codazzi, Cesar, desde los 900–1.300 metros hasta nuestro café más exclusivo, a 1.800 metros. El microclima fresco favorece una maduración lenta: más azúcar, acidez más viva y un espectro aromático más amplio en taza.",
+      "No compramos lotes anónimos a través de intermediarios. Nuestras fincas familiares seleccionan a mano solo las cerezas maduras y las procesan en la trilladora local de la familia.",
+    ],
+    stats: [
+      { b: "900–1.800", s: "m s. n. m." },
+      { b: "Malla 16", s: "Clasificación FNC" },
+      { b: "11,5–12,5 %", s: "Humedad" },
+    ],
+    cherryAlt: "Cerezas maduras de café recolectadas a mano en la finca familiar de Codazzi",
+    terroirNotes: [
+      { title: "Cosecha selectiva.", body: "Solo cerezas maduras, recolectadas a mano en varias pasadas." },
+      { title: "Trilladora familiar.", body: "Procesamiento local conforme al estándar de exportación." },
+      { title: "Estándar FNC.", body: "Resolución 02/2016 y selección controlada por lote." },
+    ],
+    roastingEyebrow: "El tueste · Noruega",
+    roastingTitle: "Tueste nórdico en microlotes",
+    roastCards: [
+      { bg: OLIVE, k: "Proceso en el origen", t: "Proceso lavado y limpio", b: "Proceso lavado tradicional con fermentación controlada: una taza limpia, notas vivas y calidad constante entre lotes." },
+      { bg: MUSTARD, k: "Tueste claro y medio-claro", t: "El sabor es protagonista", b: "Controlamos el calor con precisión para conservar jazmín, panela, frutos rojos y chocolate suave, sin que domine el tueste." },
+      { bg: DEEP_TERRA, k: "Tostado bajo pedido", t: "Empacado recién tostado", b: "Tostado en Stavanger y empacado esa misma semana para que te llegue en la ventana adecuada de desgasificación." },
+    ],
+    assortment: "La selección",
+    variants: "Nuestros cafés",
+    fullShop: "Toda la tienda",
+    format: "Formato",
+    recommended: "Recomendado",
+    traceability: "Trazabilidad",
+    traceTitle: "La misma familia desde la tierra del Cesar hasta el almacén en Rogaland",
+    products: [
+      { name: "Guatilla Signature", tag: "Selección permanente", variant: "Excelso lavado", alt: "Guatilla Signature — Excelso lavado", spectrum: ["Chocolate", "Panela", "Cítricos"], profile: "Notas de chocolate y panela, cuerpo redondo y una acidez cítrica suave y equilibrada. Nuestro café de diario.", format: "250 g / 500 g", recommended: "Filtro y espresso", cta: "Ver Guatilla Signature" },
+      { name: "Microlote Serranía", tag: "Edición limitada", variant: "Bourbon Rosado", alt: "Microlote Serranía — Bourbon Rosado", spectrum: ["Jazmín", "Frutos rojos", "Sedoso"], profile: "Intensamente floral: jazmín, frutos rojos maduros y textura sedosa. Desarrollado para preparaciones manuales.", format: "Lotes numerados", recommended: "V60, Chemex, Aeropress", cta: "Ver Microlote Serranía" },
+      { name: "Café verde para tostadoras", tag: "B2B", variant: "Café verde", alt: "Café verde empacado para exportación en bolsas al vacío", spectrum: ["Malla 16", "11,5–12,5 %", "FNC"], profile: "Seleccionado en origen, con humedad controlada y ficha técnica completa para microtostadores noruegos.", format: "Caja de 10 kg / saco de 50 kg", recommended: "Perfil de tueste personalizado", cta: "Solicitar muestra y ficha técnica" },
+    ],
+    trace: [
+      { title: "Comercio directo", body: "La familia que cultiva en Colombia es la misma que importa y distribuye en Rogaland." },
+      { title: "Importador de alimentos registrado", body: "Registrados ante la Autoridad Noruega de Seguridad Alimentaria como importador y primer receptor." },
+      { title: "Trazabilidad GS1", body: "Codificación y seguimiento de lotes bajo el estándar internacional GS1, de principio a fin." },
+    ],
+  },
+} as const;
+
+export async function generateMetadata() {
+  const locale = await getRequestLocale();
+  const copy = KAFFE_COPY[locale];
+
+  return { title: copy.metaTitle, description: copy.metaDescription };
+}
+
 const CSS = `
 .vk { background:${CREAM}; color:${BODY}; font-family:${F_KARLA}; }
 .vk *:focus-visible { outline:2px solid ${INK}; outline-offset:2px; }
@@ -226,7 +386,32 @@ const CSS = `
 @media (prefers-reduced-motion: reduce) { .vk * { transition:none !important; } }
 `;
 
-export default function VarKaffePage() {
+export default async function VarKaffePage() {
+  const locale = await getRequestLocale();
+  const copy = KAFFE_COPY[locale];
+  const products =
+    locale === "no"
+      ? PRODUCTS
+      : PRODUCTS.map((product, index) => {
+          const translated = KAFFE_COPY[locale].products[index];
+          return {
+            ...product,
+            ...translated,
+            anbefalt: translated.recommended,
+            spectrum: product.spectrum.map((segment, segmentIndex) => ({
+              ...segment,
+              label: translated.spectrum[segmentIndex],
+            })),
+          };
+        });
+  const trace =
+    locale === "no"
+      ? TRACE
+      : TRACE.map((item, index) => ({
+          ...item,
+          ...KAFFE_COPY[locale].trace[index],
+        }));
+
   return (
     <div className="vk">
       <style>{CSS}</style>
@@ -236,39 +421,35 @@ export default function VarKaffePage() {
         <div className="vk-hero-photo">
           <Image
             src="/assets/perija-montanas.jpg"
-            alt="Serranía del Perijá, Agustín Codazzi"
+            alt={`Serranía del Perijá, Agustín Codazzi`}
             fill
             priority
             sizes="(max-width: 860px) 100vw, 50vw"
             style={{ objectFit: "cover" }}
           />
-          <span className="vk-hero-label">900–1 800 moh</span>
+          <span className="vk-hero-label">{copy.altitude}</span>
         </div>
 
         <div className="vk-hero-panel">
-          <p className="vk-hero-eyebrow">Vår kaffe · Codazzi → Stavanger</p>
+          <p className="vk-hero-eyebrow">{copy.heroEyebrow}</p>
           <h1 className="vk-hero-h1">
-            Dyrket i Serranía del Perijá. Foredlet for <em>nordiske</em> ganer.
+            {copy.heroBefore} <em>{copy.heroEmphasis}</em> {copy.heroAfter}
           </h1>
-          <p className="vk-hero-lead">
-            Spesialkaffe av 100 % arabica fra Agustín Codazzi i Colombia. Vi
-            følger hvert steg — fra jord og skyggetre til brenningen i
-            Stavanger.
-          </p>
+          <p className="vk-hero-lead">{copy.heroLead}</p>
           <div className="vk-hero-btns">
             <a
               href="#portefolje"
               className="vk-btn-a on-dark"
               style={{ background: MUSTARD, color: INK }}
             >
-              Se sortimentet ↓
+              {copy.portfolioCta} ↓
             </a>
             <a
               href="#terroir"
               className="vk-btn-a"
               style={{ background: CREAM, color: INK }}
             >
-              Opprinnelsen ↓
+              {copy.originCta} ↓
             </a>
           </div>
         </div>
@@ -277,32 +458,20 @@ export default function VarKaffePage() {
       {/* ── 2) TERROIR ──────────────────────────────────── */}
       <section className="vk-section" id="terroir">
         <p className="vk-eyebrow" style={{ color: TERRA }}>
-          Terroiret · Colombia
+          {copy.terroirEyebrow}
         </p>
-        <h2 className="vk-h2">Langsom modning, håndplukket kirsebær</h2>
+        <h2 className="vk-h2">{copy.terroirTitle}</h2>
 
         <div className="terroir-wrap">
           <div className="terroir-block">
             <div className="terroir-left">
               <div className="terroir-copy">
-                <p>
-                  Partiene våre vokser i Agustín Codazzi i Cesar, fra
-                  900–1 300 moh til vår mest eksklusive kaffe fra opp mot
-                  1 800 moh. Kjølig mikroklima gir langsom modning — mer sukker,
-                  klarere syre og et bredere aromaspekter i koppen.
-                </p>
-                <p>
-                  Vi kjøper ikke anonyme kaffepartier gjennom mellomledd.
-                  Familiegårdene våre plukker selektivt for hånd — kun modne
-                  kaffebær — og vi foredler dem i familiens lokale tørrmølle.
-                </p>
+                {copy.terroirBody.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
               </div>
               <div className="terroir-stats">
-                {[
-                  { b: "900–1 800", s: "moh" },
-                  { b: "Siktestørrelse 16", s: "FNC-sortering" },
-                  { b: "11,5–12,5 %", s: "Fuktighet" },
-                ].map((st) => (
+                {copy.stats.map((st) => (
                   <div key={st.s} className="terroir-stat">
                     <b>{st.b}</b>
                     <span>{st.s}</span>
@@ -314,7 +483,7 @@ export default function VarKaffePage() {
             <div className="terroir-photo">
               <Image
                 src="/assets/cerezas-cosecha.jpg"
-                alt="Modne kaffekirsebær, håndplukket på familiegården i Codazzi"
+                alt={copy.cherryAlt}
                 fill
                 sizes="(max-width: 860px) 100vw, 45vw"
                 style={{ objectFit: "cover" }}
@@ -323,17 +492,11 @@ export default function VarKaffePage() {
           </div>
 
           <div className="terroir-sub">
-            <div>
-              <b>Selektiv høsting.</b> Kun modne kaffebær, plukket for hånd i
-              flere runder.
-            </div>
-            <div>
-              <b>Familiens tørrmølle.</b> Lokal foredling til eksportstandard.
-            </div>
-            <div>
-              <b>FNC-standard.</b> Resolusjon 02/2016, kontrollert utvalg per
-              parti.
-            </div>
+            {copy.terroirNotes.map((note) => (
+              <div key={note.title}>
+                <b>{note.title}</b> {note.body}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -341,9 +504,9 @@ export default function VarKaffePage() {
       {/* ── 3) ROASTING ─────────────────────────────────── */}
       <section className="vk-section">
         <p className="vk-eyebrow" style={{ color: TERRA }}>
-          Brenningen · Norge
+          {copy.roastingEyebrow}
         </p>
-        <h2 className="vk-h2">Nordisk brenning i mikropartier</h2>
+        <h2 className="vk-h2">{copy.roastingTitle}</h2>
 
         <div
           className="row3"
@@ -353,26 +516,7 @@ export default function VarKaffePage() {
             border: `2px solid ${INK}`,
           }}
         >
-          {[
-            {
-              bg: OLIVE,
-              k: "Foredling ved opprinnelsen",
-              t: "Ren, vasket foredling",
-              b: "Tradisjonell vasket foredling med kontrollert fermentering — en ren kopp, lyse toner og jevn kvalitet fra parti til parti.",
-            },
-            {
-              bg: MUSTARD,
-              k: "Lys- og mellombrent",
-              t: "Smaken står i sentrum",
-              b: "Varmen styres presist for å bevare jasmin, panela, røde bær og mild sjokolade — uten at brennepreget tar over.",
-            },
-            {
-              bg: DEEP_TERRA,
-              k: "Brent på bestilling",
-              t: "Pakket nybrent",
-              b: "Brent i Stavanger og pakket samme uke, slik at kaffen når deg i riktig avgassingsvindu.",
-            },
-          ].map((c) => (
+          {copy.roastCards.map((c) => (
             <div
               key={c.k}
               className="roast-cell"
@@ -391,12 +535,12 @@ export default function VarKaffePage() {
         <div className="pf-head">
           <div>
             <p className="vk-eyebrow" style={{ color: TERRA }}>
-              Sortimentet
+              {copy.assortment}
             </p>
-            <h2 className="vk-h2">Våre varianter</h2>
+            <h2 className="vk-h2">{copy.variants}</h2>
           </div>
           <Link href="/shop" className="pf-link">
-            Hele butikken →
+            {copy.fullShop} →
           </Link>
         </div>
 
@@ -404,7 +548,7 @@ export default function VarKaffePage() {
           className="pf-row row3"
           style={{ background: INK, border: `2px solid ${INK}` }}
         >
-          {PRODUCTS.map((p) => (
+          {products.map((p) => (
             <article key={p.name} className="pf-card">
               <div className="pf-photo">
                 <Image
@@ -442,11 +586,11 @@ export default function VarKaffePage() {
 
                 <dl className="pf-specs">
                   <div className="pf-spec">
-                    <dt>Format</dt>
+                    <dt>{copy.format}</dt>
                     <dd>{p.format}</dd>
                   </div>
                   <div className="pf-spec">
-                    <dt>Anbefalt</dt>
+                    <dt>{copy.recommended}</dt>
                     <dd>{p.anbefalt}</dd>
                   </div>
                 </dl>
@@ -464,10 +608,10 @@ export default function VarKaffePage() {
       <section className="vk-section">
         <div className="trace-block">
           <div className="trace-head">
-            <p>Sporbarhet</p>
-            <h2>Samme familie fra jorda i Cesar til lageret i Rogaland</h2>
+            <p>{copy.traceability}</p>
+            <h2>{copy.traceTitle}</h2>
           </div>
-          {TRACE.map((t) => (
+          {trace.map((t) => (
             <div key={t.n} className="trace-badge">
               <span
                 className="trace-patch"

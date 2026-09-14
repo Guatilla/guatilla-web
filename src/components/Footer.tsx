@@ -1,39 +1,10 @@
-import Link from "next/link";
+"use client";
+
+import Link from "./LocalizedLink";
 import Image from "next/image";
 import FooterNewsletter from "@/components/patchwork/FooterNewsletter";
-
-const COLUMNS: {
-  heading: string;
-  links: { href: string; label: string }[];
-}[] = [
-  {
-    heading: "Butikk",
-    links: [
-      { href: "/shop", label: "Hele bønner" },
-      { href: "/shop", label: "Malt kaffe" },
-      { href: "/shop", label: "Café de Montaña" },
-      { href: "/shop", label: "Café Especial" },
-    ],
-  },
-  {
-    heading: "Guatilla",
-    links: [
-      { href: "/about", label: "Om oss" },
-      { href: "/origen", label: "Opprinnelse" },
-      { href: "/journal", label: "Feltjournal" },
-      { href: "/sporbarhet", label: "Sporbarhet" },
-    ],
-  },
-  {
-    heading: "Hjelp",
-    links: [
-      { href: "/contact", label: "Frakt og retur" },
-      { href: "/contact", label: "Kontakt" },
-      { href: "/about", label: "Vilkår" },
-      { href: "/about", label: "Personvern" },
-    ],
-  },
-];
+import { useLocale } from "@/i18n/LocaleProvider";
+import { SHARED_COPY } from "@/i18n/copy";
 
 const FOCUS =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold";
@@ -75,6 +46,38 @@ function FbIcon() {
 }
 
 export default function Footer() {
+  const locale = useLocale();
+  const copy = SHARED_COPY[locale];
+  const columns = [
+    {
+      heading: copy.footer.shop,
+      links: [
+        { href: "/shop", label: copy.footer.wholeBean },
+        { href: "/shop", label: copy.footer.ground },
+        { href: "/shop", label: "Café de Montaña" },
+        { href: "/shop", label: "Café Especial" },
+      ],
+    },
+    {
+      heading: copy.footer.guatilla,
+      links: [
+        { href: "/about", label: copy.footer.about },
+        { href: "/origen", label: copy.footer.origin },
+        { href: "/journal", label: copy.footer.journal },
+        { href: "/sporbarhet", label: copy.footer.traceability },
+      ],
+    },
+    {
+      heading: copy.footer.help,
+      links: [
+        { href: "/contact", label: copy.footer.shippingReturns },
+        { href: "/contact", label: copy.footer.contact },
+        { href: "/about", label: copy.footer.terms },
+        { href: "/about", label: copy.footer.privacy },
+      ],
+    },
+  ];
+
   return (
     <footer className="bg-brand-coffee">
       {/* 1) binding strip — the only patchwork gesture */}
@@ -95,7 +98,7 @@ export default function Footer() {
           <div className="min-[620px]:col-span-3 min-[1000px]:col-span-1">
             <Link
               href="/"
-              aria-label="Kaffe Guatilla — forsiden"
+              aria-label={copy.accessibility.home}
               className={`flex items-center gap-3 ${FOCUS}`}
             >
               <Image
@@ -111,15 +114,14 @@ export default function Footer() {
             </Link>
 
             <p className="mt-5 max-w-[30ch] font-sans text-[15.5px] leading-[1.6] text-brand-linen">
-              Fire mikropartier fra samme fjellkjede, brent i Stavanger hver
-              mandag.
+              {copy.footer.intro}
             </p>
 
             <FooterNewsletter />
           </div>
 
           {/* link columns */}
-          {COLUMNS.map((col) => (
+          {columns.map((col) => (
             <div key={col.heading}>
               <h3 className="border-b-2 border-dashed border-[color:rgba(217,164,65,0.65)] pb-3 font-sans text-[10.5px] font-bold uppercase tracking-[0.16em] text-brand-gold">
                 {col.heading}
@@ -142,7 +144,7 @@ export default function Footer() {
         {/* 3) legal bar */}
         <div className="mt-10 flex flex-col items-start gap-4 border-t-[1.5px] border-dashed border-[color:rgba(253,252,248,0.4)] pt-[22px] min-[620px]:flex-row min-[620px]:items-center min-[620px]:justify-between">
           <p className="font-sans text-[12.5px] text-brand-linen">
-            © {new Date().getFullYear()} Guatilla AS — alle rettigheter forbeholdt
+            © {new Date().getFullYear()} Guatilla AS — {copy.footer.rights}
           </p>
           <div className="flex gap-2.5">
             <a

@@ -1,5 +1,82 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
+import { getRequestLocale } from "@/i18n/server";
+
+const SEASONAL_COPY = {
+  no: {
+    imageAlt: "Sesongens kaffe fra Serranía del Perijá",
+    eyebrow: "Sesongens parti · uke 36",
+    headingBefore: "Høsten er tilbake i",
+    lead: "Årets bærtørkede partier er nybrente — plomme, kakao og et hint av jasmin.",
+    shopCta: "Smak sesongen",
+    traceability: "Fra jorda i Cesar til posen din — sporbar hele veien",
+    originCta: "Utforsk opprinnelsen",
+  },
+  en: {
+    imageAlt: "This season's coffee from Serranía del Perijá",
+    eyebrow: "Seasonal lot · week 36",
+    headingBefore: "The harvest is back in",
+    lead: "This year's natural-process lots are freshly roasted — plum, cocoa and a hint of jasmine.",
+    shopCta: "Taste the season",
+    traceability: "From the soil in Cesar to your bag — traceable all the way",
+    originCta: "Explore the origin",
+    benefits: [
+      {
+        n: "✓",
+        bg: "#A94B2F",
+        fg: "#FFF7EF",
+        title: "Registered with the Norwegian Food Safety Authority",
+        body: "Importer and first recipient of food products in Norway.",
+      },
+      {
+        n: "✓",
+        bg: "#DDA83A",
+        fg: "#2E2018",
+        title: "100% traceability · GS1",
+        body: "Documented lot by lot, from the tree to the bag.",
+      },
+      {
+        n: "✓",
+        bg: "#1F4B4B",
+        fg: "#FFF7EF",
+        title: "Direct trade",
+        body: "Direct trade with our family at origin.",
+      },
+    ],
+  },
+  es: {
+    imageAlt: "El café de temporada de la Serranía del Perijá",
+    eyebrow: "Lote de temporada · semana 36",
+    headingBefore: "La cosecha vuelve al",
+    lead: "Los lotes de proceso natural de este año están recién tostados: ciruela, cacao y un toque de jazmín.",
+    shopCta: "Prueba la temporada",
+    traceability: "De la tierra del Cesar a tu bolsa — trazable en cada paso",
+    originCta: "Descubre el origen",
+    benefits: [
+      {
+        n: "✓",
+        bg: "#A94B2F",
+        fg: "#FFF7EF",
+        title: "Registrados ante la Autoridad Noruega de Seguridad Alimentaria",
+        body: "Importador y primer receptor de alimentos en Noruega.",
+      },
+      {
+        n: "✓",
+        bg: "#DDA83A",
+        fg: "#2E2018",
+        title: "100 % de trazabilidad · GS1",
+        body: "Documentado lote a lote, desde el árbol hasta la bolsa.",
+      },
+      {
+        n: "✓",
+        bg: "#1F4B4B",
+        fg: "#FFF7EF",
+        title: "Comercio directo",
+        body: "Comercio directo con nuestra familia en el origen.",
+      },
+    ],
+  },
+} as const;
 
 /* ── Tokens (modern patchwork) ─────────────────────────────────── */
 const CREAM = "#FDF1E5";
@@ -142,7 +219,11 @@ const CSS = `
 }
 `;
 
-export default function SeasonalClosing() {
+export default async function SeasonalClosing() {
+  const locale = await getRequestLocale();
+  const copy = SEASONAL_COPY[locale];
+  const benefits = locale === "no" ? BENEFITS : SEASONAL_COPY[locale].benefits;
+
   return (
     <section className="seasonal">
       <style>{CSS}</style>
@@ -153,7 +234,7 @@ export default function SeasonalClosing() {
         <div className="seasonal-photo">
           <Image
             src="/assets/cafe-pergamino.jpg"
-            alt="Sesongens kaffe fra Serranía del Perijá"
+            alt={copy.imageAlt}
             fill
             sizes="(max-width: 860px) 100vw, 55vw"
             style={{ objectFit: "cover", objectPosition: "center 40%" }}
@@ -161,16 +242,15 @@ export default function SeasonalClosing() {
         </div>
 
         <div className="seasonal-panel">
-          <p className="seasonal-eyebrow">Sesongens parti · uke 36</p>
+          <p className="seasonal-eyebrow">{copy.eyebrow}</p>
           <h2 className="seasonal-h2">
-            Høsten er tilbake i <em>Perijá</em>
+            {copy.headingBefore} <em>Perijá</em>
           </h2>
           <p className="seasonal-lead">
-            Årets bærtørkede partier er nybrente — plomme, kakao og et hint av
-            jasmin.
+            {copy.lead}
           </p>
           <Link href="/shop" className="seasonal-cta-inline on-olive">
-            Smak sesongen →
+            {copy.shopCta} →
           </Link>
         </div>
       </div>
@@ -179,11 +259,11 @@ export default function SeasonalClosing() {
       {/* ── HEADLINE + BENEFITS + CTA ────────────────────── */}
       <div className="seasonal-inner">
         <h2 className="seasonal-headline">
-          Fra jorda i Cesar til posen din — sporbar hele veien
+          {copy.traceability}
         </h2>
 
         <div className="seasonal-benefits">
-          {BENEFITS.map((b) => (
+          {benefits.map((b) => (
             <div key={b.title} className="benefit">
               <span
                 className="benefit-patch"
@@ -202,7 +282,7 @@ export default function SeasonalClosing() {
 
         <div className="seasonal-cta-wrap">
           <Link href="/origen" className="seasonal-cta">
-            Utforsk opprinnelsen →
+            {copy.originCta} →
           </Link>
         </div>
       </div>
