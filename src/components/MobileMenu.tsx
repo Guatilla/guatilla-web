@@ -41,7 +41,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           <path d="M4 0 8 4 4 8 0 4Z" fill="currentColor" />
         </svg>
         <span className="text-[10px] font-bold uppercase tracking-[0.14em]">
-          Ristet i Norge
+          Brent i Norge
         </span>
       </div>
 

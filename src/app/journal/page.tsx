@@ -3,8 +3,8 @@ import JournalPage from "@/components/journal/JournalPage";
 import { journalEntries } from "@/data/journal";
 
 export const metadata = {
-  title: "Feltjournal | KAFFE GUATILLA",
-  description: "Oppdag historiene bak kaffen vår. Dokumentasjon fra feltet, menneskene og prosessene i Colombia.",
+  title: "Feltjournal | Kaffe Guatilla",
+  description: "Oppdag historiene bak kaffen vår — om gårdene, menneskene og foredlingen i Colombia.",
 };
 
 export default function JournalIndexPage() {

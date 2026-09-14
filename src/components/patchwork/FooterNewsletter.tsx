@@ -62,7 +62,7 @@ export default function FooterNewsletter() {
           disabled={status === "loading" || !email}
           className="shrink-0 bg-brand-gold px-[18px] py-[13px] font-sans text-[11px] font-bold uppercase tracking-[0.12em] text-brand-coffee transition-opacity hover:opacity-90 focus-visible:outline focus-visible:-outline-offset-2 focus-visible:outline-2 focus-visible:outline-brand-coffee disabled:opacity-60 motion-reduce:transition-none"
         >
-          {status === "loading" ? "Sender…" : "Meld på"}
+          {status === "loading" ? "Sender…" : "Meld meg på"}
         </button>
       </div>
       {status === "error" && (

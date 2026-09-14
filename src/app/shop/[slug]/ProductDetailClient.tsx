@@ -1,10 +1,8 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Product } from "@/data/products";
-import { useCart } from "@/components/CartProvider";
 
 interface ProductDetailClientProps {
   product: Product;
@@ -18,26 +16,15 @@ const BODY_INK = "#4A382C";
 const MUTED = "#6B5A4E";
 const SLASH = "#B3A395";
 const TERRACOTTA = "#A94B2F";
-const DEEP_TERRACOTTA = "#8E3A2B";
 const MUSTARD = "#DDA83A";
 const ORANGE = "#E8862A";
 const OLIVE = "#5C7148";
-const RED = "#B22F35";
 const TEAL = "#1F4B4B";
 const ON_DARK = "#FFF7EF";
 
 const F_BITTER = "var(--font-bitter), Georgia, serif";
 const F_KARLA = "var(--font-karla), system-ui, sans-serif";
 const F_MONO = "var(--font-space-mono), ui-monospace, monospace";
-
-const GRINDS = ["Hele bønner", "Filter", "Espresso", "Presskanne"];
-
-const BATCH_NOTES: { label: string; bg: string; tone: string }[] = [
-  { label: "Kakao", bg: DEEP_TERRACOTTA, tone: ON_DARK },
-  { label: "Fruktig", bg: MUSTARD, tone: INK },
-  { label: "Floral", bg: RED, tone: ON_DARK },
-  { label: "Fyldig", bg: OLIVE, tone: ON_DARK },
-];
 
 /* seamed container: 2px ink lines between and around abutting cells */
 const seam = (extra: React.CSSProperties = {}): React.CSSProperties => ({
@@ -57,40 +44,10 @@ const label: React.CSSProperties = {
 };
 
 export default function ProductDetailClient({ product }: ProductDetailClientProps) {
-  const { addItem } = useCart();
-  const uid = useId();
-
-  const [grind, setGrind] = useState(GRINDS[0]);
-  const [subscription, setSubscription] = useState(false);
-  const [qty, setQty] = useState(1);
-  const [added, setAdded] = useState(false);
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const subPrice = product.priceNum - Math.round(product.priceNum * 0.15);
-  const shownPrice = subscription ? subPrice : product.priceNum;
-  const unit = product.weight.split(" / ")[0];
-
-  const handleAdd = () => {
-    for (let n = 0; n < qty; n += 1) {
-      addItem({
-        id: product.id,
-        name: product.name,
-        origin: product.origin,
-        price: product.price,
-        priceNum: shownPrice,
-        listPriceNum: product.priceNum,
-        currency: product.currency,
-        image: product.image,
-        slug: product.slug,
-        grind,
-        weight: unit,
-        subscription,
-      });
-    }
-    setAdded(true);
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => setAdded(false), 1800);
-  };
+  const grindNote =
+    product.grind === "Malt"
+      ? "Vi tilpasser kverningsgraden til filterkaffe, presskanne eller espresso ved bestilling."
+      : "Hele bønner — kvern dem rett før brygging for best resultat.";
 
   return (
     <div
@@ -100,8 +57,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
       <style>{`
         .pdp *:focus-visible { outline: 2px solid ${INK}; outline-offset: 2px; }
         .pdp .on-dark:focus-visible { outline-color: ${MUSTARD}; }
-        .pdp button { cursor: pointer; }
-        .pdp .radio { transition: background-color .14s ease, color .14s ease; }
+        .pdp a.btn { cursor: pointer; }
         .pdp .thumb-row {
           display: grid;
           gap: 2px;
@@ -139,7 +95,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
       >
         {/* 1) BREADCRUMB */}
         <nav
-          aria-label="Sti"
+          aria-label="Brødsmulesti"
           style={{
             fontFamily: F_KARLA,
             fontWeight: 400,
@@ -183,7 +139,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             >
               <Image
                 src={product.image}
-                alt={`${product.name} ${unit} bag`}
+                alt={product.alt}
                 fill
                 priority
                 sizes="(max-width: 800px) 100vw, 640px"
@@ -205,7 +161,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   transform: "rotate(-2deg)",
                 }}
               >
-                nyristet · {product.week}
+                illustrasjonsbilde
               </span>
             </div>
 
@@ -214,7 +170,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               <div className="thumb">
                 <Image
                   src="/assets/about-raw-coffee.jpg"
-                  alt="Grønne kaffebønner"
+                  alt="Råkaffe fra Colombia"
                   fill
                   sizes="200px"
                   style={{ objectFit: "cover" }}
@@ -265,7 +221,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             </div>
           </div>
 
-          {/* RIGHT — BUY COLUMN */}
+          {/* RIGHT — INFO COLUMN */}
           <div
             style={{
               minWidth: 0,
@@ -319,17 +275,22 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 {product.description}
               </p>
 
-              {/* d) price row */}
-              <p style={{ margin: 0, display: "flex", alignItems: "baseline", gap: "8px" }}>
+              {/* d) price row — no real prices yet */}
+              <p style={{ margin: 0, display: "flex", alignItems: "center", gap: "10px" }}>
                 <span
                   style={{
-                    fontFamily: F_BITTER,
-                    fontWeight: 800,
-                    fontSize: "34px",
+                    fontFamily: F_MONO,
+                    fontWeight: 700,
+                    fontSize: "11px",
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    background: WARM_CREAM,
+                    border: `1.5px solid ${INK}`,
+                    padding: "7px 12px",
                     color: INK,
                   }}
                 >
-                  {shownPrice} NOK
+                  Pris kommer
                 </span>
                 <span
                   style={{
@@ -339,236 +300,144 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     color: MUTED,
                   }}
                 >
-                  / {unit}
+                  {product.weight} · {product.grind === "Malt" ? "Malt kaffe" : product.grind}
                 </span>
               </p>
             </div>
 
-            {/* e) I KOPPEN — flavour spectrum */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              <span style={label}>I koppen</span>
-              <div
-                style={{
-                  display: "flex",
-                  height: "52px",
-                  border: `2px solid ${INK}`,
-                  overflow: "hidden",
-                }}
-              >
-                {product.flavourSpectrum.map((seg, i) => (
-                  <div
-                    key={seg.label}
-                    style={{
-                      flexGrow: seg.pct,
-                      flexBasis: 0,
-                      minWidth: 0,
-                      background: seg.bg,
-                      color: seg.tone === "ink" ? INK : ON_DARK,
-                      borderLeft: i === 0 ? "none" : `2px solid ${INK}`,
-                      display: "flex",
-                      alignItems: "flex-end",
-                      padding: "6px 8px",
-                      fontFamily: F_BITTER,
-                      fontWeight: 800,
-                      fontStyle: "italic",
-                      fontSize: "14px",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {seg.label}
-                  </div>
-                ))}
+            {/* e) I KOPPEN — flavour spectrum, when we have real data for this lot */}
+            {product.flavourSpectrum ? (
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <span style={label}>I koppen</span>
+                <div
+                  style={{
+                    display: "flex",
+                    height: "52px",
+                    border: `2px solid ${INK}`,
+                    overflow: "hidden",
+                  }}
+                >
+                  {product.flavourSpectrum.map((seg, i) => (
+                    <div
+                      key={seg.label}
+                      style={{
+                        flexGrow: seg.pct,
+                        flexBasis: 0,
+                        minWidth: 0,
+                        background: seg.bg,
+                        color: seg.tone === "ink" ? INK : ON_DARK,
+                        borderLeft: i === 0 ? "none" : `2px solid ${INK}`,
+                        display: "flex",
+                        alignItems: "flex-end",
+                        padding: "6px 8px",
+                        fontFamily: F_BITTER,
+                        fontWeight: 800,
+                        fontStyle: "italic",
+                        fontSize: "14px",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {seg.label}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <span style={label}>I koppen</span>
+                <p
+                  style={{
+                    margin: 0,
+                    background: WARM_CREAM,
+                    border: `1.5px solid ${INK}`,
+                    padding: "14px 16px",
+                    fontSize: "14px",
+                    lineHeight: 1.55,
+                    color: BODY_INK,
+                  }}
+                >
+                  Full smaksprofil og cuppingpoeng for dette partiet
+                  publiseres for hvert partinummer under{" "}
+                  <Link href="/sporbarhet" style={{ color: TERRACOTTA, fontWeight: 700 }}>
+                    Sporbarhet
+                  </Link>
+                  .
+                </p>
+              </div>
+            )}
 
-            {/* f) MALING — grind radio group */}
+            {/* f) FORMAT — fast per pose, ikke valgbart */}
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              <span style={label}>Maling</span>
+              <span style={label}>Format</span>
               <div
-                role="radiogroup"
-                aria-label="Maling"
                 style={seam({
                   display: "grid",
-                  gridTemplateColumns:
-                    "repeat(auto-fit, minmax(min(100%, 150px), 1fr))",
+                  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
                 })}
               >
-                {GRINDS.map((g) => {
-                  const on = grind === g;
-                  return (
-                    <button
-                      key={g}
-                      type="button"
-                      role="radio"
-                      aria-checked={on}
-                      onClick={() => setGrind(g)}
-                      className="radio"
-                      style={{
-                        border: "none",
-                        textAlign: "left",
-                        padding: "15px 16px",
-                        fontFamily: F_BITTER,
-                        fontWeight: 600,
-                        fontSize: "15px",
-                        background: on ? MUSTARD : CREAM,
-                        color: INK,
-                      }}
-                    >
-                      {g}
-                    </button>
-                  );
-                })}
+                <div style={{ background: MUSTARD, padding: "15px 16px" }}>
+                  <p style={{ margin: 0, fontFamily: F_BITTER, fontWeight: 600, fontSize: "15px", color: INK }}>
+                    {product.grind === "Malt" ? "Malt kaffe" : product.grind}
+                  </p>
+                </div>
+                <div style={{ background: CREAM, padding: "15px 16px" }}>
+                  <p style={{ margin: 0, fontSize: "13px", lineHeight: 1.4, color: BODY_INK }}>
+                    {grindNote}
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* g) KJØP SOM — plan radio group */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              <span style={label}>Kjøp som</span>
-              <div
-                role="radiogroup"
-                aria-label="Kjøp som"
-                style={seam({ display: "flex", flexDirection: "column" })}
-              >
-                {[
-                  { key: false, name: "Engangskjøp", price: `${product.priceNum} NOK` },
-                  {
-                    key: true,
-                    name: "Abonnement, hver 4. uke",
-                    price: `${subPrice} NOK · −15 %`,
-                  },
-                ].map((opt) => {
-                  const on = subscription === opt.key;
-                  return (
-                    <button
-                      key={String(opt.key)}
-                      type="button"
-                      role="radio"
-                      aria-checked={on}
-                      onClick={() => setSubscription(opt.key)}
-                      className={`radio${on ? " on-dark" : ""}`}
-                      style={{
-                        border: "none",
-                        display: "flex",
-                        alignItems: "baseline",
-                        justifyContent: "space-between",
-                        gap: "16px",
-                        padding: "15px 16px",
-                        background: on ? OLIVE : CREAM,
-                        color: on ? ON_DARK : INK,
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontFamily: F_BITTER,
-                          fontWeight: 600,
-                          fontSize: "15px",
-                        }}
-                      >
-                        {opt.name}
-                      </span>
-                      <span
-                        style={{
-                          fontFamily: F_MONO,
-                          fontWeight: 700,
-                          fontSize: "11px",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {opt.price}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* h) action row */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
-              <div
-                role="group"
-                aria-label="Antall"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  border: `2px solid ${INK}`,
-                }}
-              >
-                <button
-                  type="button"
-                  aria-label="Færre"
-                  onClick={() => setQty((q) => Math.max(1, q - 1))}
-                  style={stepBtn}
-                >
-                  −
-                </button>
-                <span
-                  aria-hidden="true"
+            {/* g) under-construction notice — replaces kjøp/legg i kurv */}
+            <div
+              style={seam({
+                display: "flex",
+                flexDirection: "column",
+              })}
+            >
+              <div style={{ background: MUSTARD, padding: "18px 20px" }}>
+                <p
                   style={{
-                    minWidth: "34px",
-                    textAlign: "center",
-                    fontFamily: F_MONO,
+                    margin: 0,
+                    fontFamily: F_BITTER,
                     fontWeight: 700,
-                    fontSize: "15px",
+                    fontSize: "16px",
                     color: INK,
                   }}
                 >
-                  {qty}
-                </span>
-                <button
-                  type="button"
-                  aria-label="Flere"
-                  onClick={() => setQty((q) => Math.min(9, q + 1))}
-                  style={stepBtn}
-                >
-                  +
-                </button>
+                  🚧 Nettbutikken er under oppbygging
+                </p>
+                <p style={{ margin: "6px 0 0", fontSize: "13.5px", lineHeight: 1.5, color: INK }}>
+                  Det er ennå ikke mulig å bestille dette partiet på nett.
+                  Ta kontakt så hjelper vi deg i mellomtiden.
+                </p>
               </div>
-
-              <button
-                type="button"
-                onClick={handleAdd}
-                aria-describedby={`${uid}-live`}
-                className="on-dark"
+              <Link
+                href="/contact"
+                className="on-dark btn"
                 style={{
-                  flex: "1 1 180px",
-                  height: "60px",
-                  border: "none",
                   background: INK,
                   color: ON_DARK,
+                  padding: "16px 20px",
+                  textAlign: "center",
                   fontFamily: F_MONO,
                   fontWeight: 700,
                   fontSize: "12px",
                   letterSpacing: "0.14em",
                   textTransform: "uppercase",
+                  textDecoration: "none",
                 }}
               >
-                {added ? "Lagt i kurv ✓" : "Legg i kurv"}
-              </button>
-              <p
-                id={`${uid}-live`}
-                aria-live="polite"
-                style={{
-                  position: "absolute",
-                  width: "1px",
-                  height: "1px",
-                  padding: 0,
-                  margin: "-1px",
-                  overflow: "hidden",
-                  clip: "rect(0 0 0 0)",
-                  whiteSpace: "nowrap",
-                  border: 0,
-                }}
-              >
-                {added ? `${qty} × ${product.name} lagt i kurv` : ""}
-              </p>
+                Ta kontakt
+              </Link>
             </div>
 
             {/* i) trust strip */}
             <div style={seam({ display: "flex", flexWrap: "wrap" })}>
               {[
-                { t: "Ristet hver mandag", bg: ORANGE, fg: INK },
-                { t: "Sendes innen 2 dager", bg: MUSTARD, fg: INK },
-                { t: "Direktekjøpt parti", bg: TEAL, fg: ON_DARK },
+                { t: "Brennes på bestilling", bg: ORANGE, fg: INK },
+                { t: "Sporbar med partinummer", bg: MUSTARD, fg: INK },
+                { t: "Direkte handel", bg: TEAL, fg: ON_DARK },
               ].map((c) => (
                 <span
                   key={c.t}
@@ -596,13 +465,12 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           style={seam({
             marginTop: "56px",
             display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fit, minmax(min(100%, 200px), 1fr))",
+            gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
           })}
         >
           {[
             { l: "Gård", v: product.farm },
-            { l: "Varietet", v: product.variety },
+            { l: "Kaffesort", v: product.variety },
             { l: "Prosess", v: product.processDetail },
             { l: "Brenning", v: product.roastDetail },
           ].map((s) => (
@@ -762,7 +630,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 color: ON_DARK,
               }}
             >
-              Fire partier, ett teppe
+              Fire kaffeprodukter, samme fjellkjede
             </h2>
             <p
               style={{
@@ -774,31 +642,12 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 color: ON_DARK,
               }}
             >
-              {product.name} er én av fire lapper fra Serranía del Perijá.
-              Abonnementet syr dem sammen — et nytt parti hver måned.
+              Dette er ett av fire kaffeprodukter fra Serranía del Perijá — se
+              resten av sortimentet mens vi bygger butikken.
             </p>
-            <div style={seam({ display: "flex", flexWrap: "wrap" })}>
-              {BATCH_NOTES.map((n) => (
-                <span
-                  key={n.label}
-                  style={{
-                    flex: "1 1 96px",
-                    background: n.bg,
-                    color: n.tone,
-                    padding: "12px 12px",
-                    fontFamily: F_BITTER,
-                    fontWeight: 800,
-                    fontStyle: "italic",
-                    fontSize: "13px",
-                  }}
-                >
-                  {n.label}
-                </span>
-              ))}
-            </div>
             <Link
               href="/shop"
-              className="on-dark"
+              className="on-dark btn"
               style={{
                 alignSelf: "flex-start",
                 background: INK,
@@ -812,7 +661,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 textDecoration: "none",
               }}
             >
-              Se abonnementet
+              Se hele sortimentet
             </Link>
           </div>
         </div>
@@ -820,15 +669,3 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
     </div>
   );
 }
-
-const stepBtn: React.CSSProperties = {
-  width: "46px",
-  height: "56px",
-  border: "none",
-  background: "transparent",
-  fontFamily: F_MONO,
-  fontWeight: 700,
-  fontSize: "18px",
-  color: INK,
-  lineHeight: 1,
-};
