@@ -3,7 +3,7 @@ import Image from "next/image";
 export const metadata = {
   title: "Opprinnelse | Kaffe Guatilla",
   description:
-    "Røttene våre i Serranía del Perijá — familiegårder i Agustín Codazzi i Cesar, familiens tørrmølle Ruiz Café Esperanza og direkte handel til Stavanger.",
+    "Røttene våre i Serranía del Perijá — familiegårder i Agustín Codazzi i Cesar, familiens tørrmølle og direkte handel til Stavanger.",
 };
 
 /* ── Tokens (modern patchwork) ─────────────────────────────────── */
@@ -102,10 +102,11 @@ const CSS = `
 .org-human .l { font-size:13.5px; line-height:1.55; color:${BODY}; }
 
 /* route */
-.org-route { margin-top:40px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
-.org-route .dot { width:14px; height:14px; flex:none; }
-.org-route .city { font-family:${F_BITTER}; font-weight:800; font-size:20px; color:${INK}; }
-.org-route .line { flex:1; min-width:40px; height:2px; background:${INK}; }
+.org-route { margin-top:40px; display:flex; align-items:center; gap:clamp(6px,3vw,16px); flex-wrap:nowrap; }
+.org-route .dot { width:clamp(9px,2.6vw,14px); height:clamp(9px,2.6vw,14px); flex:none; }
+.org-route .city { font-family:${F_BITTER}; font-weight:800; font-size:clamp(13px,4vw,20px); color:${INK}; white-space:nowrap; }
+.org-route .line { flex:1; min-width:10px; height:2px; background:${INK}; }
+.org-route svg { flex:none; width:clamp(18px,5.5vw,30px); height:auto; }
 .org-blocks { margin-top:34px; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:2px; background:${INK}; border:2px solid ${INK}; }
 .org-block { padding:26px 24px 28px; }
 .org-credit { display:flex; align-items:center; gap:16px; margin-bottom:18px; padding-bottom:18px; border-bottom:1px solid ${INK}2e; }
@@ -266,7 +267,7 @@ export default function OrigenPage() {
           <div className="org-step">
             <div className="org-step-n" style={{ background: TEAL }}>03</div>
             <div className="org-step-c">
-              <h3>Våtforedling og tørrmølle · Ruiz Café Esperanza</h3>
+              <h3>Våtforedling og tørrmølle</h3>
               <p>
                 Tradisjonell våtforedling med kontrollert fermentering og jevn
                 tørking. Mekanisk tørrmølling sorterer etter tetthet og
@@ -277,7 +278,7 @@ export default function OrigenPage() {
               <div className="org-step-photo" style={{ aspectRatio: "1400 / 1867" }}>
                 <Image
                   src="/assets/trilladora-maskin.jpg"
-                  alt="Tørrmøllen hos Ruiz Café Esperanza"
+                  alt="Familiens tørrmølle"
                   fill
                   sizes="(max-width: 480px) 60vw, 300px"
                   style={{ objectFit: "contain" }}
@@ -377,7 +378,6 @@ export default function OrigenPage() {
           <div className="org-inst-inner">
             <span>FNC-godkjent produksjon og eksport</span>
             <span>Forsendelser via Cafenlace</span>
-            <span>Ruiz Café Esperanza — familiens tørrmølle</span>
           </div>
         </div>
       </div>
