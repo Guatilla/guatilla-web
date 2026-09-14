@@ -1,26 +1,42 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { JournalEntry } from "@/data/journal";
-import JournalEntryCard from "./JournalEntryCard";
-import JournalFilters from "./JournalFilters";
-import Seam from "@/components/ui/Seam";
 import { CATEGORY_META } from "./categories";
 
 interface JournalPageProps {
   entries: JournalEntry[];
 }
 
-const NOISE_BG =
-  "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E\")";
+/* ── Tokens (modern patchwork) ─────────────────────────── */
+const CREAM = "#FDF1E5";
+const INK = "#2E2018";
+const MUTED = "#6B5A4E";
+const TERRA = "#A94B2F";
+const MUSTARD = "#DDA83A";
+const OLIVE = "#5C7148";
+const TEAL = "#1F4B4B";
 
-function ArrowRight() {
+const F_BITTER = "var(--font-bitter), Georgia, serif";
+const F_KARLA = "var(--font-karla), system-ui, sans-serif";
+const F_MONO = "var(--font-space-mono), ui-monospace, monospace";
+
+const CATS: JournalEntry["category"][] = [
+  "Opprinnelse",
+  "Mennesker",
+  "Prosess",
+  "Kvalitet",
+];
+
+const ROT_CLASSES = ["fj-rot-a", "fj-rot-b", "fj-rot-c", "fj-rot-d"];
+
+function ArrowRight({ size = 12 }: { size?: number }) {
   return (
     <svg
-      width="14"
-      height="14"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -34,146 +50,251 @@ function ArrowRight() {
   );
 }
 
-function FeaturedEntry({ entry }: { entry: JournalEntry }) {
-  const cat = CATEGORY_META[entry.category];
+const CSS = `
+.fj { background:${CREAM}; color:#4A382C; font-family:${F_KARLA}; min-height:100vh; }
+.fj a { color:${TERRA}; text-decoration:none; transition:color .15s ease; }
+.fj a:hover { color:${INK}; }
+.fj *:focus-visible { outline:2px solid ${INK}; outline-offset:2px; }
 
-  return (
-    <div className="grid items-center gap-8 lg:grid-cols-[1.12fr_1fr] lg:gap-[46px]">
-      <Link
-        href={`/journal/${entry.slug}`}
-        className="stitch pop group block -rotate-[0.5deg] overflow-hidden bg-brand-coffee"
-      >
-        <div className="relative aspect-[4/3] w-full lg:aspect-auto lg:h-[468px]">
-          <Image
-            src={entry.image}
-            alt={entry.title}
-            fill
-            priority
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-            sizes="(max-width: 1024px) 100vw, 55vw"
-          />
-        </div>
-      </Link>
+.fj-strip { display:grid; grid-template-columns:repeat(4,1fr); height:7px; }
+.fj-strip span { display:block; }
 
-      <div>
-        <div className="inline-flex items-center gap-[9px]">
-          <span className={`h-[11px] w-[11px] shrink-0 ${cat.dot}`} />
-          <span className={`text-[11px] font-semibold uppercase tracking-[0.14em] ${cat.text}`}>
-            {entry.category}
-          </span>
-          <span className="text-[11px] text-brand-coffee/30">·</span>
-          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-coffee/50">
-            {entry.date}
-          </span>
-        </div>
+.fj-eyebrow { margin:0; font-family:${F_MONO}; font-weight:700; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:${MUTED}; }
+.fj-kicker { font-family:${F_MONO}; font-weight:700; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; }
+.fj-readmore { display:inline-flex; align-items:center; gap:7px; font-family:${F_MONO}; font-weight:700; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:${TERRA}; }
+.fj-cover { object-fit:cover; }
+.fj-swatches { display:flex; justify-content:center; gap:3px; margin-bottom:16px; }
+.fj-swatches span { width:11px; height:11px; display:block; }
+.fj-dot { width:9px; height:9px; flex:none; display:block; }
 
-        <h2 className="mt-[18px] font-heading text-[34px] font-extrabold leading-[1.06] tracking-tight text-brand-coffee sm:text-[42px]">
-          <Link href={`/journal/${entry.slug}`} className="transition-colors hover:text-brand-terracotta">
-            {entry.title}
-          </Link>
-        </h2>
+.fj-chip { display:inline-flex; align-items:center; gap:8px; padding:9px 16px; font-family:${F_MONO}; font-weight:700; font-size:10.5px; letter-spacing:.13em; text-transform:uppercase; border:2px solid transparent; background:none; color:rgba(74,56,44,.58); cursor:pointer; flex:none; white-space:nowrap; transition:color .15s ease; }
+.fj-chip:hover { color:${INK}; }
+.fj-chip[aria-pressed="true"] { border-color:${INK}; background:${MUSTARD}; color:${INK}; }
 
-        <p className="mt-[18px] max-w-[470px] text-[15.5px] font-light leading-[1.85] text-brand-coffee/70">
-          {entry.excerpt}
-        </p>
+/* ── Masthead ─────────────────────────────────────────── */
+.fj-hd { padding-top:72px; padding-bottom:34px; text-align:center; }
+.fj-hd h1 { margin:16px auto 0; font-family:${F_BITTER}; font-weight:800; font-size:84px; line-height:.95; letter-spacing:-.03em; color:${INK}; }
+.fj-hd-intro { margin:20px auto 0; max-width:620px; font-family:${F_BITTER}; font-weight:400; font-style:italic; font-size:21px; line-height:1.55; color:rgba(74,56,44,.72); text-wrap:pretty; }
+.fj-hd-meta { margin-top:22px; }
 
-        <Link
-          href={`/journal/${entry.slug}`}
-          className="mt-6 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-brand-terracotta transition-colors hover:text-brand-terracotta-dark"
-        >
-          Les hele saken <ArrowRight />
-        </Link>
+/* ── Filter bar ───────────────────────────────────────── */
+.fj-filterbar { position:relative; border-top:2px dashed rgba(46,32,24,.3); border-bottom:2px dashed rgba(46,32,24,.3); }
+.fj-filters { padding-top:18px; padding-bottom:18px; display:flex; flex-wrap:nowrap; justify-content:safe center; gap:8px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+.fj-filters::-webkit-scrollbar { display:none; }
+.fj-filter-fade { position:absolute; top:0; bottom:0; right:0; width:40px; background:linear-gradient(to right, rgba(253,241,229,0), ${CREAM} 72%); pointer-events:none; display:none; }
 
-        <p className="mt-[22px] text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-coffee/40">
-          {entry.author} · {entry.readingTime} lesing
-        </p>
-      </div>
-    </div>
-  );
+.fj-spine { border-top:2px solid ${INK}; }
+
+/* ── Feed (sydd tidslinje) ────────────────────────────── */
+.fj-feed { padding-top:56px; padding-bottom:30px; }
+.fj-entry { display:flex; }
+.fj-entry + .fj-entry { margin-top:68px; }
+.fj-rail { width:44px; flex:none; position:relative; }
+.fj-rail::before { content:""; position:absolute; top:8px; bottom:-68px; left:5px; width:0; border-left:2px dashed rgba(46,32,24,.3); }
+.fj-entry:last-child .fj-rail::before { bottom:0; }
+.fj-rail-dot { position:absolute; top:0; left:0; width:11px; height:11px; }
+.fj-entry-body { flex:1; min-width:0; display:grid; grid-template-columns:1.35fr 1fr; gap:52px; align-items:center; }
+.fj-entry.rev .fj-entry-body { grid-template-columns:1fr 1.35fr; }
+.fj-entry.rev .fj-e-photo { order:2; }
+.fj-entry.rev .fj-e-text { order:1; }
+.fj-e-photo { position:relative; height:380px; border:2px solid ${INK}; overflow:hidden; background:${INK}; }
+.fj-rot-a { transform:rotate(-.5deg); }
+.fj-rot-b { transform:rotate(.5deg); }
+.fj-rot-c { transform:rotate(-.4deg); }
+.fj-rot-d { transform:rotate(.4deg); }
+.fj-e-text h2 { margin:12px 0 0; font-family:${F_BITTER}; font-weight:800; font-size:36px; line-height:1.08; letter-spacing:-.02em; color:${INK}; text-wrap:balance; }
+.fj-e-quote { margin:20px 0 0; padding-left:22px; font-family:${F_BITTER}; font-weight:400; font-style:italic; font-size:21px; line-height:1.48; color:rgba(46,32,24,.8); text-wrap:pretty; }
+.fj-e-foot { margin-top:20px; display:flex; align-items:center; gap:20px; }
+.fj-e-foot .meta { font-family:${F_MONO}; font-weight:700; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:rgba(107,90,78,.7); }
+
+/* ── Colophon ─────────────────────────────────────────── */
+.fj-colophon { padding-top:18px; padding-bottom:22px; display:flex; justify-content:space-between; align-items:center; gap:16px; }
+
+/* ── Empty state ──────────────────────────────────────── */
+.fj-empty { padding:72px 0; text-align:center; }
+.fj-empty p { margin:0; font-family:${F_BITTER}; font-weight:400; font-style:italic; font-size:22px; color:rgba(46,32,24,.45); }
+.fj-empty button { margin-top:26px; background:none; border:0; border-bottom:2px solid ${TERRA}; padding:0 0 3px; font-family:${F_MONO}; font-weight:700; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:${TERRA}; cursor:pointer; }
+
+@media (max-width:920px) {
+  .fj-strip { height:6px; }
+  .fj-eyebrow, .fj-kicker, .fj-readmore { font-size:9.5px; }
+  .fj-hd { padding-top:36px; padding-bottom:24px; }
+  .fj-hd h1 { font-size:50px; }
+  .fj-hd-intro { font-size:16px; }
+  .fj-hd-meta { margin-top:16px; }
+
+  .fj-filters { padding-left:20px; padding-right:40px; justify-content:flex-start; margin-right:calc(50% - 50vw); }
+  .fj-filter-fade { display:block; }
+  .fj-chip { padding:7px 12px; gap:6px; font-size:9.5px; }
+
+  .fj-feed { padding-top:32px; padding-bottom:20px; }
+  .fj-entry + .fj-entry { margin-top:38px; }
+  .fj-rail { width:26px; }
+  .fj-rail::before { top:6px; bottom:-38px; left:4px; }
+  .fj-rail-dot { width:9px; height:9px; }
+  .fj-entry-body, .fj-entry.rev .fj-entry-body { display:flex; flex-direction:column; align-items:stretch; gap:16px; grid-template-columns:none; }
+  .fj-entry.rev .fj-e-photo, .fj-entry.rev .fj-e-text { order:0; }
+  .fj-e-photo { height:210px; }
+  .fj-rot-a, .fj-rot-b, .fj-rot-c, .fj-rot-d { transform:none; }
+  .fj-e-text h2 { margin-top:10px; font-size:25px; line-height:1.1; letter-spacing:-.015em; }
+  .fj-e-quote { margin-top:14px; padding-left:16px; font-size:16px; line-height:1.46; }
+  .fj-e-foot { margin-top:14px; flex-wrap:wrap; gap:14px; }
+  .fj-e-foot .meta { font-size:9px; }
 }
+@media (prefers-reduced-motion:reduce) { .fj a { transition:none; } }
+`;
 
 export default function JournalPage({ entries }: JournalPageProps) {
-  const [activeCategory, setActiveCategory] = useState("Alle");
+  const [active, setActive] = useState<string>("Alle");
 
-  const categories = useMemo(
+  const available = useMemo(
     () => Array.from(new Set(entries.map((e) => e.category))),
     [entries]
   );
 
-  const filteredEntries = useMemo(() => {
-    if (activeCategory === "Alle") return entries;
-    return entries.filter((e) => e.category === activeCategory);
-  }, [entries, activeCategory]);
-
-  const featured = filteredEntries[0];
-  const rest = filteredEntries.slice(1);
+  const filtered = useMemo(
+    () =>
+      active === "Alle" ? entries : entries.filter((e) => e.category === active),
+    [entries, active]
+  );
 
   return (
-    <div className="min-h-screen bg-brand-linen" style={{ backgroundImage: NOISE_BG }}>
-      {/* Header */}
-      <section className="container-page pt-16 pb-11 lg:pt-[72px] lg:pb-[52px]">
-        <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-coffee/45">
-          Dokumentasjon &amp; arkiv
-        </span>
-        <h1 className="mt-4 font-heading text-[64px] font-extrabold leading-[0.98] tracking-tight text-brand-coffee sm:text-[80px] lg:text-[94px]">
-          Feltjournal
-        </h1>
-        <p className="mt-6 max-w-[680px] font-heading text-[19px] font-normal italic leading-[1.5] text-brand-coffee/[0.66] lg:text-[24px]">
-          En samling av øyeblikk, mennesker og prosesser — direkte fra kaffefeltene
-          i Serranía del Perijá.
-        </p>
-        <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-coffee/50">
-          {entries.length} innlegg · Sist oppdatert {entries[0]?.date}
-        </p>
-      </section>
+    <div className="fj">
+      <style>{CSS}</style>
 
-      {/* Filters */}
-      <div className="border-y-[2.5px] border-dashed border-[color:rgba(60,42,33,0.3)]">
-        <div className="container-page py-[15px]">
-          <JournalFilters
-            categories={categories}
-            activeCategory={activeCategory}
-            onCategoryChange={setActiveCategory}
-          />
-        </div>
+      <div className="fj-strip" aria-hidden="true">
+        <span style={{ background: TERRA }} />
+        <span style={{ background: MUSTARD }} />
+        <span style={{ background: OLIVE }} />
+        <span style={{ background: TEAL }} />
       </div>
 
-      {filteredEntries.length === 0 ? (
-        <section className="container-page py-16 text-center">
-          <p className="font-heading text-xl italic text-brand-coffee/40">
-            Ingen journalinnlegg funnet i denne kategorien.
-          </p>
-          <button
-            onClick={() => setActiveCategory("Alle")}
-            className="mt-8 border-b border-brand-terracotta pb-1 text-[11px] font-bold uppercase tracking-[0.2em] text-brand-terracotta"
-          >
-            Tilbake til alle innlegg
-          </button>
-        </section>
-      ) : (
-        <>
-          {featured && (
-            <section className="container-page pt-14 pb-6">
-              <FeaturedEntry entry={featured} />
-            </section>
-          )}
+      {/* Masthead */}
+      <header className="container-page fj-hd">
+        <div className="fj-swatches" aria-hidden="true">
+          <span style={{ background: TERRA }} />
+          <span style={{ background: MUSTARD }} />
+          <span style={{ background: OLIVE }} />
+          <span style={{ background: TEAL }} />
+        </div>
+        <p className="fj-eyebrow">Dokumentasjon og arkiv</p>
+        <h1>Feltjournal</h1>
+        <p className="fj-hd-intro">
+          En samling av øyeblikk, mennesker og prosesser, fortalt som de
+          skjedde — direkte fra kaffegårdene i Serranía del Perijá.
+        </p>
+        <p className="fj-eyebrow fj-hd-meta">
+          {entries.length} innlegg · Sist oppdatert {entries[0]?.date}
+        </p>
+      </header>
 
-          {rest.length > 0 && (
-            <section className="container-page pb-16 pt-[52px]">
-              <Seam label="Flere innlegg" />
-              <div className="mt-14 flex flex-col">
-                {rest.map((entry, i) => (
-                  <JournalEntryCard
-                    key={entry.slug}
-                    entry={entry}
-                    last={i === rest.length - 1}
-                  />
-                ))}
-              </div>
-            </section>
-          )}
-        </>
+      {/* Filter bar */}
+      <div className="fj-filterbar">
+        <div className="container-page">
+          <div className="fj-filters">
+            <button
+              type="button"
+              className="fj-chip"
+              aria-pressed={active === "Alle"}
+              onClick={() => setActive("Alle")}
+            >
+              Alle
+            </button>
+            {CATS.filter((c) => available.includes(c)).map((c) => (
+              <button
+                key={c}
+                type="button"
+                className="fj-chip"
+                aria-pressed={active === c}
+                onClick={() => setActive(c)}
+              >
+                <span
+                  className="fj-dot"
+                  style={{ background: CATEGORY_META[c].dot }}
+                />
+                {c}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="fj-filter-fade" aria-hidden="true" />
+      </div>
+
+      <div className="container-page fj-spine" />
+
+      {filtered.length === 0 ? (
+        <div className="container-page">
+          <div className="fj-empty">
+            <p>Ingen journalinnlegg funnet i denne kategorien.</p>
+            <button type="button" onClick={() => setActive("Alle")}>
+              Tilbake til alle innlegg
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="container-page fj-feed">
+          {filtered.map((entry, i) => {
+            const cat = CATEGORY_META[entry.category];
+            const rev = i % 2 === 1;
+            return (
+              <article
+                key={entry.slug}
+                className={`fj-entry${rev ? " rev" : ""}`}
+              >
+                <div className="fj-rail">
+                  <span className="fj-rail-dot" style={{ background: cat.dot }} />
+                </div>
+                <div className="fj-entry-body">
+                  <Link
+                    href={`/journal/${entry.slug}`}
+                    className={`fj-e-photo ${ROT_CLASSES[i % 4]}`}
+                  >
+                    <Image
+                      src={entry.image}
+                      alt={entry.title}
+                      fill
+                      priority={i === 0}
+                      className="fj-cover"
+                      sizes="(max-width: 920px) 100vw, 50vw"
+                    />
+                  </Link>
+                  <div className="fj-e-text">
+                    <span className="fj-kicker" style={{ color: cat.text }}>
+                      {entry.category} · {entry.date}
+                    </span>
+                    <h2>{entry.title}</h2>
+                    <p
+                      className="fj-e-quote"
+                      style={{ borderLeft: `3px solid ${cat.dot}` }}
+                    >
+                      «{entry.excerpt}»
+                    </p>
+                    <div className="fj-e-foot">
+                      <Link href={`/journal/${entry.slug}`} className="fj-readmore">
+                        Les hele saken <ArrowRight />
+                      </Link>
+                      <span className="meta">
+                        {entry.author} · {entry.readingTime}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
       )}
+
+      <div className="fj-strip" aria-hidden="true">
+        <span style={{ background: TERRA }} />
+        <span style={{ background: MUSTARD }} />
+        <span style={{ background: OLIVE }} />
+        <span style={{ background: TEAL }} />
+      </div>
+      <div className="container-page fj-colophon">
+        <span className="fj-eyebrow">Kaffe Guatilla — Feltjournal</span>
+        <span className="fj-eyebrow">Serranía del Perijá</span>
+      </div>
     </div>
   );
 }

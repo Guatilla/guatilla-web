@@ -31,7 +31,7 @@ const shrikhand = Shrikhand({
 const bitter = Bitter({
   subsets: ["latin"],
   variable: "--font-bitter",
-  weight: ["600", "800"],
+  weight: ["400", "600", "800"],
   style: ["normal", "italic"],
   display: "swap",
 });
@@ -57,9 +57,9 @@ const vianor = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Kaffe Guatilla | 100% Colombiansk",
+  title: "Kaffe Guatilla | Colombiansk spesialkaffe",
   description:
-    "Håndverkskaffe inspirert av Serranía del Perijá. Et kulturelt møte i hver kopp.",
+    "Familiedyrket spesialkaffe fra Serranía del Perijá, brent i små partier i Stavanger og sporbar fra gård til pose.",
   icons: {
     icon: "/favicon-trimmed.png",
     shortcut: "/favicon-trimmed.png",
@@ -74,7 +74,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="no"
+      lang="nb"
       className={`${outfit.variable} ${playfair.variable} ${shrikhand.variable} ${vianor.variable} ${bitter.variable} ${karla.variable} ${spaceMono.variable}`}
       suppressHydrationWarning
     >

@@ -35,14 +35,14 @@ const BENEFITS: {
     bg: MUSTARD,
     fg: INK,
     title: "100 % sporbarhet · GS1",
-    body: "Dokumentert lot for lot, fra treet til posen.",
+    body: "Dokumentert parti for parti, fra treet til posen.",
   },
   {
     n: "✓",
     bg: TEAL,
     fg: ON_DARK,
-    title: "Ekte direct trade",
-    body: "Direkte handel med vår egen familie i opprinnelse.",
+    title: "Direkte handel",
+    body: "Direkte handel med familien vår ved opprinnelsen.",
   },
 ];
 
@@ -152,21 +152,21 @@ export default function SeasonalClosing() {
       <div className="seasonal-banner">
         <div className="seasonal-photo">
           <Image
-            src="/assets/producer.png"
+            src="/assets/cafe-pergamino.jpg"
             alt="Sesongens kaffe fra Serranía del Perijá"
             fill
             sizes="(max-width: 860px) 100vw, 55vw"
-            style={{ objectFit: "cover", objectPosition: "center 28%" }}
+            style={{ objectFit: "cover", objectPosition: "center 40%" }}
           />
         </div>
 
         <div className="seasonal-panel">
-          <p className="seasonal-eyebrow">Sesongens parti · Uke 36</p>
+          <p className="seasonal-eyebrow">Sesongens parti · uke 36</p>
           <h2 className="seasonal-h2">
-            Hei igjen, <em>Perijá</em> høsten
+            Høsten er tilbake i <em>Perijá</em>
           </h2>
           <p className="seasonal-lead">
-            Årets natural-partier er akkurat ristet — plomme, kakao og et hint av
+            Årets bærtørkede partier er nybrente — plomme, kakao og et hint av
             jasmin.
           </p>
           <Link href="/shop" className="seasonal-cta-inline on-olive">
@@ -179,7 +179,7 @@ export default function SeasonalClosing() {
       {/* ── HEADLINE + BENEFITS + CTA ────────────────────── */}
       <div className="seasonal-inner">
         <h2 className="seasonal-headline">
-          Fra jorda i Cesar til posen din — sporet hele veien
+          Fra jorda i Cesar til posen din — sporbar hele veien
         </h2>
 
         <div className="seasonal-benefits">
@@ -202,7 +202,7 @@ export default function SeasonalClosing() {
 
         <div className="seasonal-cta-wrap">
           <Link href="/origen" className="seasonal-cta">
-            Utforsk opprinnelsene →
+            Utforsk opprinnelsen →
           </Link>
         </div>
       </div>

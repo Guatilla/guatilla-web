@@ -4,7 +4,7 @@ export interface JournalEntry {
   title: string;
   excerpt: string;
   content: string;
-  category: "Mennesker" | "Prosess" | "Territorium" | "Kvalitet";
+  category: "Mennesker" | "Prosess" | "Opprinnelse" | "Kvalitet";
   date: string;
   image: string;
   author: string;
@@ -18,28 +18,14 @@ export const journalEntries: JournalEntry[] = [
     id: "innhosting-i-takeheimen",
     slug: "innhosting-i-takeheimen",
     title: "Innhøsting i tåkeheimen",
-    category: "Territorium",
+    category: "Opprinnelse",
     date: "26. april 2024",
     excerpt: "Når tåken ruller inn over Serranía del Perijá, skapes de unike forholdene som gir kaffen vår sin karakteristiske sødme.",
-    content: "Høyden og det spesielle mikroklimaet i Perijá-fjellene er avgjørende for kvaliteten på Kaffe Guatilla. Her, på over 1700 meter over havet, modnes kaffebærene langsommere, noe som gir mer komplekse smaker. \n\nI dag dokumenterte vi innhøstingen under de typiske tåkeforholdene som preger regionen i denne sesongen. Den høye luftfuktigheten kombinert med den vulkanske jorda skaper et økosystem som er perfekt for våre spesialvarianter.",
-    image: "/assets/journal/harvest-mist.png",
+    content: "Høyden og det særegne mikroklimaet i Perijá-fjellene er avgjørende for kvaliteten på Kaffe Guatilla. Her, på opp mot 1 800 meter over havet, modnes kaffebærene langsommere og utvikler mer komplekse smaker. \n\nI dag dokumenterte vi innhøstingen under de typiske tåkeforholdene som preger regionen i denne sesongen. Den høye luftfuktigheten og den vulkanske jorda skaper et økosystem som passer godt for kaffesortene våre.",
+    image: "/assets/journal/harvest-mist.jpg",
     location: "Serranía del Perijá, Colombia",
-    author: "Felt-teamet",
+    author: "Feltteamet",
     readingTime: "4 min",
-    featured: true,
-  },
-  {
-    id: "portrett-av-don-fabio",
-    slug: "portrett-av-don-fabio",
-    title: "Møt Don Fabio: En vokter av tradisjon",
-    category: "Mennesker",
-    date: "20. april 2024",
-    excerpt: "Gjennom tre generasjoner har Fabio-familien dyrket kaffe med en dedikasjon som er sjelden å se i dagens marked.",
-    content: "Don Fabio har sett kaffemarkedet endre seg gjennom tiårene, men hans tilnærming til kvalitet har forblitt urokkelig. For ham er hver kaffebønne et resultat av tålmodighet og respekt for naturen. \n\nVi satt ned med Fabio for å diskutere hvordan våre direkte handelsrelasjoner har påvirket hans gård. Han forteller om stabiliteten det gir å vite at kvaliteten blir verdsatt rettferdig, noe som har gjort det mulig for ham å investere i bedre verktøy for familien sin.",
-    image: "/assets/journal/don-fabio.png",
-    location: "Serranía del Perijá, Colombia",
-    author: "Relasjonsansvarlig",
-    readingTime: "5 min",
     featured: true,
   },
   {
@@ -48,10 +34,10 @@ export const journalEntries: JournalEntry[] = [
     title: "Presisjon i tørkeprosessen",
     category: "Prosess",
     date: "12. april 2024",
-    excerpt: "Tørking er kanskje det mest kritiske punktet mellom innhøsting og eksport. Vi følger hver batch nøye.",
-    content: "Ved vår trilladora i Colombia tar vi ingen snarveier. Etter at bærene er vasket, legges de ut på 'camas' (tørkesenger) hvor de vendes regelmessig for å sikre jevn tørking. \n\nOvervåking av fuktighetsinnholdet er en vitenskap i seg selv. Vi sikrer at bønnene når det ideelle nivået på 10-12% før de pakkes for sin reise til Norge. Dette bevarer smaksprofilen og sikrer lang holdbarhet uten kvalitetstap.",
-    image: "/assets/journal/drying-process.png",
-    location: "Trilladora, Colombia",
+    excerpt: "Tørking er kanskje det mest kritiske leddet mellom innhøsting og eksport. Vi følger hvert parti nøye.",
+    content: "Ved familiens tørrmølle i Colombia tar vi ingen snarveier. Etter vask legges bønnene på hevede tørkesenger, der de vendes regelmessig for å tørke jevnt. \n\nVi overvåker fuktighetsinnholdet nøye og sørger for at bønnene når det ideelle nivået på 10–12 % før de pakkes og sendes til Norge. Slik bevarer vi smaksprofilen og kvaliteten gjennom hele reisen.",
+    image: "/assets/journal/drying-process.jpg",
+    location: "Tørrmøllen, Colombia",
     author: "Kvalitetskontrollør",
     readingTime: "6 min",
     featured: false,
@@ -62,11 +48,11 @@ export const journalEntries: JournalEntry[] = [
     title: "Fremtiden spirer i rød jord",
     category: "Kvalitet",
     date: "5. april 2024",
-    excerpt: "Nye plantinger markerer starten på en ny syklus av bærekraft og vekst for KAFFE GUATILLA.",
-    content: "Denne uken plantet vi de første seedlingene av en ny batch som skal høstes om tre år. Den rike, røde vulkanske jorda i regionen vår er full av næringsstoffer som er essensielle for de unge plantene. \n\nValget av varianter er basert på både koppekvalitet og motstandsdyktighet mot klimaendringer. Vi investerer i fremtiden ved å sikre at jordsmonnet forblir sunt og produktivt for generasjonene som kommer.",
-    image: "/assets/journal/young-plants.png",
+    excerpt: "Nye kaffeplanter markerer starten på en ny fase med langsiktig vekst for Kaffe Guatilla.",
+    content: "Denne uken plantet vi de første kaffeplantene i et nytt felt som skal høstes om tre år. Den rike, røde vulkanske jorda i regionen vår er full av næringsstoffer som er viktige for de unge plantene. \n\nKaffesortene er valgt ut fra både kvaliteten i koppen og motstandsdyktighet mot klimaendringer. Vi investerer i fremtiden ved å ta vare på et sunt og produktivt jordsmonn for generasjonene som kommer.",
+    image: "/assets/journal/almacigo-surcos.jpg",
     location: "Serranía del Perijá, Colombia",
-    author: "Agronom-teamet",
+    author: "Agronomteamet",
     readingTime: "4 min",
     featured: false,
   },

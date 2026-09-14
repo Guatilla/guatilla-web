@@ -42,7 +42,7 @@ export default function PatchNewsletter() {
             Bli med i lappeteppet
           </h2>
           <p className="mt-2 text-sm text-brand-coffee/80 sm:text-[15px]">
-            Nye partier, ristedatoer og feltnotater — omtrent hver måned.
+            Nye partier, brennedatoer og feltnotater — omtrent én gang i måneden.
           </p>
         </div>
 
@@ -72,7 +72,7 @@ export default function PatchNewsletter() {
               disabled={status === "loading" || !email}
               className="stitch bg-brand-coffee px-7 py-4 text-[11px] font-bold uppercase tracking-[0.14em] text-brand-cream transition-colors hover:bg-brand-coffee/90 disabled:opacity-50"
             >
-              {status === "loading" ? "Sender…" : "Meld på"}
+              {status === "loading" ? "Sender…" : "Meld meg på"}
             </button>
           </form>
         )}

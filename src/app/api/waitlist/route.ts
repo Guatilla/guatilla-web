@@ -8,15 +8,15 @@ const CONFIRMATION_HTML = `
   <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; color: #2c1e16;">
     <h1 style="font-size: 24px; margin-bottom: 16px;">Velkommen til ventelisten!</h1>
     <p style="font-size: 16px; line-height: 1.6; color: #5c4a3d;">
-      Takk for at du meldte deg p&aring; ventelisten for <strong>Kaffe Guatilla</strong>.
-      Du er n&aring; den f&oslash;rste som f&aring;r vite n&aring;r v&aring;rt f&oslash;rste parti med spesialkaffe fra Serran&iacute;a del Perij&aacute; er klart for levering.
+      Takk for at du har meldt deg p&aring; ventelisten til <strong>Kaffe Guatilla</strong>.
+      Du blir blant de f&oslash;rste som f&aring;r beskjed n&aring;r v&aring;rt f&oslash;rste parti med spesialkaffe fra Serran&iacute;a del Perij&aacute; er klart for levering.
     </p>
     <p style="font-size: 16px; line-height: 1.6; color: #5c4a3d; margin-top: 16px;">
-      Vi sender deg oppdateringer om fremdriften og lanseringsdatoen.
+      Vi holder deg oppdatert om fremdriften og lanseringen.
     </p>
     <p style="font-size: 14px; color: #8c7a6d; margin-top: 32px;">
-      Med vennlig hilsen,<br />
-      Team Kaffe Guatilla
+      Hilsen oss i<br />
+      Kaffe Guatilla
     </p>
   </div>
 `;
@@ -30,7 +30,7 @@ async function sendConfirmationEmail(email: string) {
     await resend.emails.send({
       from: "Kaffe Guatilla <onboarding@resend.dev>",
       to: email,
-      subject: "Du er p&aring; ventelisten",
+      subject: "Du står på ventelisten",
       html: CONFIRMATION_HTML,
     });
   } catch {
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
 
     if (!email || typeof email !== "string") {
       return NextResponse.json(
-        { error: "Email is required" },
+        { error: "E-postadresse må fylles ut" },
         { status: 400 }
       );
     }
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
-        { error: "Invalid email format" },
+        { error: "Ugyldig e-postadresse" },
         { status: 400 }
       );
     }
@@ -103,7 +103,7 @@ export async function POST(request: Request) {
     );
   } catch {
     return NextResponse.json(
-      { error: "Failed to join waitlist. Please try again." },
+      { error: "Kunne ikke melde deg på ventelisten. Prøv igjen." },
       { status: 500 }
     );
   }

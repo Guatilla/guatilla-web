@@ -69,7 +69,7 @@ export default function WaitlistForm() {
           disabled={status === "loading" || !email}
           className="h-14 px-10 rounded-full bg-brand-coffee text-white font-bold uppercase tracking-widest text-xs hover:bg-brand-terracotta transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
         >
-          {status === "loading" ? "Sender..." : "Bli med"}
+          {status === "loading" ? "Sender …" : "Bli med"}
         </button>
       </div>
 

@@ -45,7 +45,7 @@ export default function PatchworkBackground({
       */}
       <Image
         src="/GUATILLA-01.png"
-        alt="Vintage Patchwork Texture"
+        alt="Lappeteppemønster i vintagestil"
         fill
         className={`object-cover object-center ${saturationClass} ${blurClass}`}
         priority={variant === 'partial-bg'}
