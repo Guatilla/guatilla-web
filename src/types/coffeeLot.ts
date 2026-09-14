@@ -1,6 +1,7 @@
 /**
  * Ett registrert kaffeparti i sporbarhetssystemet (/sporbarhet).
- * Speiler tabellen `coffee_lots` i Supabase — se supabase/sql/001_coffee_lots.sql.
+ * Speiler tabellen `coffee_lots` i Cloud SQL — se gcp/sql/001_init_coffee_lots_and_waitlist.sql
+ * og modellen CoffeeLot i prisma/schema.prisma.
  */
 export interface LotImage {
   id: string;

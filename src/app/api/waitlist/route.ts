@@ -1,6 +1,7 @@
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
-import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
+import { Prisma } from "@prisma/client";
+import { getPrisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
@@ -58,41 +59,18 @@ export async function POST(request: Request) {
       );
     }
 
-    const supabase = getSupabaseAdmin();
+    try {
+      const prisma = await getPrisma();
+      await prisma.waitlist.create({
+        data: { email, source: "project-progress" },
+      });
+    } catch (error) {
+      const alreadyJoined =
+        error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002";
+      if (!alreadyJoined) throw error;
 
-    if (supabase) {
-      const { data: existing, error: fetchError } = await supabase
-        .from("waitlist")
-        .select("id")
-        .eq("email", email)
-        .single();
-
-      if (fetchError && fetchError.code !== "PGRST116") {
-        throw fetchError;
-      }
-
-      if (existing) {
-        await sendConfirmationEmail(email);
-        return NextResponse.json(
-          { alreadyJoined: true },
-          { status: 200 }
-        );
-      }
-
-      const { error: insertError } = await supabase
-        .from("waitlist")
-        .insert({ email, source: "project-progress" });
-
-      if (insertError) {
-        if (insertError.code === "23505") {
-          await sendConfirmationEmail(email);
-          return NextResponse.json(
-            { alreadyJoined: true },
-            { status: 200 }
-          );
-        }
-        throw insertError;
-      }
+      await sendConfirmationEmail(email);
+      return NextResponse.json({ alreadyJoined: true }, { status: 200 });
     }
 
     await sendConfirmationEmail(email);

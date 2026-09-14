@@ -81,3 +81,74 @@ model OrderItem {
   order            Order          @relation(fields: [orderId], references: [id])
   variant          ProductVariant @relation(fields: [productVariantId], references: [id])
 }
+
+// Sporbarhet (/sporbarhet) — kafferegistrene som før lå i Supabase Postgres.
+// Feltnavn matcher tabellene som opprettes av gcp/sql/001_init_coffee_lots_and_waitlist.sql
+// slik at en pg_dump/pg_restore fra Supabase til Cloud SQL lander uten transformasjon.
+model CoffeeLot {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  lotNumber String   @unique @map("lot_number")
+  active    Boolean  @default(true)
+
+  // Produkt
+  productName String?   @map("product_name")
+  grind       String? // "Hele bønner" | "Malt"
+  netWeight   String?   @map("net_weight")
+  roastDegree String?   @map("roast_degree")
+  roastDate   DateTime? @map("roast_date") @db.Date
+  bestBefore  DateTime? @map("best_before") @db.Date
+
+  // Opprinnelse
+  country       String? @default("Colombia")
+  region        String?
+  municipality  String?
+  farm          String?
+  producer      String?
+  altitude      String?
+  harvestPeriod String? @map("harvest_period")
+
+  // Kaffen
+  species    String? @default("100 % Arabica")
+  variety    String?
+  grade      String? // "Excelso" | "Especial"
+  process    String?
+  screenSize String? @map("screen_size")
+
+  // Kvalitetskontroll
+  moisture       String?
+  waterActivity  String? @map("water_activity")
+  defects        String?
+  labNotes       String? @map("lab_notes")
+  cuppingScore   String? @map("cupping_score")
+  flavourProfile String? @map("flavour_profile")
+
+  // Fra Colombia til Norge
+  exporter           String?   @default("CACE L&G S.A.S.")
+  exportDate         DateTime? @map("export_date") @db.Date
+  importer           String?   @default("GUATILLA AS")
+  receivedDateNorway DateTime? @map("received_date_norway") @db.Date
+
+  // Brenning og pakking
+  roastedBy       String?   @default("GUATILLA AS") @map("roasted_by")
+  packingDate     DateTime? @map("packing_date") @db.Date
+  productionNotes String?   @map("production_notes")
+
+  // Historien bak kaffen
+  storyText     String? @map("story_text")
+  storyVideoUrl String? @map("story_video_url")
+  images        Json    @default("[]") // [{ id, url, caption }]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("coffee_lots")
+}
+
+model Waitlist {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email     String   @unique
+  source    String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("waitlist")
+}

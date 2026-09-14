@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
-import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
+import { getGcsBucket } from "@/lib/gcs";
 import { requireAdmin } from "@/lib/requireAdmin";
 
 export const dynamic = "force-dynamic";
 
-const BUCKET = "sporbarhet";
 const MAX_BYTES = 10 * 1024 * 1024; // 10 MB
 const ALLOWED = new Set(["image/png", "image/jpeg", "image/webp", "image/gif"]);
 
@@ -14,8 +13,8 @@ export async function POST(request: NextRequest) {
   const unauthorized = requireAdmin(request);
   if (unauthorized) return unauthorized;
 
-  const supabase = getSupabaseAdmin();
-  if (!supabase) {
+  const bucket = getGcsBucket();
+  if (!bucket) {
     return NextResponse.json({ error: "Ikke konfigurert" }, { status: 503 });
   }
 
@@ -44,18 +43,16 @@ export async function POST(request: NextRequest) {
   const id = randomUUID();
   const path = `lots/${id}.${ext}`;
 
-  const { error: uploadError } = await supabase.storage
-    .from(BUCKET)
-    .upload(path, await file.arrayBuffer(), {
+  try {
+    await bucket.file(path).save(Buffer.from(await file.arrayBuffer()), {
       contentType: file.type,
-      upsert: false,
+      resumable: false,
     });
-
-  if (uploadError) {
+  } catch {
     return NextResponse.json({ error: "Kunne ikke laste opp bildet." }, { status: 500 });
   }
 
-  const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
+  const url = `https://storage.googleapis.com/${bucket.name}/${path}`;
 
-  return NextResponse.json({ id, url: data.publicUrl }, { status: 201 });
+  return NextResponse.json({ id, url }, { status: 201 });
 }

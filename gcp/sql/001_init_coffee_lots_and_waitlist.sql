@@ -1,10 +1,9 @@
--- Sporbarhet (/sporbarhet) — kjør denne ÉN GANG i Supabase SQL Editor
--- (Dashboard → SQL Editor → New query → lim inn → Run).
+-- Sporbarhet + venteliste — kjør denne ÉN GANG mot Cloud SQL-instansen
+-- (via Cloud SQL Studio i konsollen, eller `psql "$DATABASE_URL" -f gcp/sql/001_init_coffee_lots_and_waitlist.sql`).
 --
--- Oppretter tabellen `coffee_lots` som holder alle registrerte kaffepartier.
--- QR-koden på posene peker bare til /sporbarhet — kunden skriver selv inn
--- lotnummeret som er trykket på posen, så QR-koden trenger aldri endres når
--- dere registrerer nye partier.
+-- Oppretter tabellene `coffee_lots` og `waitlist` med samme kolonnenavn som
+-- Prisma-modellene CoffeeLot/Waitlist i prisma/schema.prisma forventer
+-- (@map/@@map er satt opp til å matche dette skjemaet 1:1).
 
 create extension if not exists pgcrypto;
 
@@ -81,16 +80,18 @@ create trigger coffee_lots_set_updated_at
 before update on coffee_lots
 for each row execute function coffee_lots_set_updated_at();
 
--- RLS: appen leser/skriver via service-role-nøkkelen fra serveren (går
--- forbi RLS), men vi slår på RLS og gir kun lesetilgang til AKTIVE partier
--- i tilfelle noen spør direkte med anon-nøkkelen.
-alter table coffee_lots enable row level security;
+create table if not exists waitlist (
+  id uuid primary key default gen_random_uuid(),
+  email text not null unique,
+  source text,
+  created_at timestamptz not null default now()
+);
 
-drop policy if exists "Public read active lots" on coffee_lots;
-create policy "Public read active lots"
-  on coffee_lots for select
-  using (active = true);
+-- Merk: i motsetning til Supabase er det ingen "anon key"/PostgREST her —
+-- appen leser og skriver kun via DATABASE_URL fra serveren (Prisma), så
+-- Row Level Security trengs ikke for offentlig lesetilgang lenger.
 
--- Etter at dette er kjørt: lag også en Storage-bucket kalt "sporbarhet"
--- (Dashboard → Storage → New bucket → navn "sporbarhet" → Public bucket: PÅ).
--- Det er alt — /admin/sporbarhet og /sporbarhet fungerer fra da av.
+-- Etter at dette er kjørt, baseline Prisma mot denne tabellen (kjøres lokalt,
+-- med DATABASE_URL pekende mot Cloud SQL-instansen):
+--   npx prisma migrate resolve --applied 0_init_coffee_lots_and_waitlist
+-- (eller bare la Prisma introspektere skjemaet — se gcp/SETUP.md).

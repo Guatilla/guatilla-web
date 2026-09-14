@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import type { CoffeeLot } from "@/types/coffeeLot";
+import type { CoffeeLot, LotImage } from "@/types/coffeeLot";
 
 /* ── Tokens (modern patchwork · samme turkis/petrol som posene) ──── */
 const CREAM = "#FDF1E5";
@@ -84,15 +84,33 @@ const CSS = `
 .spb-story { background:${WARM}; border:2px solid ${INK}; padding:24px; margin-top:22px; }
 .spb-story h2 { margin:0 0 12px; font-family:${F_BITTER}; font-weight:800; font-style:italic; font-size:24px; color:${INK}; }
 .spb-story p { margin:0; font-size:15px; line-height:1.7; color:${BODY}; white-space:pre-line; }
-.spb-gallery { margin-top:16px; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:2px; background:${INK}; border:2px solid ${INK}; }
-.spb-gallery img { display:block; width:100%; height:100%; object-fit:cover; aspect-ratio:4/3; }
+.spb-gallery { margin-top:16px; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:2px; background:${INK}; border:2px solid ${INK}; }
+.spb-gallery-item { all:unset; display:flex; flex-direction:column; box-sizing:border-box; background:${CREAM}; cursor:zoom-in; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+.spb-gallery-item .frame { position:relative; aspect-ratio:4/3; overflow:hidden; }
+.spb-gallery-item img { display:block; width:100%; height:100%; object-fit:cover; }
+.spb-gallery-item .idx { position:absolute; top:8px; left:8px; background:${INK}; color:${ON_DARK}; font-family:${F_MONO}; font-weight:700; font-size:10px; letter-spacing:.08em; padding:3px 7px; }
+.spb-gallery-item .cap { padding:9px 10px; border-top:1.5px solid ${WARM}; }
+.spb-gallery-item .cap p { margin:0; font-family:${F_KARLA}; font-weight:700; font-size:12px; color:${INK}; line-height:1.3; text-align:left; white-space:normal; }
+.spb-gallery-item:focus-visible { outline:2px solid ${MUSTARD}; outline-offset:-2px; }
 .spb-video { margin-top:16px; aspect-ratio:16/9; border:2px solid ${INK}; }
 .spb-video iframe { width:100%; height:100%; display:block; }
+
+.spb-lightbox-backdrop { position:fixed; inset:0; background:rgba(46,32,24,.94); display:flex; align-items:center; justify-content:center; padding:clamp(16px,4vw,48px); z-index:50; overscroll-behavior:contain; }
+.spb-lightbox { max-width:min(920px,92vw); max-height:92vh; display:flex; flex-direction:column; gap:12px; align-items:center; }
+.spb-lightbox img { width:auto; height:auto; max-width:100%; max-height:72vh; object-fit:contain; border:2px solid ${WARM}; background:${INK}; }
+.spb-lightbox-cap { margin:0; font-family:${F_KARLA}; font-size:13.5px; text-align:center; color:${ON_DARK}; }
+.spb-lightbox-close { position:fixed; top:16px; right:16px; border:2px solid ${ON_DARK}; background:${INK}; color:${ON_DARK}; width:40px; height:40px; font-family:${F_MONO}; font-size:16px; line-height:1; }
+.spb-lightbox-close:focus-visible { outline:2px solid ${MUSTARD}; outline-offset:2px; }
+.spb-lightbox-nav { position:fixed; top:50%; transform:translateY(-50%); border:2px solid ${ON_DARK}; background:${INK}; color:${ON_DARK}; width:44px; height:44px; font-family:${F_MONO}; font-size:18px; }
+.spb-lightbox-nav:focus-visible { outline:2px solid ${MUSTARD}; outline-offset:2px; }
+.spb-lightbox-prev { left:16px; }
+.spb-lightbox-next { right:16px; }
 
 @media (max-width:560px) {
   .spb-fields { grid-template-columns:1fr; }
   .spb-field-filler { display:none; }
   .spb-gallery { grid-template-columns:1fr; }
+  .spb-lightbox-nav { width:38px; height:38px; }
 }
 @media (prefers-reduced-motion:reduce) { .spb * { transition:none !important; } }
 `;
@@ -115,8 +133,82 @@ function FieldGrid({ fields }: { fields: FieldDef[] }) {
   );
 }
 
+function Lightbox({
+  images,
+  index,
+  onClose,
+  onNavigate,
+}: {
+  images: LotImage[];
+  index: number;
+  onClose: () => void;
+  onNavigate: (index: number) => void;
+}) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const image = images[index];
+
+  useEffect(() => {
+    closeRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowRight") onNavigate((index + 1) % images.length);
+      if (e.key === "ArrowLeft") onNavigate((index - 1 + images.length) % images.length);
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [index, images.length, onClose, onNavigate]);
+
+  return (
+    <div
+      className="spb-lightbox-backdrop"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Bilde fra partiet"
+      onClick={onClose}
+    >
+      <button ref={closeRef} type="button" className="spb-lightbox-close" onClick={onClose} aria-label="Lukk bilde">
+        ✕
+      </button>
+      {images.length > 1 && (
+        <>
+          <button
+            type="button"
+            className="spb-lightbox-nav spb-lightbox-prev"
+            aria-label="Forrige bilde"
+            onClick={(e) => {
+              e.stopPropagation();
+              onNavigate((index - 1 + images.length) % images.length);
+            }}
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            className="spb-lightbox-nav spb-lightbox-next"
+            aria-label="Neste bilde"
+            onClick={(e) => {
+              e.stopPropagation();
+              onNavigate((index + 1) % images.length);
+            }}
+          >
+            ›
+          </button>
+        </>
+      )}
+      <div className="spb-lightbox" onClick={(e) => e.stopPropagation()}>
+        <Image src={image.url} alt={image.caption || "Bilde fra partiet"} width={920} height={690} sizes="92vw" />
+        {image.caption && <p className="spb-lightbox-cap">{image.caption}</p>}
+      </div>
+    </div>
+  );
+}
+
 function LotResult({ lot }: { lot: CoffeeLot }) {
   const images = Array.isArray(lot.images) ? lot.images : [];
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   return (
     <div>
       <div className="spb-result-hd">
@@ -232,21 +324,41 @@ function LotResult({ lot }: { lot: CoffeeLot }) {
           {images.length > 0 && (
             <div className="spb-gallery">
               {images.map((img, i) => (
-                <Image
+                <button
                   key={img.id}
-                  src={img.url}
-                  alt={img.caption || lot.product_name || "Bilde fra partiet"}
-                  width={480}
-                  height={360}
-                  unoptimized
-                  style={
-                    i === images.length - 1 && images.length % 2 !== 0
-                      ? { gridColumn: "1 / -1" }
-                      : undefined
-                  }
-                />
+                  type="button"
+                  className="spb-gallery-item"
+                  onClick={() => setOpenIndex(i)}
+                  aria-label={img.caption ? `Vis bilde: ${img.caption}` : "Vis bilde i full størrelse"}
+                >
+                  <div className="frame">
+                    <span className="idx">
+                      {String(i + 1).padStart(2, "0")}/{String(images.length).padStart(2, "0")}
+                    </span>
+                    <Image
+                      src={img.url}
+                      alt={img.caption || lot.product_name || "Bilde fra partiet"}
+                      width={480}
+                      height={360}
+                      sizes="(max-width: 560px) 92vw, 280px"
+                    />
+                  </div>
+                  {img.caption && (
+                    <div className="cap">
+                      <p>{img.caption}</p>
+                    </div>
+                  )}
+                </button>
               ))}
             </div>
+          )}
+          {openIndex !== null && (
+            <Lightbox
+              images={images}
+              index={openIndex}
+              onClose={() => setOpenIndex(null)}
+              onNavigate={setOpenIndex}
+            />
           )}
           {lot.story_video_url && (
             <div className="spb-video">
