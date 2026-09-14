@@ -38,6 +38,9 @@ AGENTS.md
 
 # design mockups (not part of the app)
 /design/
+
+# GCP infra runbook / one-off scripts — kept locally only
+/gcp/
 /feltjournal.html
 /feltjournal-prototyper.html
 /shop-prototyper.html
