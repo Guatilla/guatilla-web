@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = {
@@ -16,7 +15,6 @@ const MUTED_LIGHT = "#A99C8E";
 const HAIRLINE = "#E7DDD1";
 const FIELD_BORDER = "#D8CCBE";
 const DASH = "#C9BBAC";
-const MEDAL_BG = "#F2E6D8";
 const TERRA = "#A94B2F";
 const MUSTARD = "#DDA83A";
 const TEAL = "#1F4B4B";
@@ -39,7 +37,7 @@ const CHANNELS = [
   {
     dot: TEAL,
     title: "Presse",
-    body: "Presseforespørsler, bilder og intervjuer med familien på gården.",
+    body: "Presseforespørsler, pressebilder og bakgrunn om kaffen og opprinnelsen.",
   },
 ];
 
@@ -56,20 +54,11 @@ const CSS = `
 .ct-h1 em { font-style:italic; color:${TERRA}; }
 .ct-lead { margin:18px auto 0; max-width:48ch; font-size:16px; line-height:1.65; color:${MUTED}; }
 
-.ct-route { position:relative; margin:clamp(48px,6vw,68px) auto 0; max-width:380px; display:flex; align-items:center; justify-content:space-between; }
-.ct-route::before { content:""; position:absolute; left:50px; right:50px; top:50%; border-top:1px dashed ${DASH}; }
-.ct-node { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:12px; flex:none; }
-.ct-medal { position:relative; width:84px; height:84px; border-radius:50%; overflow:hidden; background:${MEDAL_BG}; border:1px solid ${HAIRLINE}; }
-.ct-medal svg { width:100%; height:100%; padding:22px; }
-.ct-node span { font-family:${F_MONO}; font-weight:700; font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:${MUTED}; text-align:center; }
-.ct-waypoint { position:relative; z-index:1; flex:none; background:${CREAM}; border:1px solid ${HAIRLINE}; border-radius:50%; width:34px; height:34px; display:flex; align-items:center; justify-content:center; }
-
-.ct-hero-actions { margin-top:clamp(40px,5vw,56px); display:flex; flex-direction:column; align-items:center; gap:14px; }
+.ct-hero-actions { margin-top:clamp(44px,6vw,64px); display:flex; flex-direction:column; align-items:center; gap:14px; }
 .ct-btn-primary { display:inline-block; background:${INK}; color:${CREAM}; padding:15px 30px; font-family:${F_MONO}; font-weight:700; font-size:11px; letter-spacing:.1em; text-transform:uppercase; text-decoration:none; }
 .ct-btn-primary:hover { background:${BODY}; }
 .ct-link-quiet { color:${MUTED}; font-size:13.5px; text-decoration:underline; text-underline-offset:3px; text-decoration-color:${DASH}; }
 .ct-link-quiet:hover { color:${TERRA}; text-decoration-color:${TERRA}; }
-@media (max-width: 560px) { .ct-route { max-width:300px; } .ct-route::before { left:52px; right:52px; } .ct-medal { width:64px; height:64px; } }
 
 /* ── FORM ─────────────────────────────────────── */
 .ct-section { padding:clamp(52px,6vw,80px) 0; }
@@ -126,51 +115,9 @@ export default function ContactPage() {
           </h1>
           <p className="ct-lead">
             Har du spørsmål om partiene våre, ønsker et samarbeid på vegne av
-            et brenneri eller representerer pressen? Vi svarer fra både
-            Colombia og Norge.
+            et brenneri eller representerer pressen? Vi holder til i
+            Stavanger, og svarer så raskt vi kan.
           </p>
-
-          <div className="ct-route">
-            <div className="ct-node">
-              <div className="ct-medal">
-                <Image
-                  src="/assets/perija-montanas.jpg"
-                  alt="Serranía del Perijá"
-                  fill
-                  sizes="84px"
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
-              <span>
-                Perijá,
-                <br />
-                Colombia
-              </span>
-            </div>
-
-            <div className="ct-waypoint" title="Kaffen reiser fra Perijá til Stavanger">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6 8h12l-1 10a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 8Z" />
-                <path d="M18 9h1.5a2 2 0 0 1 0 4H18" />
-                <path d="M9 4c-.6.6-.6 1.4 0 2M13 4c-.6.6-.6 1.4 0 2" />
-              </svg>
-            </div>
-
-            <div className="ct-node">
-              <div className="ct-medal">
-                <svg viewBox="0 0 24 24" fill="none" stroke={MUTED} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 21V9l8-5 8 5v12" />
-                  <path d="M9 21v-6h6v6" />
-                  <path d="M4 9l8 5 8-5" />
-                </svg>
-              </div>
-              <span>
-                Stavanger,
-                <br />
-                Norge
-              </span>
-            </div>
-          </div>
 
           <div className="ct-hero-actions">
             <a href="mailto:kontakt@kaffeguatilla.com" className="ct-btn-primary">
