@@ -1,5 +1,36 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
+import { getRequestLocale } from "@/i18n/server";
+
+const DIRECT_TRADE_COPY = {
+  no: {
+    eyebrow: "Direkte handel",
+    headingBefore: "Vi kjenner alle som dyrker kaffen — det er",
+    headingEmphasis: "familien vår",
+    body: "Kaffebransjen har ofte lange verdikjeder der sporbarheten tilbake til menneskene bak kaffen går tapt. Hos Guatilla kjenner vi dem som sår, høster og foredler kaffen — fordi de er vår egen familie. Slik bringer vi varmen og engasjementet fra Colombia direkte inn i norsk kaffekultur.",
+    cta: "Les vår historie",
+    imageAlt:
+      "Familien vår foredler kaffen ved tørrmøllen i Agustín Codazzi",
+  },
+  en: {
+    eyebrow: "Direct trade",
+    headingBefore: "We know everyone who grows the coffee — they are",
+    headingEmphasis: "our family",
+    body: "The coffee industry often has long value chains where traceability back to the people behind the coffee gets lost. At Guatilla, we know the people who sow, harvest and process it — because they are our own family. This is how we bring the warmth and dedication of Colombia directly into Norwegian coffee culture.",
+    cta: "Read our story",
+    imageAlt:
+      "Our family processes coffee at the dry mill in Agustín Codazzi",
+  },
+  es: {
+    eyebrow: "Comercio directo",
+    headingBefore: "Conocemos a todos los que cultivan el café: son",
+    headingEmphasis: "nuestra familia",
+    body: "La industria del café suele tener largas cadenas de valor en las que se pierde la trazabilidad hasta las personas que están detrás del café. En Guatilla conocemos a quienes siembran, cosechan y procesan el café porque son nuestra propia familia. Así llevamos el calor y el compromiso de Colombia directamente a la cultura cafetera noruega.",
+    cta: "Conoce nuestra historia",
+    imageAlt:
+      "Nuestra familia procesa el café en la trilladora de Agustín Codazzi",
+  },
+} as const;
 
 /* ── Tokens (modern patchwork) ─────────────────────────────────── */
 const CREAM = "#FDF1E5";
@@ -41,7 +72,10 @@ const CSS = `
 @media (prefers-reduced-motion: reduce) { .dt * { transition:none !important; } }
 `;
 
-export default function DirectTrade() {
+export default async function DirectTrade() {
+  const locale = await getRequestLocale();
+  const copy = DIRECT_TRADE_COPY[locale];
+
   return (
     <section className="dt">
       <style>{CSS}</style>
@@ -49,10 +83,10 @@ export default function DirectTrade() {
       <div className="dt-inner">
         {/* 1) HEADLINE BLOCK */}
         <div className="dt-headline">
-          <p className="dt-eyebrow">Direkte handel</p>
+          <p className="dt-eyebrow">{copy.eyebrow}</p>
           <h2 className="dt-h2">
-            Vi kjenner alle som dyrker kaffen — det er{" "}
-            <span className="dt-patch">familien vår</span>
+            {copy.headingBefore}{" "}
+            <span className="dt-patch">{copy.headingEmphasis}</span>
           </h2>
         </div>
 
@@ -60,21 +94,17 @@ export default function DirectTrade() {
         <div className="dt-row">
           <div className="dt-text">
             <p className="dt-p">
-              Kaffebransjen har ofte lange verdikjeder der sporbarheten tilbake
-              til menneskene bak kaffen går tapt. Hos Guatilla kjenner vi dem
-              som sår, høster og foredler kaffen — fordi de er vår egen familie.
-              Slik bringer vi varmen og engasjementet fra Colombia direkte inn i
-              norsk kaffekultur.
+              {copy.body}
             </p>
             <Link href="/origen" className="dt-link">
-              Les vår historie →
+              {copy.cta} →
             </Link>
           </div>
 
           <div className="dt-photo">
             <Image
               src="/assets/trilladora-arbeid.jpg"
-              alt="Familien vår foredler kaffen ved tørrmøllen i Agustín Codazzi"
+              alt={copy.imageAlt}
               fill
               sizes="(max-width: 860px) 100vw, 55vw"
               style={{ objectFit: "cover", objectPosition: "center 15%" }}

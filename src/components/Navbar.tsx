@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import Link from "./LocalizedLink";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, Search, ChevronRight } from "lucide-react";
@@ -9,30 +9,9 @@ import MobileMenu from "./MobileMenu";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { SITE_ROUTES } from "@/lib/routes";
 import { useCart } from "./CartProvider";
-
-const NAV_ITEMS = [
-  { href: "/kaffe", label: "Kaffe" },
-  { href: "/shop", label: "Butikk", hasMenu: true },
-  { href: "/origen", label: "Opprinnelse" },
-  { href: "/about", label: "Om oss" },
-];
-
-const BUTIKK_MENU = [
-  {
-    heading: "Etter kvalitet",
-    links: [
-      { label: "Café de Montaña (Excelso)", href: "/shop" },
-      { label: "Café Especial", href: "/shop" },
-    ],
-  },
-  {
-    heading: "Etter format",
-    links: [
-      { label: "Hele bønner", href: "/shop" },
-      { label: "Malt kaffe", href: "/shop" },
-    ],
-  },
-];
+import { useLocale } from "@/i18n/LocaleProvider";
+import { SHARED_COPY } from "@/i18n/copy";
+import { stripLocaleFromPathname } from "@/i18n/config";
 
 const FOCUS_RING =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-coffee focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream";
@@ -56,10 +35,13 @@ function Logo({ small = false }: { small?: boolean }) {
 }
 
 function CartButton({ count }: { count: number }) {
+  const locale = useLocale();
+  const copy = SHARED_COPY[locale].accessibility;
+
   return (
     <Link
       href={SITE_ROUTES.cart}
-      aria-label={count > 0 ? `Handlekurv, ${count} varer` : "Handlekurv"}
+      aria-label={count > 0 ? copy.cartWithItems(count) : copy.cart}
       className={`relative inline-flex bg-brand-coffee px-[15px] py-[13px] text-brand-cream ${FOCUS_RING}`}
     >
       <svg
@@ -87,10 +69,35 @@ function CartButton({ count }: { count: number }) {
 
 export default function Navbar() {
   const { cartCount } = useCart();
+  const locale = useLocale();
+  const copy = SHARED_COPY[locale];
   const pathname = usePathname();
+  const pathnameWithoutLocale = stripLocaleFromPathname(pathname);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const navItems = [
+    { href: "/kaffe", label: copy.nav.coffee },
+    { href: "/shop", label: copy.nav.shop, hasMenu: true },
+    { href: "/origen", label: copy.nav.origin },
+    { href: "/about", label: copy.nav.about },
+  ];
+  const shopMenu = [
+    {
+      heading: copy.shopMenu.byQuality,
+      links: [
+        { label: copy.shopMenu.mountain, href: "/shop" },
+        { label: copy.shopMenu.special, href: "/shop" },
+      ],
+    },
+    {
+      heading: copy.shopMenu.byFormat,
+      links: [
+        { label: copy.shopMenu.wholeBean, href: "/shop" },
+        { label: copy.shopMenu.ground, href: "/shop" },
+      ],
+    },
+  ];
 
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? "hidden" : "unset";
@@ -115,7 +122,7 @@ export default function Navbar() {
         {/* 1) announcement bar */}
         <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-0.5 bg-brand-teal px-4 py-2.5 text-center text-brand-cream sm:gap-x-[26px]">
           <span className="text-[10.5px] font-bold uppercase tracking-[0.16em]">
-            Nettbutikken er under oppbygging — salget er ikke åpnet ennå
+            {copy.announcement}
           </span>
         </div>
 
@@ -128,7 +135,7 @@ export default function Navbar() {
           {/* mobile: hamburger */}
           <button
             onClick={() => setIsMobileMenuOpen(true)}
-            aria-label="Åpne meny"
+            aria-label={copy.accessibility.openMenu}
             className={`flex h-9 w-9 items-center justify-center text-brand-coffee lg:hidden ${FOCUS_RING}`}
           >
             <Menu size={22} />
@@ -138,7 +145,7 @@ export default function Navbar() {
           <Link
             href={SITE_ROUTES.home}
             onMouseEnter={() => setIsMenuOpen(false)}
-            aria-label="Kaffe Guatilla — forsiden"
+            aria-label={copy.accessibility.home}
             className={`flex shrink-0 items-center ${FOCUS_RING}`}
           >
             <Logo small={scrolled} />
@@ -149,10 +156,10 @@ export default function Navbar() {
 
           {/* center: links */}
           <div className="hidden items-center gap-1.5 lg:flex">
-            {NAV_ITEMS.map((item) => {
+            {navItems.map((item) => {
               const active =
-                pathname === item.href ||
-                pathname.startsWith(`${item.href}/`);
+                pathnameWithoutLocale === item.href ||
+                pathnameWithoutLocale.startsWith(`${item.href}/`);
               const cls = `${FOCUS_RING} block px-4 py-2.5 font-heading text-[17px] font-semibold motion-safe:transition-colors ${
                 active
                   ? "-rotate-1 bg-brand-olive text-brand-cream"
@@ -184,7 +191,7 @@ export default function Navbar() {
           <div className="hidden items-center gap-4 lg:flex">
             <button
               type="button"
-              aria-label="Søk etter kaffe"
+              aria-label={copy.accessibility.search}
               className={`p-1 text-brand-coffee transition-colors hover:text-brand-terracotta ${FOCUS_RING}`}
             >
               <Search size={18} strokeWidth={1.8} />
@@ -204,7 +211,7 @@ export default function Navbar() {
           <div className="absolute inset-x-0 top-full z-50 hidden border-t-[3px] border-dashed border-brand-coffee/30 bg-brand-cream pb-8 pt-6 lg:block">
             <div className="container-frame lg:flex lg:gap-9">
               <div className="flex flex-1 gap-12">
-                {BUTIKK_MENU.map((col) => (
+                {shopMenu.map((col) => (
                   <div key={col.heading}>
                     <p className="mb-3.5 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-coffee/45">
                       {col.heading}
@@ -232,17 +239,17 @@ export default function Navbar() {
               >
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold">
-                    Nyhet
+                    {copy.shopMenu.new}
                   </span>
                   <h3 className="mt-2 font-heading text-[22px] font-bold">
-                    Encuentro — Honey
+                    {copy.shopMenu.product}
                   </h3>
                   <p className="mt-1.5 text-[12px] leading-relaxed text-brand-cream/80">
-                    Honning, nøtter, krydder. Mikroparti fra Serranía del Perijá.
+                    {copy.shopMenu.description}
                   </p>
                 </div>
                 <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em]">
-                  Handle nå
+                  {copy.shopMenu.cta}
                   <ChevronRight size={14} strokeWidth={2.4} />
                 </span>
               </Link>

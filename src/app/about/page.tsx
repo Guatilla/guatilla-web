@@ -1,11 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
-
-export const metadata = {
-  title: "Vår historie | Kaffe Guatilla",
-  description:
-    "Oppdag historien bak Kaffe Guatilla – fra de colombianske fjellene til kaffekulturen i Stavanger.",
-};
+import Link from "@/components/LocalizedLink";
+import { getRequestLocale } from "@/i18n/server";
 
 /* ── Tokens (modern patchwork) ─────────────────────────────────── */
 const CREAM = "#FDF1E5";
@@ -25,17 +20,171 @@ const F_BITTER = "var(--font-bitter), Georgia, serif";
 const F_KARLA = "var(--font-karla), system-ui, sans-serif";
 const F_MONO = "var(--font-space-mono), ui-monospace, monospace";
 
-const BRIDGE = [
-  { n: "01", bg: TERRA, color: ON_DARK, label: "Mellom steder" },
-  { n: "02", bg: OLIVE, color: ON_DARK, label: "Mellom kulturer" },
-  { n: "03", bg: MUSTARD, color: INK, label: "Mellom produsent og kaffedrikker" },
+const BRIDGE_STYLES = [
+  { n: "01", bg: TERRA, color: ON_DARK },
+  { n: "02", bg: OLIVE, color: ON_DARK },
+  { n: "03", bg: MUSTARD, color: INK },
 ];
 
-const IDENTITY = [
-  { bg: TERRA, color: ON_DARK, label: "Navnet" },
-  { bg: OLIVE, color: ON_DARK, label: "Symbolet" },
-  { bg: MUSTARD, color: INK, label: "Kaffen" },
+const IDENTITY_STYLES = [
+  { bg: TERRA, color: ON_DARK },
+  { bg: OLIVE, color: ON_DARK },
+  { bg: MUSTARD, color: INK },
 ];
+
+const ABOUT_COPY = {
+  no: {
+    metaTitle: "Vår historie | Kaffe Guatilla",
+    metaDescription:
+      "Oppdag historien bak Kaffe Guatilla — fra de colombianske fjellene til kaffekulturen i Stavanger.",
+    heroEyebrow: "Vår historie",
+    heroTitleBefore: "Fra Perijá til",
+    heroLead:
+      "Historien vår begynner i Serranía del Perijá i Colombia og fortsetter i Stavanger, der kaffen møter norsk kaffekultur.",
+    nameEyebrow: "Navnet",
+    nameTitleBefore: "Fra",
+    nameMark: "avstand",
+    nameTitleAfter: "til forbindelse",
+    then: "Før",
+    thenBody:
+      "Guatilla var et ord som urfolkssamfunnene i Serranía del Perijá brukte om mennesker utenfor sine egne fellesskap — et ord som en gang markerte avstand og ulikhet.",
+    now: "Nå",
+    nowBody:
+      "For oss betyr Guatilla ikke lenger splittelse, men forbindelse. Det er et møtepunkt mellom kulturer, en bro mellom opprinnelse og destinasjon.",
+    quote: "«I dag tolker vi dette navnet på nytt.»",
+    symbolEyebrow: "Symbolet",
+    symbolTitle: "Et utsiktspunkt som ble en bro",
+    symbolAlt: "Den sirkelformede Guatilla-skulpturen",
+    symbolBody:
+      "Guatillas symbol ble til ved et utsiktspunkt høyt oppe i Serranía del Perijá. Det som startet som en visuell opplevelse av landskapet og fargene, tolket vi senere som en bro.",
+    bridgeLabels: [
+      "Mellom steder",
+      "Mellom kulturer",
+      "Mellom produsent og kaffedrikker",
+    ],
+    cycle:
+      "Den sirkulære formen representerer en fullstendig syklus — fra den colombianske jorden til Europa.",
+    responsibility: "Ansvaret",
+    responsibilityBody:
+      "For oss er ikke kvalitet bare en teknisk poengsum; det er et løfte. Gjennom direkte samarbeid med kaffeprodusentene i familien vår bidrar vi til rettferdige vilkår og langsiktig utvikling i lokalsamfunnene i Colombia.",
+    openness: "Full åpenhet",
+    opennessBody: "Ærlighet i hvert eneste ledd av prosessen.",
+    relations: "Direkte relasjoner",
+    relationsBody: "Langsiktig tillit bygget på felles vekst.",
+    identityEyebrow: "Én identitet",
+    identityTitle: "Ett system, en felles historie.",
+    identityBody:
+      "Navnet, symbolet og kaffen er deler av den samme identiteten. Ved å forene meningen bak navnet med kraften i symbolet, skaper vi en opplevelse som starter i Perijá og fullføres i din hverdag.",
+    identityLabels: ["Navnet", "Symbolet", "Kaffen"],
+    ctaTitle: "Bli en del av vår historie.",
+    ctaBody: "Utforsk partiene fra Perijá, eller ta kontakt med oss direkte.",
+    coffeeCta: "Utforsk kaffen",
+    contactCta: "Kontakt oss",
+  },
+  en: {
+    metaTitle: "Our story | Kaffe Guatilla",
+    metaDescription:
+      "Discover the story behind Kaffe Guatilla — from the Colombian mountains to Stavanger's coffee culture.",
+    heroEyebrow: "Our story",
+    heroTitleBefore: "From Perijá to",
+    heroLead:
+      "Our story begins in Serranía del Perijá in Colombia and continues in Stavanger, where the coffee meets Norwegian coffee culture.",
+    nameEyebrow: "The name",
+    nameTitleBefore: "From",
+    nameMark: "distance",
+    nameTitleAfter: "to connection",
+    then: "Then",
+    thenBody:
+      "Guatilla was a word used by Indigenous communities in Serranía del Perijá for people outside their own communities — a word that once marked distance and difference.",
+    now: "Now",
+    nowBody:
+      "For us, Guatilla no longer means separation, but connection. It is a meeting point between cultures, a bridge between origin and destination.",
+    quote: "“Today, we give this name a new meaning.”",
+    symbolEyebrow: "The symbol",
+    symbolTitle: "A viewpoint that became a bridge",
+    symbolAlt: "The circular Guatilla sculpture",
+    symbolBody:
+      "Guatilla's symbol took shape at a viewpoint high in Serranía del Perijá. What began as a visual experience of the landscape and its colours later became, to us, a bridge.",
+    bridgeLabels: [
+      "Between places",
+      "Between cultures",
+      "Between producer and coffee drinker",
+    ],
+    cycle:
+      "The circular form represents a complete cycle — from Colombian soil to Europe.",
+    responsibility: "Our responsibility",
+    responsibilityBody:
+      "For us, quality is not just a technical score; it is a promise. Through direct collaboration with the coffee producers in our family, we contribute to fair conditions and long-term development in Colombian communities.",
+    openness: "Full transparency",
+    opennessBody: "Honesty at every stage of the process.",
+    relations: "Direct relationships",
+    relationsBody: "Long-term trust built on shared growth.",
+    identityEyebrow: "One identity",
+    identityTitle: "One system, one shared story.",
+    identityBody:
+      "The name, the symbol and the coffee are parts of the same identity. By uniting the meaning behind the name with the strength of the symbol, we create an experience that begins in Perijá and becomes part of your everyday life.",
+    identityLabels: ["The name", "The symbol", "The coffee"],
+    ctaTitle: "Become part of our story.",
+    ctaBody: "Explore the lots from Perijá or contact us directly.",
+    coffeeCta: "Explore the coffee",
+    contactCta: "Contact us",
+  },
+  es: {
+    metaTitle: "Nuestra historia | Kaffe Guatilla",
+    metaDescription:
+      "Descubre la historia de Kaffe Guatilla: de las montañas colombianas a la cultura cafetera de Stavanger.",
+    heroEyebrow: "Nuestra historia",
+    heroTitleBefore: "Del Perijá a",
+    heroLead:
+      "Nuestra historia comienza en la Serranía del Perijá, en Colombia, y continúa en Stavanger, donde el café se encuentra con la cultura cafetera noruega.",
+    nameEyebrow: "El nombre",
+    nameTitleBefore: "De la",
+    nameMark: "distancia",
+    nameTitleAfter: "a la conexión",
+    then: "Antes",
+    thenBody:
+      "Guatilla era una palabra que las comunidades indígenas de la Serranía del Perijá utilizaban para las personas ajenas a sus comunidades: una palabra que marcaba distancia y diferencia.",
+    now: "Ahora",
+    nowBody:
+      "Para nosotros, Guatilla ya no significa separación, sino conexión. Es un punto de encuentro entre culturas, un puente entre origen y destino.",
+    quote: "«Hoy damos un nuevo significado a este nombre.»",
+    symbolEyebrow: "El símbolo",
+    symbolTitle: "Un mirador que se convirtió en puente",
+    symbolAlt: "La escultura circular de Guatilla",
+    symbolBody:
+      "El símbolo de Guatilla nació en un mirador de la Serranía del Perijá. Lo que comenzó como una experiencia visual del paisaje y sus colores se convirtió después, para nosotros, en un puente.",
+    bridgeLabels: [
+      "Entre lugares",
+      "Entre culturas",
+      "Entre productor y amante del café",
+    ],
+    cycle:
+      "La forma circular representa un ciclo completo: de la tierra colombiana a Europa.",
+    responsibility: "La responsabilidad",
+    responsibilityBody:
+      "Para nosotros, la calidad no es solo una puntuación técnica; es una promesa. Mediante la colaboración directa con los caficultores de nuestra familia, contribuimos a unas condiciones justas y al desarrollo a largo plazo de las comunidades colombianas.",
+    openness: "Transparencia total",
+    opennessBody: "Honestidad en cada etapa del proceso.",
+    relations: "Relaciones directas",
+    relationsBody: "Confianza duradera basada en el crecimiento compartido.",
+    identityEyebrow: "Una identidad",
+    identityTitle: "Un sistema, una historia compartida.",
+    identityBody:
+      "El nombre, el símbolo y el café forman parte de una misma identidad. Al unir el significado del nombre con la fuerza del símbolo, creamos una experiencia que comienza en el Perijá y se completa en tu día a día.",
+    identityLabels: ["El nombre", "El símbolo", "El café"],
+    ctaTitle: "Forma parte de nuestra historia.",
+    ctaBody: "Descubre los lotes del Perijá o ponte en contacto con nosotros.",
+    coffeeCta: "Descubre el café",
+    contactCta: "Contáctanos",
+  },
+} as const;
+
+export async function generateMetadata() {
+  const locale = await getRequestLocale();
+  const copy = ABOUT_COPY[locale];
+
+  return { title: copy.metaTitle, description: copy.metaDescription };
+}
 
 const CSS = `
 .om { background:${CREAM}; color:${BODY}; font-family:${F_KARLA}; }
@@ -139,7 +288,10 @@ const CSS = `
 @media (prefers-reduced-motion: reduce){ .om * { transition:none !important; } }
 `;
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const locale = await getRequestLocale();
+  const copy = ABOUT_COPY[locale];
+
   return (
     <div className="om">
       <style>{CSS}</style>
@@ -148,13 +300,12 @@ export default function AboutPage() {
       <section className="om-hero">
         <div className="om-hero-inner">
           <div className="om-hero-copy">
-            <p className="om-eyebrow">Vår historie</p>
+            <p className="om-eyebrow">{copy.heroEyebrow}</p>
             <h1 className="om-hero-h1">
-              Fra Perijá til <em>Stavanger</em>.
+              {copy.heroTitleBefore} <em>Stavanger</em>.
             </h1>
             <p className="om-hero-lead">
-              Historien vår begynner i Serranía del Perijá i Colombia og
-              fortsetter i Stavanger, der kaffen møter norsk kaffekultur.
+              {copy.heroLead}
             </p>
             <div className="om-hero-tags">
               <span>Colombia</span>
@@ -178,32 +329,26 @@ export default function AboutPage() {
       <section className="om-section">
         <div className="container-page">
           <div className="om-rule">
-            <p className="om-eyebrow">Navnet</p>
+            <p className="om-eyebrow">{copy.nameEyebrow}</p>
             <i />
           </div>
           <h2 className="om-h2">
-            Fra <span className="mark">avstand</span> til forbindelse
+            {copy.nameTitleBefore}{" "}
+            <span className="mark">{copy.nameMark}</span>{" "}
+            {copy.nameTitleAfter}
           </h2>
           <div className="om-prose om-q2">
             <div className="om-prose-cell" style={{ background: CREAM }}>
               <div className="k" style={{ color: MUTED }}>
-                Før
+                {copy.then}
               </div>
-              <p>
-                Guatilla var et ord som urfolkssamfunnene i Serranía del Perijá
-                brukte om mennesker utenfor sine egne fellesskap – et ord som
-                en gang markerte avstand og ulikhet.
-              </p>
+              <p>{copy.thenBody}</p>
             </div>
             <div className="om-prose-cell" style={{ background: WARM }}>
               <div className="k" style={{ color: TERRA }}>
-                Nå
+                {copy.now}
               </div>
-              <p>
-                For oss betyr Guatilla ikke lenger splittelse, men forbindelse.
-                Det er et møtepunkt mellom kulturer, en bro mellom opprinnelse og
-                destinasjon.
-              </p>
+              <p>{copy.nowBody}</p>
             </div>
           </div>
         </div>
@@ -214,7 +359,7 @@ export default function AboutPage() {
         <div className="container-page">
           <div className="om-quote-inner">
             <i />
-            <p>«I dag tolker vi dette navnet på nytt.»</p>
+            <p>{copy.quote}</p>
           </div>
         </div>
       </section>
@@ -222,40 +367,35 @@ export default function AboutPage() {
       {/* ── 4) SYMBOLET ─────────────────────────────────── */}
       <section className="om-section">
         <div className="container-page">
-          <p className="om-eyebrow om-sym-eyebrow">Symbolet</p>
-          <h2 className="om-sym-h2">Et utsiktspunkt som ble en bro</h2>
+          <p className="om-eyebrow om-sym-eyebrow">{copy.symbolEyebrow}</p>
+          <h2 className="om-sym-h2">{copy.symbolTitle}</h2>
           <div className="om-sym-grid">
             <div className="om-sym-photo">
               <Image
                 src="/assets/about-circle.jpg"
-                alt="Den sirkelformede Guatilla-skulpturen"
+                alt={copy.symbolAlt}
                 fill
                 sizes="(max-width: 1100px) 100vw, 50vw"
                 style={{ objectFit: "cover", objectPosition: "center" }}
               />
             </div>
             <div className="om-sym-copy">
-              <p>
-                Guatillas symbol ble til ved et utsiktspunkt høyt oppe i
-                Serranía del Perijá. Det som startet som en visuell opplevelse
-                av landskapet og fargene, tolket vi senere som en bro.
-              </p>
+              <p>{copy.symbolBody}</p>
               <div className="om-bridge">
-                {BRIDGE.map((b) => (
+                {BRIDGE_STYLES.map((b, index) => (
                   <div
                     key={b.n}
                     className="om-bridge-row"
                     style={{ background: b.bg }}
                   >
                     <b style={{ color: b.color }}>{b.n}</b>
-                    <span style={{ color: b.color }}>{b.label}</span>
+                    <span style={{ color: b.color }}>
+                      {copy.bridgeLabels[index]}
+                    </span>
                   </div>
                 ))}
               </div>
-              <p className="small">
-                Den sirkulære formen representerer en fullstendig syklus – fra
-                den colombianske jorden til Europa.
-              </p>
+              <p className="small">{copy.cycle}</p>
             </div>
           </div>
         </div>
@@ -266,22 +406,17 @@ export default function AboutPage() {
         <div className="container-page">
           <div className="om-resp">
             <div className="om-resp-lead">
-              <p className="om-eyebrow">Ansvaret</p>
-              <p>
-                For oss er ikke kvalitet bare en teknisk poengsum; det er et
-                løfte. Gjennom direkte samarbeid med kaffeprodusentene i familien
-                vår bidrar vi til rettferdige vilkår og langsiktig utvikling i
-                lokalsamfunnene i Colombia.
-              </p>
+              <p className="om-eyebrow">{copy.responsibility}</p>
+              <p>{copy.responsibilityBody}</p>
             </div>
             <div className="om-resp-grid om-q2">
               <div className="om-resp-cell" style={{ background: CREAM }}>
-                <b>Full åpenhet</b>
-                <p>Ærlighet i hvert eneste ledd av prosessen.</p>
+                <b>{copy.openness}</b>
+                <p>{copy.opennessBody}</p>
               </div>
               <div className="om-resp-cell" style={{ background: WARM }}>
-                <b>Direkte relasjoner</b>
-                <p>Langsiktig tillit bygget på felles vekst.</p>
+                <b>{copy.relations}</b>
+                <p>{copy.relationsBody}</p>
               </div>
             </div>
           </div>
@@ -292,17 +427,16 @@ export default function AboutPage() {
       <section className="om-section">
         <div className="container-page">
           <div className="om-id">
-            <p className="om-eyebrow">Én identitet</p>
-            <h2>Ett system, en felles historie.</h2>
-            <p>
-              Navnet, symbolet og kaffen er deler av den samme identiteten. Ved å
-              forene meningen bak navnet med kraften i symbolet, skaper vi en
-              opplevelse som starter i Perijá og fullføres i din hverdag.
-            </p>
+            <p className="om-eyebrow">{copy.identityEyebrow}</p>
+            <h2>{copy.identityTitle}</h2>
+            <p>{copy.identityBody}</p>
             <div className="om-id-row om-q3">
-              {IDENTITY.map((i) => (
-                <div key={i.label} style={{ background: i.bg, color: i.color }}>
-                  {i.label}
+              {IDENTITY_STYLES.map((item, index) => (
+                <div
+                  key={copy.identityLabels[index]}
+                  style={{ background: item.bg, color: item.color }}
+                >
+                  {copy.identityLabels[index]}
                 </div>
               ))}
             </div>
@@ -315,17 +449,15 @@ export default function AboutPage() {
         <div className="container-page">
           <div className="om-cta-inner">
             <div className="om-cta-text">
-              <h2>Bli en del av vår historie.</h2>
-              <p>
-                Utforsk partiene fra Perijá, eller ta kontakt med oss direkte.
-              </p>
+              <h2>{copy.ctaTitle}</h2>
+              <p>{copy.ctaBody}</p>
             </div>
             <div className="om-cta-btns">
               <Link href="/shop" className="dark">
-                Utforsk kaffen →
+                {copy.coffeeCta} →
               </Link>
               <Link href="/contact" className="light">
-                Kontakt oss →
+                {copy.contactCta} →
               </Link>
             </div>
           </div>

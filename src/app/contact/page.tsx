@@ -1,10 +1,5 @@
-import Link from "next/link";
-
-export const metadata = {
-  title: "Kontakt | Kaffe Guatilla",
-  description:
-    "Har du spørsmål eller ønsker å samarbeide? Ta kontakt med Kaffe Guatilla.",
-};
+import Link from "@/components/LocalizedLink";
+import { getRequestLocale } from "@/i18n/server";
 
 /* ── Tokens (modern patchwork, toned down) ───────────────────────── */
 const INK = "#2E2018";
@@ -23,23 +18,143 @@ const F_BITTER = "var(--font-bitter), Georgia, serif";
 const F_KARLA = "var(--font-karla), system-ui, sans-serif";
 const F_MONO = "var(--font-space-mono), ui-monospace, monospace";
 
-const CHANNELS = [
-  {
-    dot: TERRA,
-    title: "Kaffe og generelle spørsmål",
-    body: "Spørsmål om partiene våre, smaksprofiler eller en bestilling.",
+const CHANNEL_COLORS = [TERRA, MUSTARD, TEAL];
+
+const CONTACT_COPY = {
+  no: {
+    metaTitle: "Kontakt | Kaffe Guatilla",
+    metaDescription:
+      "Har du spørsmål eller ønsker å samarbeide? Ta kontakt med Kaffe Guatilla.",
+    eyebrow: "Kontakt",
+    heroBefore: "La oss ta en prat om",
+    heroEmphasis: "kaffe",
+    lead: "Har du spørsmål om partiene våre, ønsker et samarbeid på vegne av et brenneri eller representerer pressen? Vi holder til i Stavanger, og svarer så raskt vi kan.",
+    emailCta: "Send oss en e-post",
+    channelsCta: "eller se kontaktkanaler",
+    writeEyebrow: "Skriv til oss",
+    writeTitle: "Fortell oss hva du lurer på.",
+    formIntro: "Fyll ut skjemaet, eller skriv direkte til oss på e-post. Alle henvendelser går til samme adresse — uansett om det gjelder kaffe, samarbeid eller presse.",
+    responseTime: "Svarer vanligvis innen 24–48 timer",
+    name: "Navn",
+    namePlaceholder: "Ditt navn",
+    email: "E-post",
+    emailPlaceholder: "din@epost.no",
+    subject: "Emne",
+    message: "Melding",
+    messagePlaceholder: "Skriv meldingen din her …",
+    send: "Send melding",
+    channelsEyebrow: "Kontaktkanaler",
+    channelsTitle: "Ett sted å skrive, uansett hva det gjelder.",
+    channels: [
+      {
+        title: "Kaffe og generelle spørsmål",
+        body: "Spørsmål om partiene våre, smaksprofiler eller en bestilling.",
+      },
+      {
+        title: "Samarbeid og engros",
+        body: "Vil du bli forhandler eller kjøpe råkaffe til brenneriet ditt?",
+      },
+      {
+        title: "Presse",
+        body: "Presseforespørsler, pressebilder og bakgrunn om kaffen og opprinnelsen.",
+      },
+    ],
+    journal: "Feltjournalen",
+    closingTitle: "Følg reisen fra jord til kopp.",
+    journalCta: "Les feltjournalen",
   },
-  {
-    dot: MUSTARD,
-    title: "Samarbeid og engros",
-    body: "Vil du bli forhandler eller kjøpe råkaffe til brenneriet ditt?",
+  en: {
+    metaTitle: "Contact | Kaffe Guatilla",
+    metaDescription:
+      "Have a question or want to work with us? Contact Kaffe Guatilla.",
+    eyebrow: "Contact",
+    heroBefore: "Let's talk about",
+    heroEmphasis: "coffee",
+    lead: "Have questions about our lots, want to collaborate on behalf of a roastery or represent the press? We are based in Stavanger and reply as quickly as we can.",
+    emailCta: "Send us an email",
+    channelsCta: "or see contact channels",
+    writeEyebrow: "Write to us",
+    writeTitle: "Tell us what is on your mind.",
+    formIntro: "Fill in the form or email us directly. Every enquiry goes to the same address, whether it concerns coffee, collaboration or press.",
+    responseTime: "We usually reply within 24–48 hours",
+    name: "Name",
+    namePlaceholder: "Your name",
+    email: "Email",
+    emailPlaceholder: "you@example.com",
+    subject: "Subject",
+    message: "Message",
+    messagePlaceholder: "Write your message here …",
+    send: "Send message",
+    channelsEyebrow: "Contact channels",
+    channelsTitle: "One place to write, whatever it is about.",
+    channels: [
+      {
+        title: "Coffee and general questions",
+        body: "Questions about our lots, flavour profiles or an order.",
+      },
+      {
+        title: "Partnerships and wholesale",
+        body: "Would you like to become a retailer or buy green coffee for your roastery?",
+      },
+      {
+        title: "Press",
+        body: "Press enquiries, images and background information about the coffee and its origin.",
+      },
+    ],
+    journal: "Field journal",
+    closingTitle: "Follow the journey from soil to cup.",
+    journalCta: "Read the field journal",
   },
-  {
-    dot: TEAL,
-    title: "Presse",
-    body: "Presseforespørsler, pressebilder og bakgrunn om kaffen og opprinnelsen.",
+  es: {
+    metaTitle: "Contacto | Kaffe Guatilla",
+    metaDescription:
+      "¿Tienes preguntas o quieres colaborar? Contacta con Kaffe Guatilla.",
+    eyebrow: "Contacto",
+    heroBefore: "Hablemos de",
+    heroEmphasis: "café",
+    lead: "¿Tienes preguntas sobre nuestros lotes, quieres colaborar en nombre de una tostadora o representas a un medio? Estamos en Stavanger y respondemos lo antes posible.",
+    emailCta: "Envíanos un correo",
+    channelsCta: "o consulta los canales de contacto",
+    writeEyebrow: "Escríbenos",
+    writeTitle: "Cuéntanos qué necesitas.",
+    formIntro: "Completa el formulario o escríbenos directamente por correo. Todas las consultas llegan a la misma dirección, ya sean sobre café, colaboraciones o prensa.",
+    responseTime: "Solemos responder en 24–48 horas",
+    name: "Nombre",
+    namePlaceholder: "Tu nombre",
+    email: "Correo electrónico",
+    emailPlaceholder: "tu@correo.es",
+    subject: "Asunto",
+    message: "Mensaje",
+    messagePlaceholder: "Escribe tu mensaje aquí …",
+    send: "Enviar mensaje",
+    channelsEyebrow: "Canales de contacto",
+    channelsTitle: "Un solo lugar para escribir, sea cual sea el motivo.",
+    channels: [
+      {
+        title: "Café y preguntas generales",
+        body: "Preguntas sobre nuestros lotes, perfiles de sabor o un pedido.",
+      },
+      {
+        title: "Colaboraciones y venta mayorista",
+        body: "¿Quieres ser distribuidor o comprar café verde para tu tostadora?",
+      },
+      {
+        title: "Prensa",
+        body: "Consultas de prensa, imágenes e información sobre el café y su origen.",
+      },
+    ],
+    journal: "Diario de campo",
+    closingTitle: "Sigue el viaje de la tierra a la taza.",
+    journalCta: "Leer el diario de campo",
   },
-];
+} as const;
+
+export async function generateMetadata() {
+  const locale = await getRequestLocale();
+  const copy = CONTACT_COPY[locale];
+
+  return { title: copy.metaTitle, description: copy.metaDescription };
+}
 
 const CSS = `
 .ct { background:${CREAM}; color:${BODY}; font-family:${F_KARLA}; }
@@ -101,7 +216,10 @@ const CSS = `
 @media (prefers-reduced-motion: reduce) { .ct * { transition:none !important; } }
 `;
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const locale = await getRequestLocale();
+  const copy = CONTACT_COPY[locale];
+
   return (
     <div className="ct">
       <style>{CSS}</style>
@@ -109,22 +227,18 @@ export default function ContactPage() {
       {/* ── HERO ─────────────────────────────────────── */}
       <section className="ct-hero">
         <div className="ct-container">
-          <p className="ct-eyebrow">Kontakt</p>
+          <p className="ct-eyebrow">{copy.eyebrow}</p>
           <h1 className="ct-h1">
-            La oss ta en prat om <em>kaffe</em>.
+            {copy.heroBefore} <em>{copy.heroEmphasis}</em>.
           </h1>
-          <p className="ct-lead">
-            Har du spørsmål om partiene våre, ønsker et samarbeid på vegne av
-            et brenneri eller representerer pressen? Vi holder til i
-            Stavanger, og svarer så raskt vi kan.
-          </p>
+          <p className="ct-lead">{copy.lead}</p>
 
           <div className="ct-hero-actions">
             <a href="mailto:kontakt@kaffeguatilla.com" className="ct-btn-primary">
-              Send oss en e-post
+              {copy.emailCta}
             </a>
             <a href="#kanaler" className="ct-link-quiet">
-              eller se kontaktkanaler ↓
+              {copy.channelsCta} ↓
             </a>
           </div>
         </div>
@@ -133,46 +247,42 @@ export default function ContactPage() {
       {/* ── FORM ─────────────────────────────────────── */}
       <section className="ct-section">
         <div className="ct-container">
-          <p className="ct-section-eyebrow">Skriv til oss</p>
-          <h2 className="ct-h2">Fortell oss hva du lurer på.</h2>
+          <p className="ct-section-eyebrow">{copy.writeEyebrow}</p>
+          <h2 className="ct-h2">{copy.writeTitle}</h2>
 
           <div className="ct-form-block">
             <div className="ct-form-copy">
-              <p>
-                Fyll ut skjemaet, eller skriv direkte til oss på e-post. Alle
-                henvendelser går til samme adresse — uansett om det gjelder
-                kaffe, samarbeid eller presse.
-              </p>
+              <p>{copy.formIntro}</p>
               <a href="mailto:kontakt@kaffeguatilla.com" className="ct-form-email">
                 kontakt@kaffeguatilla.com
               </a>
-              <p className="ct-form-note">Svarer vanligvis innen 24–48 timer</p>
+              <p className="ct-form-note">{copy.responseTime}</p>
             </div>
             <div>
               <div className="ct-row2">
                 <div className="ct-field">
-                  <label htmlFor="ct-name">Navn</label>
-                  <input id="ct-name" type="text" placeholder="Ditt navn" />
+                  <label htmlFor="ct-name">{copy.name}</label>
+                  <input id="ct-name" type="text" placeholder={copy.namePlaceholder} />
                 </div>
                 <div className="ct-field">
-                  <label htmlFor="ct-email">E-post</label>
-                  <input id="ct-email" type="email" placeholder="din@epost.no" />
+                  <label htmlFor="ct-email">{copy.email}</label>
+                  <input id="ct-email" type="email" placeholder={copy.emailPlaceholder} />
                 </div>
               </div>
               <div className="ct-field">
-                <label htmlFor="ct-subject">Emne</label>
+                <label htmlFor="ct-subject">{copy.subject}</label>
                 <select id="ct-subject">
-                  <option>Kaffe og generelle spørsmål</option>
-                  <option>Samarbeid og engros</option>
-                  <option>Presse</option>
+                  {copy.channels.map((channel) => (
+                    <option key={channel.title}>{channel.title}</option>
+                  ))}
                 </select>
               </div>
               <div className="ct-field">
-                <label htmlFor="ct-message">Melding</label>
-                <textarea id="ct-message" placeholder="Skriv meldingen din her …" />
+                <label htmlFor="ct-message">{copy.message}</label>
+                <textarea id="ct-message" placeholder={copy.messagePlaceholder} />
               </div>
               <button type="button" className="ct-submit">
-                Send melding
+                {copy.send}
               </button>
             </div>
           </div>
@@ -182,15 +292,15 @@ export default function ContactPage() {
       {/* ── CHANNELS ─────────────────────────────────── */}
       <section className="ct-section" id="kanaler" style={{ paddingTop: 0 }}>
         <div className="ct-container">
-          <p className="ct-section-eyebrow">Kontaktkanaler</p>
-          <h2 className="ct-h2">Ett sted å skrive, uansett hva det gjelder.</h2>
+          <p className="ct-section-eyebrow">{copy.channelsEyebrow}</p>
+          <h2 className="ct-h2">{copy.channelsTitle}</h2>
 
           <div className="ct-channels">
-            {CHANNELS.map((c) => (
-              <div className="ct-channel" key={c.title}>
-                <div className="ct-dot" style={{ background: c.dot }} />
-                <h3>{c.title}</h3>
-                <p>{c.body}</p>
+            {copy.channels.map((channel, index) => (
+              <div className="ct-channel" key={channel.title}>
+                <div className="ct-dot" style={{ background: CHANNEL_COLORS[index] }} />
+                <h3>{channel.title}</h3>
+                <p>{channel.body}</p>
               </div>
             ))}
           </div>
@@ -201,11 +311,11 @@ export default function ContactPage() {
       <section className="ct-closing">
         <div className="ct-container ct-closing-inner">
           <div className="ct-closing-copy">
-            <p>Feltjournalen</p>
-            <h2>Følg reisen fra jord til kopp.</h2>
+            <p>{copy.journal}</p>
+            <h2>{copy.closingTitle}</h2>
           </div>
           <Link href="/journal" className="ct-closing-link">
-            Les feltjournalen →
+            {copy.journalCta} →
           </Link>
         </div>
       </section>

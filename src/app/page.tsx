@@ -1,13 +1,19 @@
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 import DirectTrade from "@/components/sections/DirectTrade";
 import SeasonalClosing from "@/components/sections/SeasonalClosing";
 import HeroFarmCarousel from "@/components/HeroFarmCarousel";
+import { getRequestLocale } from "@/i18n/server";
+import { HOME_COPY } from "@/i18n/home";
 
-export const metadata = {
-  title: "Kaffe Guatilla | Fra våre egne fjell i Colombia til din kopp i Norge",
-  description:
-    "Spesialkaffe dyrket av familien vår i Serranía del Perijá og brent i små partier i Stavanger. Direkte handel og full sporbarhet.",
-};
+export async function generateMetadata() {
+  const locale = await getRequestLocale();
+  const copy = HOME_COPY[locale];
+
+  return {
+    title: copy.metaTitle,
+    description: copy.metaDescription,
+  };
+}
 
 const PILLARS = [
   {
@@ -56,7 +62,12 @@ const CATALOG = [
 const BTN_FOCUS =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-coffee";
 
-export default function Home() {
+export default async function Home() {
+  const locale = await getRequestLocale();
+  const copy = HOME_COPY[locale];
+  const pillars = locale === "no" ? PILLARS : HOME_COPY[locale].pillars;
+  const catalog = locale === "no" ? CATALOG : HOME_COPY[locale].catalog;
+
   return (
     <div className="bg-brand-linen">
       {/* ── HERO ─────────────────────────────────────────── */}
@@ -66,19 +77,17 @@ export default function Home() {
             {/* left column */}
             <div className="flex flex-col">
               <span className="self-start bg-brand-gold px-3.5 py-2 font-sans text-[10.5px] font-bold uppercase tracking-[0.16em] text-brand-coffee">
-                Dyrket av oss · Brent i Stavanger
+                {copy.heroEyebrow}
               </span>
               <h1 className="mt-6 font-heading text-[38px] font-extrabold leading-[0.98] tracking-[-0.035em] text-brand-coffee [text-wrap:balance] min-[560px]:text-[48px] min-[900px]:text-[56px] min-[1100px]:text-[68px]">
-                Fra våre{" "}
+                {copy.heroBefore}{" "}
                 <span className="inline-block -rotate-[1.2deg] bg-brand-terracotta-dark px-3 pb-1 italic text-brand-cream">
-                  egne
+                  {copy.heroEmphasis}
                 </span>{" "}
-                fjell i Colombia til din kopp i Norge
+                {copy.heroAfter}
               </h1>
               <p className="mt-6 max-w-[46ch] font-sans text-[16px] leading-[1.6] text-brand-coffee/[0.78] min-[900px]:text-[17px]">
-                Spesialkaffe dyrket av familien vår i Serranía del Perijá og
-                brent i små partier i Stavanger. Direkte handel og full
-                sporbarhet.
+                {copy.heroBody}
               </p>
               <div className="min-[880px]:flex-1" />
               <div className="mt-8 flex flex-col self-start border-2 border-brand-coffee min-[480px]:flex-row lg:mt-10">
@@ -86,13 +95,13 @@ export default function Home() {
                   href="/shop"
                   className={`bg-brand-coffee px-7 py-[18px] text-center font-sans text-[11.5px] font-bold uppercase tracking-[0.12em] text-brand-cream transition-colors hover:bg-brand-coffee/90 ${BTN_FOCUS}`}
                 >
-                  Utforsk kaffen vår
+                  {copy.primaryCta}
                 </Link>
                 <Link
                   href="/kaffe"
                   className={`border-t-2 border-brand-coffee bg-brand-linen px-7 py-[18px] text-center font-sans text-[11.5px] font-bold uppercase tracking-[0.12em] text-brand-coffee transition-colors hover:bg-brand-cream min-[480px]:border-l-2 min-[480px]:border-t-0 ${BTN_FOCUS}`}
                 >
-                  Slik jobber vi →
+                  {copy.secondaryCta} →
                 </Link>
               </div>
             </div>
@@ -104,10 +113,10 @@ export default function Home() {
               </div>
               <div className="bg-brand-olive px-6 py-[22px] text-brand-cream">
                 <p className="font-heading text-[26px] font-extrabold italic leading-none">
-                  Våre familiegårder
+                  {copy.farmsTitle}
                 </p>
                 <p className="mt-1.5 font-sans text-[13.5px] leading-[1.45]">
-                  Agustín Codazzi · 900–1 800 moh · 100 % Arabica.
+                  {copy.farmsMeta}
                 </p>
               </div>
             </div>
@@ -118,14 +127,14 @@ export default function Home() {
       {/* ── PILLARS ──────────────────────────────────────── */}
       <section className="container-page pb-14">
         <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-terracotta">
-          Slik gjør vi det
+          {copy.pillarsEyebrow}
         </span>
         <h2 className="mt-2 max-w-[18ch] font-heading text-3xl font-extrabold leading-[1.08] sm:text-4xl lg:text-[44px]">
-          Fra frø til kopp — uten mellomledd
+          {copy.pillarsTitle}
         </h2>
 
         <div className="mt-7 flex flex-col gap-[2px] border-2 border-brand-coffee bg-brand-coffee min-[760px]:flex-row">
-          {PILLARS.map((p) => (
+          {pillars.map((p) => (
             <div key={p.n} className="flex flex-1 flex-col bg-brand-cream p-7 lg:p-8">
               <span
                 className={`inline-flex w-fit items-center px-2.5 py-1.5 font-heading text-[15px] font-extrabold italic leading-none ${p.tone}`}
@@ -148,22 +157,22 @@ export default function Home() {
         <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
           <div>
             <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-terracotta">
-              Utvalget
+              {copy.catalogEyebrow}
             </span>
             <h2 className="mt-2 font-heading text-3xl font-extrabold sm:text-4xl lg:text-[44px]">
-              Utvalgte partier
+              {copy.catalogTitle}
             </h2>
           </div>
           <Link
             href="/shop"
             className={`border-2 border-brand-coffee bg-brand-cream px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.14em] text-brand-coffee transition-colors hover:bg-brand-linen ${BTN_FOCUS}`}
           >
-            Se hele butikken →
+            {copy.catalogCta} →
           </Link>
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2">
-          {CATALOG.map((c) => (
+          {catalog.map((c) => (
             <article
               key={c.name}
               className="flex flex-col border-2 border-brand-coffee bg-brand-cream"
@@ -189,7 +198,7 @@ export default function Home() {
                 <div className="flex-1" />
                 <div className="mt-6 flex items-center justify-between gap-3 border-t-2 border-brand-coffee pt-4">
                   <span className="font-heading text-[16px] font-extrabold text-brand-coffee">
-                    Pris kommer
+                    {copy.priceComing}
                   </span>
                   <Link
                     href={c.href}
