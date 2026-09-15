@@ -342,7 +342,10 @@ export async function transitionAdminOrder(orderId: string, action: OrderAction)
   return prisma.$transaction(async (tx) => {
     const order = await tx.order.findUnique({
       where: { id: orderId },
-      include: { items: { select: { productVariantId: true, quantity: true } } },
+      include: {
+        items: { select: { productVariantId: true, quantity: true } },
+        payments: { select: { id: true, status: true } },
+      },
     });
     if (!order) throw new CommerceRuleError("NOT_FOUND", "Order not found.");
     const plan = getOrderTransitionPlan(order, action);
@@ -365,6 +368,41 @@ export async function transitionAdminOrder(orderId: string, action: OrderAction)
       data: { ...plan.data, ...timestamps },
     });
     if (changed.count !== 1) throw new CommerceRuleError("INVALID_TRANSITION", "Order changed concurrently.");
+
+    if (action === "CANCEL" && "paymentStatus" in plan.data && plan.data.paymentStatus === "FAILED") {
+      const pendingPaymentIds = order.payments
+        .filter((payment) => ["NOT_REQUESTED", "REQUESTED"].includes(payment.status))
+        .map((payment) => payment.id);
+      if (pendingPaymentIds.length > 0) {
+        const failedPayments = await tx.payment.updateMany({
+          where: {
+            id: { in: pendingPaymentIds },
+            status: { in: ["NOT_REQUESTED", "REQUESTED"] },
+          },
+          data: {
+            status: "FAILED",
+            verifiedAt: now,
+            verifiedBy: "shared-admin",
+            verificationSource: "Order cancellation",
+            failureReason: "Order cancelled before payment was completed.",
+          },
+        });
+        if (failedPayments.count !== pendingPaymentIds.length) {
+          throw new CommerceRuleError("INVALID_TRANSITION", "Payment changed concurrently.");
+        }
+        await tx.orderEvent.createMany({
+          data: pendingPaymentIds.map((paymentId) => ({
+            orderId: order.id,
+            paymentId,
+            type: "PAYMENT_FAILED" as const,
+            actorType: "ADMIN" as const,
+            actorId: "shared-admin",
+            note: "Order cancelled before payment was completed.",
+            metadata: {},
+          })),
+        });
+      }
+    }
 
     if (plan.restoreInventory) {
       for (const item of order.items) {

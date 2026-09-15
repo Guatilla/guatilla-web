@@ -219,6 +219,10 @@ test("cancellation restores inventory only on the first transition", () => {
     },
     "CANCEL",
   );
+  assert.deepEqual(first.data, {
+    orderStatus: "CANCELLED",
+    paymentStatus: "FAILED",
+  });
   const repeated = getOrderTransitionPlan(
     {
       orderStatus: "CANCELLED",
@@ -240,6 +244,7 @@ test("cancellation restores inventory only on the first transition", () => {
     "CANCEL",
   );
   assert.equal(preparing.restoreInventory, true);
+  assert.deepEqual(preparing.data, { orderStatus: "CANCELLED" });
 });
 
 test("lot allocation cannot exceed the purchased quantity", () => {

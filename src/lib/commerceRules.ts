@@ -225,7 +225,16 @@ export function getOrderTransitionPlan(
     current.orderStatus === "CONFIRMED" &&
     ["UNFULFILLED", "PREPARING"].includes(current.fulfillmentStatus)
   ) {
-    return { idempotent: false, event: "ORDER_CANCELLED" as const, restoreInventory: true, data: { orderStatus: "CANCELLED" as const } };
+    const paymentIsPending = ["NOT_REQUESTED", "REQUESTED"].includes(current.paymentStatus);
+    return {
+      idempotent: false,
+      event: "ORDER_CANCELLED" as const,
+      restoreInventory: true,
+      data: {
+        orderStatus: "CANCELLED" as const,
+        ...(paymentIsPending ? { paymentStatus: "FAILED" as const } : {}),
+      },
+    };
   }
   if (action === "PREPARE" && current.orderStatus === "CONFIRMED" && current.paymentStatus === "PAID" && current.fulfillmentStatus === "UNFULFILLED") {
     return { idempotent: false, event: "PREPARATION_STARTED" as const, restoreInventory: false, data: { fulfillmentStatus: "PREPARING" as const } };
