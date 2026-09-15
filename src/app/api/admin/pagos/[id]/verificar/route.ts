@@ -25,7 +25,15 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     return NextResponse.json({ success: true, status: result.status });
   } catch (error) {
     if (isDuplicatePaymentTransaction(error)) return NextResponse.json({ error: "Ese ID de transacción Vipps ya está registrado." }, { status: 409 });
-    if (isAdminCommerceConflict(error)) return NextResponse.json({ error: error.code === "NOT_FOUND" ? "Pago no encontrado." : "Los datos o el estado del pago no permiten esta operación." }, { status: error.code === "NOT_FOUND" ? 404 : 400 });
+    if (isAdminCommerceConflict(error)) {
+      return NextResponse.json(
+        {
+          error: error.code === "NOT_FOUND" ? "Pago no encontrado." : error.message,
+          code: error.code,
+        },
+        { status: error.code === "NOT_FOUND" ? 404 : 400 },
+      );
+    }
     return NextResponse.json({ error: "No se pudo verificar el pago." }, { status: 500 });
   }
 }
