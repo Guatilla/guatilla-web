@@ -75,15 +75,15 @@ const COPY = {
 const CHECKOUT_COPY = {
   no: {
     checkout: "Gå til checkout",
-    checkoutBody: "Betaling skjer manuelt med Vipps-nummer 66141 etter at bestillingen er opprettet.",
+    checkoutBody: "Etter at bestillingen er opprettet, sender vi en betalingsforespørsel i Vipps. Bestillingen godkjennes etter betaling.",
   },
   en: {
     checkout: "Continue to checkout",
-    checkoutBody: "Payment is made manually to Vipps number 66141 after the order is created.",
+    checkoutBody: "After you place the order, we will send you a Vipps payment request. The order is approved after payment.",
   },
   es: {
     checkout: "Finalizar compra",
-    checkoutBody: "El pago se realiza manualmente al Número Vipps 66141 después de crear el pedido.",
+    checkoutBody: "Después de crear el pedido, te enviaremos una solicitud de pago en Vipps. La compra se aprobará después del pago.",
   },
 } as const;
 

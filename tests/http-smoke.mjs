@@ -168,6 +168,7 @@ assert.equal(adminRedirect.headers.get("location"), "/admin/login");
 await request("anonymous admin catalog denied", "/api/admin/catalogo", 401);
 await request("anonymous admin lot list denied", "/api/admin/sporbarhet/lots", 401);
 await request("anonymous admin mutation denied", `/api/admin/pedidos/${fakeId}/notas`, 401, sameOriginJson({ note: "test" }));
+await request("anonymous payment request mutation denied", `/api/admin/pagos/${fakeId}/solicitar`, 401, sameOriginJson({}));
 await request("login rejects missing Origin", "/api/admin/auth", 403, json({ password: "wrong" }));
 await request("login rejects a foreign Origin", "/api/admin/auth", 403, {
   ...json({ password: "wrong" }),

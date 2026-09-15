@@ -33,7 +33,7 @@ export default async function AdminDashboardPage() {
 
   const metrics = [
     { label: "Pedidos nuevos", value: summary.newOrders, tone: "bg-[#DDA83A]", href: "/admin/pedidos?orderStatus=CONFIRMED&fulfillmentStatus=UNFULFILLED" },
-    { label: "Pagos pendientes", value: summary.pendingPayments, tone: "bg-[#E8862A]", href: "/admin/pagos?status=REQUESTED" },
+    { label: "Pagos pendientes", value: summary.pendingPayments, tone: "bg-[#E8862A]", href: "/admin/pagos" },
     { label: "Pagos para revisión", value: summary.reviewPayments, tone: "bg-[#A94B2F] text-[#FFF7EF]", href: "/admin/pagos?status=REVIEW_REQUIRED" },
     {
       label: "Pagados · pendientes de preparación",

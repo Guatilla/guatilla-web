@@ -254,6 +254,15 @@ export function ensureProviderTransactionAvailable(existingPaymentId: string | n
   }
 }
 
+export function getPaymentRequestPlan(currentStatus: string) {
+  if (currentStatus === "REQUESTED") return { idempotent: true };
+  if (currentStatus === "NOT_REQUESTED") return { idempotent: false };
+  throw new CommerceRuleError(
+    "INVALID_PAYMENT_STATE",
+    "The Vipps request cannot be sent in the current payment state.",
+  );
+}
+
 export async function resolveIdempotentCheckout<T>(existing: T | null, create: () => Promise<T>): Promise<T> {
   return existing ?? create();
 }

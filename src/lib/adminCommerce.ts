@@ -6,6 +6,7 @@ import {
   classifyManualPayment,
   CommerceRuleError,
   ensureProviderTransactionAvailable,
+  getPaymentRequestPlan,
   getOrderTransitionPlan,
   parseNokToOre,
   type OrderAction,
@@ -134,7 +135,7 @@ export async function getAdminPayments(filters: AdminPaymentFilters) {
   }
   const status = oneOf(filters.status, PAYMENT_STATUSES);
   const where: Prisma.PaymentWhereInput = {
-    status: status ?? { in: ["REQUESTED", "PARTIAL", "REVIEW_REQUIRED", "PAID"] },
+    status: status ?? { in: ["NOT_REQUESTED", "REQUESTED", "PARTIAL", "REVIEW_REQUIRED", "PAID"] },
     ...(query
       ? {
           OR: [
@@ -248,6 +249,49 @@ export async function verifyManualPayment(
       },
     });
     return result;
+  }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
+}
+
+export async function markManualPaymentRequested(paymentId: string) {
+  const prisma = await getPrisma();
+  return prisma.$transaction(async (tx) => {
+    const payment = await tx.payment.findUnique({
+      where: { id: paymentId },
+      include: { order: { select: { orderStatus: true } } },
+    });
+    if (!payment) throw new CommerceRuleError("NOT_FOUND", "Payment not found.");
+    const plan = getPaymentRequestPlan(payment.status);
+    if (plan.idempotent) return { status: "REQUESTED" as const };
+    if (payment.order.orderStatus !== "CONFIRMED") {
+      throw new CommerceRuleError(
+        "INVALID_PAYMENT_STATE",
+        "A Vipps request cannot be sent for this order.",
+      );
+    }
+
+    const requestedAt = new Date();
+    const updated = await tx.payment.updateMany({
+      where: { id: payment.id, status: "NOT_REQUESTED", updatedAt: payment.updatedAt },
+      data: { status: "REQUESTED", requestedAt },
+    });
+    if (updated.count !== 1) {
+      throw new CommerceRuleError("INVALID_PAYMENT_STATE", "Payment changed concurrently.");
+    }
+    await tx.order.update({
+      where: { id: payment.orderId },
+      data: { paymentStatus: "REQUESTED" },
+    });
+    await tx.orderEvent.create({
+      data: {
+        orderId: payment.orderId,
+        paymentId: payment.id,
+        type: "PAYMENT_REQUESTED",
+        actorType: "ADMIN",
+        actorId: "shared-admin",
+        metadata: {},
+      },
+    });
+    return { status: "REQUESTED" as const };
   }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
 }
 

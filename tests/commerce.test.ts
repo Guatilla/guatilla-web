@@ -7,6 +7,7 @@ import {
   classifyManualPayment,
   CommerceRuleError,
   ensureProviderTransactionAvailable,
+  getPaymentRequestPlan,
   getOrderTransitionPlan,
   normalizePhoneE164,
   parseNokToOre,
@@ -20,6 +21,11 @@ import {
   verifySessionToken,
 } from "../src/lib/sporbarhetAuth.ts";
 import { localizeVariantName } from "../src/i18n/products.ts";
+import { buildOrderNotificationEmail } from "../src/lib/orderNotificationContent.ts";
+import {
+  getVariantDisplaySlot,
+  resolveCatalogVariantImage,
+} from "../src/lib/catalogImages.ts";
 
 const VARIANT_ID = "11111111-1111-4111-8111-111111111111";
 const PRODUCT_ID = "22222222-2222-4222-8222-222222222222";
@@ -176,6 +182,12 @@ test("duplicate Vipps transaction IDs are rejected", () => {
   );
 });
 
+test("Vipps payment request is pending until the owner marks it as sent", () => {
+  assert.deepEqual(getPaymentRequestPlan("NOT_REQUESTED"), { idempotent: false });
+  assert.deepEqual(getPaymentRequestPlan("REQUESTED"), { idempotent: true });
+  expectRuleError("INVALID_PAYMENT_STATE", () => getPaymentRequestPlan("PAID"));
+});
+
 test("order state machine permits valid transitions and rejects invalid ones", () => {
   const prepare = getOrderTransitionPlan(
     {
@@ -282,4 +294,66 @@ test("catalog variant names are localized from grind and weight", () => {
   assert.equal(localizeVariantName(ground500, "no"), "Malt · 500 g");
   assert.equal(localizeVariantName(ground500, "en"), "Ground coffee · 500 g");
   assert.equal(localizeVariantName(ground500, "es"), "Molido · 500 g");
+});
+
+test("the four catalogue variants receive stable legacy package images", () => {
+  const variants = [
+    { grind: "Hele bønner", weightGrams: 250 },
+    { grind: "Malt", weightGrams: 250 },
+    { grind: "Hele bønner", weightGrams: 500 },
+    { grind: "Malt", weightGrams: 500 },
+  ];
+
+  assert.deepEqual(variants.map(getVariantDisplaySlot), [0, 1, 2, 3]);
+  assert.deepEqual(
+    variants.map((variant) => resolveCatalogVariantImage([], variant)),
+    [
+      "/assets/bag-origen.jpg",
+      "/assets/bag-mestizaje.jpg",
+      "/assets/bag-encuentro.jpg",
+      "/assets/bag-heritage.jpg",
+    ],
+  );
+  assert.equal(
+    resolveCatalogVariantImage(["https://cdn.example.com/official.jpg"], variants[3]),
+    "https://cdn.example.com/official.jpg",
+  );
+});
+
+test("order notification contains the Vipps request data and escapes customer content", () => {
+  const email = buildOrderNotificationEmail(
+    {
+      id: "44444444-4444-4444-8444-444444444444",
+      orderNumber: "GUA-2026-000123",
+      customerName: "María <script>alert(1)</script>",
+      customerEmail: "buyer@example.com",
+      customerPhoneE164: "+4791234567",
+      addressLine1: "Testveien 1",
+      addressLine2: null,
+      postalCode: "0150",
+      city: "Oslo",
+      countryCode: "NO",
+      totalOre: 18_000,
+      currency: "NOK",
+      customerNote: "Ring <før> levering",
+      items: [
+        {
+          productName: "Kaffe Guatilla",
+          variantName: "Malt · 250 g",
+          sku: "7090073590013",
+          quantity: 1,
+          lineTotalOre: 18_000,
+        },
+      ],
+    },
+    "https://www.guatilla.no/admin/pedidos/44444444-4444-4444-8444-444444444444",
+  );
+
+  assert.match(email.subject, /GUA-2026-000123/);
+  assert.match(email.text, /\+4791234567/);
+  assert.match(email.text, /180,00/);
+  assert.match(email.text, /7090073590013/);
+  assert.match(email.html, /María &lt;script&gt;alert\(1\)&lt;\/script&gt;/);
+  assert.doesNotMatch(email.html, /<script>/);
+  assert.match(email.html, /Ring &lt;før&gt; levering/);
 });

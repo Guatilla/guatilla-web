@@ -1,11 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { InputHTMLAttributes } from "react";
 import Link from "@/components/LocalizedLink";
 import { useCart } from "@/components/CartProvider";
-import { COMMERCE_CONFIG } from "@/config/commerce";
 import { useLocale } from "@/i18n/LocaleProvider";
 import { localizeCatalogCartLine, localizeVariantName } from "@/i18n/products";
 import { formatNok } from "@/lib/money";
@@ -37,12 +35,9 @@ const COPY = {
     unavailable: "Pris eller tilgjengelighet er endret. Handlekurven er oppdatert; kontroller den før du prøver igjen.",
     failed: "Bestillingen kunne ikke opprettes. Prøv igjen med samme informasjon.",
     created: (number: string) => `Bestilling ${number} er opprettet.`,
-    openVipps: (number: string) => `Åpne Vipps og betal til nummer ${number} — ${COMMERCE_CONFIG.vipps.merchantName}.`,
-    reference: (number: string) => `Skriv ${number} som betalingsreferanse.`,
-    pending: "Bestillingen din står som ventende til vi har bekreftet betalingen.",
-    status: "Venter på betaling",
-    mobile: `På mobil: åpne Vipps og søk etter ${COMMERCE_CONFIG.vipps.number}. Beløpet fylles ikke ut automatisk.`,
-    qrMissing: "Det offisielle Vipps-QR-bildet blir tilgjengelig her. Bruk Vipps-nummeret inntil videre.",
+    paymentRequest: "Vi sender en betalingsforespørsel i Vipps til telefonnummeret du oppga. Åpne forespørselen i Vipps og betal der.",
+    pending: "Bestillingen blir godkjent etter at betalingen er mottatt og bekreftet.",
+    status: "Venter på Vipps-forespørsel",
   },
   en: {
     eyebrow: "Secure order",
@@ -68,12 +63,9 @@ const COPY = {
     unavailable: "A price or availability changed. Your cart has been refreshed; review it before trying again.",
     failed: "The order could not be created. Try again with the same information.",
     created: (number: string) => `Order ${number} created.`,
-    openVipps: (number: string) => `Open Vipps and pay number ${number} — ${COMMERCE_CONFIG.vipps.merchantName}.`,
-    reference: (number: string) => `Enter ${number} as the payment reference.`,
-    pending: "Your order will remain pending until we confirm the payment.",
-    status: "Payment pending",
-    mobile: `On mobile: open Vipps and search for ${COMMERCE_CONFIG.vipps.number}. The amount will not be filled automatically.`,
-    qrMissing: "The official Vipps QR image will be shown here. Use the Vipps number in the meantime.",
+    paymentRequest: "We will send a Vipps payment request to the phone number you provided. Open the request in Vipps and pay there.",
+    pending: "Your order will be approved after the payment has been received and confirmed.",
+    status: "Waiting for Vipps request",
   },
   es: {
     eyebrow: "Pedido seguro",
@@ -99,12 +91,9 @@ const COPY = {
     unavailable: "Cambió un precio o la disponibilidad. El carrito se actualizó; revísalo antes de intentarlo de nuevo.",
     failed: "No se pudo crear el pedido. Inténtalo de nuevo con la misma información.",
     created: (number: string) => `Pedido ${number} creado.`,
-    openVipps: (number: string) => `Abre Vipps y paga al número ${number} — ${COMMERCE_CONFIG.vipps.merchantName}.`,
-    reference: (number: string) => `Escribe ${number} como referencia del pago.`,
-    pending: "Tu pedido permanecerá pendiente hasta que confirmemos el pago.",
-    status: "Pendiente de pago",
-    mobile: `En móvil: abre Vipps y busca ${COMMERCE_CONFIG.vipps.number}. El importe no aparecerá rellenado automáticamente.`,
-    qrMissing: "El QR oficial de Vipps aparecerá aquí. Mientras tanto, utiliza el Número Vipps.",
+    paymentRequest: "Te enviaremos una solicitud de pago a través de Vipps al teléfono que indicaste. Abre la solicitud en Vipps y paga desde allí.",
+    pending: "Tu compra quedará aprobada después de que recibamos y confirmemos el pago.",
+    status: "Esperando solicitud de Vipps",
   },
 } as const;
 
@@ -238,8 +227,7 @@ function Field({ name, label, type = "text", required = true, full = false, ...p
 function OrderConfirmation({ order }: { order: PublicOrderResult }) {
   const locale = useLocale();
   const copy = COPY[locale];
-  const qrPath = COMMERCE_CONFIG.vipps.officialQrPath;
   return <main className="confirm"><style>{`
-    .confirm{background:#fdf1e5;color:#2e2018;min-height:72vh;padding:clamp(36px,7vw,80px) 0}.confirm__card{max-width:800px;margin:auto;border:2px solid #2e2018;background:#fff7ef;box-shadow:10px 10px 0 #dda83a}.confirm__head{background:#5c7148;color:#fff7ef;padding:26px}.confirm__head h1{font:800 clamp(32px,5vw,48px) var(--font-bitter);margin:8px 0}.confirm__status{display:inline-block;background:#dda83a;color:#2e2018;padding:7px 10px;font:700 10px var(--font-space-mono);text-transform:uppercase}.confirm__body{padding:26px;display:grid;gap:16px}.confirm__number{font:800 30px var(--font-bitter)}.confirm__total{font:800 28px var(--font-bitter)}.confirm__vipps{border:2px solid #2e2018;background:#f2e6d8;padding:20px}.confirm__vipps strong{font-size:24px}.confirm__qr{min-height:190px;border:2px dashed #6b5a4e;display:grid;place-items:center;text-align:center;padding:18px}.confirm__qr img{max-width:220px;height:auto}.confirm__body p{margin:0;line-height:1.6}
-  `}</style><div className="container-page"><article className="confirm__card"><header className="confirm__head"><span className="confirm__status">{copy.status}</span><h1>{copy.created(order.orderNumber)}</h1></header><div className="confirm__body"><p className="confirm__number">{order.orderNumber}</p><p className="confirm__total">{copy.total}: {formatNok(order.totalOre, locale)}</p><div className="confirm__vipps"><p>{copy.openVipps(COMMERCE_CONFIG.vipps.number)}</p><p><strong>{COMMERCE_CONFIG.vipps.number}</strong> · {COMMERCE_CONFIG.vipps.merchantName}</p><p>{copy.reference(order.orderNumber)}</p></div><p>{copy.pending}</p><p>{copy.mobile}</p><div className="confirm__qr">{qrPath ? <Image src={qrPath} alt={`Vipps QR ${COMMERCE_CONFIG.vipps.number}`} width={260} height={260} unoptimized /> : <p>{copy.qrMissing}</p>}</div></div></article></div></main>;
+    .confirm{background:#fdf1e5;color:#2e2018;min-height:72vh;padding:clamp(36px,7vw,80px) 0}.confirm__card{max-width:800px;margin:auto;border:2px solid #2e2018;background:#fff7ef;box-shadow:10px 10px 0 #dda83a}.confirm__head{background:#5c7148;color:#fff7ef;padding:26px}.confirm__head h1{font:800 clamp(32px,5vw,48px) var(--font-bitter);margin:8px 0}.confirm__status{display:inline-block;background:#dda83a;color:#2e2018;padding:7px 10px;font:700 10px var(--font-space-mono);text-transform:uppercase}.confirm__body{padding:26px;display:grid;gap:16px}.confirm__number{font:800 30px var(--font-bitter)}.confirm__total{font:800 28px var(--font-bitter)}.confirm__vipps{border:2px solid #2e2018;background:#f2e6d8;padding:20px}.confirm__vipps h2{font:800 24px var(--font-bitter);margin:0 0 10px}.confirm__body p{margin:0;line-height:1.6}
+  `}</style><div className="container-page"><article className="confirm__card"><header className="confirm__head"><span className="confirm__status">{copy.status}</span><h1>{copy.created(order.orderNumber)}</h1></header><div className="confirm__body"><p className="confirm__number">{order.orderNumber}</p><p className="confirm__total">{copy.total}: {formatNok(order.totalOre, locale)}</p><div className="confirm__vipps"><h2>Vipps</h2><p>{copy.paymentRequest}</p></div><p>{copy.pending}</p></div></article></div></main>;
 }

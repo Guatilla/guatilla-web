@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CommerceRuleError, validateCheckoutPayload } from "@/lib/commerceRules";
+import { notifyOwnerOfOrder } from "@/lib/orderNotifications";
 import { createWebOrder } from "@/lib/orders";
 import { requireSameOrigin } from "@/lib/requireAdmin";
 
@@ -30,6 +31,14 @@ export async function POST(request: NextRequest) {
       throw new CommerceRuleError("CATALOG_CHANGED", "A current catalogue version is required.");
     }
     const order = await createWebOrder(input, catalogVersion);
+    try {
+      const notificationStatus = await notifyOwnerOfOrder(order.id);
+      if (notificationStatus !== "sent") {
+        console.error(`Order notification was not sent: ${notificationStatus}.`);
+      }
+    } catch {
+      console.error("Order notification could not be sent.");
+    }
     return NextResponse.json(order, { status: 201 });
   } catch (error) {
     if (error instanceof CommerceRuleError) {

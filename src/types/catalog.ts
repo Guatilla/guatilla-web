@@ -5,6 +5,7 @@ export interface StorefrontCatalogVariant {
   weightGrams: number | null;
   priceOre: number;
   currency: "NOK";
+  image: string;
   inStock: boolean;
 }
 

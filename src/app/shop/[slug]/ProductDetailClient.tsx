@@ -45,13 +45,24 @@ const COPY = {
   },
 } as const;
 
-export default function ProductDetailClient({ product }: { product: StorefrontCatalogProduct }) {
+export default function ProductDetailClient({
+  product,
+  initialVariantId,
+}: {
+  product: StorefrontCatalogProduct;
+  initialVariantId?: string;
+}) {
   const locale = useLocale();
   const copy = COPY[locale];
-  const [selectedId, setSelectedId] = useState(product.variants[0]?.id ?? "");
+  const initialVariant =
+    product.variants.find((variant) => variant.id === initialVariantId) ??
+    product.variants.find((variant) => variant.inStock) ??
+    product.variants[0];
+  const [selectedId, setSelectedId] = useState(initialVariant?.id ?? "");
   const [added, setAdded] = useState(false);
   const { addItem } = useCart();
   const selected = product.variants.find((variant) => variant.id === selectedId) ?? product.variants[0];
+  const selectedImage = selected?.image ?? product.image;
 
   function handleAdd() {
     if (!selected?.inStock) return;
@@ -79,7 +90,7 @@ export default function ProductDetailClient({ product }: { product: StorefrontCa
       <div className="container-page">
         <Link className="pdp-db__back" href="/shop">← {copy.back}</Link>
         <div className="pdp-db__grid">
-          <div className="pdp-db__media">{product.image ? <Image src={product.image} alt={product.name} width={960} height={720} priority unoptimized /> : <div className="pdp-db__placeholder">Kaffe Guatilla</div>}</div>
+          <div className="pdp-db__media">{selectedImage ? <Image src={selectedImage} alt={`${product.name} · ${selected ? localizeVariantName(selected, locale) : "Kaffe Guatilla"}`} width={960} height={720} priority /> : <div className="pdp-db__placeholder">Kaffe Guatilla</div>}</div>
           <section>
             {product.category && <span className="pdp-db__category">{product.category.name}</span>}
             <h1>{product.name}</h1>

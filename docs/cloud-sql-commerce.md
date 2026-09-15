@@ -51,18 +51,23 @@ Never use one status field for three different processes:
 ## Manual Vipps flow
 
 1. The server validates current catalogue prices and creates the customer,
-   order, item snapshots, initial `REQUESTED` payment, `ORDER_CREATED`, and
-   `PAYMENT_REQUESTED` in one transaction while reserving inventory atomically.
-2. The confirmation page shows the exact total and instructs the customer to
-   pay manually to Vipps number `66141` (`GUATILLA COMO`) using the generated
-   order number as the payment reference. No Vipps deep link or ePayment API is
-   used in this phase.
-3. An administrator enters the received amount, payment time, and Vipps
+   order, item snapshots, initial `NOT_REQUESTED` payment, and `ORDER_CREATED`
+   in one transaction while reserving inventory atomically.
+2. The confirmation page shows the exact total and tells the customer that a
+   Vipps payment request will arrive at the phone number supplied during
+   checkout. It does not expose a merchant number, QR, or manual-transfer
+   instructions.
+3. The server emails the configured owner address with the order, customer,
+   delivery, total, Vipps phone, and a direct link to the protected order page.
+   The owner sends the request through the approved Vipps business workflow,
+   then marks it as sent in the protected payment panel. That action changes
+   the payment to `REQUESTED` and records `PAYMENT_REQUESTED` atomically.
+4. An administrator enters the received amount, payment time, and Vipps
    transaction/reference. The server compares integer øre amounts.
-4. Matching amounts become `PAID`; mismatches become `PARTIAL` or
+5. Matching amounts become `PAID`; mismatches become `PARTIAL` or
    `REVIEW_REQUIRED`. The payment, order summary, and event are updated in one
    transaction.
-5. Preparation and shipment are separate fulfillment transitions. Never infer
+6. Preparation and shipment are separate fulfillment transitions. Never infer
    `PAID` from `SHIPPED`, or the reverse.
 
 ## Application invariants
@@ -112,7 +117,9 @@ existing production database.
 
 Before opening sales, the owner must enter and publish the approved real
 categories, products, SKUs, variants, prices, and inventory; confirm the
-shipping policy; and optionally provide the official Vipps QR asset. Do not seed
+shipping policy; and configure `RESEND_API_KEY` plus
+`ORDER_NOTIFICATION_EMAIL` and a sender from a verified domain through
+`ORDER_NOTIFICATION_FROM` in the production server environment. Do not seed
 placeholder catalogue records in production.
 
 The manual Vipps phase does not yet call a Vipps API from the website. The order

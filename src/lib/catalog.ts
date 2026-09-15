@@ -1,6 +1,7 @@
 import "server-only";
 
 import { Prisma } from "@prisma/client";
+import { resolveCatalogVariantImage } from "@/lib/catalogImages";
 import { getPrisma } from "@/lib/prisma";
 import type {
   AdminCatalog,
@@ -23,28 +24,6 @@ const publishedProductWhere = {
   variants: { some: { active: true } },
 } satisfies Prisma.ProductWhereInput;
 
-function firstImage(images: Prisma.JsonValue): string | null {
-  if (!Array.isArray(images)) return null;
-
-  for (const image of images) {
-    const candidate =
-      typeof image === "string"
-        ? image
-        : image && typeof image === "object" && !Array.isArray(image)
-          ? image.url
-          : null;
-
-    if (
-      typeof candidate === "string" &&
-      (candidate.startsWith("/") || candidate.startsWith("https://"))
-    ) {
-      return candidate;
-    }
-  }
-
-  return null;
-}
-
 type StorefrontProductRecord = Prisma.ProductGetPayload<{
   include: {
     category: true;
@@ -55,12 +34,23 @@ type StorefrontProductRecord = Prisma.ProductGetPayload<{
 function toStorefrontProduct(
   product: StorefrontProductRecord,
 ): StorefrontCatalogProduct {
+  const variants = product.variants.map((variant) => ({
+    id: variant.id,
+    name: variant.name,
+    grind: variant.grind,
+    weightGrams: variant.weightGrams,
+    priceOre: variant.priceOre,
+    currency: "NOK" as const,
+    image: resolveCatalogVariantImage(product.images, variant),
+    inStock: variant.inventory > 0,
+  }));
+
   return {
     id: product.id,
     slug: product.slug,
     name: product.name,
     description: product.description,
-    image: firstImage(product.images),
+    image: variants[0]?.image ?? null,
     isFeatured: product.isFeatured,
     category: product.category
       ? {
@@ -69,15 +59,7 @@ function toStorefrontProduct(
           slug: product.category.slug,
         }
       : null,
-    variants: product.variants.map((variant) => ({
-      id: variant.id,
-      name: variant.name,
-      grind: variant.grind,
-      weightGrams: variant.weightGrams,
-      priceOre: variant.priceOre,
-      currency: "NOK",
-      inStock: variant.inventory > 0,
-    })),
+    variants,
   };
 }
 
@@ -142,7 +124,7 @@ export async function getStorefrontCartLines(
     weightGrams: variant.weightGrams,
     priceOre: variant.priceOre,
     currency: "NOK",
-    image: firstImage(variant.product.images),
+    image: resolveCatalogVariantImage(variant.product.images, variant),
     inStock: variant.inventory >= (requestedQuantity.get(variant.id) ?? 1),
   }));
 }
@@ -248,7 +230,7 @@ export async function getAdminSummary(): Promise<AdminSummary> {
       where: { orderStatus: "CONFIRMED", fulfillmentStatus: "UNFULFILLED" },
     }),
     prisma.order.count({
-      where: { paymentStatus: "REQUESTED" },
+      where: { paymentStatus: { in: ["NOT_REQUESTED", "REQUESTED"] } },
     }),
     prisma.order.count({ where: { paymentStatus: "REVIEW_REQUIRED" } }),
     prisma.order.count({

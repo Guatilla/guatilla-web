@@ -168,7 +168,7 @@ async function createInsideTransaction(
           discountOre: plan.discountOre,
           totalOre: plan.totalOre,
           orderStatus: "CONFIRMED",
-          paymentStatus: "REQUESTED",
+          paymentStatus: "NOT_REQUESTED",
           fulfillmentStatus: "UNFULFILLED",
           source: "WEB",
           customerNote: input.note,
@@ -201,35 +201,25 @@ async function createInsideTransaction(
           },
         })),
       });
-      const payment = await tx.payment.create({
+      await tx.payment.create({
         data: {
           orderId: order.id,
           provider: "VIPPS",
           flow: "MANUAL_REQUEST",
-          status: "REQUESTED",
+          status: "NOT_REQUESTED",
           amountOre: plan.totalOre,
           currency: COMMERCE_CONFIG.currency,
           customerPhoneE164: input.customer.phoneE164,
           providerReference: order.orderNumber,
-          requestedAt: now,
         },
       });
-      await tx.orderEvent.createMany({
-        data: [
-          {
-            orderId: order.id,
-            type: "ORDER_CREATED",
-            actorType: "CUSTOMER",
-            metadata: {},
-          },
-          {
-            orderId: order.id,
-            paymentId: payment.id,
-            type: "PAYMENT_REQUESTED",
-            actorType: "SYSTEM",
-            metadata: {},
-          },
-        ],
+      await tx.orderEvent.create({
+        data: {
+          orderId: order.id,
+          type: "ORDER_CREATED",
+          actorType: "CUSTOMER",
+          metadata: {},
+        },
       });
       return {
         id: order.id,
@@ -237,7 +227,7 @@ async function createInsideTransaction(
         totalOre: plan.totalOre,
         currency: "NOK",
         orderStatus: "CONFIRMED",
-        paymentStatus: "REQUESTED",
+        paymentStatus: "NOT_REQUESTED",
       };
     },
     { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
