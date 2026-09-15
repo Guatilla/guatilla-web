@@ -221,7 +221,7 @@ export async function verifyManualPayment(
     const result = classifyManualPayment(receivedAmountOre, payment.amountOre);
     const verifiedAt = new Date();
     const updated = await tx.payment.updateMany({
-      where: { id: payment.id, status: payment.status, updatedAt: payment.updatedAt },
+      where: { id: payment.id, status: payment.status },
       data: {
         status: result.status,
         receivedAmountOre,
@@ -271,7 +271,7 @@ export async function markManualPaymentRequested(paymentId: string) {
 
     const requestedAt = new Date();
     const updated = await tx.payment.updateMany({
-      where: { id: payment.id, status: "NOT_REQUESTED", updatedAt: payment.updatedAt },
+      where: { id: payment.id, status: "NOT_REQUESTED" },
       data: { status: "REQUESTED", requestedAt },
     });
     if (updated.count !== 1) {
@@ -311,7 +311,7 @@ export async function setManualPaymentException(
     if (!allowed) throw new CommerceRuleError("INVALID_PAYMENT_STATE", "Payment transition is not allowed.");
     const now = new Date();
     const updated = await tx.payment.updateMany({
-      where: { id: payment.id, status: payment.status, updatedAt: payment.updatedAt },
+      where: { id: payment.id, status: payment.status },
       data: {
         status,
         verifiedAt: now,
