@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
 import { getPrisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/requireAdmin";
+import { requireAdminMutation } from "@/lib/requireAdmin";
 import { deserializeCoffeeLotInput, serializeCoffeeLot } from "@/lib/coffeeLotSerializer";
 import type { CoffeeLotInput } from "@/types/coffeeLot";
 
@@ -17,7 +17,7 @@ function isUniqueViolation(error: unknown): boolean {
 
 /** PATCH → oppdaterer ett eller flere felt på et parti (også aktiver/deaktiver). Kun for administratorer. */
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
-  const unauthorized = requireAdmin(request);
+  const unauthorized = requireAdminMutation(request);
   if (unauthorized) return unauthorized;
 
   const { id } = await params;

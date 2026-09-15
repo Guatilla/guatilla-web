@@ -1,29 +1,38 @@
-import ShopClient from "./ShopClient";
+import { getPublishedCatalog } from "@/lib/catalog";
 import { getRequestLocale } from "@/i18n/server";
+import type { StorefrontCatalogProduct } from "@/types/catalog";
+import ShopClient from "./ShopClient";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
   const locale = await getRequestLocale();
-  const copy = {
+  return {
     no: {
       title: "Butikk | Kaffe Guatilla",
-      description:
-        "Utforsk utvalget vårt av colombiansk spesialkaffe fra Serranía del Perijá.",
+      description: "Utforsk publisert colombiansk spesialkaffe fra Guatilla.",
     },
     en: {
       title: "Shop | Kaffe Guatilla",
-      description:
-        "Explore our selection of Colombian specialty coffee from Serranía del Perijá.",
+      description: "Explore Guatilla's published Colombian specialty coffee.",
     },
     es: {
       title: "Tienda | Kaffe Guatilla",
-      description:
-        "Descubre nuestra selección de café colombiano de especialidad de la Serranía del Perijá.",
+      description: "Descubre el café colombiano de especialidad publicado por Guatilla.",
     },
-  } as const;
-
-  return copy[locale];
+  }[locale];
 }
 
-export default function ShopPage() {
-  return <ShopClient />;
+export default async function ShopPage() {
+  let products: StorefrontCatalogProduct[];
+  let catalogUnavailable = false;
+
+  try {
+    products = await getPublishedCatalog();
+  } catch {
+    products = [];
+    catalogUnavailable = true;
+  }
+
+  return <ShopClient products={products} catalogUnavailable={catalogUnavailable} />;
 }

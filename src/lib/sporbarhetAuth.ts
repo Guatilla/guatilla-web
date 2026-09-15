@@ -21,10 +21,9 @@ function sign(payload: string, secret: string): string {
 
 /** Sammenligner to strenger uten å lekke informasjon via svartid. */
 function timingSafeEqual(a: string, b: string): boolean {
-  const bufA = Buffer.from(a);
-  const bufB = Buffer.from(b);
-  if (bufA.length !== bufB.length) return false;
-  return crypto.timingSafeEqual(bufA, bufB);
+  const digestA = crypto.createHash("sha256").update(a).digest();
+  const digestB = crypto.createHash("sha256").update(b).digest();
+  return crypto.timingSafeEqual(digestA, digestB);
 }
 
 export function checkAdminPassword(password: string): boolean {
@@ -48,7 +47,9 @@ export function verifySessionToken(token: string | undefined | null): boolean {
   if (!token) return false;
   const secret = getSecret();
   if (!secret) return false;
-  const [payload, sig] = token.split(".");
+  const parts = token.split(".");
+  if (parts.length !== 2) return false;
+  const [payload, sig] = parts;
   if (!payload || !sig) return false;
   const expected = sign(payload, secret);
   if (!timingSafeEqual(sig, expected)) return false;

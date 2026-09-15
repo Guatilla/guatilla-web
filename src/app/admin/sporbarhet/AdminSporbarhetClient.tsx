@@ -65,6 +65,7 @@ const CSS = `
 .adm-toggle { display:inline-flex; align-items:center; gap:8px; font-family:${F_MONO}; font-weight:700; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:${ON_DARK}; }
 .adm-save { border:none; background:${MUSTARD}; color:${INK}; padding:11px 18px; font-family:${F_MONO}; font-weight:700; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; }
 .adm-save:disabled { opacity:.6; }
+.adm-orders-link { border:1px solid ${ON_DARK}; color:${ON_DARK}; padding:8px 10px; font-family:${F_MONO}; font-size:10px; font-weight:700; text-decoration:none; text-transform:uppercase; }
 .adm-msg { margin:0; padding:10px 20px; font-size:13px; font-family:${F_MONO}; }
 .adm-msg.ok { background:${OLIVE}; color:${ON_DARK}; }
 .adm-msg.err { background:${TERRA}; color:${ON_DARK}; }
@@ -86,6 +87,7 @@ const CSS = `
 .adm-upload { display:inline-flex; align-items:center; gap:8px; margin-top:12px; border:1.5px dashed ${MUTED}; padding:12px 14px; font-size:12.5px; color:${MUTED}; }
 .adm-upload input { display:none; }
 .adm-upload label { cursor:pointer; font-family:${F_MONO}; font-weight:700; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:${TEAL}; }
+.adm-topbar { display:none; }
 `;
 
 /* ── form-state helpers ─────────────────────────────────────────── */
@@ -177,33 +179,12 @@ const SECTIONS: { title: string; fields: TextField[] }[] = [
 ];
 
 export default function AdminSporbarhetClient() {
-  const [authChecked, setAuthChecked] = useState(false);
-  const [authed, setAuthed] = useState(false);
-
-  useEffect(() => {
-    fetch("/api/admin/sporbarhet/auth")
-      .then((r) => r.json())
-      .then((d) => setAuthed(Boolean(d?.authenticated)))
-      .catch(() => setAuthed(false))
-      .finally(() => setAuthChecked(true));
-  }, []);
-
-  if (!authChecked) {
-    return (
-      <div className="adm">
-        <style>{CSS}</style>
-        <div className="adm-login" />
-      </div>
-    );
-  }
-
-  return authed ? (
-    <Dashboard onLoggedOut={() => setAuthed(false)} />
-  ) : (
-    <Login onLoggedIn={() => setAuthed(true)} />
-  );
+  return <Dashboard onLoggedOut={() => undefined} />;
 }
 
+/* The former standalone login remains in version history; authentication is
+   now enforced by the shared /admin server layout. */
+/*
 function Login({ onLoggedIn }: { onLoggedIn: () => void }) {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -256,6 +237,7 @@ function Login({ onLoggedIn }: { onLoggedIn: () => void }) {
     </div>
   );
 }
+*/
 
 function Dashboard({ onLoggedOut }: { onLoggedOut: () => void }) {
   const [lots, setLots] = useState<CoffeeLot[]>([]);
@@ -435,6 +417,11 @@ function Dashboard({ onLoggedOut }: { onLoggedOut: () => void }) {
             <div className="adm-form-hd">
               <h2>{selectedId === "new" ? "Nytt parti" : form.lot_number || "Rediger parti"}</h2>
               <span className="sp" />
+              {selectedId !== "new" && (
+                <a className="adm-orders-link" href={`/admin/sporbarhet/lotes/${selectedId}`}>
+                  Pedidos asignados
+                </a>
+              )}
               <label className="adm-toggle">
                 <input type="checkbox" checked={form.active} onChange={toggleActive} />
                 Aktiv (synlig på /sporbarhet)

@@ -22,7 +22,14 @@ const config = [
     }
   },
   {
-    ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts"]
+    ignores: [
+      "node_modules/**",
+      ".next/**",
+      ".next-codex*/**",
+      "out/**",
+      "build/**",
+      "next-env.d.ts"
+    ]
   }
 ];
 

@@ -109,6 +109,7 @@ export default async function RootLayout({
   return (
     <html
       lang={getLanguageOption(locale).htmlLang}
+      data-scroll-behavior="smooth"
       className={`${outfit.variable} ${playfair.variable} ${shrikhand.variable} ${vianor.variable} ${bitter.variable} ${karla.variable} ${spaceMono.variable}`}
       suppressHydrationWarning
     >
@@ -116,7 +117,7 @@ export default async function RootLayout({
         <LocaleProvider locale={locale}>
           <CartProvider>
             <Navbar />
-            <main className="flex-grow">{children}</main>
+            <div className="flex-grow">{children}</div>
             <Footer />
           </CartProvider>
         </LocaleProvider>

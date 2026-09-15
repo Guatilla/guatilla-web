@@ -1,16 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { getGcsBucket } from "@/lib/gcs";
-import { requireAdmin } from "@/lib/requireAdmin";
+import { requireAdminMutation } from "@/lib/requireAdmin";
 
 export const dynamic = "force-dynamic";
 
 const MAX_BYTES = 10 * 1024 * 1024; // 10 MB
-const ALLOWED = new Set(["image/png", "image/jpeg", "image/webp", "image/gif"]);
+const EXTENSION_BY_TYPE = new Map([
+  ["image/png", "png"],
+  ["image/jpeg", "jpg"],
+  ["image/webp", "webp"],
+  ["image/gif", "gif"],
+]);
 
 /** POST multipart/form-data { file } → laster opp ett bilde og returnerer { id, url }. Kun for administratorer. */
 export async function POST(request: NextRequest) {
-  const unauthorized = requireAdmin(request);
+  const unauthorized = requireAdminMutation(request);
   if (unauthorized) return unauthorized;
 
   const bucket = getGcsBucket();
@@ -29,7 +34,8 @@ export async function POST(request: NextRequest) {
   if (!(file instanceof File)) {
     return NextResponse.json({ error: "Ingen fil mottatt" }, { status: 400 });
   }
-  if (!ALLOWED.has(file.type)) {
+  const ext = EXTENSION_BY_TYPE.get(file.type);
+  if (!ext) {
     return NextResponse.json(
       { error: "Ugyldig filtype. Bruk PNG, JPEG, WEBP eller GIF." },
       { status: 400 }
@@ -39,7 +45,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Filen er for stor (maks 10 MB)." }, { status: 400 });
   }
 
-  const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
   const id = randomUUID();
   const path = `lots/${id}.${ext}`;
 

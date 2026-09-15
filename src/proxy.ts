@@ -10,8 +10,11 @@ import {
 
 export function proxy(request: NextRequest) {
   const forwardedLocale = request.headers.get(LOCALE_HEADER);
+  const forwardedCookie = request.cookies.get(LOCALE_COOKIE)?.value;
 
-  if (isLocale(forwardedLocale)) {
+  // Rewritten localized requests pass through the proxy a second time. Only
+  // trust the internal locale header when it agrees with the rewritten cookie.
+  if (isLocale(forwardedLocale) && forwardedLocale === forwardedCookie) {
     return NextResponse.next({
       request: { headers: new Headers(request.headers) },
     });

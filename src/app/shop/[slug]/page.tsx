@@ -1,52 +1,37 @@
 import { notFound } from "next/navigation";
-import { products, getProductBySlug } from "@/data/products";
-import ProductDetailClient from "./ProductDetailClient";
 import { getRequestLocale } from "@/i18n/server";
-import { localizeProduct } from "@/i18n/products";
+import { localizeCatalogProduct } from "@/i18n/products";
+import { getPublishedProductBySlug } from "@/lib/catalog";
+import ProductDetailClient from "./ProductDetailClient";
+
+export const dynamic = "force-dynamic";
 
 interface ProductPageProps {
-  params: Promise<{
-    slug: string;
-  }>;
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: ProductPageProps) {
-  const { slug } = await params;
-  const product = getProductBySlug(slug);
-  const locale = await getRequestLocale();
-  
+  const [{ slug }, locale] = await Promise.all([params, getRequestLocale()]);
+  const product = await getPublishedProductBySlug(slug);
+
   if (!product) {
-    const title = {
-      no: "Produktet ble ikke funnet | Kaffe Guatilla",
-      en: "Product not found | Kaffe Guatilla",
-      es: "Producto no encontrado | Kaffe Guatilla",
-    } as const;
-    return { title: title[locale] };
+    return {
+      title: {
+        no: "Produktet ble ikke funnet | Kaffe Guatilla",
+        en: "Product not found | Kaffe Guatilla",
+        es: "Producto no encontrado | Kaffe Guatilla",
+      }[locale],
+    };
   }
 
-  const localizedProduct = localizeProduct(product, locale);
-
-  return {
-    title: `${localizedProduct.name} | Kaffe Guatilla`,
-    description: localizedProduct.description,
-  };
-}
-
-export async function generateStaticParams() {
-  return products.map((product) => ({
-    slug: product.slug,
-  }));
+  const localized = localizeCatalogProduct(product, locale);
+  return { title: `${localized.name} | Kaffe Guatilla`, description: localized.description };
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const { slug } = await params;
-  const product = getProductBySlug(slug);
-  const locale = await getRequestLocale();
+  const [{ slug }, locale] = await Promise.all([params, getRequestLocale()]);
+  const product = await getPublishedProductBySlug(slug);
+  if (!product) notFound();
 
-  if (!product) {
-    notFound();
-  }
-
-  return <ProductDetailClient product={localizeProduct(product, locale)} />;
+  return <ProductDetailClient product={localizeCatalogProduct(product, locale)} />;
 }
-

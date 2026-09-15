@@ -9,3 +9,28 @@ export function requireAdmin(request: NextRequest): NextResponse | null {
   }
   return null;
 }
+
+export function requireSameOrigin(request: NextRequest): NextResponse | null {
+  const origin = request.headers.get("origin");
+  if (!origin) {
+    return NextResponse.json({ error: "Origen no permitido" }, { status: 403 });
+  }
+
+  const forwardedHost = request.headers.get("x-forwarded-host");
+  const forwardedProto = request.headers.get("x-forwarded-proto") ?? request.nextUrl.protocol.replace(":", "");
+  const expectedOrigins = new Set([request.nextUrl.origin]);
+  if (forwardedHost) expectedOrigins.add(`${forwardedProto}://${forwardedHost}`);
+
+  try {
+    if (!expectedOrigins.has(new URL(origin).origin)) {
+      return NextResponse.json({ error: "Origen no permitido" }, { status: 403 });
+    }
+  } catch {
+    return NextResponse.json({ error: "Origen no permitido" }, { status: 403 });
+  }
+  return null;
+}
+
+export function requireAdminMutation(request: NextRequest): NextResponse | null {
+  return requireAdmin(request) ?? requireSameOrigin(request);
+}

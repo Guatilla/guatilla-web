@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
 import { getPrisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/requireAdmin";
+import { requireAdmin, requireAdminMutation } from "@/lib/requireAdmin";
 import { deserializeCoffeeLotInput, serializeCoffeeLot } from "@/lib/coffeeLotSerializer";
 import type { CoffeeLotInput } from "@/types/coffeeLot";
 
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
 
 /** POST → oppretter et nytt parti. Kun for administratorer. */
 export async function POST(request: NextRequest) {
-  const unauthorized = requireAdmin(request);
+  const unauthorized = requireAdminMutation(request);
   if (unauthorized) return unauthorized;
 
   let body: Partial<CoffeeLotInput>;

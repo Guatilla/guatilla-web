@@ -1,563 +1,178 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "@/components/LocalizedLink";
-import { products } from "@/data/products";
-import { useCart, type CartItem } from "@/components/CartProvider";
+import { useCart } from "@/components/CartProvider";
 import { useLocale } from "@/i18n/LocaleProvider";
-import type { Locale } from "@/i18n/config";
-import { localizeProduct } from "@/i18n/products";
+import { localizeCatalogCartLine, localizeVariantName } from "@/i18n/products";
+import { formatNok } from "@/lib/money";
+import type { StorefrontCartLine } from "@/types/catalog";
 
-/* ── Tokens (modern patchwork) ─────────────────────────────────── */
-const CREAM = "#FDF1E5";
-const WARM = "#F2E6D8";
-const PHOTO_CELL = "#F7ECDE";
-const HAIRLINE = "#E2D2BF";
-const INK = "#2E2018";
-const BODY = "#4A382C";
-const MUTED = "#6B5A4E";
-const TERRA = "#A94B2F";
-const DEEP_TERRA = "#8E3A2B";
-const MUSTARD = "#DDA83A";
-const OLIVE = "#5C7148";
-const ON_DARK = "#FFF7EF";
-
-const F_BITTER = "var(--font-bitter), Georgia, serif";
-const F_KARLA = "var(--font-karla), system-ui, sans-serif";
-const F_MONO = "var(--font-space-mono), ui-monospace, monospace";
-
-/* seamed container: 2px ink lines between and around abutting cells */
-const seam = (extra: React.CSSProperties = {}): React.CSSProperties => ({
-  background: INK,
-  border: `2px solid ${INK}`,
-  gap: "2px",
-  ...extra,
-});
-
-type Tone = "cream" | "ink";
-const toneColor = (t: Tone) => (t === "ink" ? INK : ON_DARK);
-
-/* Grade colour per known product; anything else derives from data. */
-const NOTE_META: Record<string, { note: string; bg: string; tone: Tone }> = {
-  "montana-hele-bonner": { note: "Excelso", bg: DEEP_TERRA, tone: "cream" },
-  "montana-malt": { note: "Excelso", bg: DEEP_TERRA, tone: "cream" },
-  "especial-hele-bonner": { note: "Especial", bg: MUSTARD, tone: "ink" },
-  "especial-malt": { note: "Especial", bg: MUSTARD, tone: "ink" },
-};
-
-const CART_COPY = {
+const COPY = {
   no: {
-    step: "Steg 1 av 3 · Kurv",
-    title: "Handlekurv",
-    steps: ["Kurv", "Levering", "Betaling"],
-    count: (count: number) =>
-      count === 1 ? "1 vare i kurven" : `${count} varer i kurven`,
-    clear: "Tøm kurv",
-    fewer: (name: string) => `Færre ${name}`,
-    more: (name: string) => `Flere ${name}`,
-    each: "/ stk",
+    eyebrow: "Handlekurv",
+    title: "Din kaffe",
+    clear: "Tøm kurven",
+    empty: "Kurven er tom",
+    emptyBody: "Utforsk den publiserte katalogen for å finne kaffen din.",
+    shop: "Se butikken",
     remove: "Fjern",
-    emptyTitle: "Kurven er tom",
-    emptyBody: "Fire partier venter fra samme fjellkjede.",
-    seeCoffee: "Se all kaffe",
-    continue: "Fortsett å handle",
+    less: "Reduser antall",
+    more: "Øk antall",
+    unavailable: "Denne varianten er ikke lenger tilgjengelig.",
+    loading: "Oppdaterer priser og lagerstatus …",
+    failed: "Katalogen er midlertidig utilgjengelig. Prøv igjen senere.",
+    soldOut: "Utsolgt",
     summary: "Oppsummering",
     subtotal: "Delsum",
-    discount: "Rabatt",
     total: "Totalt",
-    checkout: "Til kassen",
-    reassurance: "Vipps · kort · Klarna. Brent mandag, sendt samme uke.",
-    wholeBean: "Hele bønner",
-    ground: "Malt kaffe",
-    subscription: "Abonnement · hver 4. uke",
+    checkout: "Kassen åpner snart",
+    checkoutBody: "Checkout er deaktivert til bestilling og betaling er klare.",
   },
   en: {
-    step: "Step 1 of 3 · Cart",
-    title: "Shopping cart",
-    steps: ["Cart", "Delivery", "Payment"],
-    count: (count: number) =>
-      `${count} ${count === 1 ? "item" : "items"} in your cart`,
+    eyebrow: "Shopping cart",
+    title: "Your coffee",
     clear: "Clear cart",
-    fewer: (name: string) => `Fewer ${name}`,
-    more: (name: string) => `More ${name}`,
-    each: "/ each",
+    empty: "Your cart is empty",
+    emptyBody: "Explore the published catalogue to find your coffee.",
+    shop: "View the shop",
     remove: "Remove",
-    emptyTitle: "Your cart is empty",
-    emptyBody: "Four lots are waiting from the same mountain range.",
-    seeCoffee: "See all coffee",
-    continue: "Continue shopping",
+    less: "Decrease quantity",
+    more: "Increase quantity",
+    unavailable: "This variant is no longer available.",
+    loading: "Updating prices and stock …",
+    failed: "The catalogue is temporarily unavailable. Please try again later.",
+    soldOut: "Sold out",
     summary: "Summary",
     subtotal: "Subtotal",
-    discount: "Discount",
     total: "Total",
-    checkout: "Checkout",
-    reassurance: "Vipps · card · Klarna. Roasted Monday, shipped the same week.",
-    wholeBean: "Whole bean",
-    ground: "Ground coffee",
-    subscription: "Subscription · every 4 weeks",
+    checkout: "Checkout coming soon",
+    checkoutBody: "Checkout is disabled until ordering and payment are ready.",
   },
   es: {
-    step: "Paso 1 de 3 · Carrito",
-    title: "Carrito",
-    steps: ["Carrito", "Entrega", "Pago"],
-    count: (count: number) =>
-      `${count} ${count === 1 ? "producto" : "productos"} en el carrito`,
+    eyebrow: "Carrito",
+    title: "Tu café",
     clear: "Vaciar carrito",
-    fewer: (name: string) => `Menos ${name}`,
-    more: (name: string) => `Más ${name}`,
-    each: "/ unidad",
+    empty: "El carrito está vacío",
+    emptyBody: "Explora el catálogo publicado para encontrar tu café.",
+    shop: "Ver la tienda",
     remove: "Eliminar",
-    emptyTitle: "El carrito está vacío",
-    emptyBody: "Te esperan cuatro lotes de la misma serranía.",
-    seeCoffee: "Ver todo el café",
-    continue: "Seguir comprando",
+    less: "Reducir cantidad",
+    more: "Aumentar cantidad",
+    unavailable: "Esta variante ya no está disponible.",
+    loading: "Actualizando precios e inventario…",
+    failed: "El catálogo no está disponible temporalmente. Inténtalo más tarde.",
+    soldOut: "Agotado",
     summary: "Resumen",
     subtotal: "Subtotal",
-    discount: "Descuento",
     total: "Total",
-    checkout: "Finalizar compra",
-    reassurance: "Vipps · tarjeta · Klarna. Tostado el lunes y enviado esa misma semana.",
-    wholeBean: "En grano",
-    ground: "Café molido",
-    subscription: "Suscripción · cada 4 semanas",
+    checkout: "Venta próximamente",
+    checkoutBody: "El checkout está desactivado hasta que pedidos y pagos estén listos.",
   },
 } as const;
 
-const findProduct = (item: CartItem) =>
-  products.find((p) => p.id === item.id) ||
-  (item.slug ? products.find((p) => p.slug === item.slug) : undefined);
+const CHECKOUT_COPY = {
+  no: {
+    checkout: "Gå til checkout",
+    checkoutBody: "Betaling skjer manuelt med Vipps-nummer 66141 etter at bestillingen er opprettet.",
+  },
+  en: {
+    checkout: "Continue to checkout",
+    checkoutBody: "Payment is made manually to Vipps number 66141 after the order is created.",
+  },
+  es: {
+    checkout: "Finalizar compra",
+    checkoutBody: "El pago se realiza manualmente al Número Vipps 66141 después de crear el pedido.",
+  },
+} as const;
 
-function deriveLine(item: CartItem, locale: Locale) {
-  const copy = CART_COPY[locale];
-  const sourceProduct = findProduct(item);
-  const p = sourceProduct ? localizeProduct(sourceProduct, locale) : undefined;
-  const meta = NOTE_META[item.id] ?? (p ? NOTE_META[p.id] : undefined);
-
-  const seg = p?.flavourSpectrum?.[0];
-  const note = meta?.note ?? p?.smaksprofil?.[0];
-  const noteBg = meta?.bg ?? seg?.bg ?? DEEP_TERRA;
-  const noteTone: Tone = meta?.tone ?? (seg?.tone === "ink" ? "ink" : "cream");
-
-  const rawGrind = item.grind ?? (p ? "Hele bønner" : undefined);
-  const grind = rawGrind === "Malt" ? copy.ground : rawGrind ? copy.wholeBean : undefined;
-  const size = item.weight ?? p?.weight?.split(" / ")[0];
-
-  const originLine = item.subscription
-    ? copy.subscription
-    : p
-    ? `${p.origin} · ${p.process.toLowerCase()}`
-    : item.origin;
-
-  return {
-    name: p?.name ?? item.name,
-    note,
-    noteBg,
-    noteTone,
-    grind,
-    size,
-    originLine,
-    unitPrice: item.priceNum,
-    lineTotal: item.priceNum * item.quantity,
-  };
-}
-
-const CSS = `
-.cart { background:${CREAM}; color:${BODY}; font-family:${F_KARLA}; }
-.cart *:focus-visible { outline:2px solid ${INK}; outline-offset:2px; }
-.cart .on-dark:focus-visible { outline-color:${MUSTARD}; }
-.cart button { cursor:pointer; }
-
-.cart-inner { max-width:1300px; margin:0 auto; padding:clamp(24px,4vw,48px) clamp(16px,3vw,44px) 64px; }
-.cart .eyebrow { margin:0; font-family:${F_MONO}; font-weight:700; font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:${MUTED}; }
-
-.page-head { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:20px; }
-.page-head h1 { margin:8px 0 0; font-family:${F_BITTER}; font-weight:800; font-size:clamp(36px,5.5vw,56px); line-height:.95; letter-spacing:-.035em; color:${INK}; }
-
-.steps { display:flex; flex-wrap:wrap; }
-.step { display:flex; align-items:center; justify-content:center; font-family:${F_MONO}; font-weight:700; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; padding:11px 16px; }
-
-.layout { margin-top:clamp(28px,3.5vw,44px); display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap:clamp(24px,3vw,40px); align-items:start; }
-.left-col { min-width:0; display:flex; flex-direction:column; gap:26px; }
-
-.cart-block-head { background:${CREAM}; display:flex; flex-wrap:wrap; align-items:center; gap:12px; padding:12px 18px; }
-.link-btn { border:none; background:transparent; padding:0; font-family:${F_MONO}; font-weight:700; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:${TERRA}; }
-
-.li { background:${CREAM}; padding:18px; display:grid; grid-template-columns:auto 1fr; column-gap:18px; row-gap:14px; align-items:start; grid-template-areas:"thumb body" ". controls"; }
-.li--noimg { grid-template-columns:1fr; grid-template-areas:"body" "controls"; }
-.li--noimg .li-thumb { display:none; }
-.li-thumb { grid-area:thumb; align-self:center; width:clamp(96px,26vw,132px); aspect-ratio:1/1; box-sizing:border-box; position:relative; overflow:hidden; background:${PHOTO_CELL}; border:1.5px solid ${HAIRLINE}; }
-.li-body { grid-area:body; min-width:0; display:flex; flex-direction:column; gap:12px; }
-.li-controls { grid-area:controls; display:flex; flex-wrap:wrap; align-items:center; gap:16px; }
-.li-titlerow { display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 14px; }
-.li-name { font-family:${F_BITTER}; font-weight:800; font-size:24px; color:${INK}; }
-.li-total { font-family:${F_BITTER}; font-weight:800; font-size:20px; color:${INK}; white-space:nowrap; }
-.li-strip { align-self:flex-start; max-width:100%; display:flex; flex-wrap:wrap; background:${INK}; border:1.5px solid ${INK}; gap:2px; }
-.li-note { font-family:${F_BITTER}; font-weight:800; font-style:italic; font-size:12px; padding:5px 10px; white-space:nowrap; }
-.li-tag { background:${WARM}; color:${INK}; font-family:${F_MONO}; font-weight:700; font-size:10px; letter-spacing:.06em; text-transform:uppercase; padding:5px 10px; white-space:nowrap; }
-.li-origin { margin:0; font-family:${F_KARLA}; font-size:13.5px; line-height:1.45; color:${BODY}; }
-
-.stepper { display:inline-flex; flex:none; background:${INK}; border:2px solid ${INK}; gap:2px; }
-.step-btn { width:40px; height:44px; border:none; font-family:${F_MONO}; font-weight:700; font-size:15px; }
-.step-val { min-width:40px; height:44px; display:grid; place-items:center; background:${CREAM}; color:${INK}; font-family:${F_MONO}; font-weight:700; font-size:14px; }
-.li-unit { font-family:${F_KARLA}; font-size:12.5px; color:${MUTED}; white-space:nowrap; }
-.remove-btn { flex:none; border:none; background:transparent; padding:0; min-height:44px; display:inline-flex; align-items:center; font-family:${F_KARLA}; font-size:12.5px; color:${TERRA}; text-decoration:underline; text-underline-offset:4px; }
-
-.empty { background:${WARM}; border:2px solid ${INK}; padding:34px 30px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px; }
-.empty-copy { display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 14px; min-width:0; }
-.empty-title { font-family:${F_BITTER}; font-weight:800; font-style:italic; font-size:24px; color:${INK}; }
-.empty-text { font-family:${F_KARLA}; font-size:15px; color:${BODY}; }
-.btn-ink { display:inline-flex; align-items:center; justify-content:center; border:none; background:${INK}; color:${ON_DARK}; font-family:${F_MONO}; font-weight:700; font-size:11px; letter-spacing:.12em; text-transform:uppercase; padding:12px 18px; text-decoration:none; }
-.continue { font-family:${F_MONO}; font-weight:700; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:${TERRA}; text-decoration:none; }
-
-.summary { min-width:0; position:sticky; top:24px; display:flex; flex-direction:column; }
-.sum-olive { background:${OLIVE}; color:${ON_DARK}; padding:28px 26px; }
-.sum-h2 { margin:0; font-family:${F_BITTER}; font-weight:800; font-size:28px; color:${ON_DARK}; }
-.sum-rows { margin-top:16px; display:flex; flex-direction:column; gap:10px; }
-.sum-row { display:flex; justify-content:space-between; gap:12px; }
-.sum-row-label { font-family:${F_KARLA}; font-size:15px; color:${ON_DARK}; }
-.sum-row-value { font-family:${F_MONO}; font-weight:700; font-size:13px; color:${ON_DARK}; }
-.sum-divider { height:2px; background:${ON_DARK}; margin:6px 0; }
-.sum-totalrow { display:flex; justify-content:space-between; align-items:baseline; gap:12px; }
-.sum-total { font-family:${F_BITTER}; font-weight:800; font-style:italic; font-size:30px; }
-.summary-checkout { border:none; background:${INK}; color:${ON_DARK}; padding:22px 26px; font-family:${F_MONO}; font-weight:700; font-size:12px; letter-spacing:.14em; text-transform:uppercase; }
-.reassure { background:${TERRA}; color:${ON_DARK}; padding:18px 26px; font-family:${F_KARLA}; font-size:13px; }
-
-.sticky-bar { display:none; }
-
-@media (max-width: 640px) {
-  .cart-inner { padding:20px 16px 24px; }
-  .page-head { flex-direction:column; align-items:stretch; gap:16px; }
-  .page-head h1 { font-size:38px; }
-  .steps { width:100%; }
-  .step { flex:1; padding:12px 6px; font-size:9.5px; letter-spacing:.12em; }
-  .layout { margin-top:22px; gap:22px; }
-  .cart .eyebrow { font-size:9.5px; }
-  .link-btn { font-size:9.5px; }
-  .cart-block-head { padding:11px 14px; }
-  .li { padding:14px; column-gap:13px; row-gap:11px; grid-template-areas:"thumb body" "controls controls"; }
-  .li--noimg { grid-template-columns:1fr; grid-template-areas:"body" "controls"; }
-  .li-thumb { align-self:start; width:72px; }
-  .li-body { gap:8px; }
-  .li-name { font-size:19px; }
-  .li-total { font-size:16px; }
-  .li-strip { flex-wrap:nowrap; overflow:hidden; }
-  .li-note { font-size:10px; padding:3px 7px; }
-  .li-tag { font-size:8.5px; padding:3px 7px; letter-spacing:.03em; }
-  .li-origin { font-size:12px; line-height:1.4; }
-  .li-controls { gap:10px; flex-wrap:nowrap; }
-  .step-btn { width:38px; height:44px; }
-  .step-val { min-width:34px; height:44px; }
-  .li-unit { font-size:11px; }
-  .li-unit .stk { display:none; }
-  .empty { flex-direction:column; align-items:stretch; padding:26px 20px; gap:14px; }
-  .empty-title { font-size:21px; }
-  .empty-text { font-size:14px; }
-  .empty .btn-ink { width:100%; padding:16px; }
-  .sum-olive { padding:22px 20px; }
-  .sum-h2 { font-size:23px; }
-  .sum-row-label { font-size:14px; }
-  .sum-row-value { font-size:12px; }
-  .sum-total { font-size:26px; }
-  .reassure { padding:15px 20px; font-size:12.5px; }
-  .summary { position:static; top:auto; }
-  .summary-checkout { display:none; }
-  .sticky-bar { display:flex; }
-}
-
-@media (max-width: 860px) {
-  .summary { position:static; top:auto; }
-}
-
-@media (prefers-reduced-motion: reduce) { .cart * { transition:none !important; } }
-`;
-
-/* ── Page ──────────────────────────────────────────────────────── */
 export default function CartPage() {
   const locale = useLocale();
-  const copy = CART_COPY[locale];
-  const { items, removeItem, updateQuantity, clearCart } = useCart();
+  const copy = COPY[locale];
+  const checkoutCopy = CHECKOUT_COPY[locale];
+  const { items, removeItem, updateQuantity, clearCart, isHydrated } = useCart();
+  const [lines, setLines] = useState<StorefrontCartLine[]>([]);
+  const [state, setState] = useState<"idle" | "loading" | "ready" | "error">("idle");
+  const variantKey = JSON.stringify(items);
 
-  const count = items.reduce((s, i) => s + i.quantity, 0);
+  useEffect(() => {
+    if (!isHydrated) return;
 
-  const { subtotal, discount, total } = useMemo(() => {
-    const sub = items.reduce((s, i) => s + (i.listPriceNum ?? i.priceNum) * i.quantity, 0);
-    const disc = items.reduce(
-      (s, i) => s + ((i.listPriceNum ?? i.priceNum) - i.priceNum) * i.quantity,
-      0
-    );
-    return { subtotal: sub, discount: disc, total: sub - disc };
-  }, [items]);
+    const controller = new AbortController();
+    const requestedItems = JSON.parse(variantKey) as Array<{ variantId: string; quantity: number }>;
+    Promise.resolve().then(() => {
+      if (!controller.signal.aborted) setState("loading");
+    });
+    fetch("/api/catalog/cart", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items: requestedItems }),
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("catalog-unavailable");
+        return response.json() as Promise<{ lines: StorefrontCartLine[] }>;
+      })
+      .then((data) => {
+        setLines(Array.isArray(data.lines) ? data.lines : []);
+        setState("ready");
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setLines([]);
+        setState("error");
+      });
+    return () => controller.abort();
+  }, [variantKey, isHydrated]);
+
+  const localizedLines = useMemo(
+    () => new Map(lines.map((line) => {
+      const localized = localizeCatalogCartLine(line, locale);
+      return [localized.variantId, localized] as const;
+    })),
+    [lines, locale],
+  );
+  const totalOre = items.reduce((sum, item) => {
+    const line = localizedLines.get(item.variantId);
+    return sum + (line ? line.priceOre * item.quantity : 0);
+  }, 0);
+  const checkoutReady =
+    state === "ready" &&
+    items.length > 0 &&
+    lines.length === items.length &&
+    lines.every((line) => line.inStock);
 
   return (
-    <div className="cart">
-      <style>{CSS}</style>
-
-      <div className="cart-inner">
-        {/* ── PAGE HEAD ─────────────────────────────────────── */}
-        <div className="page-head">
-          <div>
-            <p className="eyebrow">{copy.step}</p>
-            <h1>{copy.title}</h1>
-          </div>
-
-          <div className="steps" style={seam()}>
-            {([
-              [copy.steps[0], true],
-              [copy.steps[1], false],
-              [copy.steps[2], false],
-            ] as const).map(([label, active]) => (
-              <span
-                key={label}
-                className="step"
-                style={{
-                  background: active ? INK : CREAM,
-                  color: active ? ON_DARK : MUTED,
-                }}
-              >
-                {label}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* ── LAYOUT ────────────────────────────────────────── */}
-        <div className="layout">
-          {/* ── LEFT COLUMN ─────────────────────────────────── */}
-          <div className="left-col">
-            {items.length > 0 ? (
-              <div style={seam({ display: "flex", flexDirection: "column" })}>
-                {/* header */}
-                <div className="cart-block-head">
-                  <span className="eyebrow">
-                    {copy.count(count)}
-                  </span>
-                  <span style={{ flex: 1 }} />
-                  <button className="link-btn" onClick={clearCart}>
-                    {copy.clear}
-                  </button>
-                </div>
-
-                {/* line items */}
-                {items.map((item) => {
-                  const v = deriveLine(item, locale);
-                  return (
-                    <div key={item.id} className={item.image ? "li" : "li li--noimg"}>
-                      {/* thumbnail — omitted entirely when there is no image */}
-                      {item.image && (
-                        <div className="li-thumb">
-                          <Image
-                            src={item.image}
-                            alt=""
-                            fill
-                            sizes="(max-width: 640px) 72px, 132px"
-                            style={{ objectFit: "cover" }}
-                          />
-                        </div>
-                      )}
-
-                      {/* body: title + attributes + origin */}
-                      <div className="li-body">
-                        <div className="li-titlerow">
-                          <span className="li-name">{v.name}</span>
-                          <span style={{ flex: 1 }} />
-                          <span className="li-total">{v.lineTotal} NOK</span>
-                        </div>
-
-                        {(v.note || v.grind || v.size) && (
-                          <div className="li-strip">
-                            {v.note && (
-                              <span
-                                className="li-note"
-                                style={{ background: v.noteBg, color: toneColor(v.noteTone) }}
-                              >
-                                {v.note}
-                              </span>
-                            )}
-                            {[v.grind, v.size].filter(Boolean).map((t) => (
-                              <span key={t} className="li-tag">
-                                {t}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-
-                        <p className="li-origin">{v.originLine}</p>
-                      </div>
-
-                      {/* controls */}
-                      <div className="li-controls">
-                        <div className="stepper">
-                          <button
-                            aria-label={copy.fewer(v.name)}
-                            onClick={() =>
-                              updateQuantity(item.id, Math.max(1, item.quantity - 1))
-                            }
-                            disabled={item.quantity <= 1}
-                            className="step-btn"
-                            style={{
-                              background: item.quantity <= 1 ? WARM : CREAM,
-                              color: item.quantity <= 1 ? MUTED : INK,
-                            }}
-                          >
-                            −
-                          </button>
-                          <span aria-hidden className="step-val">
-                            {item.quantity}
-                          </span>
-                          <button
-                            aria-label={copy.more(v.name)}
-                            onClick={() =>
-                              updateQuantity(item.id, Math.min(9, item.quantity + 1))
-                            }
-                            disabled={item.quantity >= 9}
-                            className="step-btn"
-                            style={{
-                              background: item.quantity >= 9 ? WARM : CREAM,
-                              color: item.quantity >= 9 ? MUTED : INK,
-                            }}
-                          >
-                            +
-                          </button>
-                        </div>
-
-                        <span className="li-unit">
-                          {v.unitPrice} NOK<span className="stk"> {copy.each}</span>
-                        </span>
-                        <span style={{ flex: 1 }} />
-                        <button className="remove-btn" onClick={() => removeItem(item.id)}>
-                          {copy.remove}
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              /* ── EMPTY STATE ──────────────────────────────── */
-              <div className="empty">
-                <div className="empty-copy">
-                  <span className="empty-title">{copy.emptyTitle}</span>
-                  <span className="empty-text">
-                    {copy.emptyBody}
-                  </span>
-                </div>
-                <Link href="/shop" className="btn-ink on-dark">
-                  {copy.seeCoffee}
-                </Link>
-              </div>
-            )}
-
-            {/* ── CONTINUE ───────────────────────────────────── */}
-            <Link href="/shop" className="continue">
-              ← {copy.continue}
-            </Link>
-          </div>
-
-          {/* ── RIGHT COLUMN ───────────────────────────────── */}
-          <div className="summary" style={seam({ display: "flex", flexDirection: "column" })}>
-            {/* a) summary */}
-            <div className="sum-olive">
-              <h2 className="sum-h2">{copy.summary}</h2>
-              <div className="sum-rows" aria-live="polite">
-                <div className="sum-row">
-                  <span className="sum-row-label">{copy.subtotal}</span>
-                  <span className="sum-row-value">{subtotal} NOK</span>
-                </div>
-                {discount > 0 && (
-                  <div className="sum-row">
-                    <span className="sum-row-label">{copy.discount}</span>
-                    <span className="sum-row-value">−{discount} NOK</span>
-                  </div>
-                )}
-                <div className="sum-divider" />
-                <div className="sum-totalrow">
-                  <span className="sum-total">{copy.total}</span>
-                  <span className="sum-total">{total} NOK</span>
-                </div>
-              </div>
-            </div>
-
-            {/* b) checkout (desktop only — mobile uses the sticky bar) */}
-            <button
-              type="button"
-              className="summary-checkout on-dark"
-              disabled={items.length === 0}
-              style={{ opacity: items.length === 0 ? 0.5 : 1 }}
-            >
-              {copy.checkout} · {total} NOK
-            </button>
-
-            {/* c) reassurance */}
-            <div className="reassure">
-              {copy.reassurance}
-            </div>
-          </div>
-        </div>
-
-        {/* ── STICKY CHECKOUT BAR (mobile only) ─────────────── */}
-        {items.length > 0 && (
-          <div
-            className="sticky-bar"
-            style={{
-              position: "sticky",
-              bottom: 0,
-              zIndex: 20,
-              boxSizing: "border-box",
-              margin: "24px -16px 0",
-              background: CREAM,
-              borderTop: `2px solid ${INK}`,
-              padding: "12px 16px calc(16px + env(safe-area-inset-bottom))",
-              flexDirection: "column",
-              gap: "8px",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "baseline", gap: "12px" }}>
-              <span
-                style={{
-                  fontFamily: F_MONO,
-                  fontWeight: 700,
-                  fontSize: "9.5px",
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  color: MUTED,
-                }}
-              >
-                {copy.total}
-              </span>
-              <span style={{ flex: 1 }} />
-              <span
-                style={{
-                  fontFamily: F_BITTER,
-                  fontWeight: 800,
-                  fontSize: "20px",
-                  color: INK,
-                }}
-              >
-                {total} NOK
-              </span>
-            </div>
-            <button
-              type="button"
-              className="on-dark"
-              style={{
-                width: "100%",
-                border: "none",
-                background: INK,
-                color: ON_DARK,
-                padding: "20px",
-                fontFamily: F_MONO,
-                fontWeight: 700,
-                fontSize: "11.5px",
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-              }}
-            >
-              {copy.checkout}
-            </button>
-          </div>
-        )}
+    <main className="cart-db">
+      <style>{`
+        .cart-db{background:#fdf1e5;color:#4a382c;min-height:72vh;padding:clamp(34px,6vw,72px) 0;font-family:var(--font-karla),sans-serif}.cart-db *{box-sizing:border-box}
+        .cart-db__head{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:30px}.cart-db__eyebrow{font:700 10px var(--font-space-mono);letter-spacing:.16em;text-transform:uppercase;color:#a94b2f}.cart-db h1{font:800 clamp(40px,7vw,64px)/.95 var(--font-bitter);color:#2e2018;margin:8px 0 0}.cart-db__clear{border:0;background:none;color:#a94b2f;text-decoration:underline;font-weight:700}
+        .cart-db__layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(290px,.65fr);gap:32px;align-items:start}.cart-db__lines{display:grid;gap:2px;border:2px solid #2e2018;background:#2e2018}.cart-db__line{display:grid;grid-template-columns:110px 1fr;gap:18px;background:#fdf1e5;padding:16px}.cart-db__image{width:110px;aspect-ratio:1;background:#f2e6d8;overflow:hidden;border:1px solid #6b5a4e}.cart-db__image img{width:100%;height:100%;object-fit:cover}.cart-db__placeholder{height:100%;display:grid;place-items:center;font:700 9px var(--font-space-mono);text-transform:uppercase}
+        .cart-db__linehead{display:flex;gap:12px;align-items:baseline}.cart-db__line h2{font:800 23px var(--font-bitter);color:#2e2018;margin:0}.cart-db__price{margin-left:auto;font:800 18px var(--font-bitter);white-space:nowrap}.cart-db__meta{margin:6px 0 12px;font:700 10px var(--font-space-mono);letter-spacing:.07em;text-transform:uppercase;color:#6b5a4e}.cart-db__controls{display:flex;align-items:center;gap:10px}.cart-db__controls button{border:2px solid #2e2018;background:#fdf1e5;width:38px;height:38px;font-weight:800}.cart-db__qty{font:700 13px var(--font-space-mono);min-width:24px;text-align:center}.cart-db__remove{margin-left:auto!important;width:auto!important;border:0!important;color:#a94b2f!important;text-decoration:underline}.cart-db__warning{color:#a94b2f;margin:6px 0 12px}
+        .cart-db__summary{position:sticky;top:24px;border:2px solid #2e2018}.cart-db__summary-main{background:#5c7148;color:#fff7ef;padding:25px}.cart-db__summary h2{font:800 27px var(--font-bitter);margin:0 0 20px}.cart-db__row{display:flex;justify-content:space-between;gap:12px;padding:8px 0}.cart-db__total{border-top:2px solid #fff7ef;margin-top:8px;padding-top:16px;font:800 22px var(--font-bitter)}.cart-db__checkout{display:block;box-sizing:border-box;width:100%;border:0;background:#2e2018;color:#fff7ef;padding:18px;text-align:center;text-decoration:none;font:700 11px var(--font-space-mono);letter-spacing:.1em;text-transform:uppercase}.cart-db__checkout:disabled{opacity:.5}.cart-db__checkout-note{background:#f2e6d8;padding:15px;margin:0;font-size:13px;line-height:1.5}
+        .cart-db__empty{border:2px solid #2e2018;background:#f2e6d8;padding:clamp(32px,6vw,64px);text-align:center}.cart-db__empty h2{font:800 30px var(--font-bitter);color:#2e2018;margin:0 0 8px}.cart-db__empty p{margin:0 0 22px}.cart-db__link{display:inline-block;background:#2e2018;color:#fff7ef;padding:13px 18px;text-decoration:none;font:700 10px var(--font-space-mono);letter-spacing:.1em;text-transform:uppercase}.cart-db__state{margin:0 0 12px;color:#6b5a4e}
+        @media(max-width:760px){.cart-db__layout{grid-template-columns:1fr}.cart-db__summary{position:static}.cart-db__line{grid-template-columns:72px 1fr;gap:12px}.cart-db__image{width:72px}.cart-db__linehead{flex-wrap:wrap}.cart-db__price{width:100%;margin:0}.cart-db__head{align-items:start}}
+      `}</style>
+      <div className="container-page">
+        <header className="cart-db__head"><div><span className="cart-db__eyebrow">{copy.eyebrow}</span><h1>{copy.title}</h1></div>{items.length > 0 && <button className="cart-db__clear" type="button" onClick={clearCart}>{copy.clear}</button>}</header>
+        {!isHydrated ? <section className="cart-db__empty"><p role="status">{copy.loading}</p></section> : items.length === 0 ? <section className="cart-db__empty"><h2>{copy.empty}</h2><p>{copy.emptyBody}</p><Link className="cart-db__link" href="/shop">{copy.shop}</Link></section> : <div className="cart-db__layout">
+          <section>
+            {state === "loading" && <p className="cart-db__state" role="status">{copy.loading}</p>}
+            {state === "error" && <p className="cart-db__state" role="alert">{copy.failed}</p>}
+            <div className="cart-db__lines">{items.map((item) => {
+              const line = localizedLines.get(item.variantId);
+              return <article className="cart-db__line" key={item.variantId}>
+                <div className="cart-db__image">{line?.image ? <Image src={line.image} alt="" width={110} height={110} unoptimized /> : <div className="cart-db__placeholder">Kaffe Guatilla</div>}</div>
+                <div><div className="cart-db__linehead"><h2>{line ? line.productName : copy.unavailable}</h2>{line && <span className="cart-db__price">{formatNok(line.priceOre * item.quantity, locale)}</span>}</div>
+                {line ? <><p className="cart-db__meta">{localizeVariantName(line, locale)}</p>{!line.inStock && <p className="cart-db__warning">{copy.soldOut}</p>}</> : <p className="cart-db__warning">{copy.unavailable}</p>}
+                <div className="cart-db__controls"><button type="button" aria-label={copy.less} disabled={item.quantity <= 1} onClick={() => updateQuantity(item.variantId, item.quantity - 1)}>−</button><span className="cart-db__qty">{item.quantity}</span><button type="button" aria-label={copy.more} disabled={item.quantity >= 99} onClick={() => updateQuantity(item.variantId, item.quantity + 1)}>+</button><button className="cart-db__remove" type="button" onClick={() => removeItem(item.variantId)}>{copy.remove}</button></div></div>
+              </article>;
+            })}</div>
+          </section>
+          <aside className="cart-db__summary"><div className="cart-db__summary-main"><h2>{copy.summary}</h2><div className="cart-db__row"><span>{copy.subtotal}</span><strong>{formatNok(totalOre, locale)}</strong></div><div className="cart-db__row cart-db__total"><span>{copy.total}</span><span>{formatNok(totalOre, locale)}</span></div></div>{checkoutReady ? <Link className="cart-db__checkout" href="/checkout">{checkoutCopy.checkout}</Link> : <button className="cart-db__checkout" type="button" disabled>{checkoutCopy.checkout}</button>}<p className="cart-db__checkout-note">{checkoutCopy.checkoutBody}</p></aside>
+        </div>}
       </div>
-    </div>
+    </main>
   );
 }

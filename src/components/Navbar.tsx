@@ -113,6 +113,8 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  if (pathnameWithoutLocale.startsWith("/admin")) return null;
+
   return (
     <>
       <nav
@@ -233,7 +235,7 @@ export default function Navbar() {
               </div>
 
               <Link
-                href="/shop/encuentro"
+                href="/shop"
                 onClick={() => setIsMenuOpen(false)}
                 className={`flex min-h-[170px] w-[320px] shrink-0 -rotate-1 flex-col justify-between border-[1.5px] border-dashed border-[color:rgba(253,252,248,0.6)] bg-brand-teal px-[22px] py-5 text-brand-cream ${FOCUS_RING}`}
               >

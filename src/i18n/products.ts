@@ -1,177 +1,97 @@
-import type { Product } from "@/data/products";
+import type {
+  StorefrontCatalogProduct,
+  StorefrontCartLine,
+} from "@/types/catalog";
 import type { Locale } from "./config";
 
-type ProductTranslation = Pick<
-  Product,
-  | "name"
-  | "roast"
-  | "process"
-  | "notes"
-  | "price"
-  | "alt"
-  | "description"
-  | "altitude"
-  | "dryingNote"
-  | "processDetail"
-  | "roastDetail"
-> & {
-  brewRecommended: string;
+type ProductTranslation = {
+  name?: string;
+  description?: string;
 };
 
-const PRODUCT_TRANSLATIONS: Record<
-  Exclude<Locale, "no">,
-  Record<string, ProductTranslation>
+// Only editorial fields are translated here. Prices, weights, SKUs and stock
+// always come directly from Cloud SQL.
+const PRODUCT_TRANSLATIONS: Partial<
+  Record<Exclude<Locale, "no">, Record<string, ProductTranslation>>
 > = {
   en: {
-    "montana-hele-bonner": {
-      name: "Café de Montaña — Whole bean",
-      roast: "Roasted to order",
-      process: "Washed",
-      notes: "Hand-picked and washed in Serranía del Perijá.",
-      price: "Price coming soon",
-      alt: "Kaffe Guatilla, Café de Montaña, whole bean 250 g — packaging illustration",
+    "guatilla-excelso-f6-monserrate": {
+      name: "Guatilla Excelso F6 — Finca Monserrate",
       description:
-        "Coffee from our family farms in Serranía del Perijá, grown at 900–1,300 metres above sea level. 100% Arabica, Excelso-grade coffee with washed processing and full traceability back to Finca La Guatilla. Find the lot through the lot number on the bag under Traceability. Supplied as whole bean, 250 g.",
-      altitude: "900–1,300 m a.s.l.",
-      dryingNote:
-        "Washed and dried on raised beds at the family's dry mill.",
-      processDetail: "Washed",
-      roastDetail: "Roasted to order",
-      brewRecommended: "Filter, V60",
+        "Washed Excelso coffee, F6 variety (100% arabica), from Finca Monserrate in the El Guamar Alto rural settlement, Agustín Codazzi, Colombia, grown at 1,600 metres above sea level. Directly exported by owner Jenifer Pérez Salen through Cafenlace.",
     },
-    "montana-malt": {
-      name: "Café de Montaña — Ground coffee",
-      roast: "Roasted to order",
-      process: "Washed",
-      notes: "Hand-picked and washed in Serranía del Perijá.",
-      price: "Price coming soon",
-      alt: "Kaffe Guatilla, Café de Montaña, ground coffee 250 g — packaging illustration",
-      description:
-        "Coffee from our family farms in Serranía del Perijá, grown at 900–1,300 metres above sea level. 100% Arabica, Excelso-grade coffee with washed processing and full traceability back to Finca La Guatilla. Find the lot through the lot number on the bag under Traceability. Supplied ground, 250 g.",
-      altitude: "900–1,300 m a.s.l.",
-      dryingNote:
-        "Washed and dried on raised beds at the family's dry mill.",
-      processDetail: "Washed",
-      roastDetail: "Roasted to order",
-      brewRecommended: "Filter",
-    },
-    "especial-hele-bonner": {
-      name: "Café Especial — Whole bean",
-      roast: "Roasted to order",
-      process: "Washed",
-      notes: "Hand-picked on our highest-altitude plots.",
-      price: "Price coming soon",
-      alt: "Kaffe Guatilla, Café Especial, whole bean 250 g — packaging illustration",
-      description:
-        "Our most exclusive lot, harvested at up to 1,800 metres above sea level, where the cool climate allows slow ripening. 100% Arabica, Especial-grade coffee rated above 80 points by certified cuppers, with washed processing and full traceability back to Finca La Guatilla. Supplied as whole bean, 250 g.",
-      altitude: "Up to 1,800 m a.s.l.",
-      dryingNote:
-        "Washed and dried on raised beds at the family's dry mill.",
-      processDetail: "Washed",
-      roastDetail: "Roasted to order",
-      brewRecommended: "Filter, V60",
-    },
-    "especial-malt": {
-      name: "Café Especial — Ground coffee",
-      roast: "Roasted to order",
-      process: "Washed",
-      notes: "Hand-picked on our highest-altitude plots.",
-      price: "Price coming soon",
-      alt: "Kaffe Guatilla, Café Especial, ground coffee 250 g — packaging illustration",
-      description:
-        "Our most exclusive lot, harvested at up to 1,800 metres above sea level, where the cool climate allows slow ripening. 100% Arabica, Especial-grade coffee rated above 80 points by certified cuppers, with washed processing and full traceability back to Finca La Guatilla. Supplied ground, 250 g.",
-      altitude: "Up to 1,800 m a.s.l.",
-      dryingNote:
-        "Washed and dried on raised beds at the family's dry mill.",
-      processDetail: "Washed",
-      roastDetail: "Roasted to order",
-      brewRecommended: "Filter",
-    },
+    "montana-hele-bonner": { name: "Café de Montaña — Whole bean" },
+    "montana-malt": { name: "Café de Montaña — Ground coffee" },
+    "especial-hele-bonner": { name: "Café Especial — Whole bean" },
+    "especial-malt": { name: "Café Especial — Ground coffee" },
   },
   es: {
-    "montana-hele-bonner": {
-      name: "Café de Montaña — En grano",
-      roast: "Tostado bajo pedido",
-      process: "Lavado",
-      notes: "Recolectado a mano y lavado en la Serranía del Perijá.",
-      price: "Precio próximamente",
-      alt: "Kaffe Guatilla, Café de Montaña, en grano 250 g — ilustración del empaque",
+    "guatilla-excelso-f6-monserrate": {
+      name: "Café Guatilla Excelso F6 — Finca Monserrate",
       description:
-        "Café de nuestras fincas familiares en la Serranía del Perijá, cultivado entre 900 y 1.300 metros. Café 100 % arábica clasificado como Excelso, de proceso lavado y con trazabilidad total hasta Finca La Guatilla. Consulta el lote mediante el número de la bolsa en Trazabilidad. Presentación en grano de 250 g.",
-      altitude: "900–1.300 m s. n. m.",
-      dryingNote:
-        "Lavado y secado en camas elevadas junto a la trilladora familiar.",
-      processDetail: "Lavado",
-      roastDetail: "Tostado bajo pedido",
-      brewRecommended: "Filtro, V60",
+        "Café Excelso lavado, variedad F6 (100 % arábica), de la Finca Monserrate en la vereda El Guamar Alto, Agustín Codazzi, Colombia, cultivado a 1.600 metros sobre el nivel del mar. Exportado directamente por su propietaria, Jenifer Pérez Salen, a través de Cafenlace.",
     },
-    "montana-malt": {
-      name: "Café de Montaña — Molido",
-      roast: "Tostado bajo pedido",
-      process: "Lavado",
-      notes: "Recolectado a mano y lavado en la Serranía del Perijá.",
-      price: "Precio próximamente",
-      alt: "Kaffe Guatilla, Café de Montaña, molido 250 g — ilustración del empaque",
-      description:
-        "Café de nuestras fincas familiares en la Serranía del Perijá, cultivado entre 900 y 1.300 metros. Café 100 % arábica clasificado como Excelso, de proceso lavado y con trazabilidad total hasta Finca La Guatilla. Consulta el lote mediante el número de la bolsa en Trazabilidad. Presentación molida de 250 g.",
-      altitude: "900–1.300 m s. n. m.",
-      dryingNote:
-        "Lavado y secado en camas elevadas junto a la trilladora familiar.",
-      processDetail: "Lavado",
-      roastDetail: "Tostado bajo pedido",
-      brewRecommended: "Filtro",
-    },
-    "especial-hele-bonner": {
-      name: "Café Especial — En grano",
-      roast: "Tostado bajo pedido",
-      process: "Lavado",
-      notes: "Recolectado a mano en nuestras parcelas de mayor altitud.",
-      price: "Precio próximamente",
-      alt: "Kaffe Guatilla, Café Especial, en grano 250 g — ilustración del empaque",
-      description:
-        "Nuestro lote más exclusivo, cosechado hasta los 1.800 metros, donde el clima fresco permite una maduración lenta. Café 100 % arábica clasificado como Especial y valorado por encima de 80 puntos por catadores certificados, de proceso lavado y con trazabilidad total hasta Finca La Guatilla. Presentación en grano de 250 g.",
-      altitude: "Hasta 1.800 m s. n. m.",
-      dryingNote:
-        "Lavado y secado en camas elevadas junto a la trilladora familiar.",
-      processDetail: "Lavado",
-      roastDetail: "Tostado bajo pedido",
-      brewRecommended: "Filtro, V60",
-    },
-    "especial-malt": {
-      name: "Café Especial — Molido",
-      roast: "Tostado bajo pedido",
-      process: "Lavado",
-      notes: "Recolectado a mano en nuestras parcelas de mayor altitud.",
-      price: "Precio próximamente",
-      alt: "Kaffe Guatilla, Café Especial, molido 250 g — ilustración del empaque",
-      description:
-        "Nuestro lote más exclusivo, cosechado hasta los 1.800 metros, donde el clima fresco permite una maduración lenta. Café 100 % arábica clasificado como Especial y valorado por encima de 80 puntos por catadores certificados, de proceso lavado y con trazabilidad total hasta Finca La Guatilla. Presentación molida de 250 g.",
-      altitude: "Hasta 1.800 m s. n. m.",
-      dryingNote:
-        "Lavado y secado en camas elevadas junto a la trilladora familiar.",
-      processDetail: "Lavado",
-      roastDetail: "Tostado bajo pedido",
-      brewRecommended: "Filtro",
-    },
+    "montana-hele-bonner": { name: "Café de Montaña — En grano" },
+    "montana-malt": { name: "Café de Montaña — Molido" },
+    "especial-hele-bonner": { name: "Café Especial — En grano" },
+    "especial-malt": { name: "Café Especial — Molido" },
   },
 };
 
-export function localizeProduct(product: Product, locale: Locale): Product {
-  if (locale === "no") return product;
-
-  const translation = PRODUCT_TRANSLATIONS[locale][product.id];
-  if (!translation) return product;
-
-  return {
-    ...product,
-    ...translation,
-    brew: {
-      ...product.brew,
-      recommended: translation.brewRecommended,
-    },
-  };
+function translationFor(slug: string, locale: Locale): ProductTranslation | undefined {
+  if (locale === "no") return undefined;
+  return PRODUCT_TRANSLATIONS[locale]?.[slug];
 }
 
-export function localizeProducts(products: Product[], locale: Locale): Product[] {
-  return products.map((product) => localizeProduct(product, locale));
+export function localizeCatalogProduct(
+  product: StorefrontCatalogProduct,
+  locale: Locale,
+): StorefrontCatalogProduct {
+  const translation = translationFor(product.slug, locale);
+  return translation ? { ...product, ...translation } : product;
+}
+
+export function localizeCatalogProducts(
+  products: StorefrontCatalogProduct[],
+  locale: Locale,
+): StorefrontCatalogProduct[] {
+  return products.map((product) => localizeCatalogProduct(product, locale));
+}
+
+export function localizeCatalogCartLine(
+  line: StorefrontCartLine,
+  locale: Locale,
+): StorefrontCartLine {
+  const translation = translationFor(line.productSlug, locale);
+  return translation?.name ? { ...line, productName: translation.name } : line;
+}
+
+export function localizeGrind(grind: string | null, locale: Locale): string | null {
+  if (!grind) return null;
+  const normalized = grind.trim().toLowerCase();
+  const wholeBean = ["whole bean", "hele bønner", "en grano"].includes(normalized);
+  const ground = ["ground", "ground coffee", "malt", "molido"].includes(normalized);
+
+  if (wholeBean) return { no: "Hele bønner", en: "Whole bean", es: "En grano" }[locale];
+  if (ground) return { no: "Malt", en: "Ground coffee", es: "Molido" }[locale];
+  return grind;
+}
+
+export function localizeVariantName(
+  variant: {
+    name?: string;
+    variantName?: string;
+    grind: string | null;
+    weightGrams: number | null;
+  },
+  locale: Locale,
+): string {
+  const parts = [
+    localizeGrind(variant.grind, locale),
+    variant.weightGrams ? `${variant.weightGrams} g` : null,
+  ].filter((part): part is string => Boolean(part));
+
+  return parts.length > 0
+    ? parts.join(" · ")
+    : (variant.name ?? variant.variantName ?? "");
 }

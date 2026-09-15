@@ -5,6 +5,8 @@ import Image from "next/image";
 import FooterNewsletter from "@/components/patchwork/FooterNewsletter";
 import { useLocale } from "@/i18n/LocaleProvider";
 import { SHARED_COPY } from "@/i18n/copy";
+import { usePathname } from "next/navigation";
+import { stripLocaleFromPathname } from "@/i18n/config";
 
 const FOCUS =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold";
@@ -48,6 +50,8 @@ function FbIcon() {
 export default function Footer() {
   const locale = useLocale();
   const copy = SHARED_COPY[locale];
+  const pathname = usePathname();
+  const pathnameWithoutLocale = stripLocaleFromPathname(pathname);
   const columns = [
     {
       heading: copy.footer.shop,
@@ -77,6 +81,8 @@ export default function Footer() {
       ],
     },
   ];
+
+  if (pathnameWithoutLocale.startsWith("/admin")) return null;
 
   return (
     <footer className="bg-brand-coffee">

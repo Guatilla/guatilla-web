@@ -1,7 +1,8 @@
 import { Resend } from "resend";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
 import { getPrisma } from "@/lib/prisma";
+import { requireSameOrigin } from "@/lib/requireAdmin";
 
 export const dynamic = "force-dynamic";
 
@@ -39,20 +40,39 @@ async function sendConfirmationEmail(email: string) {
   }
 }
 
-export async function POST(request: Request) {
-  try {
-    const body = await request.json();
-    const { email } = body;
+export async function POST(request: NextRequest) {
+  const invalidOrigin = requireSameOrigin(request);
+  if (invalidOrigin) return invalidOrigin;
 
-    if (!email || typeof email !== "string") {
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  }
+
+  try {
+    if (
+      !body ||
+      typeof body !== "object" ||
+      Array.isArray(body) ||
+      Object.keys(body).some((key) => key !== "email")
+    ) {
+      return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    }
+
+    const rawEmail = (body as { email?: unknown }).email;
+
+    if (typeof rawEmail !== "string" || !rawEmail.trim()) {
       return NextResponse.json(
         { error: "E-postadresse må fylles ut" },
         { status: 400 }
       );
     }
 
+    const email = rawEmail.trim().toLowerCase();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (email.length > 254 || !emailRegex.test(email)) {
       return NextResponse.json(
         { error: "Ugyldig e-postadresse" },
         { status: 400 }
@@ -69,7 +89,6 @@ export async function POST(request: Request) {
         error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002";
       if (!alreadyJoined) throw error;
 
-      await sendConfirmationEmail(email);
       return NextResponse.json({ alreadyJoined: true }, { status: 200 });
     }
 

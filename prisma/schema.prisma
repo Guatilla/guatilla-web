@@ -6,89 +6,292 @@ datasource db {
   provider = "postgresql"
 }
 
-enum Role {
-  USER
-  ADMIN
+enum OrderStatus {
+  DRAFT
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+
+  @@map("order_status")
 }
 
-enum OrderStatus {
-  PENDING
+enum PaymentStatus {
+  NOT_REQUESTED
+  REQUESTED
   PAID
+  PARTIAL
+  REFUNDED
+  FAILED
+  REVIEW_REQUIRED
+
+  @@map("payment_status")
+}
+
+enum FulfillmentStatus {
+  UNFULFILLED
+  PREPARING
   SHIPPED
   DELIVERED
-  CANCELLED
+
+  @@map("fulfillment_status")
 }
 
-model User {
-  id            String    @id @default(uuid())
-  name          String?
-  email         String    @unique
-  role          Role      @default(USER)
-  orders        Order[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+enum PaymentProvider {
+  VIPPS
+
+  @@map("payment_provider")
 }
 
-model Product {
-  id          String           @id @default(uuid())
-  name        String           // Ej. "Café Serranía del Perijá"
-  slug        String           @unique
-  description String           @db.Text
-  images      String[]         // URLs de imágenes
-  categoryId  String
-  category    Category         @relation(fields: [categoryId], references: [id])
-  variants    ProductVariant[]
-  isFeatured  Boolean          @default(false)
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
+enum PaymentFlow {
+  MANUAL_REQUEST
+
+  @@map("payment_flow")
 }
 
-model ProductVariant {
-  id          String      @id @default(uuid())
-  productId   String
-  name        String      // Ej. "250g", "1kg", "Molido"
-  price       Int         // Precio en centavos para precisión
-  inventory   Int         @default(0)
-  product     Product     @relation(fields: [productId], references: [id])
-  orderItems  OrderItem[]
+enum OrderSource {
+  WEB
+  ADMIN
+
+  @@map("order_source")
+}
+
+enum OrderEventActorType {
+  CUSTOMER
+  ADMIN
+  SYSTEM
+
+  @@map("order_event_actor_type")
+}
+
+enum OrderEventType {
+  ORDER_CREATED
+  ORDER_CONFIRMED
+  ORDER_CANCELLED
+  ORDER_COMPLETED
+  PAYMENT_REQUESTED
+  PAYMENT_CONFIRMED
+  PAYMENT_PARTIAL
+  PAYMENT_FAILED
+  PAYMENT_REVIEW_REQUIRED
+  PAYMENT_REFUNDED
+  PREPARATION_STARTED
+  ORDER_SHIPPED
+  ORDER_DELIVERED
+  NOTE_ADDED
+
+  @@map("order_event_type")
+}
+
+model Customer {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String?
+  email     String   @unique
+  phoneE164 String?  @map("phone_e164")
+  locale    String   @default("nb")
+  orders    Order[]
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("customers")
 }
 
 model Category {
-  id          String    @id @default(uuid())
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String
+  slug      String    @unique
+  active    Boolean   @default(true)
+  products  Product[]
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("categories")
+}
+
+model Product {
+  id          String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  categoryId  String?          @map("category_id") @db.Uuid
   name        String
-  slug        String    @unique
-  products    Product[]
+  slug        String           @unique
+  description String           @db.Text
+  images      Json             @default("[]")
+  metadata    Json             @default("{}")
+  isFeatured  Boolean          @default(false) @map("is_featured")
+  isPublished Boolean          @default(false) @map("is_published")
+  category    Category?        @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  variants    ProductVariant[]
+  orderItems  OrderItem[]
+  createdAt   DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime         @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@index([categoryId])
+  @@map("products")
+}
+
+model ProductVariant {
+  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId   String      @map("product_id") @db.Uuid
+  sku         String      @unique
+  name        String
+  grind       String?
+  weightGrams Int?        @map("weight_grams")
+  priceOre    Int         @map("price_ore")
+  currency    String      @default("NOK") @db.Char(3)
+  inventory   Int         @default(0)
+  active      Boolean     @default(true)
+  product     Product     @relation(fields: [productId], references: [id], onDelete: Restrict)
+  orderItems  OrderItem[]
+  createdAt   DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime    @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@index([productId, active])
+  @@map("product_variants")
 }
 
 model Order {
-  id            String      @id @default(uuid())
-  userId        String?     // Opcional para soportar "Guest Checkout"
-  customerEmail String      // Siempre requerido para seguimiento
-  user          User?       @relation(fields: [userId], references: [id])
-  status        OrderStatus @default(PENDING)
-  totalAmount   Int         // Total en centavos
-  items         OrderItem[]
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  id                String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  orderNumber       String            @unique @default(dbgenerated("next_guatilla_order_number()")) @map("order_number")
+  clientRequestId   String?           @unique @map("client_request_id")
+  customerId        String?           @map("customer_id") @db.Uuid
+  customerName      String            @map("customer_name")
+  customerEmail     String            @map("customer_email")
+  customerPhoneE164 String            @map("customer_phone_e164")
+  addressLine1      String            @map("address_line_1")
+  addressLine2      String?           @map("address_line_2")
+  postalCode        String            @map("postal_code")
+  city              String
+  countryCode       String            @default("NO") @map("country_code") @db.Char(2)
+  currency          String            @default("NOK") @db.Char(3)
+  subtotalOre       Int               @map("subtotal_ore")
+  shippingOre       Int               @default(0) @map("shipping_ore")
+  discountOre       Int               @default(0) @map("discount_ore")
+  totalOre          Int               @map("total_ore")
+  orderStatus       OrderStatus       @default(DRAFT) @map("order_status")
+  paymentStatus     PaymentStatus     @default(NOT_REQUESTED) @map("payment_status")
+  fulfillmentStatus FulfillmentStatus @default(UNFULFILLED) @map("fulfillment_status")
+  source            OrderSource       @default(WEB)
+  customerNote      String?           @map("customer_note") @db.Text
+  internalNote      String?           @map("internal_note") @db.Text
+  placedAt          DateTime?         @map("placed_at") @db.Timestamptz(6)
+  confirmedAt       DateTime?         @map("confirmed_at") @db.Timestamptz(6)
+  cancelledAt       DateTime?         @map("cancelled_at") @db.Timestamptz(6)
+  completedAt       DateTime?         @map("completed_at") @db.Timestamptz(6)
+  createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime          @updatedAt @map("updated_at") @db.Timestamptz(6)
+  customer          Customer?         @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  items             OrderItem[]
+  payments          Payment[]
+  events            OrderEvent[]
+
+  @@index([customerId, createdAt])
+  @@index([paymentStatus, createdAt])
+  @@index([fulfillmentStatus, createdAt])
+  @@index([customerEmail])
+  @@map("orders")
 }
 
 model OrderItem {
-  id               String         @id @default(uuid())
-  orderId          String
-  productVariantId String
+  id               String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  orderId          String                   @map("order_id") @db.Uuid
+  productId        String?                  @map("product_id") @db.Uuid
+  productVariantId String?                  @map("product_variant_id") @db.Uuid
+  productSlug      String                   @map("product_slug")
+  productName      String                   @map("product_name")
+  variantName      String?                  @map("variant_name")
+  sku              String?
   quantity         Int
-  price            Int            // Precio unitario en centavos (congelado)
-  order            Order          @relation(fields: [orderId], references: [id])
-  variant          ProductVariant @relation(fields: [productVariantId], references: [id])
+  unitPriceOre     Int                      @map("unit_price_ore")
+  lineTotalOre     Int                      @map("line_total_ore")
+  productSnapshot  Json                     @default("{}") @map("product_snapshot")
+  order            Order                    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product          Product?                 @relation(fields: [productId], references: [id], onDelete: SetNull)
+  variant          ProductVariant?          @relation(fields: [productVariantId], references: [id], onDelete: SetNull)
+  lotAllocations   OrderItemLotAllocation[]
+  createdAt        DateTime                 @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([orderId])
+  @@index([productId])
+  @@index([productVariantId])
+  @@map("order_items")
+}
+
+model OrderItemLotAllocation {
+  id                   String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  orderItemId          String    @map("order_item_id") @db.Uuid
+  coffeeLotId          String    @map("coffee_lot_id") @db.Uuid
+  quantity             Int
+  allocatedWeightGrams Int?      @map("allocated_weight_grams")
+  orderItem            OrderItem @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+  coffeeLot            CoffeeLot @relation(fields: [coffeeLotId], references: [id], onDelete: Restrict)
+  createdAt            DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@unique([orderItemId, coffeeLotId])
+  @@index([coffeeLotId])
+  @@map("order_item_lot_allocations")
+}
+
+model Payment {
+  id                    String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  orderId               String          @map("order_id") @db.Uuid
+  provider              PaymentProvider @default(VIPPS)
+  flow                  PaymentFlow     @default(MANUAL_REQUEST)
+  status                PaymentStatus   @default(REQUESTED)
+  amountOre             Int             @map("amount_ore")
+  receivedAmountOre     Int?            @map("received_amount_ore")
+  currency              String          @default("NOK") @db.Char(3)
+  customerPhoneE164     String          @map("customer_phone_e164")
+  providerRequestId     String?         @map("provider_request_id")
+  providerTransactionId String?         @map("provider_transaction_id")
+  providerReference     String          @map("provider_reference")
+  requestedAt           DateTime?       @map("requested_at") @db.Timestamptz(6)
+  paidAt                DateTime?       @map("paid_at") @db.Timestamptz(6)
+  verifiedAt            DateTime?       @map("verified_at") @db.Timestamptz(6)
+  verifiedBy            String?         @map("verified_by")
+  verificationSource    String?         @map("verification_source")
+  failureReason         String?         @map("failure_reason") @db.Text
+  metadata              Json            @default("{}")
+  createdAt             DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt             DateTime        @updatedAt @map("updated_at") @db.Timestamptz(6)
+  order                 Order           @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  events                OrderEvent[]
+
+  @@unique([provider, providerTransactionId])
+  @@index([orderId, status])
+  @@index([status, createdAt])
+  @@map("payments")
+}
+
+model OrderEvent {
+  id        String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  orderId   String              @map("order_id") @db.Uuid
+  paymentId String?             @map("payment_id") @db.Uuid
+  type      OrderEventType
+  actorType OrderEventActorType @map("actor_type")
+  actorId   String?             @map("actor_id")
+  note      String?             @db.Text
+  metadata  Json                @default("{}")
+  createdAt DateTime            @default(now()) @map("created_at") @db.Timestamptz(6)
+  order     Order               @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  payment   Payment?            @relation(fields: [paymentId], references: [id], onDelete: Restrict)
+
+  @@index([orderId, createdAt])
+  @@index([paymentId])
+  @@map("order_events")
+}
+
+model OrderNumberCounter {
+  year      Int      @id
+  lastValue Int      @default(0) @map("last_value")
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("order_number_counters")
 }
 
 // Sporbarhet (/sporbarhet) — kafferegistrene som før lå i Supabase Postgres.
-// Feltnavn matcher tabellene som opprettes av gcp/sql/001_init_coffee_lots_and_waitlist.sql
-// slik at en pg_dump/pg_restore fra Supabase til Cloud SQL lander uten transformasjon.
+// Feltnavn matcher den eksisterende Cloud SQL-tabellen 1:1.
 model CoffeeLot {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  lotNumber String   @unique @map("lot_number")
-  active    Boolean  @default(true)
+  id        String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  lotNumber String  @unique @map("lot_number")
+  active    Boolean @default(true)
 
   // Produkt
   productName String?   @map("product_name")
@@ -138,8 +341,9 @@ model CoffeeLot {
   storyVideoUrl String? @map("story_video_url")
   images        Json    @default("[]") // [{ id, url, caption }]
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  orderItemAllocations OrderItemLotAllocation[]
+  createdAt            DateTime                 @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt            DateTime                 @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   @@map("coffee_lots")
 }
@@ -148,7 +352,7 @@ model Waitlist {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email     String   @unique
   source    String?
-  createdAt DateTime @default(now()) @map("created_at")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
   @@map("waitlist")
 }
