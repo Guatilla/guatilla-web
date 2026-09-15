@@ -2,8 +2,10 @@
 
 import { useMemo, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 import { products, type Product } from "@/data/products";
+import { useLocale } from "@/i18n/LocaleProvider";
+import { localizeProducts } from "@/i18n/products";
 
 /* ── Tokens (modern patchwork) ─────────────────────────── */
 const CREAM = "#FDF1E5";
@@ -22,6 +24,51 @@ const F_MONO = "var(--font-space-mono), ui-monospace, monospace";
 const GRINDS = ["Hele bønner", "Malt"];
 const GRADES: Product["grade"][] = ["Excelso", "Especial"];
 const HEADER_TONES = [OLIVE, TEAL];
+
+const SHOP_COPY = {
+  no: {
+    eyebrow: (count: number) => `Butikk · ${count} produkter`,
+    title: "All kaffen vår",
+    lead: "Mikropartier fra Serranía del Perijá. Hele bønner eller malt kaffe — samme kaffe, tilpasset bryggemetoden din.",
+    format: "Format",
+    quality: "Kvalitet",
+    wholeBean: "Hele bønner",
+    ground: "Malt kaffe",
+    reset: "Nullstill filtre",
+    showing: (shown: number, total: number) => `Viser ${shown} av ${total}`,
+    empty: "Ingen kaffe matcher filtrene. Prøv en annen kombinasjon.",
+    price: "Pris kommer",
+    cta: "Se partiet",
+  },
+  en: {
+    eyebrow: (count: number) => `Shop · ${count} products`,
+    title: "All our coffee",
+    lead: "Microlots from Serranía del Perijá. Whole bean or ground — the same coffee, prepared for your brewing method.",
+    format: "Format",
+    quality: "Quality",
+    wholeBean: "Whole bean",
+    ground: "Ground coffee",
+    reset: "Reset filters",
+    showing: (shown: number, total: number) => `Showing ${shown} of ${total}`,
+    empty: "No coffee matches these filters. Try another combination.",
+    price: "Price coming soon",
+    cta: "View the lot",
+  },
+  es: {
+    eyebrow: (count: number) => `Tienda · ${count} productos`,
+    title: "Todo nuestro café",
+    lead: "Microlotes de la Serranía del Perijá. En grano o molido: el mismo café, adaptado a tu método de preparación.",
+    format: "Formato",
+    quality: "Calidad",
+    wholeBean: "En grano",
+    ground: "Café molido",
+    reset: "Restablecer filtros",
+    showing: (shown: number, total: number) => `Mostrando ${shown} de ${total}`,
+    empty: "Ningún café coincide con los filtros. Prueba otra combinación.",
+    price: "Precio próximamente",
+    cta: "Ver el lote",
+  },
+} as const;
 
 function toggle(list: string[], value: string): string[] {
   return list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
@@ -90,17 +137,23 @@ const CSS = `
 `;
 
 export default function ShopClient() {
+  const locale = useLocale();
+  const copy = SHOP_COPY[locale];
   const [grinds, setGrinds] = useState<string[]>([]);
   const [grades, setGrades] = useState<string[]>([]);
+  const localizedProducts = useMemo(
+    () => localizeProducts(products, locale),
+    [locale],
+  );
 
   const filtered = useMemo(
     () =>
-      products.filter(
+      localizedProducts.filter(
         (p) =>
           (grinds.length === 0 || grinds.includes(p.grind)) &&
           (grades.length === 0 || grades.includes(p.grade))
       ),
-    [grinds, grades]
+    [grinds, grades, localizedProducts]
   );
 
   let toneIndex = 0;
@@ -113,13 +166,10 @@ export default function ShopClient() {
       <header className="shop-hd">
         <div className="container-page">
           <p className="shop-eyebrow" style={{ color: MUSTARD }}>
-            Butikk · {products.length} produkter
+            {copy.eyebrow(products.length)}
           </p>
-          <h1>All kaffen vår</h1>
-          <p>
-            Mikropartier fra Serranía del Perijá. Hele bønner eller malt kaffe —
-            samme kaffe, tilpasset bryggemetoden din.
-          </p>
+          <h1>{copy.title}</h1>
+          <p>{copy.lead}</p>
         </div>
       </header>
 
@@ -127,7 +177,7 @@ export default function ShopClient() {
         {/* ── FILTER SIDEBAR ─────────────────────────────── */}
         <aside className="shop-side">
           <div className="shop-grp">
-            <p className="shop-eyebrow">Format</p>
+            <p className="shop-eyebrow">{copy.format}</p>
             <div className="shop-chipcol">
               {GRINDS.map((g) => {
                 const active = grinds.includes(g);
@@ -138,7 +188,7 @@ export default function ShopClient() {
                     className={`shop-chip${active ? " shop-chip--on" : ""}`}
                     onClick={() => setGrinds((prev) => toggle(prev, g))}
                   >
-                    {g === "Malt" ? "Malt kaffe" : g}
+                    {g === "Malt" ? copy.ground : copy.wholeBean}
                   </button>
                 );
               })}
@@ -146,7 +196,7 @@ export default function ShopClient() {
           </div>
 
           <div className="shop-grp">
-            <p className="shop-eyebrow">Kvalitet</p>
+            <p className="shop-eyebrow">{copy.quality}</p>
             <div className="shop-chipcol">
               {GRADES.map((g) => {
                 const active = grades.includes(g);
@@ -173,7 +223,7 @@ export default function ShopClient() {
                 setGrades([]);
               }}
             >
-              Nullstill filtre
+              {copy.reset}
             </button>
           )}
         </aside>
@@ -181,12 +231,12 @@ export default function ShopClient() {
         {/* ── PRODUCT GRID ───────────────────────────────── */}
         <div>
           <p className="shop-meta">
-            Viser {filtered.length} av {products.length}
+            {copy.showing(filtered.length, products.length)}
           </p>
 
           {filtered.length === 0 ? (
             <div className="shop-empty">
-              Ingen kaffe matcher filtrene. Prøv en annen kombinasjon.
+              {copy.empty}
             </div>
           ) : (
             <div className="shop-grid">
@@ -223,6 +273,9 @@ function ShopCard({
   tone: string;
   onTone: string;
 }) {
+  const locale = useLocale();
+  const copy = SHOP_COPY[locale];
+
   return (
     <div className="shop-card">
       <div className="shop-card-hd" style={{ background: tone, color: onTone }}>
@@ -244,18 +297,18 @@ function ShopCard({
 
       <div className="shop-card-body">
         <span className="shop-kicker">
-          {product.grind === "Malt" ? "Malt kaffe" : product.grind} • {product.weight}
+          {product.grind === "Malt" ? copy.ground : copy.wholeBean} · {product.weight}
         </span>
         <p>{product.notes}</p>
       </div>
 
       <div className="shop-card-foot">
-        <span className="price">Pris kommer</span>
+        <span className="price">{copy.price}</span>
         <Link
           href={`/shop/${product.slug}`}
           className="shop-cta border-2 border-[#2E2018] bg-[#2E2018] text-[#FDF1E5] inline-flex items-center justify-center px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em]"
         >
-          Se partiet
+          {copy.cta}
         </Link>
       </div>
     </div>

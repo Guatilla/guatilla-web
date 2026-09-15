@@ -4,6 +4,9 @@ import localFont from "next/font/local";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CartProvider } from "@/components/CartProvider";
+import { LocaleProvider } from "@/i18n/LocaleProvider";
+import { getLanguageOption } from "@/i18n/config";
+import { getRequestLocale } from "@/i18n/server";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -56,34 +59,67 @@ const vianor = localFont({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Kaffe Guatilla | Colombiansk spesialkaffe",
-  description:
-    "Familiedyrket spesialkaffe fra Serranía del Perijá, brent i små partier i Stavanger og sporbar fra gård til pose.",
-  icons: {
-    icon: "/favicon-trimmed.png",
-    shortcut: "/favicon-trimmed.png",
-    apple: "/favicon-trimmed.png",
+const METADATA_COPY = {
+  no: {
+    title: "Kaffe Guatilla | Colombiansk spesialkaffe",
+    description:
+      "Familiedyrket spesialkaffe fra Serranía del Perijá, brent i små partier i Stavanger og sporbar fra gård til pose.",
   },
-};
+  en: {
+    title: "Kaffe Guatilla | Colombian specialty coffee",
+    description:
+      "Family-grown specialty coffee from Serranía del Perijá, roasted in small batches in Stavanger and traceable from farm to bag.",
+  },
+  es: {
+    title: "Kaffe Guatilla | Café colombiano de especialidad",
+    description:
+      "Café de especialidad cultivado por nuestra familia en la Serranía del Perijá, tostado en pequeños lotes en Stavanger y trazable de la finca a la bolsa.",
+  },
+} as const;
 
-export default function RootLayout({
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getRequestLocale();
+  const copy = METADATA_COPY[locale];
+
+  return {
+    ...copy,
+    alternates: {
+      canonical: locale === "no" ? "/" : `/${locale}`,
+      languages: {
+        nb: "/",
+        en: "/en",
+        es: "/es",
+      },
+    },
+    icons: {
+      icon: "/favicon-trimmed.png",
+      shortcut: "/favicon-trimmed.png",
+      apple: "/favicon-trimmed.png",
+    },
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getRequestLocale();
+
   return (
     <html
-      lang="nb"
+      lang={getLanguageOption(locale).htmlLang}
       className={`${outfit.variable} ${playfair.variable} ${shrikhand.variable} ${vianor.variable} ${bitter.variable} ${karla.variable} ${spaceMono.variable}`}
       suppressHydrationWarning
     >
       <body className="flex min-h-screen flex-col bg-brand-linen" suppressHydrationWarning>
-        <CartProvider>
-          <Navbar />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-        </CartProvider>
+        <LocaleProvider locale={locale}>
+          <CartProvider>
+            <Navbar />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+          </CartProvider>
+        </LocaleProvider>
       </body>
     </html>
   );

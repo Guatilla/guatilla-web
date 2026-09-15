@@ -2,9 +2,12 @@
 
 import { useMemo } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 import { products } from "@/data/products";
 import { useCart, type CartItem } from "@/components/CartProvider";
+import { useLocale } from "@/i18n/LocaleProvider";
+import type { Locale } from "@/i18n/config";
+import { localizeProduct } from "@/i18n/products";
 
 /* ── Tokens (modern patchwork) ─────────────────────────────────── */
 const CREAM = "#FDF1E5";
@@ -43,12 +46,92 @@ const NOTE_META: Record<string, { note: string; bg: string; tone: Tone }> = {
   "especial-malt": { note: "Especial", bg: MUSTARD, tone: "ink" },
 };
 
+const CART_COPY = {
+  no: {
+    step: "Steg 1 av 3 · Kurv",
+    title: "Handlekurv",
+    steps: ["Kurv", "Levering", "Betaling"],
+    count: (count: number) =>
+      count === 1 ? "1 vare i kurven" : `${count} varer i kurven`,
+    clear: "Tøm kurv",
+    fewer: (name: string) => `Færre ${name}`,
+    more: (name: string) => `Flere ${name}`,
+    each: "/ stk",
+    remove: "Fjern",
+    emptyTitle: "Kurven er tom",
+    emptyBody: "Fire partier venter fra samme fjellkjede.",
+    seeCoffee: "Se all kaffe",
+    continue: "Fortsett å handle",
+    summary: "Oppsummering",
+    subtotal: "Delsum",
+    discount: "Rabatt",
+    total: "Totalt",
+    checkout: "Til kassen",
+    reassurance: "Vipps · kort · Klarna. Brent mandag, sendt samme uke.",
+    wholeBean: "Hele bønner",
+    ground: "Malt kaffe",
+    subscription: "Abonnement · hver 4. uke",
+  },
+  en: {
+    step: "Step 1 of 3 · Cart",
+    title: "Shopping cart",
+    steps: ["Cart", "Delivery", "Payment"],
+    count: (count: number) =>
+      `${count} ${count === 1 ? "item" : "items"} in your cart`,
+    clear: "Clear cart",
+    fewer: (name: string) => `Fewer ${name}`,
+    more: (name: string) => `More ${name}`,
+    each: "/ each",
+    remove: "Remove",
+    emptyTitle: "Your cart is empty",
+    emptyBody: "Four lots are waiting from the same mountain range.",
+    seeCoffee: "See all coffee",
+    continue: "Continue shopping",
+    summary: "Summary",
+    subtotal: "Subtotal",
+    discount: "Discount",
+    total: "Total",
+    checkout: "Checkout",
+    reassurance: "Vipps · card · Klarna. Roasted Monday, shipped the same week.",
+    wholeBean: "Whole bean",
+    ground: "Ground coffee",
+    subscription: "Subscription · every 4 weeks",
+  },
+  es: {
+    step: "Paso 1 de 3 · Carrito",
+    title: "Carrito",
+    steps: ["Carrito", "Entrega", "Pago"],
+    count: (count: number) =>
+      `${count} ${count === 1 ? "producto" : "productos"} en el carrito`,
+    clear: "Vaciar carrito",
+    fewer: (name: string) => `Menos ${name}`,
+    more: (name: string) => `Más ${name}`,
+    each: "/ unidad",
+    remove: "Eliminar",
+    emptyTitle: "El carrito está vacío",
+    emptyBody: "Te esperan cuatro lotes de la misma serranía.",
+    seeCoffee: "Ver todo el café",
+    continue: "Seguir comprando",
+    summary: "Resumen",
+    subtotal: "Subtotal",
+    discount: "Descuento",
+    total: "Total",
+    checkout: "Finalizar compra",
+    reassurance: "Vipps · tarjeta · Klarna. Tostado el lunes y enviado esa misma semana.",
+    wholeBean: "En grano",
+    ground: "Café molido",
+    subscription: "Suscripción · cada 4 semanas",
+  },
+} as const;
+
 const findProduct = (item: CartItem) =>
   products.find((p) => p.id === item.id) ||
   (item.slug ? products.find((p) => p.slug === item.slug) : undefined);
 
-function deriveLine(item: CartItem) {
-  const p = findProduct(item);
+function deriveLine(item: CartItem, locale: Locale) {
+  const copy = CART_COPY[locale];
+  const sourceProduct = findProduct(item);
+  const p = sourceProduct ? localizeProduct(sourceProduct, locale) : undefined;
   const meta = NOTE_META[item.id] ?? (p ? NOTE_META[p.id] : undefined);
 
   const seg = p?.flavourSpectrum?.[0];
@@ -57,16 +140,17 @@ function deriveLine(item: CartItem) {
   const noteTone: Tone = meta?.tone ?? (seg?.tone === "ink" ? "ink" : "cream");
 
   const rawGrind = item.grind ?? (p ? "Hele bønner" : undefined);
-  const grind = rawGrind === "Malt" ? "Malt kaffe" : rawGrind;
+  const grind = rawGrind === "Malt" ? copy.ground : rawGrind ? copy.wholeBean : undefined;
   const size = item.weight ?? p?.weight?.split(" / ")[0];
 
   const originLine = item.subscription
-    ? "Abonnement · hver 4. uke"
+    ? copy.subscription
     : p
     ? `${p.origin} · ${p.process.toLowerCase()}`
     : item.origin;
 
   return {
+    name: p?.name ?? item.name,
     note,
     noteBg,
     noteTone,
@@ -190,6 +274,8 @@ const CSS = `
 
 /* ── Page ──────────────────────────────────────────────────────── */
 export default function CartPage() {
+  const locale = useLocale();
+  const copy = CART_COPY[locale];
   const { items, removeItem, updateQuantity, clearCart } = useCart();
 
   const count = items.reduce((s, i) => s + i.quantity, 0);
@@ -211,15 +297,15 @@ export default function CartPage() {
         {/* ── PAGE HEAD ─────────────────────────────────────── */}
         <div className="page-head">
           <div>
-            <p className="eyebrow">Steg 1 av 3 · Kurv</p>
-            <h1>Handlekurv</h1>
+            <p className="eyebrow">{copy.step}</p>
+            <h1>{copy.title}</h1>
           </div>
 
           <div className="steps" style={seam()}>
             {([
-              ["Kurv", true],
-              ["Levering", false],
-              ["Betaling", false],
+              [copy.steps[0], true],
+              [copy.steps[1], false],
+              [copy.steps[2], false],
             ] as const).map(([label, active]) => (
               <span
                 key={label}
@@ -244,17 +330,17 @@ export default function CartPage() {
                 {/* header */}
                 <div className="cart-block-head">
                   <span className="eyebrow">
-                    {count === 1 ? "1 vare i kurven" : `${count} varer i kurven`}
+                    {copy.count(count)}
                   </span>
                   <span style={{ flex: 1 }} />
                   <button className="link-btn" onClick={clearCart}>
-                    Tøm kurv
+                    {copy.clear}
                   </button>
                 </div>
 
                 {/* line items */}
                 {items.map((item) => {
-                  const v = deriveLine(item);
+                  const v = deriveLine(item, locale);
                   return (
                     <div key={item.id} className={item.image ? "li" : "li li--noimg"}>
                       {/* thumbnail — omitted entirely when there is no image */}
@@ -273,7 +359,7 @@ export default function CartPage() {
                       {/* body: title + attributes + origin */}
                       <div className="li-body">
                         <div className="li-titlerow">
-                          <span className="li-name">{item.name}</span>
+                          <span className="li-name">{v.name}</span>
                           <span style={{ flex: 1 }} />
                           <span className="li-total">{v.lineTotal} NOK</span>
                         </div>
@@ -303,7 +389,7 @@ export default function CartPage() {
                       <div className="li-controls">
                         <div className="stepper">
                           <button
-                            aria-label={`Færre ${item.name}`}
+                            aria-label={copy.fewer(v.name)}
                             onClick={() =>
                               updateQuantity(item.id, Math.max(1, item.quantity - 1))
                             }
@@ -320,7 +406,7 @@ export default function CartPage() {
                             {item.quantity}
                           </span>
                           <button
-                            aria-label={`Flere ${item.name}`}
+                            aria-label={copy.more(v.name)}
                             onClick={() =>
                               updateQuantity(item.id, Math.min(9, item.quantity + 1))
                             }
@@ -336,11 +422,11 @@ export default function CartPage() {
                         </div>
 
                         <span className="li-unit">
-                          {v.unitPrice} NOK<span className="stk"> / stk</span>
+                          {v.unitPrice} NOK<span className="stk"> {copy.each}</span>
                         </span>
                         <span style={{ flex: 1 }} />
                         <button className="remove-btn" onClick={() => removeItem(item.id)}>
-                          Fjern
+                          {copy.remove}
                         </button>
                       </div>
                     </div>
@@ -351,20 +437,20 @@ export default function CartPage() {
               /* ── EMPTY STATE ──────────────────────────────── */
               <div className="empty">
                 <div className="empty-copy">
-                  <span className="empty-title">Kurven er tom</span>
+                  <span className="empty-title">{copy.emptyTitle}</span>
                   <span className="empty-text">
-                    Fire partier venter fra samme fjellkjede.
+                    {copy.emptyBody}
                   </span>
                 </div>
                 <Link href="/shop" className="btn-ink on-dark">
-                  Se all kaffe
+                  {copy.seeCoffee}
                 </Link>
               </div>
             )}
 
             {/* ── CONTINUE ───────────────────────────────────── */}
             <Link href="/shop" className="continue">
-              ← Fortsett å handle
+              ← {copy.continue}
             </Link>
           </div>
 
@@ -372,21 +458,21 @@ export default function CartPage() {
           <div className="summary" style={seam({ display: "flex", flexDirection: "column" })}>
             {/* a) summary */}
             <div className="sum-olive">
-              <h2 className="sum-h2">Oppsummering</h2>
+              <h2 className="sum-h2">{copy.summary}</h2>
               <div className="sum-rows" aria-live="polite">
                 <div className="sum-row">
-                  <span className="sum-row-label">Delsum</span>
+                  <span className="sum-row-label">{copy.subtotal}</span>
                   <span className="sum-row-value">{subtotal} NOK</span>
                 </div>
                 {discount > 0 && (
                   <div className="sum-row">
-                    <span className="sum-row-label">Rabatt</span>
+                    <span className="sum-row-label">{copy.discount}</span>
                     <span className="sum-row-value">−{discount} NOK</span>
                   </div>
                 )}
                 <div className="sum-divider" />
                 <div className="sum-totalrow">
-                  <span className="sum-total">Totalt</span>
+                  <span className="sum-total">{copy.total}</span>
                   <span className="sum-total">{total} NOK</span>
                 </div>
               </div>
@@ -399,12 +485,12 @@ export default function CartPage() {
               disabled={items.length === 0}
               style={{ opacity: items.length === 0 ? 0.5 : 1 }}
             >
-              Til kassen · {total} NOK
+              {copy.checkout} · {total} NOK
             </button>
 
             {/* c) reassurance */}
             <div className="reassure">
-              Vipps · kort · Klarna. Brent mandag, sendt samme uke.
+              {copy.reassurance}
             </div>
           </div>
         </div>
@@ -437,7 +523,7 @@ export default function CartPage() {
                   color: MUTED,
                 }}
               >
-                Totalt
+                {copy.total}
               </span>
               <span style={{ flex: 1 }} />
               <span
@@ -467,7 +553,7 @@ export default function CartPage() {
                 textTransform: "uppercase",
               }}
             >
-              Til kassen
+              {copy.checkout}
             </button>
           </div>
         )}

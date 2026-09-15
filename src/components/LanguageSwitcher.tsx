@@ -1,33 +1,50 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+import {
+  LANGUAGE_OPTIONS,
+  localizePath,
+  type Locale,
+} from "@/i18n/config";
+import { useLocale } from "@/i18n/LocaleProvider";
+import FlagIcon from "./FlagIcon";
 
 export default function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
-  const currentLocale = "no";
+  const currentLocale = useLocale();
+  const pathname = usePathname();
+  const currentLanguage =
+    LANGUAGE_OPTIONS.find((language) => language.code === currentLocale) ??
+    LANGUAGE_OPTIONS[0];
 
-  const languages = [
-    { code: "no", label: "NO" },
-    { code: "en", label: "EN" },
-    { code: "es", label: "ES" },
-  ];
+  const labels = {
+    no: "Velg språk",
+    en: "Choose language",
+    es: "Elegir idioma",
+  } as const;
 
-  const handleLanguageChange = () => {
+  const handleLanguageChange = (locale: Locale) => {
     setIsOpen(false);
+
+    if (locale === currentLocale) return;
+
+    window.location.assign(localizePath(pathname, locale));
   };
 
   return (
     <div className="relative z-[100] inline-block text-left">
       <button
         type="button"
-        aria-label="Velg språk"
+        aria-label={labels[currentLocale]}
         onClick={() => setIsOpen(!isOpen)}
-        className="inline-flex items-center justify-center px-2 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-current transition-colors hover:text-brand-terracotta focus:outline-none"
+        className="inline-flex items-center justify-center gap-1.5 px-2 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-current transition-colors hover:text-brand-terracotta focus:outline-none disabled:opacity-60"
         id="language-menu-button"
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
-        {currentLocale}
+        <FlagIcon locale={currentLanguage.code} className="h-3.5 w-[21px] shrink-0 shadow-sm" />
+        <span>{currentLanguage.shortLabel}</span>
         <svg
           className="ml-2 h-4 w-4"
           xmlns="http://www.w3.org/2000/svg"
@@ -45,26 +62,34 @@ export default function LanguageSwitcher() {
 
       {isOpen && (
         <div
-          className="absolute right-0 mt-3 w-24 overflow-hidden rounded-xl border border-brand-coffee/10 bg-brand-cream !text-brand-coffee shadow-xl ring-1 ring-black/5"
+          className="absolute right-0 mt-3 w-40 overflow-hidden rounded-xl border border-brand-coffee/10 bg-brand-cream !text-brand-coffee shadow-xl ring-1 ring-black/5"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="language-menu-button"
           tabIndex={-1}
         >
           <div className="py-1" role="none">
-            {languages.map((lang) => (
+            {LANGUAGE_OPTIONS.map((language) => (
               <button
-                key={lang.code}
-                onClick={handleLanguageChange}
-                className={`block w-full px-4 py-2 text-left text-xs font-bold uppercase tracking-[0.16em] transition-colors ${
-                  currentLocale === lang.code
+                key={language.code}
+                type="button"
+                lang={language.htmlLang}
+                onClick={() => handleLanguageChange(language.code)}
+                className={`flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-xs font-bold transition-colors ${
+                  currentLocale === language.code
                     ? "bg-brand-linen !text-brand-terracotta"
                     : "!text-brand-coffee hover:bg-brand-linen"
                 }`}
                 role="menuitem"
-                tabIndex={-1}
+                aria-current={
+                  currentLocale === language.code ? "true" : undefined
+                }
               >
-                {lang.label}
+                <FlagIcon locale={language.code} className="h-3.5 w-[21px] shrink-0 shadow-sm" />
+                <span>{language.label}</span>
+                <span className="ml-auto text-[9px] uppercase tracking-[0.16em] opacity-55">
+                  {language.shortLabel}
+                </span>
               </button>
             ))}
           </div>
