@@ -1,7 +1,6 @@
 export const HOME_COPY = {
   no: {
-    metaTitle:
-      "Kaffe Guatilla | Fra våre egne fjell i Colombia til din kopp i Norge",
+    metaTitle: "Kaffe Guatilla – Colombiansk spesialkaffe",
     metaDescription:
       "Spesialkaffe dyrket av familien vår i Serranía del Perijá og brent i små partier i Stavanger. Direkte handel og full sporbarhet.",
     heroEyebrow: "Dyrket av oss · Brent i Stavanger",
@@ -22,8 +21,7 @@ export const HOME_COPY = {
     priceComing: "Pris kommer",
   },
   en: {
-    metaTitle:
-      "Kaffe Guatilla | From our own mountains in Colombia to your cup in Norway",
+    metaTitle: "Kaffe Guatilla – Colombian specialty coffee",
     metaDescription:
       "Specialty coffee grown by our family in Serranía del Perijá and roasted in small batches in Stavanger. Direct trade and full traceability.",
     heroEyebrow: "Grown by us · Roasted in Stavanger",
@@ -86,8 +84,7 @@ export const HOME_COPY = {
     ],
   },
   es: {
-    metaTitle:
-      "Kaffe Guatilla | De nuestras montañas en Colombia a tu taza en Noruega",
+    metaTitle: "Kaffe Guatilla – Café colombiano de especialidad",
     metaDescription:
       "Café de especialidad cultivado por nuestra familia en la Serranía del Perijá y tostado en pequeños lotes en Stavanger. Comercio directo y trazabilidad total.",
     heroEyebrow: "Cultivado por nosotros · Tostado en Stavanger",

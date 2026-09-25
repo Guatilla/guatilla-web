@@ -59,19 +59,27 @@ const vianor = localFont({
   display: "swap",
 });
 
+const SITE_URL = new URL("https://www.guatilla.no");
+
+const OPEN_GRAPH_LOCALES = {
+  no: "nb_NO",
+  en: "en_GB",
+  es: "es_ES",
+} as const;
+
 const METADATA_COPY = {
   no: {
-    title: "Kaffe Guatilla | Colombiansk spesialkaffe",
+    title: "Kaffe Guatilla – Colombiansk spesialkaffe",
     description:
       "Familiedyrket spesialkaffe fra Serranía del Perijá, brent i små partier i Stavanger og sporbar fra gård til pose.",
   },
   en: {
-    title: "Kaffe Guatilla | Colombian specialty coffee",
+    title: "Kaffe Guatilla – Colombian specialty coffee",
     description:
       "Family-grown specialty coffee from Serranía del Perijá, roasted in small batches in Stavanger and traceable from farm to bag.",
   },
   es: {
-    title: "Kaffe Guatilla | Café colombiano de especialidad",
+    title: "Kaffe Guatilla – Café colombiano de especialidad",
     description:
       "Café de especialidad cultivado por nuestra familia en la Serranía del Perijá, tostado en pequeños lotes en Stavanger y trazable de la finca a la bolsa.",
   },
@@ -80,16 +88,32 @@ const METADATA_COPY = {
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getRequestLocale();
   const copy = METADATA_COPY[locale];
+  const canonicalPath = locale === "no" ? "/" : `/${locale}`;
 
   return {
     ...copy,
+    metadataBase: SITE_URL,
+    applicationName: "Kaffe Guatilla",
     alternates: {
-      canonical: locale === "no" ? "/" : `/${locale}`,
+      canonical: canonicalPath,
       languages: {
         nb: "/",
         en: "/en",
         es: "/es",
       },
+    },
+    openGraph: {
+      type: "website",
+      url: canonicalPath,
+      title: copy.title,
+      description: copy.description,
+      siteName: "Kaffe Guatilla",
+      locale: OPEN_GRAPH_LOCALES[locale],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: copy.title,
+      description: copy.description,
     },
     icons: {
       icon: "/favicon-trimmed.png",
