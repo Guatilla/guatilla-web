@@ -61,6 +61,13 @@ const vianor = localFont({
 
 const SITE_URL = new URL("https://www.guatilla.no");
 
+const SOCIAL_IMAGE = {
+  url: "/assets/social-share-guatilla.jpeg",
+  width: 1200,
+  height: 630,
+  alt: "Kaffe Guatilla – fra Colombia til Norge",
+} as const;
+
 const OPEN_GRAPH_LOCALES = {
   no: "nb_NO",
   en: "en_GB",
@@ -109,11 +116,13 @@ export async function generateMetadata(): Promise<Metadata> {
       description: copy.description,
       siteName: "Kaffe Guatilla",
       locale: OPEN_GRAPH_LOCALES[locale],
+      images: [SOCIAL_IMAGE],
     },
     twitter: {
       card: "summary_large_image",
       title: copy.title,
       description: copy.description,
+      images: [SOCIAL_IMAGE],
     },
     icons: {
       icon: "/favicon-trimmed.png",
