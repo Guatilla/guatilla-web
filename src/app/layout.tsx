@@ -62,9 +62,9 @@ const vianor = localFont({
 const SITE_URL = new URL("https://www.guatilla.no");
 
 const SOCIAL_IMAGE = {
-  url: "/assets/social-share-guatilla.jpeg",
-  width: 1200,
-  height: 630,
+  url: "/assets/social-share-guatilla-v2.jpeg",
+  width: 1197,
+  height: 1201,
   alt: "Kaffe Guatilla – fra Colombia til Norge",
 } as const;
 
