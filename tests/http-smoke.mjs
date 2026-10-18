@@ -119,6 +119,34 @@ assert.equal(trace.lot.lot_number, "KG-202601");
 const unknownTrace = await request("traceability handles an unknown lot", "/api/sporbarhet/lookup?lot=DOES-NOT-EXIST", 200);
 assert.equal((await unknownTrace.json()).found, false);
 
+const feedbackBody = {
+  lotNumber: "KG-202601",
+  roastReference: "202601-P02",
+  packagingDesign: 1,
+  coffeeQuality: 4,
+  preparationMethod: "filter",
+  coffeeComments: "",
+  coffeeWishes: "",
+  packagingComments: "",
+  pageComments: "",
+  norwegianCorrections: "",
+  notifyConsent: false,
+  contactEmail: null,
+};
+await request("lot feedback rejects missing Origin", "/api/sporbarhet/feedback", 403, json(feedbackBody));
+await request("lot feedback rejects a foreign Origin", "/api/sporbarhet/feedback", 403, {
+  ...json(feedbackBody),
+  headers: { "Content-Type": "application/json", Origin: "https://example.invalid" },
+});
+await request("lot feedback rejects malformed JSON", "/api/sporbarhet/feedback", 400, {
+  method: "POST",
+  body: "{",
+  headers: { "Content-Type": "application/json", Origin: baseUrl.origin },
+});
+await request("lot feedback rejects extra fields", "/api/sporbarhet/feedback", 400, sameOriginJson({ ...feedbackBody, extra: true }));
+await request("lot feedback rejects another lot", "/api/sporbarhet/feedback", 400, sameOriginJson({ ...feedbackBody, lotNumber: "KG-OTHER" }));
+await request("lot feedback rejects unsupported GET", "/api/sporbarhet/feedback", 405);
+
 await request("waitlist rejects missing Origin", "/api/waitlist", 403, json({ email: "invalid" }));
 await request("waitlist rejects a foreign Origin", "/api/waitlist", 403, {
   ...json({ email: "invalid" }),

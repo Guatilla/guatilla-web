@@ -342,10 +342,33 @@ model CoffeeLot {
   images        Json    @default("[]") // [{ id, url, caption }]
 
   orderItemAllocations OrderItemLotAllocation[]
+  feedbackResponses    LotFeedback[]
   createdAt            DateTime                 @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt            DateTime                 @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   @@map("coffee_lots")
+}
+
+model LotFeedback {
+  id                   String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  coffeeLotId          String    @map("coffee_lot_id") @db.Uuid
+  roastReference       String    @map("roast_reference")
+  packagingDesign      Int       @map("packaging_design")
+  coffeeQuality        Int       @map("coffee_quality")
+  preparationMethod    String    @map("preparation_method")
+  coffeeComments       String?   @map("coffee_comments") @db.Text
+  coffeeWishes         String?   @map("coffee_wishes") @db.Text
+  packagingComments    String?   @map("packaging_comments") @db.Text
+  pageComments         String?   @map("page_comments") @db.Text
+  norwegianCorrections String?   @map("norwegian_corrections") @db.Text
+  notifyConsent        Boolean   @default(false) @map("notify_consent")
+  contactEmail         String?   @map("contact_email")
+  createdAt            DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  coffeeLot            CoffeeLot @relation(fields: [coffeeLotId], references: [id], onDelete: Restrict)
+
+  @@index([coffeeLotId, roastReference, createdAt])
+  @@index([notifyConsent, createdAt])
+  @@map("lot_feedback")
 }
 
 model Waitlist {
