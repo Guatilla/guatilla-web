@@ -16,16 +16,13 @@ const META = {
   },
 };
 
-interface SporbarhetPageProps {
-  searchParams: Promise<{ lot?: string }>;
-}
+const TEMPORARY_DIRECT_LOT = "KG-202601";
 
 export async function generateMetadata() {
   const locale = await getRequestLocale();
   return META[locale];
 }
 
-export default async function SporbarhetPage({ searchParams }: SporbarhetPageProps) {
-  const { lot } = await searchParams;
-  return <SporbarhetClient initialLot={lot} />;
+export default function SporbarhetPage() {
+  return <SporbarhetClient initialLot={TEMPORARY_DIRECT_LOT} />;
 }

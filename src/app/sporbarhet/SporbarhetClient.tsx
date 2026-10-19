@@ -197,7 +197,7 @@ export default function SporbarhetClient({ initialLot }: { initialLot?: string }
   const locale = useLocale();
   const copy = COPY[locale];
   const [value, setValue] = useState(initialLot ?? "");
-  const [status, setStatus] = useState<Status>("idle");
+  const [status, setStatus] = useState<Status>(initialLot ? "loading" : "idle");
   const [lot, setLot] = useState<CoffeeLot | null>(null);
   const [error, setError] = useState<string | null>(null);
   const isGiftLot = status === "found" && lot?.lot_number.toUpperCase() === "KG-202601";
@@ -215,11 +215,36 @@ export default function SporbarhetClient({ initialLot }: { initialLot?: string }
     } catch { setError(copy.networkError); setStatus("error"); }
   }
 
+  useEffect(() => {
+    if (!initialLot) return;
+
+    const controller = new AbortController();
+
+    async function openInitialLot() {
+      try {
+        const response = await fetch(`/api/sporbarhet/lookup?lot=${encodeURIComponent(initialLot ?? "")}`, {
+          signal: controller.signal,
+        });
+        const data = await response.json();
+        if (!response.ok) { setError(copy.requestError); setStatus("error"); return; }
+        if (data.found) { setLot(data.lot); setStatus("found"); }
+        else { setLot(null); setStatus("not-found"); }
+      } catch {
+        if (!controller.signal.aborted) { setError(copy.networkError); setStatus("error"); }
+      }
+    }
+
+    void openInitialLot();
+    return () => controller.abort();
+  }, [copy.networkError, copy.requestError, initialLot]);
+
   return (
     <div className="spb"><style>{CSS}</style><div className={`spb-wrap${isGiftLot ? " spb-wrap-gift" : ""}`}>
-      {status === "found" && lot ? <>
+      {status === "loading" && initialLot ? (
+        <div className="spb-hero" role="status"><p className="spb-eyebrow">{copy.searching}</p></div>
+      ) : status === "found" && lot ? <>
         {isGiftLot ? (
-          <KgGiftExperience lot={lot} onBack={() => { setStatus("idle"); setLot(null); }} />
+          <KgGiftExperience lot={lot} />
         ) : <>
           <button type="button" className="spb-back" onClick={() => { setStatus("idle"); setLot(null); }}>← {copy.retry}</button>
           <LotResult lot={lot} />

@@ -19,19 +19,6 @@
   outline-offset: 3px;
 }
 
-.back {
-  margin: 0 0 18px;
-  border: 0;
-  background: transparent;
-  color: var(--kg-blue);
-  cursor: pointer;
-  font: 700 11px/1.3 var(--font-space-mono), monospace;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-}
-
-.back span { margin-right: 7px; font-size: 16px; }
-
 .hero {
   position: relative;
   isolation: isolate;

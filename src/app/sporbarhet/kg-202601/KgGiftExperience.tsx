@@ -56,7 +56,7 @@ function StoryFact({ label, value }: { label: string; value: string }) {
   );
 }
 
-export default function KgGiftExperience({ lot, onBack }: { lot: CoffeeLot; onBack: () => void }) {
+export default function KgGiftExperience({ lot }: { lot: CoffeeLot }) {
   const formId = useId();
   const [packagingDesign, setPackagingDesign] = useState<number | null>(null);
   const [coffeeQuality, setCoffeeQuality] = useState<number | null>(null);
@@ -116,10 +116,6 @@ export default function KgGiftExperience({ lot, onBack }: { lot: CoffeeLot; onBa
 
   return (
     <article className={styles.page}>
-      <button type="button" className={styles.back} onClick={onBack}>
-        <span aria-hidden="true">←</span> Søk etter et annet parti
-      </button>
-
       <header className={styles.hero}>
         <div className={styles.heroPattern} aria-hidden="true" />
         <Image className={styles.logo} src="/guatilla-emblem.webp" alt="Kaffe Guatilla" width={112} height={104} priority />
