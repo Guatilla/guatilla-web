@@ -202,6 +202,25 @@ export default function SporbarhetClient({ initialLot }: { initialLot?: string }
   const [error, setError] = useState<string | null>(null);
   const isGiftLot = status === "found" && lot?.lot_number.toUpperCase() === "KG-202601";
 
+  useEffect(() => {
+    if (!initialLot) return;
+
+    const storageKey = `guatilla:sporbarhet:visit:${initialLot.toUpperCase()}`;
+    try {
+      if (sessionStorage.getItem(storageKey)) return;
+      const eventId = crypto.randomUUID();
+      sessionStorage.setItem(storageKey, eventId);
+      void fetch("/api/sporbarhet/visit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lotNumber: initialLot.toUpperCase(), eventId }),
+        keepalive: true,
+      });
+    } catch {
+      // Tracking must never prevent the traceability experience from loading.
+    }
+  }, [initialLot]);
+
   async function runSearch(query: string) {
     const trimmed = query.trim();
     if (!trimmed) return;

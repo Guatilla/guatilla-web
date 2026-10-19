@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPrisma } from "@/lib/prisma";
 import { requireSameOrigin } from "@/lib/requireAdmin";
+import { notifyOwnerOfSporbarhetFeedback } from "@/lib/sporbarhetNotifications";
 
 export const dynamic = "force-dynamic";
 
@@ -115,7 +116,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Partiet er ikke tilgjengelig." }, { status: 404 });
     }
 
-    await prisma.lotFeedback.create({
+    const feedback = await prisma.lotFeedback.create({
       data: {
         coffeeLotId: lot.id,
         roastReference: ROAST_REFERENCE,
@@ -126,7 +127,24 @@ export async function POST(request: NextRequest) {
         notifyConsent: body.notifyConsent,
         contactEmail,
       },
+      select: { id: true, createdAt: true },
     });
+
+    try {
+      await notifyOwnerOfSporbarhetFeedback(feedback.id, {
+        lotNumber: LOT_NUMBER,
+        roastReference: ROAST_REFERENCE,
+        createdAt: feedback.createdAt,
+        packagingDesign: Number(body.packagingDesign),
+        coffeeQuality: Number(body.coffeeQuality),
+        preparationMethod: body.preparationMethod,
+        ...optionalFields,
+        notifyConsent: body.notifyConsent,
+        contactEmail,
+      });
+    } catch {
+      // The feedback is already saved; notification failures must not lose it.
+    }
 
     return NextResponse.json({ success: true }, { status: 201 });
   } catch {

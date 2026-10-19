@@ -9,7 +9,7 @@
     "postinstall": "prisma generate",
     "start": "next start",
     "lint": "eslint .",
-    "test": "node --experimental-strip-types --test tests/commerce.test.ts",
+    "test": "node --experimental-strip-types --test tests/commerce.test.ts tests/sporbarhet-notifications.test.ts",
     "test:http": "node tests/http-smoke.mjs"
   },
   "dependencies": {
